@@ -1,14 +1,30 @@
 # Active Context
 
-## Current Phase: Initialization (Başlangıç Aşaması)
-We are currently setting up the project foundation. The user has manually prepared the environment.
+## Current Phase: Phase 4 Visual Overhaul COMPLETE ✓
+All visual enhancements and feature expansions implemented.
 
-## Current Tasks (Şu Anki Durum)
-1.  **[COMPLETED]** Memory Bank system created manually (`project_brief.md`, `tech_context.md`, `active_context.md`).
-2.  **[COMPLETED]** Project assets (images) placed manually in `/public/gorseller/` (google-yorumlar, novastra, profil).
-3.  **[PENDING]** Initialize React + Vite project structure.
-4.  **[PENDING]** Install dependencies (framer-motion, lenis, tailwind).
-5.  **[PENDING]** Create `src/data/projects.js` to link manual assets to code.
+## Completed Tasks
+1.  **[COMPLETED]** Background ambience with radial gradient + ambient glow
+2.  **[COMPLETED]** Hero section tightened with WORK/SKILLS toggle
+3.  **[COMPLETED]** Vertical project layout with metadata (title, description, tech icons)
+4.  **[COMPLETED]** SkillsView with categorized skills (Motion, Design, Development)
+5.  **[COMPLETED]** Animated skill bars and daily tools section
 
-## Next Step (Sıradaki Adım)
--   Execute the scaffolding prompt to install React and set up the file structure based on the Memory Bank rules.
+## Current State
+-   Dev server running at `http://localhost:5173/`
+-   Dark, grainy, minimalist baseline established
+-   Inter font loaded via Google Fonts
+-   Lenis smooth scrolling initialized
+
+## Next Phase: Hero & Stack-to-Grid Implementation
+-   Wire up `PROJECTS` data to `StackView` in `App.jsx`
+-   Implement full Stack-to-Grid click interaction
+-   Complete Hero section with portrait image
+-   Add staggered entrance animations
+
+## Dependencies Installed
+```
+react, react-dom, framer-motion, react-router-dom, 
+@studio-freight/lenis, lucide-react, clsx, tailwind-merge,
+tailwindcss, postcss, autoprefixer, vite, eslint
+```

@@ -1,0 +1,172 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* === SILENT LUXURY DESIGN SYSTEM === */
+
+/* Reset & Base Styles */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* === DEEP LUXURY ATMOSPHERIC BACKGROUND === */
+body {
+  color: #F2F2F2;
+  min-height: 100vh;
+  overflow-x: hidden;
+  /* Complex deep space gradient: rich black with midnight purple & crimson undertones */
+  background:
+    /* Central dark core */
+    radial-gradient(ellipse 120% 80% at 50% 30%,
+      #0a0608 0%,
+      transparent 50%),
+    /* Top-left purple glow */
+    radial-gradient(ellipse 60% 50% at 10% 10%,
+      rgba(30, 15, 35, 0.6) 0%,
+      transparent 60%),
+    /* Bottom-right crimson glow */
+    radial-gradient(ellipse 50% 60% at 90% 85%,
+      rgba(40, 12, 18, 0.5) 0%,
+      transparent 55%),
+    /* Center subtle purple wash */
+    radial-gradient(ellipse 80% 60% at 50% 50%,
+      rgba(25, 10, 30, 0.4) 0%,
+      transparent 70%),
+    /* Base gradient */
+    linear-gradient(180deg,
+      #070507 0%,
+      #050405 40%,
+      #060406 70%,
+      #040304 100%);
+  background-attachment: fixed;
+  background-color: #050505;
+}
+
+/* === AMBIENT AURORA LAYER === */
+body::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: -1;
+  opacity: 0.4;
+  /* Subtle atmospheric color orbs */
+  background:
+    radial-gradient(ellipse 30% 25% at 15% 20%,
+      rgba(45, 20, 55, 0.35) 0%,
+      transparent 70%),
+    radial-gradient(ellipse 35% 30% at 85% 75%,
+      rgba(50, 15, 25, 0.3) 0%,
+      transparent 70%),
+    radial-gradient(ellipse 40% 35% at 50% 90%,
+      rgba(35, 10, 20, 0.25) 0%,
+      transparent 60%);
+}
+
+/* Hide Scrollbar (Lenis handles smooth scroll) */
+::-webkit-scrollbar {
+  display: none;
+}
+
+html {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+/* === ENHANCED NOISE/GRAIN OVERLAY === */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='5' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  mix-blend-mode: overlay;
+}
+
+/* === TYPOGRAPHY UTILITIES === */
+.heading-tight {
+  letter-spacing: -0.02em;
+}
+
+.meta-wide {
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  color: #888888;
+}
+
+/* === MOTION UTILITIES === */
+.spring-transition {
+  transition-timing-function: cubic-bezier(0.37, 0, 0.63, 1);
+}
+
+/* === LAYOUT UTILITIES === */
+.section-spacing {
+  padding-top: 10vh;
+  padding-bottom: 10vh;
+}
+
+.section-spacing-lg {
+  padding-top: 15vh;
+  padding-bottom: 15vh;
+}
+
+.container-padding {
+  padding-left: 5vw;
+  padding-right: 5vw;
+}
+
+/* === IMAGE UTILITIES === */
+img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+}
+
+/* === LINK STYLES === */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* === SELECTION STYLES === */
+::selection {
+  background-color: rgba(242, 242, 242, 0.15);
+  color: #F2F2F2;
+}
+
+/* === FOCUS STYLES (Accessibility) === */
+:focus-visible {
+  outline: 1px solid rgba(242, 242, 242, 0.3);
+  outline-offset: 2px;
+}
+
+/* === DIVIDER UTILITY === */
+.luxury-divider {
+  height: 1px;
+  background: linear-gradient(90deg,
+      transparent 0%,
+      rgba(136, 136, 136, 0.2) 50%,
+      transparent 100%);
+}
