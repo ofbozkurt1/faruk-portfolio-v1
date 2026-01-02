@@ -1,0 +1,11 @@
+# Mac System Files
+.DS_Store
+
+# Node Modules (Ağır kütüphaneler yüklenmez)
+node_modules/
+dist/
+.env
+
+# Editor logs
+.idea/
+.vscode/
