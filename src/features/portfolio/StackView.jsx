@@ -1,7 +1,6 @@
 /**
  * StackView Component
- * Displays all projects as vertical stack with metadata
- * Each project: LEFT (stacked cards) | RIGHT (title, description, tech icons)
+ * GPU-OPTIMIZED vertical list with proper layer hints
  */
 
 import { motion } from 'framer-motion'
@@ -9,14 +8,14 @@ import ProjectCard from './ProjectCard'
 import { PROJECTS } from '../../data/projects'
 import { cn } from '../../utils/cn'
 
-// Stagger animation for stack items
+// Optimized stagger animation
 const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
         opacity: 1,
         transition: {
-            staggerChildren: 0.25,
-            delayChildren: 0.1
+            staggerChildren: 0.2,
+            delayChildren: 0.05
         }
     }
 }
@@ -24,18 +23,16 @@ const containerVariants = {
 const itemVariants = {
     hidden: {
         opacity: 0,
-        y: 40,
-        scale: 0.98
+        y: 30
     },
     visible: {
         opacity: 1,
         y: 0,
-        scale: 1,
         transition: {
             type: "spring",
-            stiffness: 100,
-            damping: 20,
-            mass: 1.2
+            stiffness: 120,
+            damping: 25,
+            mass: 1
         }
     }
 }
@@ -45,17 +42,20 @@ export default function StackView({ onProjectClick, className }) {
         <motion.div
             className={cn(
                 "flex flex-col gap-24 md:gap-32",
+                "gpu-layer", // GPU acceleration
                 className
             )}
             variants={containerVariants}
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true, margin: "-50px" }}
+            viewport={{ once: true, margin: "-100px" }}
+            style={{ willChange: 'transform' }}
         >
             {PROJECTS.map((project, index) => (
                 <motion.div
                     key={project.id}
                     variants={itemVariants}
+                    style={{ willChange: 'transform, opacity' }}
                 >
                     <ProjectCard
                         project={project}

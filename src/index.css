@@ -20,61 +20,12 @@ html {
   text-rendering: optimizeLegibility;
 }
 
-/* === DEEP LUXURY ATMOSPHERIC BACKGROUND === */
+/* Body - Minimal styles, background handled by AtmosphericBackground component */
 body {
   color: #F2F2F2;
   min-height: 100vh;
   overflow-x: hidden;
-  /* Complex deep space gradient: rich black with midnight purple & crimson undertones */
-  background:
-    /* Central dark core */
-    radial-gradient(ellipse 120% 80% at 50% 30%,
-      #0a0608 0%,
-      transparent 50%),
-    /* Top-left purple glow */
-    radial-gradient(ellipse 60% 50% at 10% 10%,
-      rgba(30, 15, 35, 0.6) 0%,
-      transparent 60%),
-    /* Bottom-right crimson glow */
-    radial-gradient(ellipse 50% 60% at 90% 85%,
-      rgba(40, 12, 18, 0.5) 0%,
-      transparent 55%),
-    /* Center subtle purple wash */
-    radial-gradient(ellipse 80% 60% at 50% 50%,
-      rgba(25, 10, 30, 0.4) 0%,
-      transparent 70%),
-    /* Base gradient */
-    linear-gradient(180deg,
-      #070507 0%,
-      #050405 40%,
-      #060406 70%,
-      #040304 100%);
-  background-attachment: fixed;
   background-color: #050505;
-}
-
-/* === AMBIENT AURORA LAYER === */
-body::after {
-  content: '';
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: -1;
-  opacity: 0.4;
-  /* Subtle atmospheric color orbs */
-  background:
-    radial-gradient(ellipse 30% 25% at 15% 20%,
-      rgba(45, 20, 55, 0.35) 0%,
-      transparent 70%),
-    radial-gradient(ellipse 35% 30% at 85% 75%,
-      rgba(50, 15, 25, 0.3) 0%,
-      transparent 70%),
-    radial-gradient(ellipse 40% 35% at 50% 90%,
-      rgba(35, 10, 20, 0.25) 0%,
-      transparent 60%);
 }
 
 /* Hide Scrollbar (Lenis handles smooth scroll) */
@@ -87,20 +38,16 @@ html {
   -ms-overflow-style: none;
 }
 
-/* === ENHANCED NOISE/GRAIN OVERLAY === */
-body::before {
-  content: '';
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 9999;
-  opacity: 0.035;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='5' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-  background-repeat: repeat;
-  mix-blend-mode: overlay;
+/* === GPU ACCELERATION UTILITIES === */
+.gpu-accelerated {
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+.gpu-layer {
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
 }
 
 /* === TYPOGRAPHY UTILITIES === */
@@ -136,6 +83,21 @@ body::before {
   padding-right: 5vw;
 }
 
+/* === GLASS UTILITIES (NO backdrop-filter for performance) === */
+.glass {
+  background: rgba(8, 8, 12, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+.glass-subtle {
+  background: rgba(10, 10, 15, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  will-change: transform;
+  transform: translateZ(0);
+}
+
 /* === IMAGE UTILITIES === */
 img {
   display: block;
@@ -167,6 +129,11 @@ a {
   height: 1px;
   background: linear-gradient(90deg,
       transparent 0%,
-      rgba(136, 136, 136, 0.2) 50%,
+      rgba(136, 136, 136, 0.25) 50%,
       transparent 100%);
+}
+
+/* === TEXT SHADOW FOR READABILITY === */
+.text-glow {
+  text-shadow: 0 0 40px rgba(242, 242, 242, 0.1);
 }

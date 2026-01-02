@@ -1,2 +1,2 @@
 // UI components exports
-// Add atomic UI components here (Buttons, Typography, etc.)
+export { default as AtmosphericBackground } from './AtmosphericBackground'
