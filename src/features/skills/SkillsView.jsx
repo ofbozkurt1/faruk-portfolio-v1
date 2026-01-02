@@ -1,7 +1,6 @@
 /**
  * SkillsView Component
- * Focused display of 4 core Adobe tools with animated glowing progress bars
- * Dark luxury aesthetic
+ * 2x2 Grid - DAHA GENİŞ layout
  */
 
 import { motion } from 'framer-motion'
@@ -13,7 +12,7 @@ import {
 } from 'react-icons/si'
 import { cn } from '../../utils/cn'
 
-// Core skills data - focused & curated
+// Core skills data
 const coreSkills = [
     { name: "After Effects", icon: SiAdobeaftereffects, level: 95, color: "#9999FF" },
     { name: "Premiere Pro", icon: SiAdobepremierepro, level: 90, color: "#9999FF" },
@@ -21,81 +20,74 @@ const coreSkills = [
     { name: "Illustrator", icon: SiAdobeillustrator, level: 85, color: "#FF9A00" }
 ]
 
-// Animation variants
+// Animation
 const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
         opacity: 1,
-        transition: {
-            staggerChildren: 0.15,
-            delayChildren: 0.1
-        }
+        transition: { staggerChildren: 0.12, delayChildren: 0.1 }
     }
 }
 
 const itemVariants = {
-    hidden: { opacity: 0, x: -30 },
+    hidden: { opacity: 0, y: 20 },
     visible: {
         opacity: 1,
-        x: 0,
-        transition: {
-            type: "spring",
-            stiffness: 120,
-            damping: 25
-        }
+        y: 0,
+        transition: { type: "spring", stiffness: 100, damping: 20 }
     }
 }
 
-function SkillBar({ skill, index }) {
+function SkillCard({ skill, index }) {
     const IconComponent = skill.icon
 
     return (
         <motion.div
             variants={itemVariants}
-            className="group"
+            className="p-6 rounded-xl"
+            style={{
+                background: 'rgba(255,255,255,0.03)',
+                border: '1px solid rgba(255,255,255,0.06)'
+            }}
         >
-            <div className="flex items-center gap-4 mb-3">
-                {/* Icon */}
+            <div className="flex items-center gap-4 mb-4">
                 <div
-                    className="p-2.5 rounded-lg glass-subtle"
+                    className="p-3 rounded-lg"
                     style={{
-                        boxShadow: `0 0 20px ${skill.color}15`
+                        backgroundColor: `${skill.color}15`,
+                        boxShadow: `0 0 20px ${skill.color}10`
                     }}
                 >
-                    <IconComponent
-                        size={24}
-                        style={{ color: skill.color }}
-                    />
+                    <IconComponent size={32} style={{ color: skill.color }} />
                 </div>
 
-                {/* Name & Percentage */}
-                <div className="flex-1 flex items-center justify-between">
-                    <span className="text-offWhite font-medium">{skill.name}</span>
-                    <span
-                        className="meta-wide"
-                        style={{ color: skill.color }}
-                    >
-                        {skill.level}%
-                    </span>
+                <div className="flex-1">
+                    <span className="text-offWhite font-medium text-lg">{skill.name}</span>
                 </div>
+
+                <span
+                    className="text-base font-semibold"
+                    style={{ color: skill.color }}
+                >
+                    {skill.level}%
+                </span>
             </div>
 
-            {/* Progress Bar Track */}
-            <div className="h-1.5 bg-accent/30 rounded-full overflow-hidden">
-                {/* Animated Fill with Glow */}
+            {/* Progress Bar */}
+            <div className="h-2.5 rounded-full overflow-hidden" style={{ backgroundColor: 'rgba(255,255,255,0.1)' }}>
                 <motion.div
-                    className="h-full rounded-full relative"
+                    className="h-full rounded-full"
                     style={{
-                        background: `linear-gradient(90deg, ${skill.color}40 0%, ${skill.color} 100%)`,
-                        boxShadow: `0 0 15px ${skill.color}50, 0 0 30px ${skill.color}20`
+                        background: `linear-gradient(90deg, ${skill.color}50 0%, ${skill.color} 100%)`,
+                        boxShadow: `0 0 12px ${skill.color}40`
                     }}
                     initial={{ width: 0 }}
                     whileInView={{ width: `${skill.level}%` }}
                     viewport={{ once: true }}
                     transition={{
                         type: "spring",
-                        stiffness: 50,
-                        damping: 20,
+                        stiffness: 40,
+                        damping: 15,
                         delay: index * 0.1 + 0.3
                     }}
                 />
@@ -107,28 +99,32 @@ function SkillBar({ skill, index }) {
 export default function SkillsView({ className }) {
     return (
         <motion.div
-            className={cn("max-w-2xl mx-auto", className)}
+            className={cn("w-full", className)}
             variants={containerVariants}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-50px" }}
         >
             {/* Header */}
-            <motion.div variants={itemVariants} className="text-center mb-12">
+            <motion.div variants={itemVariants} className="text-center mb-10">
                 <p className="meta-wide mb-3 text-dimGray">Expertise</p>
                 <h2 className="text-3xl md:text-4xl font-bold heading-tight text-offWhite">
                     Core Tools
                 </h2>
             </motion.div>
 
-            {/* Skill Bars */}
-            <div className="space-y-8">
+            {/* 2x2 Grid - DAHA GENİŞ: maxWidth 1100px */}
+            <div
+                style={{
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(2, 1fr)',
+                    gap: 24,
+                    maxWidth: 1100,
+                    margin: '0 auto'
+                }}
+            >
                 {coreSkills.map((skill, index) => (
-                    <SkillBar
-                        key={skill.name}
-                        skill={skill}
-                        index={index}
-                    />
+                    <SkillCard key={skill.name} skill={skill} index={index} />
                 ))}
             </div>
         </motion.div>

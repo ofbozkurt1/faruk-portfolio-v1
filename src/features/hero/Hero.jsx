@@ -1,59 +1,42 @@
 /**
  * Hero Component
- * Tight layout: Text Left, LARGE Portrait Right
- * Minimal gap between elements
+ * Renkli profil fotoğrafı, geniş boşluk
  */
 
 import { motion } from 'framer-motion'
 import { cn } from '../../utils/cn'
 
-// Spring physics for Silent Luxury motion
+// Spring physics
 const springConfig = {
     stiffness: 100,
     damping: 20,
     mass: 1.2
 }
 
-// Staggered text animation
+// Animation variants
 const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
         opacity: 1,
-        transition: {
-            staggerChildren: 0.1,
-            delayChildren: 0.1
-        }
+        transition: { staggerChildren: 0.1, delayChildren: 0.1 }
     }
 }
 
 const textVariants = {
-    hidden: {
-        opacity: 0,
-        y: 25
-    },
+    hidden: { opacity: 0, y: 25 },
     visible: {
         opacity: 1,
         y: 0,
-        transition: {
-            type: "spring",
-            ...springConfig
-        }
+        transition: { type: "spring", ...springConfig }
     }
 }
 
 const imageVariants = {
-    hidden: {
-        opacity: 0,
-        scale: 1.03
-    },
+    hidden: { opacity: 0, scale: 1.05 },
     visible: {
         opacity: 1,
         scale: 1,
-        transition: {
-            type: "spring",
-            ...springConfig,
-            delay: 0.2
-        }
+        transition: { type: "spring", ...springConfig, delay: 0.2 }
     }
 }
 
@@ -61,115 +44,105 @@ export default function Hero({ className }) {
     return (
         <section
             className={cn(
-                "min-h-[80vh] flex items-center",
+                "min-h-[85vh] flex items-center",
                 "container-padding pt-20 pb-8",
                 className
             )}
         >
-            {/* Tight horizontal layout with minimal gap */}
-            <div className="flex flex-col-reverse lg:flex-row gap-4 lg:gap-6 w-full items-center justify-center">
+            {/* DAHA FAZLA BOŞLUK: lg:gap-24 */}
+            <div className="flex flex-col-reverse lg:flex-row gap-10 lg:gap-24 w-full items-center justify-center">
 
                 {/* Left: Text Content */}
                 <motion.div
                     variants={containerVariants}
                     initial="hidden"
                     animate="visible"
-                    className="flex-shrink-0 lg:max-w-md"
+                    className="flex-shrink-0 lg:max-w-lg text-center lg:text-left"
                 >
                     <motion.p
                         variants={textVariants}
-                        className="meta-wide mb-3 text-dimGray"
+                        className="meta-wide mb-4 text-dimGray"
                     >
                         Motion & Graphic Designer
                     </motion.p>
 
                     <motion.h1
                         variants={textVariants}
-                        className="text-3xl md:text-4xl lg:text-5xl font-bold heading-tight text-offWhite leading-[1.1]"
+                        style={{
+                            fontSize: 'clamp(42px, 7vw, 72px)',
+                            fontWeight: 800,
+                            letterSpacing: '-0.03em',
+                            lineHeight: 1.05,
+                            color: '#F2F2F2'
+                        }}
                     >
                         ÖMER FARUK<br />BOZKURT
                     </motion.h1>
 
                     <motion.p
                         variants={textVariants}
-                        className="mt-4 text-dimGray max-w-sm text-sm leading-relaxed"
+                        className="mt-5 text-dimGray max-w-md text-base leading-relaxed mx-auto lg:mx-0"
                     >
                         Creating immersive visual experiences through motion and design.
                     </motion.p>
 
                     <motion.div
                         variants={textVariants}
-                        className="mt-5 flex items-center gap-5"
+                        className="mt-6 flex items-center justify-center lg:justify-start gap-6"
                     >
-                        <a
-                            href="#works"
-                            className="meta-wide text-offWhite hover:text-dimGray transition-colors duration-300"
-                        >
+                        <a href="#works" className="meta-wide text-offWhite hover:text-dimGray transition-colors duration-300">
                             Works ↓
                         </a>
-                        <a
-                            href="#skills"
-                            className="meta-wide text-dimGray hover:text-offWhite transition-colors duration-300"
-                        >
+                        <a href="#skills" className="meta-wide text-dimGray hover:text-offWhite transition-colors duration-300">
                             Skills
                         </a>
-                        <a
-                            href="mailto:contact@ofarukbozkurt.com"
-                            className="meta-wide text-dimGray hover:text-offWhite transition-colors duration-300"
-                        >
+                        <a href="mailto:contact@ofarukbozkurt.com" className="meta-wide text-dimGray hover:text-offWhite transition-colors duration-300">
                             Contact
                         </a>
                     </motion.div>
                 </motion.div>
 
-                {/* Right: LARGE Circular Portrait Image */}
+                {/* Right: Profil Fotoğrafı - RENKLİ */}
                 <motion.div
                     variants={imageVariants}
                     initial="hidden"
                     animate="visible"
-                    className="flex-shrink-0"
+                    className="flex-shrink-0 relative"
                 >
-                    <div className="relative group">
-                        {/* Large Circular Image Container */}
-                        <div className="relative overflow-hidden rounded-full w-64 h-64 md:w-80 md:h-80 lg:w-[400px] lg:h-[400px] xl:w-[450px] xl:h-[450px]">
-                            <img
-                                src="/gorseller/profil/ben.webp"
-                                alt="Ömer Faruk Bozkurt - Motion & Graphic Designer"
-                                className={cn(
-                                    "w-full h-full",
-                                    "object-cover",
-                                    "filter grayscale transition-all duration-700 ease-out",
-                                    "group-hover:grayscale-0 group-hover:scale-[1.03]"
-                                )}
-                                loading="eager"
-                                fetchPriority="high"
-                            />
+                    {/* Hafif Işık Hüzmesi */}
+                    <div
+                        style={{
+                            position: 'absolute',
+                            inset: -25,
+                            borderRadius: '50%',
+                            background: 'radial-gradient(circle, rgba(88,28,135,0.12) 0%, rgba(120,20,40,0.08) 40%, transparent 70%)',
+                            zIndex: 0
+                        }}
+                    />
 
-                            {/* Subtle overlay */}
-                            <div
-                                className={cn(
-                                    "absolute inset-0",
-                                    "bg-gradient-to-br from-richBlack/10 to-transparent",
-                                    "transition-opacity duration-700",
-                                    "group-hover:opacity-0"
-                                )}
-                            />
-                        </div>
-
-                        {/* Decorative circular border */}
-                        <motion.div
-                            className="absolute -inset-3 border border-accent/30 rounded-full -z-10"
-                            initial={{ opacity: 0, scale: 0.95 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{ delay: 0.5, duration: 0.5 }}
-                        />
-
-                        {/* Outer glow ring */}
-                        <motion.div
-                            className="absolute -inset-6 border border-accent/10 rounded-full -z-20"
-                            initial={{ opacity: 0, scale: 0.9 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{ delay: 0.7, duration: 0.6 }}
+                    {/* Profil Fotoğrafı */}
+                    <div
+                        style={{
+                            position: 'relative',
+                            width: 'clamp(280px, 35vw, 400px)',
+                            height: 'clamp(280px, 35vw, 400px)',
+                            borderRadius: '50%',
+                            overflow: 'hidden',
+                            zIndex: 1,
+                            border: '2px solid rgba(255,255,255,0.08)'
+                        }}
+                    >
+                        {/* GRAYSCALE KALDIRILDI - ORJİNAL RENK */}
+                        <img
+                            src="/gorseller/profil/ben.webp"
+                            alt="Ömer Faruk Bozkurt"
+                            style={{
+                                width: '100%',
+                                height: '100%',
+                                objectFit: 'cover',
+                                display: 'block'
+                            }}
+                            loading="eager"
                         />
                     </div>
                 </motion.div>
