@@ -1,76 +1,47 @@
 # Active Context
 
-## Current Phase: Phase 11 COMPLETE ✓
-Living Experience portfolio with Skills redesign and enhanced navigation.
+## Current Phase: Phase 12 - Visual Polish & Interactivity
+Enhanced animations, new navigation features, and refined UI elements.
 
 ## Latest Session Summary (2026-01-04)
 
-### Header/Navigation Redesign
-- **OFB Logo** (left) - clickable, goes to About
-- **Centered Navigation** - About, Skills, Portfolio, Contact
-- **Let's Talk Button** (right) - goes to Contact
-- **Active Section Detection** - scroll-based using offsetTop
-- **White glow indicator** under active menu item
-- **Bottom-of-page detection** for Contact section
+### Header Refinements
+- **New Animation**: "Let's Talk" button has a circle-fill animation on hover.
+- **Language Switch**: Added EN | TR switch next to CTA.
+- **Background**: Transparent at top, smooth fade-in (opacity) to static gradient on scroll (performance optimized).
+- **Layout**: Increased gap between elements (24px).
 
-### Skills Section ("Stealth to Neon")
-- **Custom SVG icons** from `/gorseller/iconlar/`
-- **Order**: Photoshop, Illustrator, After Effects, Premiere Pro
-- **Grayscale default** → color on hover/animation
-- **Neon progress bars** with glow effect
-- **Wider layout** (1100px max-width)
+### Hero Section Overhaul
+- **Name Animation**: Typewriter effect for "ÖMER FARUK BOZKURT" (5s loop).
+- **Hero Title**: "Motion & Graphic Designer" moved *below* the name.
+- **Profile Photo**: Removed border, subtle scale (1.05x) on hover.
+- **Actions**: Added "Download CV" button (outline style) + Social Icons (LinkedIn, Behance, Instagram).
+- **Social Icons**: Rounded square style with brand color hovers (Instagram gradient).
 
-### Portfolio Section
-- **New header**: "Portfolio" title with "Selected Works" subtitle
-- **Centered, prominent** styling
-- **Auto-rotating images** every 10 seconds
-- **Alternating card rotation** (left/right)
+### New Side Navigation (`SideNav.jsx`)
+- **Right-side Indicator**: 4 dots tracking active section.
+- **Auto-hide**: Fades out after 2 seconds of inactivity, reappears on scroll/hover.
 
-### Contact Section
-- Footer wrapped in `<section id="contact">`
-- Proper navigation linking
+### Portfolio Section Polish
+- **Header**: "selected works" styled with glow and lines.
+- **Card Behavior**:
+  - Image auto-rotation interval: **4 seconds**.
+  - Hover transition: **0.25s** (snappy).
+  - Image count: 3 images per card.
 
-### Performance Optimizations
-- Static `AtmosphericBackground` (no Framer Motion)
-- `CustomCursor` disabled
-- CSS transitions instead of Framer Motion for cards
-- Scroll event with `{ passive: true }`
-
-## File Structure
+## File Structure Update
 ```
 src/
-├── App.jsx                    # Main app with sections
-├── main.jsx                   # Scroll to top on load
-├── index.css
 ├── components/
-│   ├── layout/
-│   │   ├── Header.jsx         # OFB logo, nav, Let's Talk
-│   │   ├── Footer.jsx         # CTA + social links
-│   │   └── index.js
+│   ├── layout/Header.jsx         # Lang switch, scroll opacity
 │   └── ui/
-│       ├── AtmosphericBackground.jsx  # Static gradients
-│       └── CustomCursor.jsx           # Disabled
-├── features/
-│   ├── hero/Hero.jsx
-│   ├── portfolio/
-│   │   ├── ProjectCard.jsx    # Auto-rotate, CSS transitions
-│   │   ├── StackView.jsx
-│   │   └── GridView.jsx
-│   └── skills/SkillsView.jsx  # Custom icons, neon bars
-└── public/gorseller/iconlar/  # Adobe SVG icons
+│       ├── SideNav.jsx           # New auto-hiding right nav
 ```
 
-## Section IDs
-- `#about` - Hero (id on section)
-- `#skills` - Skills section
-- `#portfolio` - Portfolio section
-- `#contact` - Footer wrapper
-
-## Design System
-- **Colors**: #050505, #F2F2F2, #888888
-- **Brand Colors**: Photoshop #31A8FF, Illustrator #FF9A00, AE/PR #9999FF
-- **Active indicator**: White with glow
-- **Animation**: 0.25s ease-out CSS transitions
+## Design Decisions
+- **Performance**: Removed `backdrop-filter` and complex header animations.
+- **Interactivity**: Hover effects added to all actionable elements (socials, buttons).
+- **Aesthetics**: Dark theme outline styles for secondary buttons.
 
 ## Dev Server
 - http://localhost:5173/

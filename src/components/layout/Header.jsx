@@ -1,6 +1,6 @@
 /**
  * Header Component
- * Scroll-based active section detection
+ * Animated gradient, scroll-based opacity
  */
 
 import { useState, useEffect, useCallback } from 'react'
@@ -15,12 +15,16 @@ const navLinks = [
 
 export default function Header() {
     const [activeSection, setActiveSection] = useState('about')
+    const [scrolled, setScrolled] = useState(false)
 
     // Scroll-based section detection
     const handleScroll = useCallback(() => {
-        const scrollY = window.scrollY + 150 // Offset for header height
+        const scrollY = window.scrollY + 150
         const windowHeight = window.innerHeight
         const documentHeight = document.documentElement.scrollHeight
+
+        // Check if scrolled for opacity change
+        setScrolled(window.scrollY > 50)
 
         // Check if at bottom of page - contact section
         if (scrollY + windowHeight >= documentHeight - 100) {
@@ -49,14 +53,13 @@ export default function Header() {
             }
         }
 
-        // Default to first section
         if (sections.length > 0) {
             setActiveSection(sections[0].id)
         }
     }, [])
 
     useEffect(() => {
-        handleScroll() // Initial check
+        handleScroll()
         window.addEventListener('scroll', handleScroll, { passive: true })
         return () => window.removeEventListener('scroll', handleScroll)
     }, [handleScroll])
@@ -85,11 +88,21 @@ export default function Header() {
                 display: 'flex',
                 justifyContent: 'space-between',
                 alignItems: 'center',
-                backgroundColor: 'rgba(5, 5, 5, 0.95)',
-                backdropFilter: 'blur(10px)',
-                borderBottom: '1px solid rgba(255,255,255,0.05)'
+                overflow: 'hidden'
             }}
         >
+            {/* Dark base background - uses opacity for smooth transition */}
+            <div
+                style={{
+                    position: 'absolute',
+                    inset: 0,
+                    background: 'linear-gradient(90deg, rgba(5,5,5,0.95) 0%, rgba(25,8,12,0.95) 50%, rgba(5,5,5,0.95) 100%)',
+                    opacity: scrolled ? 1 : 0,
+                    transition: 'opacity 0.5s ease',
+                    zIndex: -1
+                }}
+            />
+
             {/* Left: OFB Logo */}
             <a
                 href="#about"
@@ -150,33 +163,99 @@ export default function Header() {
                 })}
             </nav>
 
-            {/* Right: Let's Talk Button */}
-            <a
-                href="#contact"
-                onClick={(e) => handleClick(e, '#contact')}
-                style={{
-                    padding: '10px 24px',
-                    fontSize: 12,
-                    fontWeight: 600,
-                    letterSpacing: '0.08em',
-                    textTransform: 'uppercase',
-                    color: '#F2F2F2',
-                    textDecoration: 'none',
-                    border: '1px solid rgba(255,255,255,0.2)',
-                    borderRadius: 50,
-                    transition: 'all 0.3s'
-                }}
-                onMouseEnter={(e) => {
-                    e.target.style.borderColor = 'rgba(255,255,255,0.6)'
-                    e.target.style.boxShadow = '0 0 15px rgba(255,255,255,0.3)'
-                }}
-                onMouseLeave={(e) => {
-                    e.target.style.borderColor = 'rgba(255,255,255,0.2)'
-                    e.target.style.boxShadow = 'none'
-                }}
-            >
-                Let's Talk
-            </a>
+            {/* Right side: Language Switch + Let's Talk */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 24 }}>
+                {/* Language Switch */}
+                <div className="lang-switch">
+                    <button className="lang-btn active">EN</button>
+                    <span style={{ color: '#444', fontSize: 12 }}>|</span>
+                    <button className="lang-btn">TR</button>
+                </div>
+
+                {/* Let's Talk Button */}
+                <a
+                    href="#contact"
+                    onClick={(e) => handleClick(e, '#contact')}
+                    className="lets-talk-btn"
+                >
+                    Let's Talk
+                </a>
+            </div>
+
+            {/* Let's Talk Button Styles */}
+            <style>{`
+                .lets-talk-btn {
+                    padding: 10px 24px;
+                    font-size: 12px;
+                    font-weight: 600;
+                    letter-spacing: 0.08em;
+                    text-transform: uppercase;
+                    color: #F2F2F2;
+                    text-decoration: none;
+                    border: 1px solid rgba(255,255,255,0.25);
+                    border-radius: 50px;
+                    background: transparent;
+                    position: relative;
+                    overflow: hidden;
+                    transition: all 0.5s ease;
+                    z-index: 1;
+                }
+                
+                .lets-talk-btn::before {
+                    content: "";
+                    position: absolute;
+                    width: 0;
+                    height: 0;
+                    background-color: #F2F2F2;
+                    border-radius: 50%;
+                    left: 50%;
+                    bottom: 0;
+                    transform: translate(-50%, 50%);
+                    transition: all 0.5s ease;
+                    z-index: -1;
+                }
+                
+                .lets-talk-btn:hover::before {
+                    width: 200px;
+                    height: 200px;
+                }
+                
+                .lets-talk-btn:hover {
+                    color: #050505;
+                    border-color: #F2F2F2;
+                    transform: scale(1.05);
+                }
+                
+                .lets-talk-btn:active {
+                    transform: scale(0.98);
+                }
+                
+                .lang-switch {
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                }
+                
+                .lang-btn {
+                    background: none;
+                    border: none;
+                    color: #666;
+                    font-size: 11px;
+                    font-weight: 500;
+                    letter-spacing: 0.1em;
+                    cursor: pointer;
+                    padding: 6px 8px;
+                    transition: all 0.3s ease;
+                }
+                
+                .lang-btn:hover {
+                    color: #F2F2F2;
+                }
+                
+                .lang-btn.active {
+                    color: #F2F2F2;
+                }
+            `}</style>
         </motion.header>
     )
 }

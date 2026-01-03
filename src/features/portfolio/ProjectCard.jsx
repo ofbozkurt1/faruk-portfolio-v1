@@ -31,11 +31,11 @@ export default function ProjectCard({ project, onClick, isReversed, cardIndex = 
     // Direction for rotation only (left/right lean)
     const direction = cardIndex % 2 === 0 ? 1 : -1
 
-    // Auto-rotate images every 10 seconds
+    // Auto-rotate images every 4 seconds
     useEffect(() => {
         const interval = setInterval(() => {
             setActiveIndex((prev) => (prev + 1) % stackImages.length)
-        }, 10000)
+        }, 4000)
         return () => clearInterval(interval)
     }, [stackImages.length])
 
