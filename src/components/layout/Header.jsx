@@ -119,7 +119,13 @@ export default function Header() {
             </a>
 
             {/* Center: Navigation */}
-            <nav style={{ display: 'flex', gap: 40 }}>
+            <nav style={{
+                display: 'flex',
+                gap: 40,
+                position: 'absolute',
+                left: '50%',
+                transform: 'translateX(-50%)'
+            }}>
                 {navLinks.map((link) => {
                     const isActive = activeSection === link.href.replace('#', '')
 
