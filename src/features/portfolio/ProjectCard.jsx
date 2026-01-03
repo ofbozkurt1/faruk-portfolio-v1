@@ -1,10 +1,9 @@
 /**
  * ProjectCard Component
- * NO glass container around images - clean look
+ * Alternating rotation (left/right), but same upward lift on hover
  */
 
-import { useState } from 'react'
-import { motion } from 'framer-motion'
+import { useState, useEffect } from 'react'
 import {
     SiAdobeaftereffects,
     SiAdobepremierepro,
@@ -15,14 +14,6 @@ import {
 import { getStackImages } from '../../utils/imagePath'
 import { cn } from '../../utils/cn'
 
-// Optimized spring config
-const springConfig = {
-    stiffness: 120,
-    damping: 25,
-    mass: 1
-}
-
-// Real icon mapping
 const iconMap = {
     figma: SiFigma,
     illustrator: SiAdobeillustrator,
@@ -31,147 +22,116 @@ const iconMap = {
     premiere: SiAdobepremierepro
 }
 
-// Random rotation values
-const getStackRotation = (index) => {
-    const rotations = [-2.5, 0.5, 2]
-    return rotations[index] || 0
-}
+export default function ProjectCard({ project, onClick, isReversed, cardIndex = 0, className }) {
+    const { id, title, category, year, description, techStack = [] } = project
+    const stackImages = getStackImages(id)
+    const [activeIndex, setActiveIndex] = useState(0)
+    const [isHovered, setIsHovered] = useState(false)
 
-const getStackScale = (index) => {
-    const scales = [1, 0.97, 0.94]
-    return scales[index] || 1
-}
+    // Direction for rotation only (left/right lean)
+    const direction = cardIndex % 2 === 0 ? 1 : -1
 
-// ImageWithFallback component
-function ImageWithFallback({ src, alt, className, isFirst, ...props }) {
-    const [hasError, setHasError] = useState(false)
+    // Auto-rotate images every 10 seconds
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setActiveIndex((prev) => (prev + 1) % stackImages.length)
+        }, 10000)
+        return () => clearInterval(interval)
+    }, [stackImages.length])
 
-    if (hasError) {
-        return (
-            <div className={cn("bg-accent/30 flex items-center justify-center", className)}>
-                <span className="meta-wide text-dimGray">Görsel yüklenemedi</span>
-            </div>
-        )
+    const getImageOrder = (originalIndex) => {
+        return (originalIndex - activeIndex + stackImages.length) % stackImages.length
     }
 
     return (
-        <img
-            src={src}
-            alt={alt}
-            className={className}
-            onError={() => setHasError(true)}
-            loading={isFirst ? "eager" : "lazy"}
-            decoding="async"
-            {...props}
-        />
-    )
-}
-
-export default function ProjectCard({ project, onClick, isReversed, className }) {
-    const { id, title, category, year, description, techStack = [] } = project
-    const stackImages = getStackImages(id)
-
-    return (
-        <motion.article
+        <article
             className={cn(
                 "flex flex-col lg:flex-row items-center gap-12 lg:gap-20",
                 isReversed && "lg:flex-row-reverse",
-                "gpu-layer",
                 className
             )}
         >
-            {/* LEFT: Stacked Card Visual - NO glass container */}
-            <motion.div
-                className="relative cursor-pointer group flex-shrink-0 gpu-layer"
+            <div
+                className="relative cursor-pointer group flex-shrink-0"
                 onClick={() => onClick?.(project)}
-                whileHover={{ y: -10, scale: 1.02 }}
-                transition={{ type: "spring", ...springConfig }}
-                style={{ willChange: 'transform' }}
+                onMouseEnter={() => setIsHovered(true)}
+                onMouseLeave={() => setIsHovered(false)}
+                style={{
+                    transform: isHovered ? 'translateY(-5px)' : 'translateY(0)',
+                    transition: 'transform 0.2s ease-out'
+                }}
             >
-                {/* Direct stacked images - no wrapper */}
                 <div className="relative aspect-[4/5] w-72 md:w-80 lg:w-96">
-                    {[...stackImages].reverse().map((src, reverseIndex) => {
-                        const index = stackImages.length - 1 - reverseIndex
-                        const rotation = getStackRotation(index)
-                        const scale = getStackScale(index)
+                    {stackImages.map((src, originalIndex) => {
+                        const orderIndex = getImageOrder(originalIndex)
+
+                        // Rotation direction alternates (left/right lean)
+                        const baseRotation = [-3, 0, 3][orderIndex] * direction || 0
+                        const hoverRotation = baseRotation * 1.5
+
+                        const scale = [1, 0.95, 0.9][orderIndex] || 0.85
+
+                        // Y movement is ALWAYS upward on hover (same for all cards)
+                        const baseY = [0, 12, 24][orderIndex] || 32
+                        const hoverY = [0, -12, -24][orderIndex] || -32
+
+                        const opacity = isHovered ? [1, 0.9, 0.8][orderIndex] : [1, 0.8, 0.65][orderIndex]
 
                         return (
-                            <motion.div
+                            <div
                                 key={src}
-                                className="absolute inset-0 rounded-lg overflow-hidden shadow-2xl gpu-layer"
+                                className="absolute inset-0 rounded-lg overflow-hidden shadow-xl"
                                 style={{
-                                    zIndex: 3 - index,
+                                    transform: `rotate(${isHovered ? hoverRotation : baseRotation}deg) scale(${scale}) translateY(${isHovered ? hoverY : baseY}px)`,
+                                    opacity: opacity,
+                                    zIndex: 10 - orderIndex,
                                     transformOrigin: 'center bottom',
-                                    rotate: rotation,
-                                    scale: scale,
-                                    willChange: 'transform'
+                                    transition: 'transform 0.25s ease-out, opacity 0.25s ease-out'
                                 }}
-                                whileHover={{
-                                    rotate: rotation * 1.8,
-                                    y: index === 0 ? 0 : (index * -10),
-                                }}
-                                transition={{ type: "spring", ...springConfig }}
                             >
-                                <ImageWithFallback
+                                <img
                                     src={src}
-                                    alt={`${title} - Image ${index + 1}`}
-                                    isFirst={index === 0}
+                                    alt={`${title} - ${originalIndex + 1}`}
                                     className="w-full h-full object-cover"
+                                    loading="lazy"
                                 />
-                                {index > 0 && <div className="absolute inset-0 bg-richBlack/20" />}
-                            </motion.div>
+                                {orderIndex > 0 && (
+                                    <div
+                                        className="absolute inset-0"
+                                        style={{
+                                            backgroundColor: `rgba(0,0,0,${isHovered ? 0.05 : 0.15})`,
+                                            transition: 'background-color 0.25s'
+                                        }}
+                                    />
+                                )}
+                            </div>
                         )
                     })}
                 </div>
-
-                {/* Click hint */}
-                <p className="meta-wide text-center mt-5 text-dimGray/50 group-hover:text-dimGray transition-colors duration-300">
+                <p className="meta-wide text-center mt-12 text-dimGray/50 group-hover:text-dimGray transition-colors relative z-20">
                     Click to explore →
                 </p>
-            </motion.div>
+            </div>
 
-            {/* RIGHT: Metadata */}
-            <div className={cn(
-                "flex-1 max-w-xl",
-                isReversed ? "lg:text-right" : "text-left"
-            )}>
+            <div className={cn("flex-1 max-w-xl", isReversed ? "lg:text-right" : "text-left")}>
                 <p className="meta-wide mb-4 text-dimGray">{category} — {year}</p>
-
-                <h3 className="text-4xl md:text-5xl lg:text-6xl font-bold heading-tight text-offWhite mb-6 text-glow">
-                    {title}
-                </h3>
-
-                <p className="text-dimGray text-base leading-relaxed mb-8">
-                    {description}
-                </p>
-
-                {/* Tech Stack Icons */}
-                <div className={cn(
-                    "flex items-center gap-4",
-                    isReversed && "lg:justify-end"
-                )}>
+                <h3 className="text-4xl md:text-5xl lg:text-6xl font-bold heading-tight text-offWhite mb-6">{title}</h3>
+                <p className="text-dimGray text-base leading-relaxed mb-8">{description}</p>
+                <div className={cn("flex items-center gap-4", isReversed && "lg:justify-end")}>
                     {techStack.map((tech) => {
                         const IconComponent = iconMap[tech]
                         if (!IconComponent) return null
-
                         return (
-                            <motion.div
+                            <div
                                 key={tech}
-                                className="group p-3 bg-accent/20 rounded-lg border border-white/5 hover:border-white/15 transition-colors duration-200"
-                                whileHover={{ scale: 1.1, y: -2 }}
-                                transition={{ type: "spring", ...springConfig }}
-                                title={tech}
-                                style={{ willChange: 'transform' }}
+                                className="p-3 bg-white/5 rounded-lg border border-white/5 hover:border-white/15 transition-colors"
                             >
-                                <IconComponent
-                                    size={22}
-                                    className="text-dimGray group-hover:text-offWhite transition-colors duration-200"
-                                />
-                            </motion.div>
+                                <IconComponent size={22} className="text-dimGray" />
+                            </div>
                         )
                     })}
                 </div>
             </div>
-        </motion.article>
+        </article>
     )
 }

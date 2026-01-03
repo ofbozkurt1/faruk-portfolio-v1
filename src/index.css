@@ -20,7 +20,7 @@ html {
   text-rendering: optimizeLegibility;
 }
 
-/* Body - Minimal styles, background handled by AtmosphericBackground component */
+/* Body */
 body {
   color: #F2F2F2;
   min-height: 100vh;
