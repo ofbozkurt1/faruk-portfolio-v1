@@ -18,16 +18,24 @@ Enhanced animations, new navigation features, and refined UI elements.
 - **Actions**: Added "Download CV" button (outline style) + Social Icons (LinkedIn, Behance, Instagram).
 - **Social Icons**: Rounded square style with brand color hovers (Instagram gradient).
 
-### New Side Navigation (`SideNav.jsx`)
-- **Right-side Indicator**: 4 dots tracking active section.
-- **Auto-hide**: Fades out after 2 seconds of inactivity, reappears on scroll/hover.
-
 ### Portfolio Section Polish
 - **Header**: "selected works" styled with glow and lines.
 - **Card Behavior**:
   - Image auto-rotation interval: **4 seconds**.
-  - Hover transition: **0.25s** (snappy).
-  - Image count: 3 images per card.
+  - **Cinematic Transition**: Auto-rotation takes **1.5s** (slow/smooth).
+  - **Snappy Hover**: Interaction transition remains **0.25s**.
+  - **Opacity**: Background cards are fully opaque (opacity: 1).
+- **Tech Stack Icons**:
+  - Replaced `react-icons` with **original SVG files** (Photoshop, AI, AE, PR).
+  - Displayed in **original brand colors** (no filters).
+- **Call to Action**:
+  - "Click to explore →" text with **Shine Animation**.
+  - High contrast visibility (White on Dark).
+
+### New Side Navigation (`SideNav.jsx`)
+- **Right-side Indicator**: 4 dots tracking active section.
+- **Auto-hide**: Fades out after **2 seconds** of inactivity.
+- **Interaction**: Reappears on scroll or mouse hover.
 
 ## File Structure Update
 ```

@@ -4,22 +4,14 @@
  */
 
 import { useState, useEffect } from 'react'
-import {
-    SiAdobeaftereffects,
-    SiAdobepremierepro,
-    SiAdobephotoshop,
-    SiAdobeillustrator,
-    SiFigma
-} from 'react-icons/si'
 import { getStackImages } from '../../utils/imagePath'
 import { cn } from '../../utils/cn'
 
 const iconMap = {
-    figma: SiFigma,
-    illustrator: SiAdobeillustrator,
-    photoshop: SiAdobephotoshop,
-    aftereffects: SiAdobeaftereffects,
-    premiere: SiAdobepremierepro
+    illustrator: { type: 'image', value: '/gorseller/iconlar/illustrator.svg' },
+    photoshop: { type: 'image', value: '/gorseller/iconlar/photoshop.svg' },
+    aftereffects: { type: 'image', value: '/gorseller/iconlar/after-effects.svg' },
+    premiere: { type: 'image', value: '/gorseller/iconlar/premiere-pro.svg' }
 }
 
 export default function ProjectCard({ project, onClick, isReversed, cardIndex = 0, className }) {
@@ -75,7 +67,7 @@ export default function ProjectCard({ project, onClick, isReversed, cardIndex = 
                         const baseY = [0, 12, 24][orderIndex] || 32
                         const hoverY = [0, -12, -24][orderIndex] || -32
 
-                        const opacity = isHovered ? [1, 0.9, 0.8][orderIndex] : [1, 0.8, 0.65][orderIndex]
+                        const opacity = 1 // Always full opacity as requested
 
                         return (
                             <div
@@ -86,7 +78,9 @@ export default function ProjectCard({ project, onClick, isReversed, cardIndex = 
                                     opacity: opacity,
                                     zIndex: 10 - orderIndex,
                                     transformOrigin: 'center bottom',
-                                    transition: 'transform 0.25s ease-out, opacity 0.25s ease-out'
+                                    transition: isHovered
+                                        ? 'transform 0.25s cubic-bezier(0.2, 0, 0, 1), opacity 0.25s ease-out'
+                                        : 'transform 1.5s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 1.5s ease-out'
                                 }}
                             >
                                 <img
@@ -108,9 +102,33 @@ export default function ProjectCard({ project, onClick, isReversed, cardIndex = 
                         )
                     })}
                 </div>
-                <p className="meta-wide text-center mt-12 text-dimGray/50 group-hover:text-dimGray transition-colors relative z-20">
-                    Click to explore →
-                </p>
+                <div className="mt-16 text-center relative z-20">
+                    <span className="btn-shine">Click to explore →</span>
+                </div>
+
+                <style>{`
+                    .btn-shine {
+                        padding: 12px 48px;
+                        color: #fff;
+                        background: linear-gradient(to right, #999 0, #fff 10%, #999 20%);
+                        background-position: 0;
+                        -webkit-background-clip: text;
+                        -webkit-text-fill-color: transparent;
+                        animation: shine 3s infinite linear;
+                        animation-fill-mode: forwards;
+                        font-weight: 600;
+                        font-size: 14px;
+                        text-transform: uppercase;
+                        letter-spacing: 0.1em;
+                        text-decoration: none;
+                        white-space: nowrap;
+                    }
+                    @keyframes shine {
+                        0% { background-position: 0; }
+                        60% { background-position: 200px; }
+                        100% { background-position: 200px; }
+                    }
+                `}</style>
             </div>
 
             <div className={cn("flex-1 max-w-xl", isReversed ? "lg:text-right" : "text-left")}>
@@ -119,14 +137,24 @@ export default function ProjectCard({ project, onClick, isReversed, cardIndex = 
                 <p className="text-dimGray text-base leading-relaxed mb-8">{description}</p>
                 <div className={cn("flex items-center gap-4", isReversed && "lg:justify-end")}>
                     {techStack.map((tech) => {
-                        const IconComponent = iconMap[tech]
-                        if (!IconComponent) return null
+                        const iconData = iconMap[tech]
+                        if (!iconData) return null
+
                         return (
                             <div
                                 key={tech}
                                 className="p-3 bg-white/5 rounded-lg border border-white/5 hover:border-white/15 transition-colors"
+                                title={tech}
                             >
-                                <IconComponent size={22} className="text-dimGray" />
+                                {iconData.type === 'component' ? (
+                                    <iconData.value size={22} className="text-dimGray" />
+                                ) : (
+                                    <img
+                                        src={iconData.value}
+                                        alt={tech}
+                                        className="w-[22px] h-[22px] object-contain"
+                                    />
+                                )}
                             </div>
                         )
                     })}
