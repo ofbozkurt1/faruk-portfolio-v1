@@ -1,79 +1,76 @@
 # Active Context
 
-## Current Phase: Phase 10 "Living Experience" COMPLETE ✓
-Dynamic, interactive portfolio with animated elements.
+## Current Phase: Phase 11 COMPLETE ✓
+Living Experience portfolio with Skills redesign and enhanced navigation.
 
-## Phase 10 Implementation Summary
+## Latest Session Summary (2026-01-04)
 
-### 1. Header & Navigation
-- **Header.jsx**: Fixed top-right navigation
-- Links: About, Skills, Portfolio, Contact
-- Smooth scroll to sections
-- Hover effects with gradient underline
+### Header/Navigation Redesign
+- **OFB Logo** (left) - clickable, goes to About
+- **Centered Navigation** - About, Skills, Portfolio, Contact
+- **Let's Talk Button** (right) - goes to Contact
+- **Active Section Detection** - scroll-based using offsetTop
+- **White glow indicator** under active menu item
+- **Bottom-of-page detection** for Contact section
 
-### 2. Dynamic Background
-- **AtmosphericBackground.jsx**: GPU-accelerated animated orbs
-- Purple orb drifts and scales over 25s
-- Crimson orb animates over 30s
-- Center wash pulses opacity
+### Skills Section ("Stealth to Neon")
+- **Custom SVG icons** from `/gorseller/iconlar/`
+- **Order**: Photoshop, Illustrator, After Effects, Premiere Pro
+- **Grayscale default** → color on hover/animation
+- **Neon progress bars** with glow effect
+- **Wider layout** (1100px max-width)
 
-### 3. Custom Cursor
-- **CustomCursor.jsx**: Glowing cursor overlay
-- Follows mouse with spring physics (useSpring)
-- Radial gradient with screen blend mode
-- Hides on touch devices
+### Portfolio Section
+- **New header**: "Portfolio" title with "Selected Works" subtitle
+- **Centered, prominent** styling
+- **Auto-rotating images** every 10 seconds
+- **Alternating card rotation** (left/right)
 
-### 4. Hero Enhancements
-- **Typewriter effect**: Name types out character by character
-- Blinking cursor indicator (purple)
-- Loops every 5 seconds
-- **Scroll indicator**: Bouncing chevron at bottom
+### Contact Section
+- Footer wrapped in `<section id="contact">`
+- Proper navigation linking
 
-### 5. Portfolio Stack Interaction
-- Cards "open up" on hover
-- Background cards peek out more (-15px, -30px)
-- Increased opacity on hover
-- Enhanced rotation spread
-
-### 6. Footer
-- "LET'S CREATE TOGETHER" headline
-- Email button with hover effect
-- Social links: Behance, LinkedIn, Instagram
-- Copyright line
+### Performance Optimizations
+- Static `AtmosphericBackground` (no Framer Motion)
+- `CustomCursor` disabled
+- CSS transitions instead of Framer Motion for cards
+- Scroll event with `{ passive: true }`
 
 ## File Structure
 ```
 src/
-├── App.jsx                          # Main app
+├── App.jsx                    # Main app with sections
+├── main.jsx                   # Scroll to top on load
+├── index.css
 ├── components/
 │   ├── layout/
-│   │   ├── Header.jsx               # NEW - Top navigation
-│   │   ├── Footer.jsx               # Redesigned
-│   │   └── Navbar.jsx               # (legacy)
+│   │   ├── Header.jsx         # OFB logo, nav, Let's Talk
+│   │   ├── Footer.jsx         # CTA + social links
+│   │   └── index.js
 │   └── ui/
-│       ├── AtmosphericBackground.jsx # Animated orbs
-│       └── CustomCursor.jsx          # NEW - Glowing cursor
+│       ├── AtmosphericBackground.jsx  # Static gradients
+│       └── CustomCursor.jsx           # Disabled
 ├── features/
-│   ├── hero/Hero.jsx                # Typewriter + scroll indicator
+│   ├── hero/Hero.jsx
 │   ├── portfolio/
-│   │   ├── ProjectCard.jsx          # Enhanced hover
-│   │   ├── StackView.jsx            # Hover state tracking
-│   │   └── GridView.jsx             # Portal popup
-│   └── skills/SkillsView.jsx        # 2x2 grid
-└── data/projects.js
+│   │   ├── ProjectCard.jsx    # Auto-rotate, CSS transitions
+│   │   ├── StackView.jsx
+│   │   └── GridView.jsx
+│   └── skills/SkillsView.jsx  # Custom icons, neon bars
+└── public/gorseller/iconlar/  # Adobe SVG icons
 ```
 
 ## Section IDs
-- `#about` - Hero section
+- `#about` - Hero (id on section)
 - `#skills` - Skills section
 - `#portfolio` - Portfolio section
-- `#contact` - Footer/Contact
+- `#contact` - Footer wrapper
 
-## Performance Notes
-- All animations use GPU-accelerated transforms
-- `will-change: transform` on animated elements
-- No blur filters on moving elements
-- Spring physics for smooth motion
+## Design System
+- **Colors**: #050505, #F2F2F2, #888888
+- **Brand Colors**: Photoshop #31A8FF, Illustrator #FF9A00, AE/PR #9999FF
+- **Active indicator**: White with glow
+- **Animation**: 0.25s ease-out CSS transitions
 
 ## Dev Server
-- Running at: http://localhost:5174/
+- http://localhost:5173/

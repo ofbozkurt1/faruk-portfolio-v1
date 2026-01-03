@@ -10,6 +10,11 @@ function App() {
     const [selectedProject, setSelectedProject] = useState(null)
     const [lenis, setLenis] = useState(null)
 
+    // Scroll to top on page load
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, [])
+
     useEffect(() => {
         const lenisInstance = new Lenis({
             duration: 1.0,
@@ -22,6 +27,9 @@ function App() {
             lerp: 0.08,
             wheelMultiplier: 0.8,
         })
+
+        // Force scroll to top after Lenis init
+        lenisInstance.scrollTo(0, { immediate: true })
 
         setLenis(lenisInstance)
 
@@ -59,7 +67,31 @@ function App() {
                 </div>
 
                 <section id="portfolio" className="section-spacing-lg container-padding">
-                    <p className="meta-wide mb-16">Selected Works</p>
+                    {/* Portfolio Header */}
+                    <div className="text-center mb-20">
+                        <p
+                            style={{
+                                fontSize: 11,
+                                fontWeight: 500,
+                                letterSpacing: '0.15em',
+                                textTransform: 'uppercase',
+                                color: '#666',
+                                marginBottom: 12
+                            }}
+                        >
+                            Selected Works
+                        </p>
+                        <h2
+                            style={{
+                                fontSize: 'clamp(32px, 5vw, 48px)',
+                                fontWeight: 700,
+                                letterSpacing: '-0.02em',
+                                color: '#F2F2F2'
+                            }}
+                        >
+                            Portfolio
+                        </h2>
+                    </div>
                     <StackView onProjectClick={setSelectedProject} />
                 </section>
 
@@ -69,7 +101,10 @@ function App() {
                     onClose={() => setSelectedProject(null)}
                 />
 
-                <Footer />
+                {/* Contact Section - wraps Footer */}
+                <section id="contact">
+                    <Footer />
+                </section>
             </div>
         </>
     )

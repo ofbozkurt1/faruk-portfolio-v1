@@ -1,94 +1,146 @@
 /**
  * SkillsView Component
- * 2x2 Grid - DAHA GENİŞ layout
+ * Custom SVG icons from /gorseller/iconlar
+ * Wider layout
  */
 
+import { useState } from 'react'
 import { motion } from 'framer-motion'
-import {
-    SiAdobeaftereffects,
-    SiAdobepremierepro,
-    SiAdobephotoshop,
-    SiAdobeillustrator
-} from 'react-icons/si'
 import { cn } from '../../utils/cn'
 
-// Core skills data
+// Skills with custom icon paths
 const coreSkills = [
-    { name: "After Effects", icon: SiAdobeaftereffects, level: 95, color: "#9999FF" },
-    { name: "Premiere Pro", icon: SiAdobepremierepro, level: 90, color: "#9999FF" },
-    { name: "Photoshop", icon: SiAdobephotoshop, level: 85, color: "#31A8FF" },
-    { name: "Illustrator", icon: SiAdobeillustrator, level: 85, color: "#FF9A00" }
+    {
+        name: "PHOTOSHOP",
+        icon: "/gorseller/iconlar/photoshop.svg",
+        level: 85,
+        color: "#31A8FF"
+    },
+    {
+        name: "ILLUSTRATOR",
+        icon: "/gorseller/iconlar/illustrator.svg",
+        level: 85,
+        color: "#FF9A00"
+    },
+    {
+        name: "AFTER EFFECTS",
+        icon: "/gorseller/iconlar/after-effects.svg",
+        level: 95,
+        color: "#9999FF"
+    },
+    {
+        name: "PREMIERE PRO",
+        icon: "/gorseller/iconlar/premiere-pro.svg",
+        level: 90,
+        color: "#9999FF"
+    }
 ]
 
-// Animation
+// Container animation
 const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
         opacity: 1,
-        transition: { staggerChildren: 0.12, delayChildren: 0.1 }
+        transition: { staggerChildren: 0.2, delayChildren: 0.1 }
     }
 }
 
-const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
+const cardVariants = {
+    hidden: { opacity: 0, y: 30 },
     visible: {
         opacity: 1,
         y: 0,
-        transition: { type: "spring", stiffness: 100, damping: 20 }
+        transition: { duration: 0.5, ease: "easeOut" }
     }
 }
 
 function SkillCard({ skill, index }) {
-    const IconComponent = skill.icon
+    const [isHovered, setIsHovered] = useState(false)
+    const [hasAnimated, setHasAnimated] = useState(false)
 
     return (
         <motion.div
-            variants={itemVariants}
+            variants={cardVariants}
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
             className="p-6 rounded-xl"
             style={{
                 background: 'rgba(255,255,255,0.03)',
-                border: '1px solid rgba(255,255,255,0.06)'
+                border: '1px solid rgba(255,255,255,0.08)',
+                transition: 'border-color 0.3s, box-shadow 0.3s',
+                borderColor: isHovered ? `${skill.color}30` : 'rgba(255,255,255,0.08)',
+                boxShadow: isHovered ? `0 0 30px ${skill.color}15` : 'none'
             }}
         >
-            <div className="flex items-center gap-4 mb-4">
+            <div className="flex items-center gap-5 mb-5">
+                {/* Custom SVG Icon */}
                 <div
-                    className="p-3 rounded-lg"
                     style={{
-                        backgroundColor: `${skill.color}15`,
-                        boxShadow: `0 0 20px ${skill.color}10`
+                        width: 48,
+                        height: 48,
+                        filter: isHovered || hasAnimated ? 'grayscale(0) brightness(1)' : 'grayscale(1) brightness(0.5)',
+                        opacity: isHovered || hasAnimated ? 1 : 0.5,
+                        transition: 'filter 0.4s ease, opacity 0.4s ease'
                     }}
                 >
-                    <IconComponent size={32} style={{ color: skill.color }} />
+                    <img
+                        src={skill.icon}
+                        alt={skill.name}
+                        style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+                    />
                 </div>
 
-                <div className="flex-1">
-                    <span className="text-offWhite font-medium text-lg">{skill.name}</span>
+                {/* Name & Percentage */}
+                <div className="flex-1 flex items-center justify-between">
+                    <span
+                        style={{
+                            fontSize: 15,
+                            fontWeight: 600,
+                            letterSpacing: '0.1em',
+                            color: isHovered ? '#F2F2F2' : '#888',
+                            transition: 'color 0.3s'
+                        }}
+                    >
+                        {skill.name}
+                    </span>
+                    <span
+                        style={{
+                            fontFamily: 'monospace',
+                            fontSize: 15,
+                            fontWeight: 600,
+                            color: isHovered ? skill.color : '#555',
+                            transition: 'color 0.3s'
+                        }}
+                    >
+                        {skill.level}%
+                    </span>
                 </div>
-
-                <span
-                    className="text-base font-semibold"
-                    style={{ color: skill.color }}
-                >
-                    {skill.level}%
-                </span>
             </div>
 
-            {/* Progress Bar */}
-            <div className="h-2.5 rounded-full overflow-hidden" style={{ backgroundColor: 'rgba(255,255,255,0.1)' }}>
+            {/* Neon Progress Bar */}
+            <div
+                style={{
+                    height: 8,
+                    borderRadius: 4,
+                    backgroundColor: 'rgba(0,0,0,0.4)',
+                    overflow: 'hidden'
+                }}
+            >
                 <motion.div
-                    className="h-full rounded-full"
-                    style={{
-                        background: `linear-gradient(90deg, ${skill.color}50 0%, ${skill.color} 100%)`,
-                        boxShadow: `0 0 12px ${skill.color}40`
-                    }}
                     initial={{ width: 0 }}
                     whileInView={{ width: `${skill.level}%` }}
                     viewport={{ once: true }}
                     transition={{
-                        type: "spring",
-                        stiffness: 40,
-                        damping: 15,
-                        delay: index * 0.1 + 0.3
+                        duration: 1,
+                        delay: index * 0.15 + 0.3,
+                        ease: "easeOut"
+                    }}
+                    onAnimationComplete={() => setHasAnimated(true)}
+                    style={{
+                        height: '100%',
+                        borderRadius: 4,
+                        backgroundColor: skill.color,
+                        boxShadow: `0 0 12px ${skill.color}, 0 0 24px ${skill.color}50`
                     }}
                 />
             </div>
@@ -106,14 +158,32 @@ export default function SkillsView({ className }) {
             viewport={{ once: true, margin: "-50px" }}
         >
             {/* Header */}
-            <motion.div variants={itemVariants} className="text-center mb-10">
-                <p className="meta-wide mb-3 text-dimGray">Expertise</p>
-                <h2 className="text-3xl md:text-4xl font-bold heading-tight text-offWhite">
+            <motion.div variants={cardVariants} className="text-center mb-12">
+                <p
+                    style={{
+                        fontSize: 11,
+                        fontWeight: 500,
+                        letterSpacing: '0.15em',
+                        textTransform: 'uppercase',
+                        color: '#666',
+                        marginBottom: 12
+                    }}
+                >
+                    Technical Expertise
+                </p>
+                <h2
+                    style={{
+                        fontSize: 'clamp(28px, 4vw, 40px)',
+                        fontWeight: 700,
+                        letterSpacing: '-0.02em',
+                        color: '#F2F2F2'
+                    }}
+                >
                     Core Tools
                 </h2>
             </motion.div>
 
-            {/* 2x2 Grid - DAHA GENİŞ: maxWidth 1100px */}
+            {/* 2x2 Grid - WIDER (1100px) */}
             <div
                 style={{
                     display: 'grid',
