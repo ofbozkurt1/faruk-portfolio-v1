@@ -372,7 +372,7 @@ export default function Hero({ className }) {
                 style={{ position: 'absolute', bottom: 40, left: '50%', transform: 'translateX(-50%)' }}
             >
                 <motion.div animate={{ y: [0, 10, 0] }} transition={{ duration: 1.5, repeat: Infinity }}>
-                    <FiChevronDown size={28} color="#888" />
+                    <FiChevronDown size={36} color="#666" />
                 </motion.div>
             </motion.div>
         </section>

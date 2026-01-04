@@ -1,68 +1,85 @@
 # Active Context
 
-## Current Phase: Phase 15 - Hero & UI Polish
-Premium animations and refined visual design for the landing experience.
+## Current Phase: Phase 15 - Hero & Portfolio Polish
+Premium animations, section headers, and Project Spec Sheet design.
 
 ## Latest Session Summary (2026-01-05)
 
 ### Hero Section - Major Overhaul
-- **Name Animation**: Replaced typewriter with dynamic letter-by-letter wave effect
-  - Each letter fades in from below with blur
-  - Staggered delay (0.04s per letter)
-  - Loops every 6 seconds
-- **Title Animation**: "Motion & Graphic Designer" now has gradient shine effect
-  - Larger font (14px), wider spacing (0.25em)
-  - Animated gradient sweep (4s loop)
-- **Section Size**: Increased to full viewport (`min-h-screen`)
-- **Spacing**: More padding and gaps for premium feel
-
-### Profile Photo - Clean & Dynamic
-- **Floating Animation**: Subtle up-down breathing effect (4s, -10px)
-- **Hover Zoom**: Photo scales 1.1x, container scales 1.03x
-- **No Border**: Removed white border for cleaner look
-- **Size Increased**: 300px-420px (was 260px-380px)
+- **Name Animation**: Dynamic letter-by-letter wave effect (blur → clear)
+- **Title Animation**: "Motion & Graphic Designer" gradient shine effect
+- **Section Size**: Full viewport (`min-h-screen`)
+- **Photo**: Floating animation + hover zoom (no border, no glow rings)
+- **Scroll Arrow**: Increased to 36px for better visibility
 
 ### Social Icons (Hero)
-- **Shape**: Changed from rounded squares to **full circles** (border-radius: 50%)
-- **Size**: Increased to 46x46px with 18px icons
+- **Shape**: Full circles (border-radius: 50%)
 - **Order**: Instagram → Behance → LinkedIn
-- **LinkedIn Logo**: Changed to cleaner "in" glyph (no outer square)
+- **LinkedIn Logo**: Clean "in" glyph only
 
-### Download CV Button
-- **Shape**: Full pill (border-radius: 50px)
-- **Hover Effect**: Circular wipe animation preserved
+### Section Headers - Simplified
+- **Portfolio**: Removed "Selected Works" subtitle, single line with side lines
+- **Skills**: Removed "Technical Expertise" subtitle, single line with side lines
+- **Design**: `────── Title ──────` format with gradient fade lines
 
-### Click to Explore Button (ProjectCard)
-- **New Design**: Glassmorphism pill button
-- **Positioning**: Lower (`mt-24`)
-- **Size**: Smaller, more subtle (10px 24px padding, 11px font)
-- **Animations**:
-  - Shimmer sweep (2.5s continuous)
-  - Gradient text shine
-  - Arrow slide on hover
+### ProjectCard - "Project Spec Sheet" Redesign (NEW)
+Complete overhaul of the right text panel:
 
-### Skills Section - Visual Refinements
-- **TiltCard**: Added `borderColor` prop for dynamic hover borders
-- **Micro-Tool Indicators**: Technical SVG icons with hover glow (removed after feedback)
-- **Giant Watermark**: Tool's own logo as subtle background (3% opacity, blur)
+1. **Top Label** (Monospace)
+   - `BRANDING — 2024` format
+   - 12px, 0.18em spacing, 45% white
 
-## Technical Updates
-- **CSS Class Naming**: Fixed conflicts (explore-pill, explore-text vs btn-text)
-- **Animation Performance**: Continuous keyframes (0% → 100%) instead of pausing
+2. **Title** (Gradient)
+   - Metallic gradient (white → 70% white)
+   - `clamp(42px, 6vw, 72px)` - larger
+
+3. **Animated Divider**
+   - 140px gradient line
+   - Left-fading gradient
+
+4. **Metadata Grid** (Spec Sheet)
+   - ROLE | DELIVERABLES with vertical divider
+   - Monospace labels (10px)
+   - Values 15px
+
+5. **Description**
+   - 16px, line-height 1.8
+   - 50% white
+
+6. **Tech Pills** (Glassmorphic)
+   - Pill shape with icon + name (`[AI] Illustrator`)
+   - Backdrop blur
+   - Brand color glow on hover
+
+### ProjectCard Sizes - Increased
+- **Image Stack**: `w-80 md:w-96 lg:w-[420px]` (was w-72/w-80/w-96)
+- **Text Container**: `max-w-2xl` (was max-w-xl)
+- **All spacing/fonts**: ~15% larger
+
+### Project Data Updates
+Added new fields to projects:
+- `role`: "Visual Design", "Content Design", "Social Design"
+- `deliverables`: "Logo, Brand Kit", "Posts, Templates", etc.
 
 ## File Changes
 ```
-src/features/hero/Hero.jsx          # New letter animation, photo effects, social icons
-src/features/portfolio/ProjectCard.jsx  # Explore pill button redesign
-src/features/skills/SkillsView.jsx  # Giant watermark, dynamic borders
-src/components/ui/TiltCard.jsx      # borderColor prop added
+src/features/hero/Hero.jsx          # Letter animation, photo float, scroll arrow
+src/features/portfolio/ProjectCard.jsx  # Complete spec sheet redesign
+src/features/skills/SkillsView.jsx  # Simplified header
+src/App.jsx                         # Simplified Portfolio header
+src/data/projects.js                # Added role, deliverables fields
 ```
 
+## Technical Updates
+- Fixed CSS class conflicts (explore-pill vs btn-text)
+- Monospace fonts for technical labels
+- Brand color hover effects on tech pills
+
 ## Design Decisions
-- **Minimal Photo**: Only float + zoom, no glow rings or borders
-- **Premium Typography**: Gradient shine animations on titles
-- **Circular Social Icons**: Modern, consistent with pill-shaped buttons
-- **Continuous Animations**: No stuttering/pausing in loops
+- **Spec Sheet Style**: Technical, structured metadata grid
+- **Gradient Titles**: Metallic sheen for premium feel
+- **Side Lines**: Elegant header decoration
+- **Larger Elements**: Better visual impact on landing page
 
 ## Dev Server
 - http://localhost:5173/

@@ -25,7 +25,7 @@ export default function ProjectCard({ project, onClick, isReversed, cardIndex = 
     // 'post' or 'hybrid' = posts or mixed (4/5 horizontal)
     const isStoryOnlyFormat = stackFormat === 'story'
     const aspectClass = isStoryOnlyFormat ? 'aspect-[9/16]' : 'aspect-[4/5]'
-    const widthClass = isStoryOnlyFormat ? 'w-56 md:w-64 lg:w-72' : 'w-72 md:w-80 lg:w-96'
+    const widthClass = isStoryOnlyFormat ? 'w-64 md:w-72 lg:w-80' : 'w-80 md:w-96 lg:w-[420px]'
 
     // Direction for rotation only (left/right lean)
     const direction = cardIndex % 2 === 0 ? 1 : -1
@@ -204,30 +204,172 @@ export default function ProjectCard({ project, onClick, isReversed, cardIndex = 
                 `}</style>
             </div>
 
-            <div className={cn("flex-1 max-w-xl", isReversed ? "lg:text-right" : "text-left")}>
-                <p className="meta-wide mb-4 text-dimGray">{category} — {year}</p>
-                <h3 className="text-4xl md:text-5xl lg:text-6xl font-bold heading-tight text-offWhite mb-6">{title}</h3>
-                <p className="text-dimGray text-base leading-relaxed mb-8">{description}</p>
-                <div className={cn("flex items-center gap-4", isReversed && "lg:justify-end")}>
+            <div className={cn("flex-1 max-w-2xl", isReversed ? "lg:text-right" : "text-left")}>
+                {/* Top Label: Category — Year (Monospace) */}
+                <p
+                    style={{
+                        fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace',
+                        fontSize: 12,
+                        fontWeight: 500,
+                        letterSpacing: '0.18em',
+                        textTransform: 'uppercase',
+                        color: 'rgba(255,255,255,0.45)',
+                        marginBottom: 20
+                    }}
+                >
+                    {category} — {year}
+                </p>
+
+                {/* Title with Gradient */}
+                <h3
+                    className="project-title-gradient"
+                    style={{
+                        fontSize: 'clamp(42px, 6vw, 72px)',
+                        fontWeight: 700,
+                        letterSpacing: '-0.02em',
+                        marginBottom: 24,
+                        background: 'linear-gradient(180deg, #FFFFFF 0%, rgba(255,255,255,0.7) 100%)',
+                        WebkitBackgroundClip: 'text',
+                        WebkitTextFillColor: 'transparent',
+                        backgroundClip: 'text'
+                    }}
+                >
+                    {title}
+                </h3>
+
+                {/* Animated Divider */}
+                <div
+                    className="divider-line"
+                    style={{
+                        width: '100%',
+                        maxWidth: 140,
+                        height: 1,
+                        background: 'linear-gradient(90deg, rgba(255,255,255,0.4), transparent)',
+                        marginBottom: 24,
+                        marginLeft: isReversed ? 'auto' : 0,
+                        marginRight: isReversed ? 0 : 'auto'
+                    }}
+                />
+
+                {/* Metadata Grid (Spec Sheet) */}
+                <div
+                    className={cn("flex gap-8 mb-8", isReversed && "lg:justify-end")}
+                    style={{ flexWrap: 'wrap' }}
+                >
+                    <div>
+                        <span
+                            style={{
+                                fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace',
+                                fontSize: 10,
+                                fontWeight: 500,
+                                letterSpacing: '0.2em',
+                                textTransform: 'uppercase',
+                                color: 'rgba(255,255,255,0.35)',
+                                display: 'block',
+                                marginBottom: 6
+                            }}
+                        >
+                            Role
+                        </span>
+                        <span style={{ fontSize: 15, color: 'rgba(255,255,255,0.7)' }}>
+                            {project.role || 'Design'}
+                        </span>
+                    </div>
+                    <div style={{ width: 1, background: 'rgba(255,255,255,0.1)', alignSelf: 'stretch' }} />
+                    <div>
+                        <span
+                            style={{
+                                fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace',
+                                fontSize: 10,
+                                fontWeight: 500,
+                                letterSpacing: '0.2em',
+                                textTransform: 'uppercase',
+                                color: 'rgba(255,255,255,0.35)',
+                                display: 'block',
+                                marginBottom: 6
+                            }}
+                        >
+                            Deliverables
+                        </span>
+                        <span style={{ fontSize: 15, color: 'rgba(255,255,255,0.7)' }}>
+                            {project.deliverables || 'Visual Content'}
+                        </span>
+                    </div>
+                </div>
+
+                {/* Description */}
+                <p style={{
+                    color: 'rgba(255,255,255,0.5)',
+                    fontSize: 16,
+                    lineHeight: 1.8,
+                    marginBottom: 28
+                }}>
+                    {description}
+                </p>
+
+                {/* Tech Stack - Glassmorphic Pills */}
+                <div className={cn("flex items-center gap-3 flex-wrap", isReversed && "lg:justify-end")}>
                     {techStack.map((tech) => {
                         const iconData = iconMap[tech]
                         if (!iconData) return null
 
+                        // Brand colors for hover
+                        const brandColors = {
+                            photoshop: '#31A8FF',
+                            illustrator: '#FF9A00',
+                            aftereffects: '#9999FF',
+                            premiere: '#9999FF'
+                        }
+                        const brandColor = brandColors[tech] || '#fff'
+
+                        // Tool display names
+                        const toolNames = {
+                            photoshop: 'Photoshop',
+                            illustrator: 'Illustrator',
+                            aftereffects: 'After Effects',
+                            premiere: 'Premiere'
+                        }
+
                         return (
                             <div
                                 key={tech}
-                                className="p-3 bg-white/5 rounded-lg border border-white/5 hover:border-white/15 transition-colors"
-                                title={tech}
+                                className="tech-pill"
+                                style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: 10,
+                                    padding: '10px 20px',
+                                    borderRadius: 50,
+                                    background: 'rgba(255,255,255,0.03)',
+                                    backdropFilter: 'blur(8px)',
+                                    WebkitBackdropFilter: 'blur(8px)',
+                                    border: '1px solid rgba(255,255,255,0.08)',
+                                    transition: 'all 0.3s ease',
+                                    cursor: 'default',
+                                    ['--brand-color']: brandColor
+                                }}
+                                onMouseEnter={(e) => {
+                                    e.currentTarget.style.borderColor = brandColor
+                                    e.currentTarget.style.boxShadow = `0 0 20px ${brandColor}30`
+                                }}
+                                onMouseLeave={(e) => {
+                                    e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)'
+                                    e.currentTarget.style.boxShadow = 'none'
+                                }}
                             >
-                                {iconData.type === 'component' ? (
-                                    <iconData.value size={22} className="text-dimGray" />
-                                ) : (
-                                    <img
-                                        src={iconData.value}
-                                        alt={tech}
-                                        className="w-[22px] h-[22px] object-contain"
-                                    />
-                                )}
+                                <img
+                                    src={iconData.value}
+                                    alt={tech}
+                                    style={{ width: 18, height: 18, objectFit: 'contain' }}
+                                />
+                                <span style={{
+                                    fontSize: 12,
+                                    fontWeight: 500,
+                                    color: 'rgba(255,255,255,0.6)',
+                                    letterSpacing: '0.02em'
+                                }}>
+                                    {toolNames[tech]}
+                                </span>
                             </div>
                         )
                     })}

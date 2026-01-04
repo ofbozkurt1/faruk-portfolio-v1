@@ -327,30 +327,22 @@ export default function SkillsView({ className }) {
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
         >
-            {/* Header */}
-            <motion.div variants={cardVariants} className="text-center mb-12">
-                <p
-                    style={{
-                        fontSize: 11,
-                        fontWeight: 500,
-                        letterSpacing: '0.2em',
-                        textTransform: 'uppercase',
-                        color: '#666',
-                        marginBottom: 12
-                    }}
-                >
-                    Technical Expertise
-                </p>
-                <h2
-                    style={{
-                        fontSize: 'clamp(28px, 4vw, 42px)',
-                        fontWeight: 700,
-                        letterSpacing: '-0.02em',
-                        color: '#F2F2F2'
-                    }}
-                >
-                    Skills
-                </h2>
+            {/* Header - Clean Single Line */}
+            <motion.div variants={cardVariants} className="text-center mb-16">
+                <div className="flex items-center justify-center gap-6">
+                    <div style={{ width: 50, height: 1, background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.3))' }} />
+                    <h2
+                        style={{
+                            fontSize: 'clamp(28px, 4vw, 42px)',
+                            fontWeight: 700,
+                            letterSpacing: '-0.02em',
+                            color: '#F2F2F2'
+                        }}
+                    >
+                        Skills
+                    </h2>
+                    <div style={{ width: 50, height: 1, background: 'linear-gradient(90deg, rgba(255,255,255,0.3), transparent)' }} />
+                </div>
             </motion.div>
 
             {/* Bento Grid - 12 Column Desktop */}

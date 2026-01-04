@@ -9,21 +9,25 @@ export const PROJECTS = [
         title: "Novastra",
         category: "Branding",
         year: "2024",
-        postCount: 7,       // pst1.webp - pst7.webp
-        longPostCount: 0,   // No long posts
-        storyCount: 11,     // str1.webp - str11.webp
+        role: "Visual Design",
+        deliverables: "Logo, Brand Kit",
+        postCount: 7,
+        longPostCount: 0,
+        storyCount: 11,
         description: "Premium brand identity design with a focus on minimalist luxury aesthetics. Complete visual system including logo, typography, and brand guidelines.",
         credits: "Art Direction: Faruk",
-        techStack: ["figma", "illustrator", "photoshop"]
+        techStack: ["illustrator", "photoshop"]
     },
     {
         id: "googleyorumlar",
         title: "Google Yorumlar",
         category: "Social Media",
         year: "2024",
-        postCount: 11,      // pst1.webp - pst11.webp
-        longPostCount: 0,   // No long posts
-        storyCount: 0,      // No stories
+        role: "Content Design",
+        deliverables: "Posts, Templates",
+        postCount: 11,
+        longPostCount: 0,
+        storyCount: 0,
         description: "Social media campaign design for Google reviews engagement. Dynamic motion graphics and eye-catching visual content optimized for multiple platforms.",
         credits: "Design & Motion: Faruk",
         techStack: ["photoshop", "illustrator"]
@@ -33,10 +37,12 @@ export const PROJECTS = [
         title: "Adana Napoli",
         category: "Social Media",
         year: "2024",
-        postCount: 2,       // pst1.webp - pst2.webp
-        longPostCount: 1,   // pstlng1.webp (3-panel panoramic)
-        storyCount: 5,      // str1.webp - str5.webp
-        stackFormat: 'story', // StackView'da sadece story göster (dikey format)
+        role: "Social Design",
+        deliverables: "Posts, Stories",
+        postCount: 2,
+        longPostCount: 1,
+        storyCount: 5,
+        stackFormat: 'story',
         description: "Social media content design for Adana Napoli restaurant. Eye-catching posts and engaging story content for Instagram presence.",
         credits: "Design: Faruk",
         techStack: ["photoshop", "illustrator"]
@@ -46,10 +52,12 @@ export const PROJECTS = [
         title: "Hacı Hakkı Usta",
         category: "Social Media",
         year: "2024",
-        postCount: 2,       // pst1.webp - pst2.webp
-        longPostCount: 0,   // No long posts
-        storyCount: 2,      // str1.webp - str2.webp
-        stackFormat: 'hybrid', // Postlar 4/5, Storyler 9/16 birlikte
+        role: "Social Design",
+        deliverables: "Posts, Stories",
+        postCount: 2,
+        longPostCount: 0,
+        storyCount: 2,
+        stackFormat: 'hybrid',
         description: "Traditional Turkish restaurant social media presence. Authentic food photography and engaging content design.",
         credits: "Design: Faruk",
         techStack: ["photoshop", "illustrator"]

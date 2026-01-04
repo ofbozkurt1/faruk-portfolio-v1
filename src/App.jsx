@@ -69,41 +69,22 @@ function App() {
                 </div>
 
                 <section id="portfolio" className="section-spacing-lg container-padding">
-                    {/* Portfolio Header - Enhanced */}
+                    {/* Portfolio Header - Clean Single Line */}
                     <div className="text-center mb-24">
-                        <p
-                            style={{
-                                fontSize: 11,
-                                fontWeight: 500,
-                                letterSpacing: '0.2em',
-                                textTransform: 'uppercase',
-                                color: '#666',
-                                marginBottom: 16
-                            }}
-                        >
-                            — Selected Works —
-                        </p>
-                        <h2
-                            style={{
-                                fontSize: 'clamp(40px, 6vw, 64px)',
-                                fontWeight: 800,
-                                letterSpacing: '-0.03em',
-                                color: '#F2F2F2',
-                                textShadow: '0 0 40px rgba(255,255,255,0.1)',
-                                marginBottom: 16
-                            }}
-                        >
-                            Portfolio
-                        </h2>
-                        {/* Decorative line */}
-                        <div
-                            style={{
-                                width: 80,
-                                height: 2,
-                                background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent)',
-                                margin: '0 auto'
-                            }}
-                        />
+                        <div className="flex items-center justify-center gap-6 mb-8">
+                            <div style={{ width: 60, height: 1, background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.3))' }} />
+                            <h2
+                                style={{
+                                    fontSize: 'clamp(36px, 5vw, 56px)',
+                                    fontWeight: 700,
+                                    letterSpacing: '-0.02em',
+                                    color: '#F2F2F2'
+                                }}
+                            >
+                                Portfolio
+                            </h2>
+                            <div style={{ width: 60, height: 1, background: 'linear-gradient(90deg, rgba(255,255,255,0.3), transparent)' }} />
+                        </div>
                     </div>
                     <StackView onProjectClick={setSelectedProject} />
                 </section>
