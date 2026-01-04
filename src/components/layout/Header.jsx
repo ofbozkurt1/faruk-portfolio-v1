@@ -1,9 +1,9 @@
 /**
- * Header Component
- * Animated gradient, scroll-based opacity
+ * Header Component - OPTIMIZED
+ * Throttled scroll handler, passive listeners
  */
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useMemo } from 'react'
 import { motion } from 'framer-motion'
 
 const navLinks = [
@@ -13,12 +13,37 @@ const navLinks = [
     { label: 'Contact', href: '#contact' }
 ]
 
+// Throttle utility - limits function execution frequency
+const throttle = (fn, ms) => {
+    let lastCall = 0
+    let timeoutId = null
+    return (...args) => {
+        const now = Date.now()
+        if (now - lastCall >= ms) {
+            lastCall = now
+            fn(...args)
+        } else if (!timeoutId) {
+            timeoutId = setTimeout(() => {
+                lastCall = Date.now()
+                timeoutId = null
+                fn(...args)
+            }, ms - (now - lastCall))
+        }
+    }
+}
+
 export default function Header() {
     const [activeSection, setActiveSection] = useState('about')
     const [scrolled, setScrolled] = useState(false)
 
-    // Scroll-based section detection
-    const handleScroll = useCallback(() => {
+    // Cache section positions to avoid repeated DOM queries
+    const sectionPositions = useMemo(() => {
+        // Will be populated on first scroll
+        return new Map()
+    }, [])
+
+    // Throttled scroll handler - runs max 10 times per second instead of 60
+    const handleScroll = useMemo(() => throttle(() => {
         const scrollY = window.scrollY + 150
         const windowHeight = window.innerHeight
         const documentHeight = document.documentElement.scrollHeight
@@ -32,37 +57,47 @@ export default function Header() {
             return
         }
 
-        // Get all section positions
-        const sections = navLinks.map(link => {
-            const el = document.querySelector(link.href)
-            if (el) {
-                return {
-                    id: link.href.replace('#', ''),
-                    top: el.offsetTop,
-                    bottom: el.offsetTop + el.offsetHeight
+        // Update section positions cache (only query DOM if cache is empty or stale)
+        if (sectionPositions.size === 0) {
+            navLinks.forEach(link => {
+                const el = document.querySelector(link.href)
+                if (el) {
+                    sectionPositions.set(link.href.replace('#', ''), {
+                        top: el.offsetTop,
+                        bottom: el.offsetTop + el.offsetHeight
+                    })
                 }
-            }
-            return null
-        }).filter(Boolean)
+            })
+        }
 
-        // Find current section
+        // Find current section using cached positions
+        const sections = Array.from(sectionPositions.entries())
         for (let i = sections.length - 1; i >= 0; i--) {
-            if (scrollY >= sections[i].top) {
-                setActiveSection(sections[i].id)
+            const [id, pos] = sections[i]
+            if (scrollY >= pos.top) {
+                setActiveSection(id)
                 return
             }
         }
 
         if (sections.length > 0) {
-            setActiveSection(sections[0].id)
+            setActiveSection(sections[0][0])
         }
-    }, [])
+    }, 100), [sectionPositions]) // 100ms throttle = max 10 calls per second
 
     useEffect(() => {
+        // Clear cache on resize (sections may have moved)
+        const handleResize = () => sectionPositions.clear()
+
         handleScroll()
         window.addEventListener('scroll', handleScroll, { passive: true })
-        return () => window.removeEventListener('scroll', handleScroll)
-    }, [handleScroll])
+        window.addEventListener('resize', handleResize, { passive: true })
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll)
+            window.removeEventListener('resize', handleResize)
+        }
+    }, [handleScroll, sectionPositions])
 
     const handleClick = (e, href) => {
         e.preventDefault()

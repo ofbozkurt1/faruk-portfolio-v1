@@ -1,6 +1,7 @@
 /**
- * AtmosphericBackground Component
- * STATIC gradients - no animations for performance
+ * AtmosphericBackground Component - OPTIMIZED
+ * Reduced from 4 orbs to 2 for better performance
+ * Static gradients with minimal CSS animations
  */
 
 export default function AtmosphericBackground() {
@@ -16,62 +17,45 @@ export default function AtmosphericBackground() {
         >
             <style>{`
                 @keyframes breatheOpacity {
-                    0%, 15% { opacity: 0.8; transform: scale(1); }
-                    40%, 60% { opacity: 0; transform: scale(1.1); }
-                    85%, 100% { opacity: 0.8; transform: scale(1); }
+                    0%, 20% { opacity: 0.7; }
+                    50% { opacity: 0.3; }
+                    80%, 100% { opacity: 0.7; }
                 }
             `}</style>
 
-            {/* Base */}
+            {/* Base Dark Background */}
             <div style={{ position: 'absolute', inset: 0, backgroundColor: '#050505' }} />
 
-            {/* Position 1 (Top Left) */}
-            <div style={{ position: 'absolute', top: '-15%', left: '-15%', width: '60vw', height: '60vw' }}>
-                {/* Purple Phase (Starts Visible) */}
-                <div
-                    style={{
-                        position: 'absolute', inset: 0,
-                        background: 'radial-gradient(circle, rgba(120,40,180,0.5) 0%, rgba(120,40,180,0.15) 35%, transparent 70%)',
-                        animation: 'breatheOpacity 14s ease-in-out infinite',
-                        willChange: 'opacity, transform'
-                    }}
-                />
-                {/* Crimson Phase (Starts Invisible - Delayed) */}
-                <div
-                    style={{
-                        position: 'absolute', inset: 0,
-                        background: 'radial-gradient(circle, rgba(180,30,60,0.45) 0%, rgba(180,30,60,0.15) 35%, transparent 70%)',
-                        animation: 'breatheOpacity 14s ease-in-out infinite',
-                        animationDelay: '-7s', /* Half of 14s */
-                        willChange: 'opacity, transform'
-                    }}
-                />
-            </div>
+            {/* Single Orb - Top Left (Purple) */}
+            <div
+                style={{
+                    position: 'absolute',
+                    top: '-15%',
+                    left: '-15%',
+                    width: '55vw',
+                    height: '55vw',
+                    background: 'radial-gradient(circle, rgba(120,40,180,0.4) 0%, rgba(120,40,180,0.1) 40%, transparent 70%)',
+                    animation: 'breatheOpacity 12s ease-in-out infinite',
+                    willChange: 'opacity'
+                }}
+            />
 
-            {/* Position 2 (Bottom Right) */}
-            <div style={{ position: 'absolute', bottom: '-15%', right: '-15%', width: '60vw', height: '60vw' }}>
-                {/* Crimson Phase (Starts Visible) */}
-                <div
-                    style={{
-                        position: 'absolute', inset: 0,
-                        background: 'radial-gradient(circle, rgba(180,30,60,0.45) 0%, rgba(180,30,60,0.15) 35%, transparent 70%)',
-                        animation: 'breatheOpacity 14s ease-in-out infinite',
-                        willChange: 'opacity, transform'
-                    }}
-                />
-                {/* Purple Phase (Starts Invisible - Delayed) */}
-                <div
-                    style={{
-                        position: 'absolute', inset: 0,
-                        background: 'radial-gradient(circle, rgba(120,40,180,0.5) 0%, rgba(180,30,60,0.15) 35%, transparent 70%)',
-                        animation: 'breatheOpacity 14s ease-in-out infinite',
-                        animationDelay: '-7s', /* Half of 14s */
-                        willChange: 'opacity, transform'
-                    }}
-                />
-            </div>
+            {/* Single Orb - Bottom Right (Crimson) */}
+            <div
+                style={{
+                    position: 'absolute',
+                    bottom: '-15%',
+                    right: '-15%',
+                    width: '55vw',
+                    height: '55vw',
+                    background: 'radial-gradient(circle, rgba(180,30,60,0.35) 0%, rgba(180,30,60,0.1) 40%, transparent 70%)',
+                    animation: 'breatheOpacity 12s ease-in-out infinite',
+                    animationDelay: '-6s',
+                    willChange: 'opacity'
+                }}
+            />
 
-            {/* Strong Vignette - Spotlight Effect */}
+            {/* Vignette - Spotlight Effect */}
             <div
                 style={{
                     position: 'absolute',

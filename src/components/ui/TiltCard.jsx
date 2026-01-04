@@ -1,7 +1,7 @@
 /**
- * TiltCard Component
+ * TiltCard Component - OPTIMIZED
  * 3D Tilt Effect with Framer Motion
- * Glassmorphism + Mouse-following spotlight + Dynamic Border
+ * NO backdrop-blur, CSS variable-based spotlight
  */
 
 import { useRef, useState } from 'react'
@@ -11,20 +11,17 @@ export default function TiltCard({
     children,
     className = '',
     glowColor = 'rgba(255,255,255,0.15)',
-    borderColor = null, // Brand color for hover border
+    borderColor = null,
     intensity = 15,
     springConfig = { stiffness: 150, damping: 20 }
 }) {
     const cardRef = useRef(null)
     const [isHovered, setIsHovered] = useState(false)
+    const [spotPos, setSpotPos] = useState({ x: 50, y: 50 })
 
     // Mouse position relative to card center
     const mouseX = useMotionValue(0)
     const mouseY = useMotionValue(0)
-
-    // Spotlight position (0-100%)
-    const spotlightX = useMotionValue(50)
-    const spotlightY = useMotionValue(50)
 
     // Spring physics for smooth rotation
     const rotateX = useSpring(useTransform(mouseY, [-0.5, 0.5], [intensity, -intensity]), springConfig)
@@ -44,19 +41,17 @@ export default function TiltCard({
         mouseX.set(normalizedX)
         mouseY.set(normalizedY)
 
-        // Spotlight position (0-100%)
-        const spotX = ((e.clientX - rect.left) / rect.width) * 100
-        const spotY = ((e.clientY - rect.top) / rect.height) * 100
-        spotlightX.set(spotX)
-        spotlightY.set(spotY)
+        // Spotlight position (0-100%) - throttled via state batching
+        const spotX = Math.round(((e.clientX - rect.left) / rect.width) * 100)
+        const spotY = Math.round(((e.clientY - rect.top) / rect.height) * 100)
+        setSpotPos({ x: spotX, y: spotY })
     }
 
     const handleMouseLeave = () => {
         setIsHovered(false)
         mouseX.set(0)
         mouseY.set(0)
-        spotlightX.set(50)
-        spotlightY.set(50)
+        setSpotPos({ x: 50, y: 50 })
     }
 
     // Dynamic border color
@@ -77,9 +72,8 @@ export default function TiltCard({
                 transformStyle: 'preserve-3d',
                 transformPerspective: 1000,
                 position: 'relative',
-                background: 'rgba(255,255,255,0.03)',
-                backdropFilter: 'blur(8px)',
-                WebkitBackdropFilter: 'blur(8px)',
+                // NO backdrop-blur - solid dark background instead
+                background: 'rgba(18, 18, 22, 0.92)',
                 border: `1px solid ${activeBorderColor}`,
                 borderRadius: 16,
                 overflow: 'hidden',
@@ -87,23 +81,20 @@ export default function TiltCard({
                 transition: 'border-color 0.3s ease'
             }}
         >
-            {/* Spotlight Glow Effect */}
-            <motion.div
+            {/* Spotlight Glow - CSS Variable based (no string interpolation) */}
+            <div
                 style={{
                     position: 'absolute',
                     inset: 0,
                     opacity: isHovered ? 1 : 0,
-                    background: useTransform(
-                        [spotlightX, spotlightY],
-                        ([x, y]) => `radial-gradient(circle at ${x}% ${y}%, ${glowColor} 0%, transparent 60%)`
-                    ),
+                    background: `radial-gradient(circle at ${spotPos.x}% ${spotPos.y}%, ${glowColor} 0%, transparent 60%)`,
                     pointerEvents: 'none',
                     transition: 'opacity 0.3s ease'
                 }}
             />
 
             {/* Border Glow on Hover */}
-            <motion.div
+            <div
                 style={{
                     position: 'absolute',
                     inset: -1,

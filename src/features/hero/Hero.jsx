@@ -25,17 +25,16 @@ const itemVariants = {
     }
 }
 
-// Letter animation variants
+// Letter animation variants - NO BLUR for performance
 const letterVariants = {
     hidden: {
         opacity: 0,
-        y: 50,
-        filter: 'blur(10px)'
+        y: 40
+        // NO filter: blur - too expensive for 17 elements
     },
     visible: (i) => ({
         opacity: 1,
         y: 0,
-        filter: 'blur(0px)',
         transition: {
             delay: i * 0.04,
             duration: 0.5,
@@ -44,8 +43,7 @@ const letterVariants = {
     }),
     exit: (i) => ({
         opacity: 0,
-        y: -30,
-        filter: 'blur(5px)',
+        y: -20,
         transition: {
             delay: i * 0.02,
             duration: 0.3
@@ -319,7 +317,7 @@ export default function Hero({ className }) {
                     `}</style>
                 </motion.div>
 
-                {/* Profile Photo - Clean with Float & Zoom */}
+                {/* Profile Photo - CSS Float Animation (Performance Optimized) */}
                 <motion.div
                     initial={{ opacity: 0, scale: 1.05 }}
                     animate={{ opacity: 1, scale: 1 }}
@@ -328,25 +326,27 @@ export default function Hero({ className }) {
                     onMouseEnter={() => setIsPhotoHovered(true)}
                     onMouseLeave={() => setIsPhotoHovered(false)}
                 >
-                    {/* Floating Photo Container */}
-                    <motion.div
-                        animate={{
-                            y: [0, -10, 0],
-                        }}
-                        transition={{
-                            duration: 4,
-                            repeat: Infinity,
-                            ease: "easeInOut"
-                        }}
+                    {/* CSS Keyframes for Float - Cheaper than Framer Motion */}
+                    <style>{`
+                        @keyframes float-photo {
+                            0%, 100% { transform: translateY(0); }
+                            50% { transform: translateY(-10px); }
+                        }
+                    `}</style>
+
+                    {/* Floating Photo Container - Pure CSS Animation */}
+                    <div
                         style={{
                             position: 'relative',
                             width: 'clamp(300px, 35vw, 420px)',
                             height: 'clamp(300px, 35vw, 420px)',
                             borderRadius: '50%',
                             overflow: 'hidden',
+                            animation: 'float-photo 4s ease-in-out infinite',
                             transform: isPhotoHovered ? 'scale(1.03)' : 'scale(1)',
                             transition: 'transform 0.4s ease, box-shadow 0.4s ease',
-                            boxShadow: '0 20px 50px rgba(0,0,0,0.4)'
+                            boxShadow: '0 20px 50px rgba(0,0,0,0.4)',
+                            willChange: 'transform'
                         }}
                     >
                         <img
@@ -360,7 +360,7 @@ export default function Hero({ className }) {
                                 transform: isPhotoHovered ? 'scale(1.1)' : 'scale(1)'
                             }}
                         />
-                    </motion.div>
+                    </div>
                 </motion.div>
             </div>
 
