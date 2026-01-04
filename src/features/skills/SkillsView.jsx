@@ -1,163 +1,194 @@
 /**
- * SkillsView Component
- * Custom SVG icons from /gorseller/iconlar
- * Wider layout
+ * SkillsView Component - Phase 14
+ * Bento Grid Layout with 3D Tilt Cards
+ * Apple-style asymmetrical grid showing proficiency hierarchy
  */
 
-import { useState } from 'react'
 import { motion } from 'framer-motion'
+import TiltCard from '../../components/ui/TiltCard'
 import { cn } from '../../utils/cn'
 
-// Skills with custom icon paths
-const coreSkills = [
+// Skills data with hierarchy
+const skills = [
     {
-        name: "PHOTOSHOP",
-        icon: "/gorseller/iconlar/photoshop.svg",
-        level: 85,
-        color: "#31A8FF"
+        id: 'photoshop',
+        name: 'Photoshop',
+        icon: '/gorseller/iconlar/photoshop.svg',
+        level: 'MASTERY',
+        years: '8+ Years',
+        color: '#005AFF',
+        glowColor: 'rgba(0, 90, 255, 0.35)',
+        gridArea: 'ps',
+        size: 'large'
     },
     {
-        name: "ILLUSTRATOR",
-        icon: "/gorseller/iconlar/illustrator.svg",
-        level: 85,
-        color: "#FF9A00"
+        id: 'aftereffects',
+        name: 'After Effects',
+        icon: '/gorseller/iconlar/after-effects.svg',
+        level: 'EXPERT',
+        years: '6+ Years',
+        color: '#1200FF',
+        glowColor: 'rgba(18, 0, 255, 0.35)',
+        gridArea: 'ae',
+        size: 'tall'
     },
     {
-        name: "AFTER EFFECTS",
-        icon: "/gorseller/iconlar/after-effects.svg",
-        level: 95,
-        color: "#9999FF"
+        id: 'illustrator',
+        name: 'Illustrator',
+        icon: '/gorseller/iconlar/illustrator.svg',
+        level: 'ADVANCED',
+        years: '5+ Years',
+        color: '#FF6B00',
+        glowColor: 'rgba(255, 107, 0, 0.35)',
+        gridArea: 'ai',
+        size: 'medium'
     },
     {
-        name: "PREMIERE PRO",
-        icon: "/gorseller/iconlar/premiere-pro.svg",
-        level: 90,
-        color: "#9999FF"
-    },
-    {
-        name: "WORDPRESS",
-        icon: "/gorseller/iconlar/wordpress.svg",
-        level: 80,
-        color: "#21759B"
-    },
-    {
-        name: "ANTIGRAVITY",
-        icon: "/gorseller/iconlar/google-antigravity.svg",
-        level: 75,
-        color: "#4285F4"
+        id: 'premiere',
+        name: 'Premiere Pro',
+        icon: '/gorseller/iconlar/premiere-pro.svg',
+        level: 'PRO',
+        years: '5+ Years',
+        color: '#FF0080',
+        glowColor: 'rgba(255, 0, 128, 0.35)',
+        gridArea: 'pr',
+        size: 'medium'
     }
 ]
 
-// Container animation
+// Animation variants
 const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
         opacity: 1,
-        transition: { staggerChildren: 0.2, delayChildren: 0.1 }
+        transition: { staggerChildren: 0.15, delayChildren: 0.2 }
     }
 }
 
 const cardVariants = {
-    hidden: { opacity: 0, y: 30 },
+    hidden: { opacity: 0, y: 40, scale: 0.95 },
     visible: {
         opacity: 1,
         y: 0,
-        transition: { duration: 0.5, ease: "easeOut" }
+        scale: 1,
+        transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] }
     }
 }
 
-function SkillCard({ skill, index }) {
-    const [isHovered, setIsHovered] = useState(false)
-    const [hasAnimated, setHasAnimated] = useState(false)
+function SkillBentoCard({ skill }) {
+    const isLarge = skill.size === 'large'
+    const isTall = skill.size === 'tall'
 
     return (
         <motion.div
             variants={cardVariants}
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
-            className="p-6 rounded-xl"
-            style={{
-                background: 'rgba(255,255,255,0.03)',
-                border: '1px solid rgba(255,255,255,0.08)',
-                transition: 'border-color 0.3s, box-shadow 0.3s',
-                borderColor: isHovered ? `${skill.color}30` : 'rgba(255,255,255,0.08)',
-                boxShadow: isHovered ? `0 0 30px ${skill.color}15` : 'none'
-            }}
+            style={{ gridArea: skill.gridArea }}
         >
-            <div className="flex items-center gap-5 mb-5">
-                {/* Custom SVG Icon */}
-                <div
-                    style={{
-                        width: 48,
-                        height: 48,
-                        borderRadius: 6,
-                        overflow: 'hidden',
-                        filter: isHovered || hasAnimated ? 'grayscale(0) brightness(1)' : 'grayscale(1) brightness(0.5)',
-                        opacity: isHovered || hasAnimated ? 1 : 0.5,
-                        transition: 'filter 0.4s ease, opacity 0.4s ease'
-                    }}
-                >
-                    <img
-                        src={skill.icon}
-                        alt={skill.name}
-                        style={{ width: '100%', height: '100%', objectFit: 'contain' }}
-                    />
-                </div>
-
-                {/* Name & Percentage */}
-                <div className="flex-1 flex items-center justify-between">
-                    <span
-                        style={{
-                            fontSize: 15,
-                            fontWeight: 600,
-                            letterSpacing: '0.1em',
-                            color: isHovered ? '#F2F2F2' : '#888',
-                            transition: 'color 0.3s'
-                        }}
-                    >
-                        {skill.name}
-                    </span>
-                    <span
-                        style={{
-                            fontFamily: 'monospace',
-                            fontSize: 15,
-                            fontWeight: 600,
-                            color: isHovered ? skill.color : '#555',
-                            transition: 'color 0.3s'
-                        }}
-                    >
-                        {skill.level}%
-                    </span>
-                </div>
-            </div>
-
-            {/* Neon Progress Bar */}
-            <div
-                style={{
-                    height: 8,
-                    borderRadius: 4,
-                    backgroundColor: 'rgba(0,0,0,0.4)',
-                    overflow: 'hidden'
-                }}
+            <TiltCard
+                glowColor={skill.glowColor}
+                intensity={isLarge ? 8 : 12}
+                className="h-full"
             >
-                <motion.div
-                    initial={{ width: 0 }}
-                    whileInView={{ width: `${skill.level}%` }}
-                    viewport={{ once: true }}
-                    transition={{
-                        duration: 1,
-                        delay: index * 0.15 + 0.3,
-                        ease: "easeOut"
-                    }}
-                    onAnimationComplete={() => setHasAnimated(true)}
-                    style={{
-                        height: '100%',
-                        borderRadius: 4,
-                        backgroundColor: skill.color,
-                        boxShadow: `0 0 12px ${skill.color}, 0 0 24px ${skill.color}50`
-                    }}
-                />
-            </div>
+                <div
+                    className="relative h-full p-6 md:p-8 flex flex-col justify-between"
+                    style={{ minHeight: isLarge ? 280 : isTall ? 320 : 200 }}
+                >
+                    {/* Background Decoration - Faded Icon */}
+                    <div
+                        style={{
+                            position: 'absolute',
+                            right: isLarge ? -20 : -10,
+                            bottom: isLarge ? -20 : -10,
+                            width: isLarge ? '60%' : '50%',
+                            height: isLarge ? '80%' : '70%',
+                            opacity: 0.05,
+                            pointerEvents: 'none'
+                        }}
+                    >
+                        <img
+                            src={skill.icon}
+                            alt=""
+                            style={{
+                                width: '100%',
+                                height: '100%',
+                                objectFit: 'contain',
+                                filter: 'blur(1px)'
+                            }}
+                        />
+                    </div>
+
+                    {/* Top: Icon */}
+                    <div className="flex justify-between items-start">
+                        <div
+                            style={{
+                                width: isLarge ? 64 : 48,
+                                height: isLarge ? 64 : 48,
+                                borderRadius: 12,
+                                overflow: 'hidden',
+                                transform: 'translateZ(30px)'
+                            }}
+                        >
+                            <img
+                                src={skill.icon}
+                                alt={skill.name}
+                                style={{
+                                    width: '100%',
+                                    height: '100%',
+                                    objectFit: 'contain'
+                                }}
+                            />
+                        </div>
+
+                        {/* Years Badge */}
+                        <span
+                            style={{
+                                fontSize: 11,
+                                fontWeight: 500,
+                                letterSpacing: '0.05em',
+                                color: 'rgba(255,255,255,0.4)',
+                                padding: '4px 10px',
+                                borderRadius: 20,
+                                background: 'rgba(255,255,255,0.05)',
+                                border: '1px solid rgba(255,255,255,0.08)',
+                                transform: 'translateZ(25px)'
+                            }}
+                        >
+                            {skill.years}
+                        </span>
+                    </div>
+
+                    {/* Bottom: Name & Level */}
+                    <div
+                        className="flex items-end justify-between"
+                        style={{ transform: 'translateZ(25px)' }}
+                    >
+                        <h3
+                            style={{
+                                fontSize: isLarge ? 28 : 22,
+                                fontWeight: 700,
+                                letterSpacing: '-0.02em',
+                                color: '#F2F2F2',
+                                margin: 0
+                            }}
+                        >
+                            {skill.name}
+                        </h3>
+
+                        <span
+                            style={{
+                                fontFamily: 'monospace',
+                                fontSize: isLarge ? 12 : 10,
+                                fontWeight: 600,
+                                letterSpacing: '0.15em',
+                                color: skill.color,
+                                textTransform: 'uppercase'
+                            }}
+                        >
+                            {skill.level}
+                        </span>
+                    </div>
+                </div>
+            </TiltCard>
         </motion.div>
     )
 }
@@ -169,7 +200,7 @@ export default function SkillsView({ className }) {
             variants={containerVariants}
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true, margin: "-50px" }}
+            viewport={{ once: true, margin: "-100px" }}
         >
             {/* Header */}
             <motion.div variants={cardVariants} className="text-center mb-12">
@@ -177,7 +208,7 @@ export default function SkillsView({ className }) {
                     style={{
                         fontSize: 11,
                         fontWeight: 500,
-                        letterSpacing: '0.15em',
+                        letterSpacing: '0.2em',
                         textTransform: 'uppercase',
                         color: '#666',
                         marginBottom: 12
@@ -187,28 +218,105 @@ export default function SkillsView({ className }) {
                 </p>
                 <h2
                     style={{
-                        fontSize: 'clamp(28px, 4vw, 40px)',
+                        fontSize: 'clamp(28px, 4vw, 42px)',
                         fontWeight: 700,
                         letterSpacing: '-0.02em',
                         color: '#F2F2F2'
                     }}
                 >
-                    Core Tools
+                    Skills
                 </h2>
             </motion.div>
 
-            {/* 2x2 Grid - WIDER (1100px) */}
+            {/* Bento Grid - 12 Column Desktop */}
             <div
                 style={{
                     display: 'grid',
-                    gridTemplateColumns: 'repeat(2, 1fr)',
-                    gap: 24,
-                    maxWidth: 1100,
+                    gridTemplateColumns: 'repeat(12, 1fr)',
+                    gridTemplateRows: 'auto auto',
+                    gridTemplateAreas: `
+                        "ps ps ps ps ps ps ps ae ae ae ae ae"
+                        "ai ai ai ai ai ai pr pr pr pr pr pr"
+                    `,
+                    gap: 20,
+                    maxWidth: 1200,
                     margin: '0 auto'
                 }}
+                className="hidden md:grid"
             >
-                {coreSkills.map((skill, index) => (
-                    <SkillCard key={skill.name} skill={skill} index={index} />
+                {skills.map((skill) => (
+                    <SkillBentoCard key={skill.id} skill={skill} />
+                ))}
+            </div>
+
+            {/* Mobile: Stacked */}
+            <div
+                className="md:hidden flex flex-col gap-4"
+                style={{ maxWidth: 500, margin: '0 auto' }}
+            >
+                {skills.map((skill) => (
+                    <motion.div key={skill.id} variants={cardVariants}>
+                        <TiltCard
+                            glowColor={skill.glowColor}
+                            intensity={10}
+                        >
+                            <div className="p-5 flex items-center gap-4">
+                                <div
+                                    style={{
+                                        width: 48,
+                                        height: 48,
+                                        borderRadius: 10,
+                                        overflow: 'hidden',
+                                        flexShrink: 0
+                                    }}
+                                >
+                                    <img
+                                        src={skill.icon}
+                                        alt={skill.name}
+                                        style={{
+                                            width: '100%',
+                                            height: '100%',
+                                            objectFit: 'contain'
+                                        }}
+                                    />
+                                </div>
+                                <div className="flex-1">
+                                    <h3
+                                        style={{
+                                            fontSize: 18,
+                                            fontWeight: 700,
+                                            color: '#F2F2F2',
+                                            margin: 0,
+                                            marginBottom: 4
+                                        }}
+                                    >
+                                        {skill.name}
+                                    </h3>
+                                    <div className="flex items-center gap-3">
+                                        <span
+                                            style={{
+                                                fontFamily: 'monospace',
+                                                fontSize: 10,
+                                                fontWeight: 600,
+                                                letterSpacing: '0.1em',
+                                                color: skill.color
+                                            }}
+                                        >
+                                            {skill.level}
+                                        </span>
+                                        <span
+                                            style={{
+                                                fontSize: 10,
+                                                color: 'rgba(255,255,255,0.4)'
+                                            }}
+                                        >
+                                            {skill.years}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </TiltCard>
+                    </motion.div>
                 ))}
             </div>
         </motion.div>
