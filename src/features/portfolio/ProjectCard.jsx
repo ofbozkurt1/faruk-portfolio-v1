@@ -15,10 +15,17 @@ const iconMap = {
 }
 
 export default function ProjectCard({ project, onClick, isReversed, cardIndex = 0, className }) {
-    const { id, title, category, year, description, techStack = [] } = project
-    const stackImages = getStackImages(id)
+    const { id, title, category, year, description, techStack = [], postCount = 5, storyCount = 0, stackFormat = 'post' } = project
+    const stackImages = getStackImages(id, postCount, storyCount, stackFormat)
     const [activeIndex, setActiveIndex] = useState(0)
     const [isHovered, setIsHovered] = useState(false)
+
+    // Determine aspect ratio based on stackFormat
+    // 'story' = only stories (9/16 vertical)
+    // 'post' or 'hybrid' = posts or mixed (4/5 horizontal)
+    const isStoryOnlyFormat = stackFormat === 'story'
+    const aspectClass = isStoryOnlyFormat ? 'aspect-[9/16]' : 'aspect-[4/5]'
+    const widthClass = isStoryOnlyFormat ? 'w-56 md:w-64 lg:w-72' : 'w-72 md:w-80 lg:w-96'
 
     // Direction for rotation only (left/right lean)
     const direction = cardIndex % 2 === 0 ? 1 : -1
@@ -53,9 +60,14 @@ export default function ProjectCard({ project, onClick, isReversed, cardIndex = 
                     transition: 'transform 0.2s ease-out'
                 }}
             >
-                <div className="relative aspect-[4/5] w-72 md:w-80 lg:w-96">
-                    {stackImages.map((src, originalIndex) => {
+                <div className={`relative ${aspectClass} ${widthClass}`}>
+                    {stackImages.map((imageData, originalIndex) => {
+                        const { src, type } = imageData
                         const orderIndex = getImageOrder(originalIndex)
+
+                        // For hybrid: each card has its own aspect ratio
+                        const isStory = type === 'story'
+                        const cardAspect = isStory ? '9/16' : '4/5'
 
                         // Rotation direction alternates (left/right lean) - extended for 5 cards
                         const rotations = [-4, -2, 0, 2, 4]
@@ -76,9 +88,16 @@ export default function ProjectCard({ project, onClick, isReversed, cardIndex = 
                         return (
                             <div
                                 key={src}
-                                className="absolute inset-0 rounded-lg overflow-hidden shadow-xl"
+                                className="absolute rounded-lg overflow-hidden shadow-xl"
                                 style={{
-                                    transform: `rotate(${isHovered ? hoverRotation : baseRotation}deg) scale(${scale}) translateY(${isHovered ? hoverY : baseY}px)`,
+                                    aspectRatio: stackFormat === 'hybrid' ? cardAspect : undefined,
+                                    inset: stackFormat === 'hybrid' ? 'auto' : 0,
+                                    top: stackFormat === 'hybrid' ? 0 : undefined,
+                                    left: stackFormat === 'hybrid' ? '50%' : undefined,
+                                    height: stackFormat === 'hybrid' ? '100%' : undefined,
+                                    transform: stackFormat === 'hybrid'
+                                        ? `translateX(-50%) rotate(${isHovered ? hoverRotation : baseRotation}deg) scale(${scale}) translateY(${isHovered ? hoverY : baseY}px)`
+                                        : `rotate(${isHovered ? hoverRotation : baseRotation}deg) scale(${scale}) translateY(${isHovered ? hoverY : baseY}px)`,
                                     opacity: opacity,
                                     zIndex: 10 - orderIndex,
                                     transformOrigin: 'center bottom',

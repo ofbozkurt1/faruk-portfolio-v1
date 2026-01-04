@@ -1,18 +1,22 @@
 /**
  * GridView Component
  * Scroll düzeltilmiş - Lenis'ten bağımsız
+ * Long Posts, Posts ve Stories ayrı bölümler halinde gösteriliyor
  */
 
 import { useEffect, useRef } from 'react'
 import { createPortal } from 'react-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X } from 'lucide-react'
-import { getProjectImages } from '../../utils/imagePath'
+import { getPostImages, getLongPostImages, getStoryImages } from '../../utils/imagePath'
 
 function GridViewContent({ project, onClose }) {
     const scrollContainerRef = useRef(null)
-    const { id, title, category, year, imageCount, description } = project
-    const images = getProjectImages(id, imageCount)
+    const { id, title, category, year, postCount = 0, longPostCount = 0, storyCount = 0, description } = project
+
+    const longPostImages = getLongPostImages(id, longPostCount)
+    const postImages = getPostImages(id, postCount)
+    const storyImages = getStoryImages(id, storyCount)
 
     // ESC tuşu ile kapatma
     useEffect(() => {
@@ -23,14 +27,42 @@ function GridViewContent({ project, onClose }) {
         return () => window.removeEventListener('keydown', handleEsc)
     }, [onClose])
 
-    // Wheel event'i doğrudan yakala
+    // Smooth scroll with easing
     useEffect(() => {
         const container = scrollContainerRef.current
         if (!container) return
 
+        let targetScrollTop = container.scrollTop
+        let isScrolling = false
+
+        const smoothScroll = () => {
+            const diff = targetScrollTop - container.scrollTop
+            const ease = 0.12 // Lower = smoother (0.08-0.15 range)
+
+            if (Math.abs(diff) > 0.5) {
+                container.scrollTop += diff * ease
+                requestAnimationFrame(smoothScroll)
+            } else {
+                container.scrollTop = targetScrollTop
+                isScrolling = false
+            }
+        }
+
         const handleWheel = (e) => {
+            e.preventDefault()
             e.stopPropagation()
-            container.scrollTop += e.deltaY
+
+            // Add to target scroll position
+            targetScrollTop += e.deltaY * 1.5 // Multiplier for scroll speed
+
+            // Clamp to valid scroll range
+            const maxScroll = container.scrollHeight - container.clientHeight
+            targetScrollTop = Math.max(0, Math.min(targetScrollTop, maxScroll))
+
+            if (!isScrolling) {
+                isScrolling = true
+                requestAnimationFrame(smoothScroll)
+            }
         }
 
         container.addEventListener('wheel', handleWheel, { passive: false })
@@ -120,36 +152,145 @@ function GridViewContent({ project, onClose }) {
                         )}
                     </div>
 
-                    {/* Image Grid - 3 columns */}
-                    <div style={{
-                        display: 'grid',
-                        gridTemplateColumns: 'repeat(3, 1fr)',
-                        gap: 20
-                    }}>
-                        {images.map((src, index) => (
-                            <motion.div
-                                key={src}
-                                initial={{ opacity: 0, y: 30 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: index * 0.06 }}
-                                style={{
-                                    borderRadius: 12,
-                                    overflow: 'hidden',
-                                    backgroundColor: '#1a1a1a'
-                                }}
-                            >
-                                <img
-                                    src={src}
-                                    alt={`${title} ${index + 1}`}
-                                    style={{
-                                        width: '100%',
-                                        height: 'auto',
-                                        display: 'block'
-                                    }}
-                                />
-                            </motion.div>
-                        ))}
-                    </div>
+                    {/* LONG POSTS Section (3-panel panoramic) */}
+                    {longPostImages.length > 0 && (
+                        <>
+                            <h3 style={{
+                                color: '#888',
+                                fontSize: 14,
+                                textTransform: 'uppercase',
+                                letterSpacing: '0.2em',
+                                marginBottom: 24,
+                                paddingBottom: 12,
+                                borderBottom: '1px solid rgba(255,255,255,0.1)'
+                            }}>
+                                Featured Posts
+                            </h3>
+                            <div style={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                gap: 24,
+                                marginBottom: 60
+                            }}>
+                                {longPostImages.map((src, index) => (
+                                    <motion.div
+                                        key={src}
+                                        initial={{ opacity: 0, y: 30 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ delay: index * 0.1 }}
+                                        style={{
+                                            borderRadius: 12,
+                                            overflow: 'hidden',
+                                            backgroundColor: '#1a1a1a'
+                                        }}
+                                    >
+                                        <img
+                                            src={src}
+                                            alt={`${title} Featured ${index + 1}`}
+                                            style={{
+                                                width: '100%',
+                                                height: 'auto',
+                                                display: 'block'
+                                            }}
+                                        />
+                                    </motion.div>
+                                ))}
+                            </div>
+                        </>
+                    )}
+
+                    {/* POSTS Section */}
+                    {postImages.length > 0 && (
+                        <>
+                            <h3 style={{
+                                color: '#888',
+                                fontSize: 14,
+                                textTransform: 'uppercase',
+                                letterSpacing: '0.2em',
+                                marginBottom: 24,
+                                paddingBottom: 12,
+                                borderBottom: '1px solid rgba(255,255,255,0.1)'
+                            }}>
+                                Posts
+                            </h3>
+                            <div style={{
+                                display: 'grid',
+                                gridTemplateColumns: 'repeat(3, 1fr)',
+                                gap: 20,
+                                marginBottom: 60
+                            }}>
+                                {postImages.map((src, index) => (
+                                    <motion.div
+                                        key={src}
+                                        initial={{ opacity: 0, y: 30 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ delay: index * 0.06 }}
+                                        style={{
+                                            borderRadius: 12,
+                                            overflow: 'hidden',
+                                            backgroundColor: '#1a1a1a'
+                                        }}
+                                    >
+                                        <img
+                                            src={src}
+                                            alt={`${title} Post ${index + 1}`}
+                                            style={{
+                                                width: '100%',
+                                                height: 'auto',
+                                                display: 'block'
+                                            }}
+                                        />
+                                    </motion.div>
+                                ))}
+                            </div>
+                        </>
+                    )}
+
+                    {/* STORIES Section */}
+                    {storyImages.length > 0 && (
+                        <>
+                            <h3 style={{
+                                color: '#888',
+                                fontSize: 14,
+                                textTransform: 'uppercase',
+                                letterSpacing: '0.2em',
+                                marginBottom: 24,
+                                paddingBottom: 12,
+                                borderBottom: '1px solid rgba(255,255,255,0.1)'
+                            }}>
+                                Stories
+                            </h3>
+                            <div style={{
+                                display: 'grid',
+                                gridTemplateColumns: 'repeat(5, 1fr)',
+                                gap: 16
+                            }}>
+                                {storyImages.map((src, index) => (
+                                    <motion.div
+                                        key={src}
+                                        initial={{ opacity: 0, y: 30 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ delay: (postImages.length + index) * 0.04 }}
+                                        style={{
+                                            borderRadius: 12,
+                                            overflow: 'hidden',
+                                            backgroundColor: '#1a1a1a'
+                                        }}
+                                    >
+                                        <img
+                                            src={src}
+                                            alt={`${title} Story ${index + 1}`}
+                                            style={{
+                                                width: '100%',
+                                                height: 'auto',
+                                                display: 'block'
+                                            }}
+                                        />
+                                    </motion.div>
+                                ))}
+                            </div>
+                        </>
+                    )}
                 </div>
             </div>
         </div>

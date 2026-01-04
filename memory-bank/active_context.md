@@ -53,12 +53,29 @@ Enhanced animations, new navigation features, and refined UI elements.
 
 ### StackView & Portfolio Data Enhancements
 - **5-Image Stack**: StackView now displays **5 images** instead of 3 for richer preview.
-- **Animation Update**: Rotation, scale, and Y-position values extended for 5-card stack.
-- **Posts/Stories Structure**: Project data now supports categorized images:
-  - `posts: { start: 1, end: 7 }` - Regular post images
-  - `stories: { start: 8, end: 18 }` - Story format images
-- **Novastra Update**: imageCount updated to 18, with posts (1-7) and stories (8-18) defined.
-- **Utility Functions**: Added `getPostImages()` and `getStoryImages()` to `imagePath.js`.
+- **New Naming Convention**: 
+  - Posts: `pst1.webp`, `pst2.webp`, ...
+  - Long Posts (3-panel): `pstlng1.webp`, `pstlng2.webp`, ...
+  - Stories: `str1.webp`, `str2.webp`, ...
+- **Stack Format Modes**:
+  - `'post'` - Only posts, 4/5 aspect ratio (default)
+  - `'story'` - Only stories, 9/16 vertical aspect ratio
+  - `'hybrid'` - Mixed posts + stories, each with own aspect ratio
+- **Utility Functions**: `getPostImages()`, `getLongPostImages()`, `getStoryImages()` in `imagePath.js`.
+- **getStackImages()** now returns `{ src, type }` objects for hybrid support.
+
+### New Projects Added
+- **Adana Napoli**: 2 posts, 1 long post, 5 stories (`stackFormat: 'story'`)
+- **Hacı Hakkı Usta**: 2 posts, 2 stories (`stackFormat: 'hybrid'`)
+
+### GridView Enhancements
+- **Posts/Stories Sections**: Separate display for long posts, posts, and stories.
+- **Smooth Scrolling**: Added momentum-based easing with `requestAnimationFrame`.
+- **Long Posts**: Full-width display for 3-panel panoramic images.
+
+### Bug Fixes
+- **Google Yorumlar techStack**: Changed from AE/PR to Photoshop/Illustrator.
+- **WordPress SVG**: Removed corner white triangles.
 
 ## File Structure Update
 ```
@@ -68,12 +85,20 @@ src/
 │   └── ui/
 │       ├── SideNav.jsx           # New auto-hiding right nav
 │       └── AtmosphericBackground.jsx # Optimized phase-shifted orbs
+├── features/portfolio/
+│   ├── ProjectCard.jsx           # Hybrid aspect ratio support
+│   └── GridView.jsx              # Smooth scroll, Posts/Stories sections
+├── utils/
+│   └── imagePath.js              # pst/pstlng/str naming, getStackImages with type
+└── data/
+    └── projects.js               # 4 projects, stackFormat property
 ```
 
 ## Design Decisions
 - **Performance**: Removed `backdrop-filter` and complex header animations. Replaced CSS filters with opacity stacking for background.
 - **Interactivity**: Hover effects added to all actionable elements (socials, buttons).
 - **Aesthetics**: Dark theme outline styles for secondary buttons.
+- **Hybrid Mode**: Each card renders with its own aspect ratio for mixed content.
 
 ## Dev Server
 - http://localhost:5173/
