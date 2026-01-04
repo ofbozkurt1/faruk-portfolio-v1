@@ -57,15 +57,19 @@ export default function ProjectCard({ project, onClick, isReversed, cardIndex = 
                     {stackImages.map((src, originalIndex) => {
                         const orderIndex = getImageOrder(originalIndex)
 
-                        // Rotation direction alternates (left/right lean)
-                        const baseRotation = [-3, 0, 3][orderIndex] * direction || 0
+                        // Rotation direction alternates (left/right lean) - extended for 5 cards
+                        const rotations = [-4, -2, 0, 2, 4]
+                        const baseRotation = (rotations[orderIndex] || 0) * direction
                         const hoverRotation = baseRotation * 1.5
 
-                        const scale = [1, 0.95, 0.9][orderIndex] || 0.85
+                        const scales = [1, 0.96, 0.92, 0.88, 0.84]
+                        const scale = scales[orderIndex] || 0.8
 
-                        // Y movement is ALWAYS upward on hover (same for all cards)
-                        const baseY = [0, 12, 24][orderIndex] || 32
-                        const hoverY = [0, -12, -24][orderIndex] || -32
+                        // Y movement for 5 cards
+                        const baseYValues = [0, 10, 20, 30, 40]
+                        const hoverYValues = [0, -10, -20, -30, -40]
+                        const baseY = baseYValues[orderIndex] || 50
+                        const hoverY = hoverYValues[orderIndex] || -50
 
                         const opacity = 1 // Always full opacity as requested
 

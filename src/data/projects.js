@@ -9,7 +9,9 @@ export const PROJECTS = [
         title: "Novastra",
         category: "Branding",
         year: "2024",
-        imageCount: 6,
+        imageCount: 18,
+        posts: { start: 1, end: 7 },      // Posts: 1.webp - 7.webp
+        stories: { start: 8, end: 18 },   // Stories: 8.webp - 18.webp
         description: "Premium brand identity design with a focus on minimalist luxury aesthetics. Complete visual system including logo, typography, and brand guidelines.",
         credits: "Art Direction: Faruk",
         techStack: ["figma", "illustrator", "photoshop"]

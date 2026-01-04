@@ -46,6 +46,20 @@ Enhanced animations, new navigation features, and refined UI elements.
   - **No layout thrashing**: Removed large `translate` movements; kept elements static.
 - **Visuals**: maintained the "Silent Luxury" deep atmospheric look with significantly reduced GPU load.
 
+### Skills Section Updates
+- **New Skills Added**: WordPress and Antigravity (Google) icons added to core tools.
+- **Icon Styling**: All skill icons now have `border-radius: 6px` for subtle rounded corners.
+- **WordPress SVG Fix**: Removed corner white triangles from logo, kept blue background intact.
+
+### StackView & Portfolio Data Enhancements
+- **5-Image Stack**: StackView now displays **5 images** instead of 3 for richer preview.
+- **Animation Update**: Rotation, scale, and Y-position values extended for 5-card stack.
+- **Posts/Stories Structure**: Project data now supports categorized images:
+  - `posts: { start: 1, end: 7 }` - Regular post images
+  - `stories: { start: 8, end: 18 }` - Story format images
+- **Novastra Update**: imageCount updated to 18, with posts (1-7) and stories (8-18) defined.
+- **Utility Functions**: Added `getPostImages()` and `getStoryImages()` to `imagePath.js`.
+
 ## File Structure Update
 ```
 src/

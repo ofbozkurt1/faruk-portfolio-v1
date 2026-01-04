@@ -33,6 +33,18 @@ const coreSkills = [
         icon: "/gorseller/iconlar/premiere-pro.svg",
         level: 90,
         color: "#9999FF"
+    },
+    {
+        name: "WORDPRESS",
+        icon: "/gorseller/iconlar/wordpress.svg",
+        level: 80,
+        color: "#21759B"
+    },
+    {
+        name: "ANTIGRAVITY",
+        icon: "/gorseller/iconlar/google-antigravity.svg",
+        level: 75,
+        color: "#4285F4"
     }
 ]
 
@@ -78,6 +90,8 @@ function SkillCard({ skill, index }) {
                     style={{
                         width: 48,
                         height: 48,
+                        borderRadius: 6,
+                        overflow: 'hidden',
                         filter: isHovered || hasAnimated ? 'grayscale(0) brightness(1)' : 'grayscale(1) brightness(0.5)',
                         opacity: isHovered || hasAnimated ? 1 : 0.5,
                         transition: 'filter 0.4s ease, opacity 0.4s ease'

@@ -39,14 +39,44 @@ export function getProjectCover(projectId) {
 }
 
 /**
- * Get stack preview images (first 3 images) for a project
+ * Get stack preview images (first 5 images) for a project
  * @param {string} projectId - The project folder name
- * @returns {string[]} Array of 3 image paths
+ * @returns {string[]} Array of 5 image paths
  */
 export function getStackImages(projectId) {
     return [
         getProjectImage(projectId, 1),
         getProjectImage(projectId, 2),
-        getProjectImage(projectId, 3)
+        getProjectImage(projectId, 3),
+        getProjectImage(projectId, 4),
+        getProjectImage(projectId, 5)
     ]
+}
+
+/**
+ * Get post images for a project
+ * @param {string} projectId - The project folder name
+ * @param {Object} postsRange - { start: number, end: number }
+ * @returns {string[]} Array of post image paths
+ */
+export function getPostImages(projectId, postsRange) {
+    if (!postsRange) return []
+    const { start, end } = postsRange
+    return Array.from({ length: end - start + 1 }, (_, index) =>
+        `/gorseller/${projectId}/${start + index}.webp`
+    )
+}
+
+/**
+ * Get story images for a project
+ * @param {string} projectId - The project folder name
+ * @param {Object} storiesRange - { start: number, end: number }
+ * @returns {string[]} Array of story image paths
+ */
+export function getStoryImages(projectId, storiesRange) {
+    if (!storiesRange) return []
+    const { start, end } = storiesRange
+    return Array.from({ length: end - start + 1 }, (_, index) =>
+        `/gorseller/${projectId}/${start + index}.webp`
+    )
 }
