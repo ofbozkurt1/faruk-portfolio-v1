@@ -125,31 +125,81 @@ export default function ProjectCard({ project, onClick, isReversed, cardIndex = 
                         )
                     })}
                 </div>
-                <div className="mt-16 text-center relative z-20">
-                    <span className="btn-shine">Click to explore →</span>
+                <div className="mt-24 text-center relative z-20">
+                    <span className="explore-pill">
+                        <span className="explore-text">Click to explore</span>
+                        <span className="explore-arrow">→</span>
+                    </span>
                 </div>
 
                 <style>{`
-                    .btn-shine {
-                        padding: 12px 48px;
-                        color: #fff;
-                        background: linear-gradient(to right, #999 0, #fff 10%, #999 20%);
-                        background-position: 0;
-                        -webkit-background-clip: text;
-                        -webkit-text-fill-color: transparent;
-                        animation: shine 3s infinite linear;
-                        animation-fill-mode: forwards;
-                        font-weight: 600;
-                        font-size: 14px;
-                        text-transform: uppercase;
-                        letter-spacing: 0.1em;
-                        text-decoration: none;
+                    .explore-pill {
+                        display: inline-flex;
+                        align-items: center;
+                        gap: 8px;
+                        padding: 10px 24px;
+                        background: rgba(255,255,255,0.03);
+                        backdrop-filter: blur(8px);
+                        -webkit-backdrop-filter: blur(8px);
+                        border: 1px solid rgba(255,255,255,0.08);
+                        border-radius: 50px;
+                        cursor: pointer;
+                        transition: all 0.3s ease;
+                        position: relative;
+                        overflow: hidden;
                         white-space: nowrap;
                     }
-                    @keyframes shine {
-                        0% { background-position: 0; }
-                        60% { background-position: 200px; }
-                        100% { background-position: 200px; }
+                    
+                    .explore-pill::before {
+                        content: '';
+                        position: absolute;
+                        top: 0;
+                        left: -100%;
+                        width: 100%;
+                        height: 100%;
+                        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+                        animation: explore-shimmer 2.5s ease-in-out infinite;
+                    }
+                    
+                    @keyframes explore-shimmer {
+                        0% { left: -100%; }
+                        100% { left: 100%; }
+                    }
+                    
+                    .explore-pill:hover {
+                        background: rgba(255,255,255,0.08);
+                        border-color: rgba(255,255,255,0.2);
+                        transform: translateY(-2px);
+                        box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+                    }
+                    
+                    .explore-text {
+                        background: linear-gradient(90deg, #555, #fff, #555);
+                        background-size: 200% 100%;
+                        -webkit-background-clip: text;
+                        -webkit-text-fill-color: transparent;
+                        background-clip: text;
+                        animation: explore-shine 2.5s ease-in-out infinite;
+                        font-weight: 500;
+                        font-size: 11px;
+                        text-transform: uppercase;
+                        letter-spacing: 0.12em;
+                    }
+                    
+                    .explore-arrow {
+                        color: rgba(255,255,255,0.4);
+                        font-size: 14px;
+                        transition: transform 0.3s ease, color 0.3s ease;
+                    }
+                    
+                    .explore-pill:hover .explore-arrow {
+                        transform: translateX(4px);
+                        color: #fff;
+                    }
+                    
+                    @keyframes explore-shine {
+                        0% { background-position: 200% 0; }
+                        100% { background-position: -200% 0; }
                     }
                 `}</style>
             </div>

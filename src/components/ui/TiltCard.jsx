@@ -1,7 +1,7 @@
 /**
  * TiltCard Component
  * 3D Tilt Effect with Framer Motion
- * Glassmorphism + Mouse-following spotlight
+ * Glassmorphism + Mouse-following spotlight + Dynamic Border
  */
 
 import { useRef, useState } from 'react'
@@ -11,7 +11,8 @@ export default function TiltCard({
     children,
     className = '',
     glowColor = 'rgba(255,255,255,0.15)',
-    intensity = 15, // Max rotation degrees
+    borderColor = null, // Brand color for hover border
+    intensity = 15,
     springConfig = { stiffness: 150, damping: 20 }
 }) {
     const cardRef = useRef(null)
@@ -58,6 +59,11 @@ export default function TiltCard({
         spotlightY.set(50)
     }
 
+    // Dynamic border color
+    const activeBorderColor = borderColor
+        ? (isHovered ? borderColor : 'rgba(255,255,255,0.08)')
+        : 'rgba(255,255,255,0.08)'
+
     return (
         <motion.div
             ref={cardRef}
@@ -74,10 +80,11 @@ export default function TiltCard({
                 background: 'rgba(255,255,255,0.03)',
                 backdropFilter: 'blur(8px)',
                 WebkitBackdropFilter: 'blur(8px)',
-                border: '1px solid rgba(255,255,255,0.08)',
+                border: `1px solid ${activeBorderColor}`,
                 borderRadius: 16,
                 overflow: 'hidden',
-                willChange: 'transform'
+                willChange: 'transform',
+                transition: 'border-color 0.3s ease'
             }}
         >
             {/* Spotlight Glow Effect */}

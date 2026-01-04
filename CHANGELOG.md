@@ -5,80 +5,86 @@ All notable changes to the **Ömer Faruk Bozkurt Portfolio** project will be doc
 ## [Unreleased] - 2026-01-04
 
 ### 🚀 New Features
-- **Header Navigation**:
-  - Implemented smooth background fade-in on scroll.
-  - Added **Language Switcher (EN | TR)**.
-  - Added "Let's Talk" CTA button.
-  - **Absolute Centering**: Navigation menu is now perfectly centered regardless of side element widths.
-- **Side Navigation (`SideNav`)**:
-  - Created a right-side dot indicator for active sections.
-  - **Auto-Hide**: Navigation fades out after 2 seconds of inactivity to maintain immersion.
-- **Footer**:
-  - Redesigned with a large **"LET'S CREATE TOGETHER"** headline.
-  - Added a **Pill-shaped Email Button** with "Circle Fill" hover effect and sliding icon animation.
-  - Integrated high-contrast social media links.
-- **Custom Tech Stack Icons**:
-  - Integrated original SVG icons for Adobe Suite (Photoshop, Illustrator, After Effects, Premiere) to replace generic library icons.
-- **Skills Section**:
-  - Added **WordPress** and **Antigravity (Google)** to core tools.
-  - All skill icons now have **rounded corners** (6px border-radius).
-  - Fixed WordPress SVG: removed corner white triangles while preserving blue background.
-- **StackView Enhancements**:
-  - Increased stack preview from **3 to 5 images** (optimized for WebP).
-  - Extended animation values (rotation, scale, Y-position) for 5-card stack.
-- **Posts/Stories Data Structure**:
-  - Projects now support categorized images: `posts` and `stories` ranges.
-  - Added `getPostImages()` and `getStoryImages()` utility functions.
-  - **Novastra** updated: 18 total images (Posts: 1-7, Stories: 8-18).
 
-### 🎨 UI/UX Improvements (The "Silent Luxury" Update)
-- **Cinematic Background**:
-  - Implemented `AtmosphericBackground` with static colored orbs (Purple & Crimson).
-  - Added **Monochrome Film Grain** (Noise) for texture.
-  - Added **Spotlight Vignette** to focus attention on the center content.
-  - *Reverted:* Removed the "Dot Grid" pattern for a cleaner look.
-- **Atmospheric Background Animation**:
-  - Replaced heavy `hue-rotate` filters with **Phase-Shifted Opacity** system.
-  - Two overlapping layers per orb cross-fade with offset timings.
-  - Orbs now "breathe" (scale 1 <-> 1.1) during the color swap cycle.
-  - Significantly reduced GPU load while maintaining visual effect.
-- **Portfolio Section**:
-  - **Cinematic Rotation**: Project images now auto-rotate every 4 seconds with a slow, smooth **1.5s transition**.
-  - **Snappy Interaction**: Hover effects remain fast (**0.25s**) for responsiveness.
-  - **Visual Polish**:
-    - Increased spacing between image and text (`gap-28`).
-    - Constrained container width (`max-w-6xl`) to prevent edge-hugging.
-    - Added **"Shine" Animation** to the "Click to explore →" text.
-    - Ensured all card layers are fully opaque for a solid look.
-- **Hero Section**:
-  - Reorganized typography hierarchy (Name > Title > Description).
-  - Updated "Download CV" button to a modern **Outline Style** with hover animations.
-  - Social icons now reveal brand colors on hover.
+#### Phase 14: Bento Grid Skills & 3D Tilt Effect
+- **Complete Skills Redesign**: Replaced progress bar layout with Apple-style Bento Grid.
+- **TiltCard Component**: New reusable 3D tilt card (`src/components/ui/TiltCard.jsx`):
+  - Mouse-following rotation (`rotateX/Y` with Framer Motion `useSpring`)
+  - Glassmorphism background (`backdrop-blur`)
+  - Mouse-following spotlight glow effect
+  - Parallax depth (`translateZ(20px)`)
+- **12-Column Grid Layout**:
+  - Photoshop: 7 cols (largest, primary) - `#005AFF`
+  - After Effects: 5 cols (tall, secondary) - `#1200FF`
+  - Illustrator: 6 cols (tertiary) - `#FF6B00`
+  - Premiere Pro: 6 cols (quaternary) - `#FF0080`
+- **Skill Metadata**: Each card shows Level ("MASTERY", "EXPERT", etc.) + Years ("8+ Years")
+- **Header Changed**: "Core Tools" → "Skills"
+
+#### New Projects Added
+- **Adana Napoli**: 2 posts, 1 long post, 5 stories (`stackFormat: 'story'`)
+- **Hacı Hakkı Usta**: 2 posts, 2 stories (`stackFormat: 'hybrid'`)
+
+#### New Image Naming Convention
+- Posts: `pst1.webp`, `pst2.webp`, ...
+- Long Posts (3-panel panoramic): `pstlng1.webp`, `pstlng2.webp`, ...
+- Stories: `str1.webp`, `str2.webp`, ...
+
+#### Stack Format Modes
+- `'post'` - Only posts, 4/5 aspect ratio (default)
+- `'story'` - Only stories, 9/16 vertical aspect ratio
+- `'hybrid'` - Mixed posts + stories, each with its own aspect ratio
+
+#### Other Features
+- **Header Navigation**: Smooth background fade-in, Language Switcher (EN | TR), "Let's Talk" CTA.
+- **Side Navigation**: Right-side dot indicator, auto-hide after 2 seconds.
+- **Footer**: "LET'S CREATE TOGETHER" headline, pill-shaped email button.
+- **StackView**: 5-image preview (was 3), extended animation values.
+- **Utility Functions**: `getPostImages()`, `getLongPostImages()`, `getStoryImages()`, `getStackImages()` returns `{ src, type }` for hybrid.
+
+### 🎨 UI/UX Improvements
+
+#### GridView Enhancements
+- **Separate Sections**: Long Posts, Posts, and Stories displayed in distinct sections.
+- **Smooth Scrolling**: Momentum-based easing with `requestAnimationFrame` (no more jerky scroll).
+- **Long Posts**: Full-width display for 3-panel panoramic images.
+
+#### Atmospheric Background
+- **Phase-Shifted Opacity**: Replaced heavy `hue-rotate` filters for performance.
+- **Breathing Orbs**: Scale 1 ↔ 1.1 during color swap cycle.
+- **Film Grain & Vignette**: Subtle texture for "Silent Luxury" aesthetic.
+
+#### Portfolio Section
+- **Cinematic Rotation**: 4-second interval, 1.5s smooth transition.
+- **Custom SVG Icons**: Original Adobe Suite icons in brand colors.
+- **Shine Animation**: "Click to explore →" text effect.
 
 ### ⚡ Performance
-- **GPU Acceleration**:
-  - Utilized `transform: translateZ(0)` and `will-change` properties in `index.css` for smooth animations.
-- **Optimized Transitions**:
-  - Switched from animating `background-property` to `opacity` for the Header to reduce layout thrashing.
-- **Static Backgrounds**:
-  - Kept background elements static (non-animating) to preserve frame rates while scrolling.
-- **WebP Optimization**:
-  - All project images converted to WebP format for faster loading.
-  - Enabled 5-image stack preview without performance penalty.
+- **GPU Acceleration**: `transform: translateZ()`, `will-change` for 3D effects.
+- **Spring Physics**: TiltCard uses `useSpring` for heavy, smooth glass-like movement.
+- **WebP Optimization**: All project images in WebP format.
 
 ### 🐛 Fixes
-- **Visual Clutter**: Removed the experimental "Dot Grid" pattern from the background.
-- **Opacity Bug**: Fixed an issue where background portfolio cards were transparent/ghostly.
-- **Layout Alignment**: Fixed navigation menu alignment issues by using absolute positioning.
-- **WordPress Logo**: Fixed white corner triangles appearing in the SVG icon.
-- **Animation Lag**: Resolved background orb animation causing frame drops (replaced hue-rotate with opacity).
+- **Google Yorumlar techStack**: Changed from AE/PR to Photoshop/Illustrator.
+- **WordPress SVG**: Removed white corner triangles.
+- **Animation Lag**: Replaced hue-rotate with opacity for background orbs.
+- **Layout Alignment**: Fixed navigation menu centering issues.
 
 ---
 
 ## 🗺 Roadmap
 
+### Completed ✅
+- [x] Bento Grid Skills Section
+- [x] 3D Tilt Card Component
+- [x] Hybrid Stack Format
+- [x] GridView Smooth Scroll
+- [x] Posts/Stories Image Structure
+
 ### Upcoming Features
 - [ ] **Mobile Menu**: Full-screen hamburger menu for mobile devices.
-- [ ] **Project Details**: Modal or separate page for in-depth project views (Case Studies).
-- [ ] **About Me**: A dedicated section with more personal storytelling and timeline.
-- [ ] **SEO**: Comprehensive meta tags and OpenGraph image generation.
+- [ ] **Project Details Modal**: Enhanced case study views.
+- [ ] **About Me Section**: Personal storytelling and timeline.
+- [ ] **SEO**: Meta tags and OpenGraph image generation.
+- [ ] **Dark/Light Theme Toggle**: Theme switching capability.
+
