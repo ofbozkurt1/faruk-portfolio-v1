@@ -38,7 +38,7 @@ export default function ProjectCard({ project, onClick, isReversed, cardIndex = 
     return (
         <article
             className={cn(
-                "flex flex-col lg:flex-row items-center gap-12 lg:gap-20",
+                "flex flex-col lg:flex-row items-center gap-12 lg:gap-28",
                 isReversed && "lg:flex-row-reverse",
                 className
             )}

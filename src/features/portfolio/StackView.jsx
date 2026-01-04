@@ -9,7 +9,7 @@ import { cn } from '../../utils/cn'
 
 export default function StackView({ onProjectClick, className }) {
     return (
-        <div className={cn("flex flex-col gap-32 md:gap-40", className)}>
+        <div className={cn("flex flex-col gap-32 md:gap-40 max-w-6xl mx-auto px-4 lg:px-0", className)}>
             {PROJECTS.map((project, index) => (
                 <div key={project.id}>
                     <ProjectCard

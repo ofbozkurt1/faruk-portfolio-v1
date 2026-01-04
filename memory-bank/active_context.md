@@ -37,6 +37,15 @@ Enhanced animations, new navigation features, and refined UI elements.
 - **Auto-hide**: Fades out after **2 seconds** of inactivity.
 - **Interaction**: Reappears on scroll or mouse hover.
 
+### Atmospheric Background Refinements
+- **Performance Optimization**: Solved animation lag by replacing heavy `hue-rotate` filters with a **Phase-Shifted Opacity** system.
+- **Animation Logic**:
+  - Two overlapping layers per orb (one Purple, one Crimson).
+  - Layers cross-fade (opacity 0 <-> 0.8) with offset timings to simulate color swapping.
+  - Orbs "breathe" (scale 1 <-> 1.1) during the cycle.
+  - **No layout thrashing**: Removed large `translate` movements; kept elements static.
+- **Visuals**: maintained the "Silent Luxury" deep atmospheric look with significantly reduced GPU load.
+
 ## File Structure Update
 ```
 src/
@@ -44,10 +53,11 @@ src/
 │   ├── layout/Header.jsx         # Lang switch, scroll opacity
 │   └── ui/
 │       ├── SideNav.jsx           # New auto-hiding right nav
+│       └── AtmosphericBackground.jsx # Optimized phase-shifted orbs
 ```
 
 ## Design Decisions
-- **Performance**: Removed `backdrop-filter` and complex header animations.
+- **Performance**: Removed `backdrop-filter` and complex header animations. Replaced CSS filters with opacity stacking for background.
 - **Interactivity**: Hover effects added to all actionable elements (socials, buttons).
 - **Aesthetics**: Dark theme outline styles for secondary buttons.
 
