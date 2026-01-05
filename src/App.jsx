@@ -3,8 +3,10 @@ import Lenis from '@studio-freight/lenis'
 import { Hero } from './features/hero'
 import { StackView, GridView } from './features/portfolio'
 import { SkillsView } from './features/skills'
+import { ServicesView } from './features/services'
 import { Header, Footer } from './components/layout'
 import { AtmosphericBackground, CustomCursor } from './components/ui'
+import ServiceBackgroundLayer from './components/ui/ServiceBackgroundLayer'
 import SideNav from './components/ui/SideNav'
 
 function App() {
@@ -53,6 +55,7 @@ function App() {
     return (
         <>
             <AtmosphericBackground />
+            <ServiceBackgroundLayer />
             <CustomCursor />
             <SideNav />
 
@@ -62,6 +65,15 @@ function App() {
 
                 <section id="skills" className="section-spacing container-padding">
                     <SkillsView />
+                </section>
+
+                <div className="container-padding">
+                    <div className="luxury-divider" />
+                </div>
+
+                {/* Services Section */}
+                <section id="services" className="container-padding">
+                    <ServicesView />
                 </section>
 
                 <div className="container-padding">

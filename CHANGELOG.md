@@ -4,6 +4,56 @@ All notable changes to the **Ömer Faruk Bozkurt Portfolio** project will be doc
 
 ## [Unreleased] - 2026-01-05
 
+### � Phase 20: Cinematic Services Section
+
+#### New Components
+- **ServicesView.jsx**: Hover-reveal accordion list with 4 services
+- **ServiceBackgroundLayer.jsx**: Performance-optimized dynamic backgrounds
+- **serviceStore.js**: Zustand global state for hover management
+
+#### Services Added
+| Service | Color | Symbol |
+|---------|-------|--------|
+| Motion Graphics | Purple (#9333EA) | ▶ |
+| Brand Identity | Blue (#3B82F6) | ◆ |
+| UI/UX Animation | Pink (#EC4899) | ★ |
+| Video Editing | Orange (#F97316) | ● |
+
+#### Features
+- Large number watermark (01-04) on hover at 90% opacity
+- Tool icons (After Effects, Photoshop, Illustrator, Premiere)
+- Radial gradient color backgrounds per service
+- Glass pill badges for service tags
+- Decorative symbols with service colors
+- Grid layout: Title left, Description+Tags right (340px)
+
+#### Performance Optimizations
+- CSS-only patterns (no images)
+- `will-change: opacity` for GPU acceleration
+- NO backdrop-filter, NO mix-blend-mode
+- Zustand prevents unnecessary re-renders
+
+#### Navigation
+- Added "Services" link to Header menu
+- Added "Services" dot to SideNav
+
+### �📁 Phase 19: New Projects & Custom Order
+
+#### New Projects Added (4)
+- **Akdeniz Etkinlik**: Event Design - 15 posts, 2 long posts (custom display order)
+- **Tırnak Trend**: Social Media - 3 posts (nail salon)
+- **BBS Transfer**: Social Media - 2 posts (transportation company)
+- **Kumrualtı**: Social Media - 3 posts (restaurant)
+
+#### Custom Order System
+- New `customOrder` array in project data for specific display layouts
+- `getProjectImagePath(projectId, type, index)` utility function
+- GridView renders long posts full-width, regular posts in 3-column grid
+- Mixed layout: long posts break the grid flow automatically
+
+#### Total Portfolio
+8 projects now in the portfolio section.
+
 ### ⚡ Phase 18: Critical Performance Refactor
 
 #### GPU/FPS Optimizations

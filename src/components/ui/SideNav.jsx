@@ -8,6 +8,7 @@ import { useState, useEffect, useCallback, useRef } from 'react'
 const sections = [
     { id: 'about', label: 'About' },
     { id: 'skills', label: 'Skills' },
+    { id: 'services', label: 'Services' },
     { id: 'portfolio', label: 'Portfolio' },
     { id: 'contact', label: 'Contact' }
 ]

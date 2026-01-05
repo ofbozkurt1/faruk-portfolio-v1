@@ -25,7 +25,7 @@ export const PROJECTS = [
         year: "2024",
         role: "Content Design",
         deliverables: "Posts, Templates",
-        postCount: 11,
+        postCount: 14,
         longPostCount: 0,
         storyCount: 0,
         description: "Social media campaign design for Google reviews engagement. Dynamic motion graphics and eye-catching visual content optimized for multiple platforms.",
