@@ -1,11 +1,13 @@
 /**
  * ProjectCard Component
  * Alternating rotation (left/right), but same upward lift on hover
+ * Now with global hover state for background effects
  */
 
 import { useState, useEffect } from 'react'
 import { getStackImages } from '../../utils/imagePath'
 import { cn } from '../../utils/cn'
+import { usePortfolioStore } from '../../stores/portfolioStore'
 
 const iconMap = {
     illustrator: { type: 'image', value: '/gorseller/iconlar/illustrator.svg' },
@@ -15,10 +17,12 @@ const iconMap = {
 }
 
 export default function ProjectCard({ project, onClick, isReversed, cardIndex = 0, className }) {
-    const { id, title, category, year, description, techStack = [], postCount = 5, storyCount = 0, stackFormat = 'post' } = project
+    const { id, title, category, year, description, techStack = [], postCount = 5, storyCount = 0, stackFormat = 'post', brandColor = '#9333EA' } = project
     const stackImages = getStackImages(id, postCount, storyCount, stackFormat)
     const [activeIndex, setActiveIndex] = useState(0)
     const [isHovered, setIsHovered] = useState(false)
+
+    const { setActiveProject, clearActiveProject } = usePortfolioStore()
 
     // Determine aspect ratio based on stackFormat
     // 'story' = only stories (9/16 vertical)
@@ -53,8 +57,14 @@ export default function ProjectCard({ project, onClick, isReversed, cardIndex = 
             <div
                 className="relative cursor-pointer group flex-shrink-0"
                 onClick={() => onClick?.(project)}
-                onMouseEnter={() => setIsHovered(true)}
-                onMouseLeave={() => setIsHovered(false)}
+                onMouseEnter={() => {
+                    setIsHovered(true)
+                    setActiveProject(id, brandColor)
+                }}
+                onMouseLeave={() => {
+                    setIsHovered(false)
+                    clearActiveProject()
+                }}
                 style={{
                     transform: isHovered ? 'translateY(-5px)' : 'translateY(0)',
                     transition: 'transform 0.2s ease-out'
@@ -220,7 +230,7 @@ export default function ProjectCard({ project, onClick, isReversed, cardIndex = 
                     {category} — {year}
                 </p>
 
-                {/* Title with Gradient */}
+                {/* Title with color change on hover */}
                 <h3
                     className="project-title-gradient"
                     style={{
@@ -228,26 +238,28 @@ export default function ProjectCard({ project, onClick, isReversed, cardIndex = 
                         fontWeight: 700,
                         letterSpacing: '-0.02em',
                         marginBottom: 24,
-                        background: 'linear-gradient(180deg, #FFFFFF 0%, rgba(255,255,255,0.7) 100%)',
-                        WebkitBackgroundClip: 'text',
-                        WebkitTextFillColor: 'transparent',
-                        backgroundClip: 'text'
+                        color: isHovered ? brandColor : '#F2F2F2',
+                        transition: 'color 0.4s ease'
                     }}
                 >
                     {title}
                 </h3>
 
-                {/* Animated Divider */}
+                {/* Animated Divider with color change */}
                 <div
                     className="divider-line"
                     style={{
                         width: '100%',
                         maxWidth: 140,
-                        height: 1,
-                        background: 'linear-gradient(90deg, rgba(255,255,255,0.4), transparent)',
+                        height: 2,
+                        background: isHovered
+                            ? `linear-gradient(90deg, ${brandColor}, transparent)`
+                            : 'linear-gradient(90deg, rgba(255,255,255,0.4), transparent)',
                         marginBottom: 24,
                         marginLeft: isReversed ? 'auto' : 0,
-                        marginRight: isReversed ? 0 : 'auto'
+                        marginRight: isReversed ? 0 : 'auto',
+                        boxShadow: isHovered ? `0 0 20px ${brandColor}50` : 'none',
+                        transition: 'background 0.4s ease, box-shadow 0.4s ease'
                     }}
                 />
 

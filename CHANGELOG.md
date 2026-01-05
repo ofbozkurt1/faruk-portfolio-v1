@@ -4,6 +4,54 @@ All notable changes to the **Ömer Faruk Bozkurt Portfolio** project will be doc
 
 ## [Unreleased] - 2026-01-05
 
+### 🎥 Phase 24: Video Vault
+
+#### Yeni Bileşenler
+- **VideoVault.jsx**: 8 dikey video, 4 kategori
+- **Alternating Layout**: Videolar sağ/sol değişiyor
+- **Info Panel**: Kategori başlığı, açıklama, tool ikonları
+
+#### Video Kategorileri
+| Kategori | Videolar | Açıklama |
+|----------|----------|----------|
+| HYPE & EVENTS | vd1, vd2 | Etkinlik videoları |
+| COMMERCIAL | vd3, vd4 | Ticari içerikler |
+| SOCIAL EDITS | vd5, vd6 | Sosyal medya editleri |
+| AERIAL & DRONE | drn1, drn2 | Drone çekimleri |
+
+#### Performance Özellikleri
+- `preload="none"` - Lazy loading, scroll'a kadar yüklenmiyor
+- `useInView` (amount: 0.6) - %60 görünür olunca otomatik oynatma
+- `muted`, `loop`, `playsInline` - Tarayıcı uyumlu
+
+---
+
+### ✨ Portfolio Hover Efektleri
+
+#### Yeni Dosyalar
+- **portfolioStore.js**: Zustand global state
+- **PortfolioBackgroundLayer.jsx**: Dinamik arka plan (z-index: 0)
+
+#### Proje Marka Renkleri
+| Proje | Renk |
+|-------|------|
+| Novastra | `#9333EA` (Mor) |
+| Google Yorumlar | `#4285F4` (Google Mavisi) |
+| Adana Napoli | `#E53935` (Kırmızı) |
+| Hacı Hakkı Usta | `#C17F59` (Kahverengi) |
+| Akdeniz Etkinlik | `#00BCD4` (Cyan) |
+| Tırnak Trend | `#EC4899` (Pembe) |
+| BBS Transfer | `#1E88E5` (Mavi) |
+| Kumrualtı | `#F97316` (Turuncu) |
+
+#### Hover Efektleri
+- Arka plan firma rengiyle radial gradient aydınlanma
+- Başlık hover'da firma rengine dönüşüyor
+- Çizgi firma rengiyle parlıyor + glow efekti
+- 0.4s smooth transition
+
+---
+
 ### 🌌 Phase 20.1: Atmosferik Arka Plan Geliştirmeleri
 
 #### AtmosphericBackground Updates

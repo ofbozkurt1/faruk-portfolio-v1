@@ -4,9 +4,11 @@ import { Hero } from './features/hero'
 import { StackView, GridView } from './features/portfolio'
 import { SkillsView } from './features/skills'
 import { ServicesView } from './features/services'
+import { VideoVault } from './features/videos'
 import { Header, Footer } from './components/layout'
 import { AtmosphericBackground, CustomCursor } from './components/ui'
 import ServiceBackgroundLayer from './components/ui/ServiceBackgroundLayer'
+import PortfolioBackgroundLayer from './components/ui/PortfolioBackgroundLayer'
 import SideNav from './components/ui/SideNav'
 
 function App() {
@@ -56,6 +58,7 @@ function App() {
         <>
             <AtmosphericBackground />
             <ServiceBackgroundLayer />
+            <PortfolioBackgroundLayer />
             <CustomCursor />
             <SideNav />
 
@@ -106,6 +109,11 @@ function App() {
                     isOpen={!!selectedProject}
                     onClose={() => setSelectedProject(null)}
                 />
+
+                {/* Video Showcase Section */}
+                <section id="videos" className="container-padding">
+                    <VideoVault />
+                </section>
 
                 {/* Contact Section - wraps Footer */}
                 <section id="contact">

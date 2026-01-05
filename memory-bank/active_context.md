@@ -1,70 +1,80 @@
 # Active Context
 
-## Current Phase: Phase 20.1 - Atmospheric Enhancements
-Services section complete, atmospheric background refined with color cycling.
+## Current Phase: Phase 24 - Video Vault & Portfolio Enhancements
+Video showcase section complete, portfolio hover effects added.
 
 ## Latest Session Summary (2026-01-05)
 
-### Phase 20.1: Atmospheric Background Enhancements
+### Phase 24: Video Vault
+Dikey video showcase bölümü oluşturuldu.
 
-#### AtmosphericBackground Updates
-| Feature | Implementation |
-|---------|----------------|
-| **Base Background** | Saf siyah (#000000) + üst mor glow |
-| **Top Glow** | `radial-gradient(ellipse 80% 60% at 50% 0%, rgba(120, 40, 180, 0.2), transparent 70%)` |
-| **Color Cycling** | Mor ↔ Kırmızı cross-fade (20 saniye döngü) |
-| **Technique** | 4 katmanlı opacity animasyonu (GPU-friendly) |
+#### New Files
+| File | Description |
+|------|-------------|
+| `src/features/videos/VideoVault.jsx` | 8 video, 4 kategori |
+| `src/features/videos/index.js` | Module export |
 
-#### Cross-Fade Animation
-```css
-@keyframes fadeInOut {
-    0%, 100% { opacity: 0.7; }
-    25%, 50% { opacity: 0; }
-    75% { opacity: 0.7; }
-}
-@keyframes fadeOutIn {
-    0%, 100% { opacity: 0; }
-    25%, 50% { opacity: 0.7; }
-    75% { opacity: 0; }
-}
+#### Video Categories
+| Category | Videos | Description |
+|----------|--------|-------------|
+| HYPE & EVENTS | vd1, vd2 | Etkinlik videoları |
+| COMMERCIAL | vd3, vd4 | Ticari içerikler |
+| SOCIAL EDITS | vd5, vd6 | Sosyal medya editleri |
+| AERIAL & DRONE | drn1, drn2 | Drone çekimleri |
+
+#### Performance Features
+- `preload="none"` - Lazy loading
+- `useInView` (amount: 0.6) - Otomatik oynatma
+- `muted`, `loop`, `playsInline` - Tarayıcı uyumlu
+
+#### Layout
+- Alternating left/right layout
+- Info panel centered in empty space
+- Tool icons with hover effects
+
+---
+
+### Portfolio Hover Effects
+Firma renkleriyle dinamik arka plan efektleri.
+
+#### New Files
+| File | Description |
+|------|-------------|
+| `src/stores/portfolioStore.js` | Zustand global state |
+| `src/components/ui/PortfolioBackgroundLayer.jsx` | Dinamik arka plan |
+
+#### Project Brand Colors
+| Project | Color |
+|---------|-------|
+| Novastra | `#9333EA` (Mor) |
+| Google Yorumlar | `#4285F4` (Google Mavisi) |
+| Adana Napoli | `#E53935` (Kırmızı) |
+| Hacı Hakkı Usta | `#C17F59` (Kahverengi) |
+| Akdeniz Etkinlik | `#00BCD4` (Cyan) |
+| Tırnak Trend | `#EC4899` (Pembe) |
+| BBS Transfer | `#1E88E5` (Mavi) |
+| Kumrualtı | `#F97316` (Turuncu) |
+
+#### Hover Effects
+- ✅ Arka plan firma rengiyle aydınlanıyor (z-index: 0)
+- ✅ Başlık hover'da firma rengine dönüşüyor
+- ✅ Çizgi firma rengiyle parlıyor + glow efekti
+- ✅ 0.4s smooth geçiş
+
+---
+
+## Layer Order (z-index)
 ```
-- Sol üst: Mor → Kırmızı → Mor (20s)
-- Sağ alt: Kırmızı → Mor → Kırmızı (20s)
-- Smooth geçiş, tak-tak değil
-
-#### ServiceBackgroundLayer Adjustments
-- Opacity azaltıldı: 60%/30% → **35%/15%**
-- Alan: `-15%` → **`-10%`**
-- Daha yumuşak hover efekti
-
-### Phase 20: Services Section (Complete)
-
-#### Components
-- `ServicesView.jsx` - Hover-reveal accordion
-- `ServiceBackgroundLayer.jsx` - Dynamic backgrounds
-- `serviceStore.js` - Zustand global state
-
-#### Services
-| Service | Color | Symbol |
-|---------|-------|--------|
-| Motion Graphics | #9333EA (Mor) | ▶ |
-| Brand Identity | #3B82F6 (Mavi) | ◆ |
-| UI/UX Animation | #EC4899 (Pembe) | ★ |
-| Video Editing | #F97316 (Turuncu) | ● |
-
-#### Features
-- Large number watermark (01-04)
-- Tool icons on hover
-- Glass pill badges
-- Grid layout: Title left, Description+Tags right
-
-### Beklemede
-- 🏖️ Grain/noise texture (PNG dosyası gerekli)
+z-index: 10+  │ Header, SideNav, Content
+z-index: 1    │ ServiceBackgroundLayer
+z-index: 0    │ PortfolioBackgroundLayer ← ARKADA
+z-index: -1   │ AtmosphericBackground
+```
 
 ## Performance Rules
 - ✅ Pure CSS animations (no JS intervals)
 - ✅ will-change: opacity
-- ✅ Cross-fade > gradient animation
+- ✅ Zustand prevents re-renders
 - ❌ NO backdrop-filter
 - ❌ NO mix-blend-mode
 

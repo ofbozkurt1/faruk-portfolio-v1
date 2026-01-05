@@ -7,6 +7,7 @@ export const PROJECTS = [
     {
         id: "novastra",
         title: "Novastra",
+        brandColor: "#9333EA",
         category: "Branding",
         year: "2024",
         role: "Visual Design",
@@ -21,6 +22,7 @@ export const PROJECTS = [
     {
         id: "googleyorumlar",
         title: "Google Yorumlar",
+        brandColor: "#4285F4",
         category: "Social Media",
         year: "2024",
         role: "Content Design",
@@ -35,6 +37,7 @@ export const PROJECTS = [
     {
         id: "adananapoli",
         title: "Adana Napoli",
+        brandColor: "#E53935",
         category: "Social Media",
         year: "2024",
         role: "Social Design",
@@ -50,6 +53,7 @@ export const PROJECTS = [
     {
         id: "hacıhakkıusta",
         title: "Hacı Hakkı Usta",
+        brandColor: "#C17F59",
         category: "Social Media",
         year: "2024",
         role: "Social Design",
@@ -65,6 +69,7 @@ export const PROJECTS = [
     {
         id: "akdenizetkinlik",
         title: "Akdeniz Etkinlik",
+        brandColor: "#00BCD4",
         category: "Event Design",
         year: "2024",
         role: "Visual Design",
@@ -99,6 +104,7 @@ export const PROJECTS = [
     {
         id: "tırnaktrend",
         title: "Tırnak Trend",
+        brandColor: "#EC4899",
         category: "Social Media",
         year: "2024",
         role: "Social Design",
@@ -113,6 +119,7 @@ export const PROJECTS = [
     {
         id: "bbstransfer",
         title: "BBS Transfer",
+        brandColor: "#1E88E5",
         category: "Social Media",
         year: "2024",
         role: "Social Design",
@@ -127,6 +134,7 @@ export const PROJECTS = [
     {
         id: "kumrualtı",
         title: "Kumrualtı",
+        brandColor: "#F97316",
         category: "Social Media",
         year: "2024",
         role: "Social Design",
