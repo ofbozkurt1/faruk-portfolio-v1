@@ -39,6 +39,25 @@ export function getStoryImage(projectId, imageNumber) {
 }
 
 /**
+ * Get a single image path by type
+ * @param {string} projectId - The project folder name
+ * @param {string} type - 'post', 'longPost', or 'story'
+ * @param {number} imageNumber - The image number (1-indexed)
+ * @returns {string} Image path
+ */
+export function getProjectImagePath(projectId, type, imageNumber) {
+    switch (type) {
+        case 'longPost':
+            return `/gorseller/${projectId}/pstlng${imageNumber}.webp`
+        case 'story':
+            return `/gorseller/${projectId}/str${imageNumber}.webp`
+        case 'post':
+        default:
+            return `/gorseller/${projectId}/pst${imageNumber}.webp`
+    }
+}
+
+/**
  * Get the cover image (first post) for a project
  * @param {string} projectId - The project folder name
  * @returns {string} Cover image path

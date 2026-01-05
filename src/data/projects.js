@@ -61,6 +61,82 @@ export const PROJECTS = [
         description: "Traditional Turkish restaurant social media presence. Authentic food photography and engaging content design.",
         credits: "Design: Faruk",
         techStack: ["photoshop", "illustrator"]
+    },
+    {
+        id: "akdenizetkinlik",
+        title: "Akdeniz Etkinlik",
+        category: "Event Design",
+        year: "2024",
+        role: "Visual Design",
+        deliverables: "Posts, Banners",
+        postCount: 15,
+        longPostCount: 2,
+        storyCount: 0,
+        // Custom display order for GridView: pstlng1, pst1-3, pstlng2, pst4-6, then remaining
+        customOrder: [
+            { type: 'longPost', index: 1 },
+            { type: 'post', index: 1 },
+            { type: 'post', index: 2 },
+            { type: 'post', index: 3 },
+            { type: 'longPost', index: 2 },
+            { type: 'post', index: 4 },
+            { type: 'post', index: 5 },
+            { type: 'post', index: 6 },
+            { type: 'post', index: 7 },
+            { type: 'post', index: 8 },
+            { type: 'post', index: 9 },
+            { type: 'post', index: 10 },
+            { type: 'post', index: 11 },
+            { type: 'post', index: 12 },
+            { type: 'post', index: 13 },
+            { type: 'post', index: 14 },
+            { type: 'post', index: 15 }
+        ],
+        description: "Event branding and promotional design for Akdeniz Etkinlik. Eye-catching visuals for concerts, festivals, and special events.",
+        credits: "Design: Faruk",
+        techStack: ["photoshop", "illustrator"]
+    },
+    {
+        id: "tırnaktrend",
+        title: "Tırnak Trend",
+        category: "Social Media",
+        year: "2024",
+        role: "Social Design",
+        deliverables: "Posts",
+        postCount: 3,
+        longPostCount: 0,
+        storyCount: 0,
+        description: "Social media content design for Tırnak Trend nail salon. Modern and elegant visuals for Instagram presence.",
+        credits: "Design: Faruk",
+        techStack: ["photoshop", "illustrator"]
+    },
+    {
+        id: "bbstransfer",
+        title: "BBS Transfer",
+        category: "Social Media",
+        year: "2024",
+        role: "Social Design",
+        deliverables: "Posts",
+        postCount: 2,
+        longPostCount: 0,
+        storyCount: 0,
+        description: "Social media design for BBS Transfer transportation company. Professional and trustworthy visual identity.",
+        credits: "Design: Faruk",
+        techStack: ["photoshop", "illustrator"]
+    },
+    {
+        id: "kumrualtı",
+        title: "Kumrualtı",
+        category: "Social Media",
+        year: "2024",
+        role: "Social Design",
+        deliverables: "Posts",
+        postCount: 3,
+        longPostCount: 0,
+        storyCount: 0,
+        description: "Social media content design for Kumrualtı restaurant. Appetizing food photography and engaging visual content.",
+        credits: "Design: Faruk",
+        techStack: ["photoshop", "illustrator"]
     }
 ]
 
