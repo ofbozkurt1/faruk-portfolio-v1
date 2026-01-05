@@ -39,7 +39,7 @@ export default function ServiceBackgroundLayer() {
                 overflow: 'hidden'
             }}
         >
-            {/* Full color background for each service - INTENSE */}
+            {/* Full color background for each service - SOFTER */}
             {serviceColors.map((color, index) => (
                 <motion.div
                     key={`bg-${index}`}
@@ -48,8 +48,8 @@ export default function ServiceBackgroundLayer() {
                     transition={{ duration: 0.5, ease: 'linear' }}
                     style={{
                         position: 'absolute',
-                        inset: 0,
-                        background: `radial-gradient(ellipse at center, ${color}40 0%, ${color}15 40%, transparent 75%)`,
+                        inset: '-10%',
+                        background: `radial-gradient(ellipse at center, ${color}35 0%, ${color}15 40%, transparent 75%)`,
                         willChange: 'opacity',
                         pointerEvents: 'none'
                     }}
@@ -118,22 +118,22 @@ export default function ServiceBackgroundLayer() {
                 </motion.div>
             ))}
 
-            {/* Accent color glow - positioned based on active index */}
+            {/* Accent color glow - larger and more visible */}
             <motion.div
                 animate={{
-                    opacity: activeServiceIndex !== null ? 0.4 : 0,
+                    opacity: activeServiceIndex !== null ? 0.6 : 0,
                     y: activeServiceIndex !== null ? `${activeServiceIndex * 20}%` : '50%'
                 }}
                 transition={{ duration: 0.6, ease: 'easeOut' }}
                 style={{
                     position: 'absolute',
-                    top: '10%',
-                    right: '-15%',
-                    width: '60vw',
-                    height: '60vw',
+                    top: '0%',
+                    right: '-20%',
+                    width: '70vw',
+                    height: '70vw',
                     borderRadius: '50%',
                     background: activeServiceIndex !== null
-                        ? `radial-gradient(circle, ${serviceColors[activeServiceIndex]}25 0%, transparent 70%)`
+                        ? `radial-gradient(circle, ${serviceColors[activeServiceIndex]}40 0%, transparent 70%)`
                         : 'transparent',
                     willChange: 'opacity, transform',
                     pointerEvents: 'none'

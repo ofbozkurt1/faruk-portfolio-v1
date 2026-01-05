@@ -1,78 +1,72 @@
 # Active Context
 
-## Current Phase: Phase 20 - Cinematic Services Section
-Implemented hover-reveal accordion list with performance-optimized backgrounds.
+## Current Phase: Phase 20.1 - Atmospheric Enhancements
+Services section complete, atmospheric background refined with color cycling.
 
 ## Latest Session Summary (2026-01-05)
 
-### Phase 20: Services Section - Complete
+### Phase 20.1: Atmospheric Background Enhancements
 
-#### New Components Created
-| File | Purpose |
-|------|---------|
-| `src/features/services/ServicesView.jsx` | Main services accordion |
-| `src/features/services/index.js` | Module export |
-| `src/stores/serviceStore.js` | Zustand global state |
-| `src/components/ui/ServiceBackgroundLayer.jsx` | CSS-only dynamic backgrounds |
+#### AtmosphericBackground Updates
+| Feature | Implementation |
+|---------|----------------|
+| **Base Background** | Saf siyah (#000000) + üst mor glow |
+| **Top Glow** | `radial-gradient(ellipse 80% 60% at 50% 0%, rgba(120, 40, 180, 0.2), transparent 70%)` |
+| **Color Cycling** | Mor ↔ Kırmızı cross-fade (20 saniye döngü) |
+| **Technique** | 4 katmanlı opacity animasyonu (GPU-friendly) |
 
-#### Services Data
-```javascript
-[
-  { title: "Motion Graphics", color: "#9333EA", symbol: "▶" },
-  { title: "Brand Identity", color: "#3B82F6", symbol: "◆" },
-  { title: "UI/UX Animation", color: "#EC4899", symbol: "★" },
-  { title: "Video Editing", color: "#F97316", symbol: "●" }
-]
+#### Cross-Fade Animation
+```css
+@keyframes fadeInOut {
+    0%, 100% { opacity: 0.7; }
+    25%, 50% { opacity: 0; }
+    75% { opacity: 0.7; }
+}
+@keyframes fadeOutIn {
+    0%, 100% { opacity: 0; }
+    25%, 50% { opacity: 0.7; }
+    75% { opacity: 0; }
+}
 ```
+- Sol üst: Mor → Kırmızı → Mor (20s)
+- Sağ alt: Kırmızı → Mor → Kırmızı (20s)
+- Smooth geçiş, tak-tak değil
 
-#### Features Implemented
-1. **Hover-Reveal Accordion List**
-   - Large title with service color on hover
-   - Description + tags on right side
-   - Decorative symbols (▶ ◆ ★ ●) with service colors
-   - Glass pill badges for tags
+#### ServiceBackgroundLayer Adjustments
+- Opacity azaltıldı: 60%/30% → **35%/15%**
+- Alan: `-15%` → **`-10%`**
+- Daha yumuşak hover efekti
 
-2. **Dynamic Backgrounds (Performance Optimized)**
-   - Large number watermark (01-04) at 90% opacity
-   - Tool icons (After Effects, Photoshop, Illustrator, Premiere)
-   - Full color radial gradient per service
-   - NO backdrop-filter, NO mix-blend-mode
+### Phase 20: Services Section (Complete)
 
-3. **Zustand State Management**
-   - `useServiceStore` for global hover state
-   - Prevents prop-drilling and re-renders
+#### Components
+- `ServicesView.jsx` - Hover-reveal accordion
+- `ServiceBackgroundLayer.jsx` - Dynamic backgrounds
+- `serviceStore.js` - Zustand global state
 
-4. **Navigation Integration**
-   - Added "Services" to Header nav links
-   - Added "Services" to SideNav dots
+#### Services
+| Service | Color | Symbol |
+|---------|-------|--------|
+| Motion Graphics | #9333EA (Mor) | ▶ |
+| Brand Identity | #3B82F6 (Mavi) | ◆ |
+| UI/UX Animation | #EC4899 (Pembe) | ★ |
+| Video Editing | #F97316 (Turuncu) | ● |
 
-#### Layout Structure
-```
-| Left Side (flex-1)      | Right Side (340px)         |
-|-------------------------|----------------------------|
-| [01] Motion Graphics    | ▶ Description text...      |
-|                         | [Tags] [Tags] [Tags]       |
-```
+#### Features
+- Large number watermark (01-04)
+- Tool icons on hover
+- Glass pill badges
+- Grid layout: Title left, Description+Tags right
 
-#### Performance Rules
-- ✅ CSS-only patterns (no images)
-- ✅ will-change: opacity (GPU acceleration)
-- ✅ pointer-events: none
+### Beklemede
+- 🏖️ Grain/noise texture (PNG dosyası gerekli)
+
+## Performance Rules
+- ✅ Pure CSS animations (no JS intervals)
+- ✅ will-change: opacity
+- ✅ Cross-fade > gradient animation
 - ❌ NO backdrop-filter
 - ❌ NO mix-blend-mode
-
-### Previous Phases (Same Day)
-
-#### Phase 19: New Projects
-- Added 4 projects: Akdeniz Etkinlik, Tırnak Trend, BBS Transfer, Kumrualtı
-- Custom display order support
-- Total: 8 projects
-
-#### Phase 18: Performance Refactor
-- TiltCard: Removed backdrop-blur
-- Hero: Removed letter blur, CSS float
-- Header: Throttled scroll handler
-- AtmosphericBackground: 2 orbs
 
 ## Dev Server
 - http://localhost:5173/

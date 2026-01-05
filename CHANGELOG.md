@@ -4,7 +4,31 @@ All notable changes to the **Ömer Faruk Bozkurt Portfolio** project will be doc
 
 ## [Unreleased] - 2026-01-05
 
-### � Phase 20: Cinematic Services Section
+### 🌌 Phase 20.1: Atmosferik Arka Plan Geliştirmeleri
+
+#### AtmosphericBackground Updates
+- **Base Background**: Saf siyah (#000000) + üst mor glow gradient
+- **Top Glow**: Üst ortadan yayılan mor ışık efekti
+- **Cross-Fade Animasyonu**: Mor ↔ Kırmızı renk döngüsü (20 saniye)
+- **Teknik**: 4 katmanlı opacity animasyonu (fadeInOut/fadeOutIn)
+
+#### Renk Döngüsü Detayları
+| Position | Start | 10s | 20s |
+|----------|-------|-----|-----|
+| Sol Üst | Mor 💜 | Kırmızı ❤️ | Mor 💜 |
+| Sağ Alt | Kırmızı ❤️ | Mor 💜 | Kırmızı ❤️ |
+
+#### ServiceBackgroundLayer Ayarları
+- Hover opacity azaltıldı: 60%/30% → **35%/15%**
+- Alan daraltıldı: `-15%` → **`-10%`**
+- Daha yumuşak, göze batmayan efekt
+
+#### Performance
+- Pure CSS @keyframes (JavaScript interval yok)
+- Gradient animasyonu yerine opacity cross-fade (GPU-friendly)
+- Smooth geçişler, "tak-tak" değişim yok
+
+### 💼 Phase 20: Cinematic Services Section
 
 #### New Components
 - **ServicesView.jsx**: Hover-reveal accordion list with 4 services
