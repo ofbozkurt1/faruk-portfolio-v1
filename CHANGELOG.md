@@ -2,7 +2,41 @@
 
 All notable changes to the **Ömer Faruk Bozkurt Portfolio** project will be documented in this file.
 
-## [Unreleased] - 2026-01-05
+## [Unreleased] - 2026-01-06
+
+### 📋 Phase 25: Case Study Format
+
+#### Proje Detay Sayfası Yeniden Tasarımı
+GridView tamamen yeniden tasarlandı - Behance tarzı profesyonel case study sunumu.
+
+#### Yeni Bileşenler
+- **MetaItem**: Client, Services, Year bilgisi
+- **ColorSwatch**: Renk paleti daireleri (hover animasyonlu)
+- **TypographyDisplay**: Font gösterimi (Aa glyph + karakter seti)
+- **ImageCard**: Geliştirilmiş görsel kartları
+
+#### Case Study Yapısı
+| Bölüm | İçerik |
+|-------|--------|
+| Hero | Category badge, brand color başlık, description |
+| Meta Grid | Client, Services, Year, Toolkit (4 kolon) |
+| Visual Identity | Renk paleti + Tipografi |
+| Gallery | whileInView animasyonlu görsel grid |
+
+#### Data Güncellemeleri
+Her projeye eklenen yeni alanlar:
+- `client` - Müşteri adı
+- `identity.colors[]` - Renk paleti (4 renk + hex + isim)
+- `identity.fontFamily` - Font adı
+- `identity.fontStyle` - Font stili
+
+#### Animasyonlar
+- ColorSwatch hover: `scale: 1.1, y: -4`
+- ImageCard whileInView: `opacity: 0, y: 40` → `opacity: 1, y: 0`
+- ImageCard hover: `y: -8`
+- Staggered entrance animations
+
+---
 
 ### 🎥 Phase 24: Video Vault
 
