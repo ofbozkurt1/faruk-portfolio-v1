@@ -2,7 +2,35 @@
 
 All notable changes to the **Ömer Faruk Bozkurt Portfolio** project will be documented in this file.
 
-## [Unreleased] - 2026-01-06
+## [Unreleased] - 2026-01-07
+
+### 🚀 Phase 28: Performance Optimization & Ghost Reel
+
+#### Ghost Reel Animation (Hero Background)
+- **Yeni Bileşen**: `HeroBackground.jsx` - Hero bölümü arkasında kayan proje görselleri.
+- **Tasarım**: Sağ ve sol tarafta açılı (+6° / -6°) çift sütun.
+- **İçerik**: Tüm projelerden (Novastra, Adana Napoli, vb.) karışık Post ve Story görselleri.
+- **Layout**:
+  - Sol: Post (Yukarı) + Story (Aşağı)
+  - Sağ: Post (Yukarı) + Story (Aşağı)
+- **Performans**: CSS-only transform animasyonları, `will-change` optimizasyonu. Hover efektleri kaldırıldı.
+
+#### ⚡ Kritik Performans İyileştirmeleri
+Sitedeki ağır grafik efektleri temizlendi ve GPU yükü azaltıldı:
+
+1. **Blur Efektleri Kaldırıldı**:
+   - `ProjectCard`: "Projeyi İncele" ve "Tech Pills" butonlarındaki `backdrop-filter: blur(8px)` kaldırıldı. Yerine solid `rgba(20,20,25,0.9)` arka plan eklendi.
+
+2. **Ağır Gölgeler (Box-Shadows) Temizlendi**:
+   - `Hero`: Profil fotoğrafındaki `50px` spread shadow kaldırıldı.
+   - `GridView`: Galeri görselleri, renk paleti ve kategori badge'indeki büyük gölgeler kaldırıldı.
+
+#### 🛠️ Services Bölümü İyileştirmeleri
+- **Akıllı Hover Gecikmesi**: Hizmetler üzerine gelindiğinde arka plan görseli **1 saniye gecikmeli** açılıyor.
+- **Anlık UI Tepkisi**: Yazı rengi ve çizgi animasyonu anında (0ms) tepki veriyor.
+- **Debounce Logic**: Hızlı scroll sırasında arka planın sürekli yanıp sönmesi engellendi.
+
+---
 
 ### 🌍 Phase 27: Internationalization (i18n) & Services Update
 
@@ -181,7 +209,7 @@ Her projeye eklenen yeni alanlar:
 - Added "Services" link to Header menu
 - Added "Services" dot to SideNav
 
-### �📁 Phase 19: New Projects & Custom Order
+### 📁 Phase 19: New Projects & Custom Order
 
 #### New Projects Added (4)
 - **Akdeniz Etkinlik**: Event Design - 15 posts, 2 long posts (custom display order)
@@ -307,22 +335,3 @@ Her projeye eklenen yeni alanlar:
 - **WordPress SVG**: Removed white corner triangles.
 - **Animation Lag**: Replaced hue-rotate with opacity for background orbs.
 - **Layout Alignment**: Fixed navigation menu centering issues.
-
----
-
-## 🗺 Roadmap
-
-### Completed ✅
-- [x] Bento Grid Skills Section
-- [x] 3D Tilt Card Component
-- [x] Hybrid Stack Format
-- [x] GridView Smooth Scroll
-- [x] Posts/Stories Image Structure
-
-### Upcoming Features
-- [ ] **Mobile Menu**: Full-screen hamburger menu for mobile devices.
-- [ ] **Project Details Modal**: Enhanced case study views.
-- [ ] **About Me Section**: Personal storytelling and timeline.
-- [ ] **SEO**: Meta tags and OpenGraph image generation.
-- [ ] **Dark/Light Theme Toggle**: Theme switching capability.
-

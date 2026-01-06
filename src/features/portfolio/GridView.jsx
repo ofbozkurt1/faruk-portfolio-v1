@@ -22,13 +22,15 @@ const toolIcons = {
     figma: '/gorseller/iconlar/figma.svg'
 }
 
-// Meta Item Component
-function MetaItem({ label, value, delay = 0 }) {
+// Meta Item Component - Enhanced with brand color
+function MetaItem({ label, value, delay = 0, brandColor = '#9333EA' }) {
     return (
         <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay, duration: 0.5 }}
+            whileHover={{ y: -3, transition: { duration: 0.2 } }}
+            style={{ position: 'relative', cursor: 'default' }}
         >
             <span
                 style={{
@@ -37,13 +39,18 @@ function MetaItem({ label, value, delay = 0 }) {
                     fontSize: 10,
                     letterSpacing: '0.2em',
                     textTransform: 'uppercase',
-                    color: 'rgba(255,255,255,0.4)',
-                    marginBottom: 8
+                    color: brandColor,
+                    marginBottom: 10,
+                    opacity: 0.9
                 }}
             >
                 {label}
             </span>
-            <span style={{ fontSize: 15, color: '#F2F2F2' }}>{value}</span>
+            <span style={{
+                fontSize: 16,
+                color: '#F2F2F2',
+                fontWeight: 500
+            }}>{value}</span>
         </motion.div>
     )
 }
@@ -70,8 +77,7 @@ function ColorSwatch({ color, index }) {
                     height: 56,
                     borderRadius: '50%',
                     background: color.code,
-                    border: color.code === '#FFFFFF' ? '1px solid rgba(255,255,255,0.2)' : 'none',
-                    boxShadow: `0 4px 20px ${color.code}40`
+                    border: color.code === '#FFFFFF' ? '1px solid rgba(255,255,255,0.2)' : 'none'
                 }}
             />
             <span
@@ -142,7 +148,6 @@ function ImageCard({ src, alt, index, type = 'post' }) {
                 overflow: 'hidden',
                 background: 'rgba(255,255,255,0.02)',
                 border: '1px solid rgba(255,255,255,0.05)',
-                boxShadow: '0 25px 50px -12px rgba(0,0,0,0.5)',
                 gridColumn: isLong ? '1 / -1' : 'auto'
             }}
         >
@@ -272,97 +277,173 @@ function GridViewContent({ project, onClose }) {
                 </motion.button>
 
                 {/* Content */}
-                <div style={{ padding: '100px 5% 120px', maxWidth: 1400, margin: '0 auto' }}>
+                <div style={{ padding: '80px 5% 120px', maxWidth: 1400, margin: '0 auto', position: 'relative' }}>
 
-                    {/* ═══════════════ HERO SECTION ═══════════════ */}
+                    {/* ═══════════════ HERO SECTION - ENHANCED ═══════════════ */}
                     <motion.div
-                        initial={{ opacity: 0, y: 30 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6 }}
-                        style={{ textAlign: 'center', marginBottom: 60 }}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ duration: 0.8 }}
+                        style={{
+                            position: 'relative',
+                            padding: '40px 0 60px',
+                            marginBottom: 40,
+                            textAlign: 'center'
+                        }}
                     >
-                        {/* Category Badge */}
-                        <motion.span
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            transition={{ delay: 0.2 }}
+                        {/* Static Gradient Background - No animation for performance */}
+                        <div
                             style={{
-                                display: 'inline-block',
-                                padding: '8px 20px',
-                                background: 'rgba(255,255,255,0.05)',
-                                border: '1px solid rgba(255,255,255,0.1)',
-                                borderRadius: 50,
-                                fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace',
-                                fontSize: 11,
-                                letterSpacing: '0.15em',
-                                color: 'rgba(255,255,255,0.6)',
-                                textTransform: 'uppercase',
-                                marginBottom: 24
+                                position: 'absolute',
+                                top: '-100px',
+                                left: '-30%',
+                                right: '-30%',
+                                bottom: '-50px',
+                                background: `radial-gradient(ellipse 80% 50% at 50% 30%, ${brandColor}30 0%, transparent 70%)`,
+                                pointerEvents: 'none'
                             }}
-                        >
-                            {category}
-                        </motion.span>
+                        />
 
-                        {/* Title */}
-                        <motion.h1
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.3 }}
+                        {/* Static Glow - No blur for performance */}
+                        <div
                             style={{
-                                fontSize: 'clamp(48px, 8vw, 80px)',
-                                fontWeight: 700,
-                                letterSpacing: '-0.03em',
-                                color: brandColor || '#F2F2F2',
-                                margin: 0,
-                                marginBottom: 24
+                                position: 'absolute',
+                                top: '-20%',
+                                right: '5%',
+                                width: 350,
+                                height: 350,
+                                borderRadius: '50%',
+                                background: `radial-gradient(circle, ${brandColor}20 0%, transparent 60%)`,
+                                pointerEvents: 'none'
                             }}
-                        >
-                            {title}
-                        </motion.h1>
+                        />
 
-                        {/* Description */}
-                        {description && (
-                            <motion.p
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                transition={{ delay: 0.4 }}
+                        <div style={{ position: 'relative', zIndex: 1 }}>
+                            {/* Category Badge with Glow */}
+                            <motion.span
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ delay: 0.2 }}
                                 style={{
-                                    fontSize: 17,
-                                    lineHeight: 1.8,
-                                    color: 'rgba(255,255,255,0.5)',
-                                    maxWidth: 600,
-                                    margin: '0 auto'
+                                    display: 'inline-block',
+                                    padding: '10px 24px',
+                                    background: `linear-gradient(135deg, ${brandColor}20 0%, rgba(255,255,255,0.05) 100%)`,
+                                    border: `1px solid ${brandColor}50`,
+                                    borderRadius: 50,
+                                    fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace',
+                                    fontSize: 11,
+                                    letterSpacing: '0.2em',
+                                    color: brandColor,
+                                    textTransform: 'uppercase',
+                                    marginBottom: 32
                                 }}
                             >
-                                {description}
-                            </motion.p>
-                        )}
+                                {category}
+                            </motion.span>
+
+                            {/* Animated Title with Gradient */}
+                            <motion.h1
+                                initial={{ opacity: 0, y: 30 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ delay: 0.3, type: 'spring', stiffness: 100 }}
+                                style={{
+                                    fontSize: 'clamp(52px, 9vw, 88px)',
+                                    fontWeight: 800,
+                                    letterSpacing: '-0.04em',
+                                    background: `linear-gradient(135deg, ${brandColor} 0%, #F2F2F2 50%, ${brandColor} 100%)`,
+                                    backgroundSize: '200% 200%',
+                                    WebkitBackgroundClip: 'text',
+                                    WebkitTextFillColor: 'transparent',
+                                    backgroundClip: 'text',
+                                    margin: 0,
+                                    marginBottom: 28,
+                                    animation: 'titleShine 5s ease-in-out infinite'
+                                }}
+                            >
+                                {title}
+                            </motion.h1>
+
+                            {/* Description */}
+                            {description && (
+                                <motion.p
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ delay: 0.5 }}
+                                    style={{
+                                        fontSize: 18,
+                                        lineHeight: 1.8,
+                                        color: 'rgba(255,255,255,0.55)',
+                                        maxWidth: 650,
+                                        margin: '0 auto'
+                                    }}
+                                >
+                                    {description}
+                                </motion.p>
+                            )}
+                        </div>
+
+                        {/* CSS Animation */}
+                        <style>{`
+                            @keyframes titleShine {
+                                0%, 100% { background-position: 0% 50%; }
+                                50% { background-position: 100% 50%; }
+                            }
+                        `}</style>
                     </motion.div>
 
                     {/* ═══════════════ META SECTION ═══════════════ */}
                     <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ delay: 0.5 }}
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.6 }}
                         style={{
                             display: 'grid',
                             gridTemplateColumns: 'repeat(4, 1fr)',
                             gap: 32,
-                            padding: '32px 0',
-                            borderTop: '1px solid rgba(255,255,255,0.1)',
-                            borderBottom: '1px solid rgba(255,255,255,0.1)',
-                            marginBottom: 80
+                            padding: '36px 40px',
+                            background: `linear-gradient(135deg, rgba(20,20,25,0.9) 0%, rgba(20,20,25,0.95) 100%)`,
+                            border: `1px solid ${brandColor}25`,
+                            borderRadius: 20,
+                            marginBottom: 80,
+                            position: 'relative',
+                            overflow: 'hidden'
                         }}
                     >
-                        <MetaItem label={t('caseStudy.client', 'Client')} value={client || title} delay={0.5} />
-                        <MetaItem label={t('caseStudy.services', 'Services')} value={role || 'Design'} delay={0.6} />
-                        <MetaItem label={t('caseStudy.year', 'Year')} value={year} delay={0.7} />
+                        {/* Corner Glow */}
+                        <div
+                            style={{
+                                position: 'absolute',
+                                top: -60,
+                                right: -60,
+                                width: 180,
+                                height: 180,
+                                background: `radial-gradient(circle, ${brandColor}30 0%, transparent 70%)`,
+                                pointerEvents: 'none'
+                            }}
+                        />
+                        <div
+                            style={{
+                                position: 'absolute',
+                                bottom: -40,
+                                left: -40,
+                                width: 120,
+                                height: 120,
+                                background: `radial-gradient(circle, ${brandColor}15 0%, transparent 70%)`,
+                                pointerEvents: 'none'
+                            }}
+                        />
+
+                        <MetaItem label={t('caseStudy.client', 'Client')} value={client || title} delay={0.6} brandColor={brandColor} />
+                        <MetaItem label={t('caseStudy.services', 'Services')} value={role || 'Design'} delay={0.7} brandColor={brandColor} />
+                        <MetaItem label={t('caseStudy.year', 'Year')} value={year} delay={0.8} brandColor={brandColor} />
 
                         {/* Toolkit */}
                         <motion.div
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.8 }}
+                            transition={{ delay: 0.9 }}
+                            whileHover={{ y: -3, transition: { duration: 0.2 } }}
+                            style={{ position: 'relative' }}
                         >
                             <span
                                 style={{
@@ -371,23 +452,24 @@ function GridViewContent({ project, onClose }) {
                                     fontSize: 10,
                                     letterSpacing: '0.2em',
                                     textTransform: 'uppercase',
-                                    color: 'rgba(255,255,255,0.4)',
-                                    marginBottom: 8
+                                    color: brandColor,
+                                    marginBottom: 10,
+                                    opacity: 0.9
                                 }}
                             >
                                 {t('caseStudy.toolkit', 'Toolkit')}
                             </span>
-                            <div style={{ display: 'flex', gap: 8 }}>
+                            <div style={{ display: 'flex', gap: 10 }}>
                                 {techStack.map((tool, idx) => (
                                     <motion.div
                                         key={tool}
-                                        whileHover={{ scale: 1.15, y: -2 }}
+                                        whileHover={{ scale: 1.15, y: -3 }}
                                         style={{
-                                            width: 36,
-                                            height: 36,
-                                            borderRadius: 8,
-                                            background: 'rgba(255,255,255,0.05)',
-                                            border: '1px solid rgba(255,255,255,0.1)',
+                                            width: 38,
+                                            height: 38,
+                                            borderRadius: 10,
+                                            background: `linear-gradient(135deg, rgba(255,255,255,0.08) 0%, ${brandColor}15 100%)`,
+                                            border: `1px solid ${brandColor}30`,
                                             display: 'flex',
                                             alignItems: 'center',
                                             justifyContent: 'center'
@@ -404,127 +486,6 @@ function GridViewContent({ project, onClose }) {
                             </div>
                         </motion.div>
                     </motion.div>
-
-                    {/* ═══════════════ VISUAL IDENTITY SECTION ═══════════════ */}
-                    {identity && (
-                        <motion.div
-                            initial={{ opacity: 0 }}
-                            whileInView={{ opacity: 1 }}
-                            viewport={{ once: true }}
-                            style={{ marginBottom: 80 }}
-                        >
-                            <h3
-                                style={{
-                                    fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace',
-                                    fontSize: 11,
-                                    letterSpacing: '0.25em',
-                                    textTransform: 'uppercase',
-                                    color: 'rgba(255,255,255,0.4)',
-                                    marginBottom: 40
-                                }}
-                            >
-                                {t('caseStudy.visualIdentity', 'Visual Identity')}
-                            </h3>
-
-                            <div
-                                style={{
-                                    display: 'grid',
-                                    gridTemplateColumns: identity.logo ? '1fr 1.5fr 1fr' : '1fr 1fr',
-                                    gap: 40,
-                                    padding: 40,
-                                    background: 'rgba(255,255,255,0.02)',
-                                    border: '1px solid rgba(255,255,255,0.05)',
-                                    borderRadius: 20
-                                }}
-                            >
-                                {/* Brand Logo */}
-                                {identity.logo && (
-                                    <div>
-                                        <span
-                                            style={{
-                                                display: 'block',
-                                                fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace',
-                                                fontSize: 10,
-                                                letterSpacing: '0.15em',
-                                                color: 'rgba(255,255,255,0.3)',
-                                                marginBottom: 24
-                                            }}
-                                        >
-                                            {t('caseStudy.brandMark', 'Brand Mark')}
-                                        </span>
-                                        <motion.div
-                                            initial={{ opacity: 0, scale: 0.9 }}
-                                            animate={{ opacity: 1, scale: 1 }}
-                                            whileHover={{ scale: 1.05 }}
-                                            style={{
-                                                width: 160,
-                                                height: 160,
-                                                borderRadius: 20,
-                                                background: 'rgba(255,255,255,0.05)',
-                                                border: '1px solid rgba(255,255,255,0.1)',
-                                                display: 'flex',
-                                                alignItems: 'center',
-                                                justifyContent: 'center',
-                                                padding: 16
-                                            }}
-                                        >
-                                            <img
-                                                src={identity.logo}
-                                                alt={`${title} Logo`}
-                                                style={{
-                                                    width: '100%',
-                                                    height: '100%',
-                                                    objectFit: 'contain'
-                                                }}
-                                                onError={(e) => { e.target.parentElement.style.display = 'none' }}
-                                            />
-                                        </motion.div>
-                                    </div>
-                                )}
-
-                                {/* Color Palette */}
-                                <div>
-                                    <span
-                                        style={{
-                                            display: 'block',
-                                            fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace',
-                                            fontSize: 10,
-                                            letterSpacing: '0.15em',
-                                            color: 'rgba(255,255,255,0.3)',
-                                            marginBottom: 24
-                                        }}
-                                    >
-                                        {t('caseStudy.colorPalette', 'Color Palette')}
-                                    </span>
-                                    <div style={{ display: 'flex', gap: 20 }}>
-                                        {identity.colors.map((color, idx) => (
-                                            <ColorSwatch key={color.code} color={color} index={idx} />
-                                        ))}
-                                    </div>
-                                </div>
-
-                                {/* Typography */}
-                                <div>
-                                    <span
-                                        style={{
-                                            display: 'block',
-                                            fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace',
-                                            fontSize: 10,
-                                            letterSpacing: '0.15em',
-                                            color: 'rgba(255,255,255,0.3)',
-                                            marginBottom: 24
-                                        }}
-                                    >
-                                        {t('caseStudy.typography', 'Typography')}
-                                    </span>
-                                    <TypographyDisplay
-                                        fontFamily={identity.fontFamily}
-                                        fontStyle={identity.fontStyle}
-                                    />
-                                </div>
-                            </div>
-                        </motion.div>
-                    )}
 
                     {/* ═══════════════ GALLERY SECTION ═══════════════ */}
                     <motion.div

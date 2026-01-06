@@ -8,6 +8,8 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { FiChevronDown } from 'react-icons/fi'
 import { useTranslation } from 'react-i18next'
 import { cn } from '../../utils/cn'
+import HeroBackground from './HeroBackground'
+
 
 const containerVariants = {
     hidden: { opacity: 0 },
@@ -92,12 +94,15 @@ export default function Hero({ className }) {
         <section
             id="about"
             className={cn(
-                "min-h-screen flex flex-col items-center justify-center relative",
+                "min-h-screen flex flex-col items-center justify-center relative overflow-hidden",
                 "container-padding pt-28 pb-20",
                 className
             )}
         >
-            <div className="flex flex-col-reverse lg:flex-row gap-12 lg:gap-28 w-full items-center justify-center">
+            {/* Ghost Reel Background - Desktop Only */}
+            <HeroBackground />
+
+            <div className="flex flex-col-reverse lg:flex-row gap-12 lg:gap-28 w-full items-center justify-center relative z-10">
 
                 {/* Text Content */}
                 <motion.div
@@ -346,8 +351,7 @@ export default function Hero({ className }) {
                             overflow: 'hidden',
                             animation: 'float-photo 4s ease-in-out infinite',
                             transform: isPhotoHovered ? 'scale(1.03)' : 'scale(1)',
-                            transition: 'transform 0.4s ease, box-shadow 0.4s ease',
-                            boxShadow: '0 20px 50px rgba(0,0,0,0.4)',
+                            transition: 'transform 0.4s ease',
                             willChange: 'transform'
                         }}
                     >

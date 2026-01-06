@@ -150,10 +150,8 @@ export default function ProjectCard({ project, onClick, isReversed, cardIndex = 
                         align-items: center;
                         gap: 8px;
                         padding: 10px 24px;
-                        background: rgba(255,255,255,0.03);
-                        backdrop-filter: blur(8px);
-                        -webkit-backdrop-filter: blur(8px);
-                        border: 1px solid rgba(255,255,255,0.08);
+                        background: rgba(20,20,25,0.9);
+                        border: 1px solid rgba(255,255,255,0.12);
                         border-radius: 50px;
                         cursor: pointer;
                         transition: all 0.3s ease;
@@ -354,10 +352,8 @@ export default function ProjectCard({ project, onClick, isReversed, cardIndex = 
                                     gap: 10,
                                     padding: '10px 20px',
                                     borderRadius: 50,
-                                    background: 'rgba(255,255,255,0.03)',
-                                    backdropFilter: 'blur(8px)',
-                                    WebkitBackdropFilter: 'blur(8px)',
-                                    border: '1px solid rgba(255,255,255,0.08)',
+                                    background: 'rgba(20,20,25,0.9)',
+                                    border: '1px solid rgba(255,255,255,0.12)',
                                     transition: 'all 0.3s ease',
                                     cursor: 'default',
                                     ['--brand-color']: brandColor

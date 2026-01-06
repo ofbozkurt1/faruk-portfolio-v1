@@ -1,82 +1,73 @@
 # Active Context
 
-## Current Phase: Phase 27 - Internationalization (i18n) & Services Update
-Multi-language support (TR/EN) and services section redesign.
+## Current Phase: Phase 28 - Performance Optimization & Services Polish
+Major performance optimizations across the entire site and Services section refinement.
 
-## Latest Session Summary (2026-01-06)
+## Latest Session Summary (2026-01-07)
 
-### Phase 27: Internationalization (i18n)
+### Ghost Reel Animation (Hero Background)
+- **Component**: `HeroBackground.jsx`
+- **Design**: 
+  - 2 side columns (Left & Right)
+  - Left: Rotated +6deg (Outward)
+  - Right: Rotated -6deg (Inward)
+- **Content Strategy**:
+  - **Left Side**: Column 1 (Posts ↑), Column 2 (Stories ↓)
+  - **Right Side**: Column 1 (Posts ↑), Column 2 (Stories ↓)
+  - **Mixed Content**: Images from ALL projects (Novastra, Adana Napoli, Hacı Hakkı Usta, etc.)
+- **Performance**:
+  - GPU-accelerated CSS animations (`will-change: transform`)
+  - **NO Hover Effects**: Removed heavy blur/opacity transitions
+  - **Static Filter**: `grayscale(100%)` and low opacity (0.08)
 
-#### Kurulum
-- `react-i18next`, `i18next`, `i18next-browser-languagedetector` eklendi
-- Varsayılan dil: Türkçe (TR)
-- Dil tercihi localStorage'da saklanır
+### Services Section Polish
+- **Hover Logic**:
+  - **UI Feedback**: Instant response (color change, indicator line) via `pendingServiceIndex`
+  - **Background Animation**: **1 second delay** via `activeServiceIndex`
+  - Prevents background flashing during fast scrolling
+- **Store Updates**: Added debounce logic to `serviceStore.js`
 
-#### Dosya Yapısı
-```
-src/
-├── i18n.js                          ← Konfigürasyon
-├── main.jsx                         ← i18n import
-├── locales/
-│   ├── tr/translation.json          ← Türkçe çeviriler
-│   └── en/translation.json          ← İngilizce çeviriler
-```
+### Performance Overhaul (Significant Gains)
+Removed expensive graphic effects that were causing frame drops:
 
-#### Çevrilen Bileşenler
-| Bileşen | Çevrilen Metinler |
-|---------|-------------------|
-| Header | Navigation links, Let's Talk, TR/EN butonları |
-| Hero | Role, Description, Download CV |
-| Skills | Title |
-| Services | Title, Subtitle, 4 servis başlık/açıklama |
-| Portfolio | Title, "PROJEYİ İNCELE" butonu |
-| VideoVault | Title, Subtitle |
-| Footer | Headline, Subtitle, Copyright |
-| GridView (Case Study) | Tüm label'lar |
+#### 1. ProjectCard.jsx
+- **Removed**: `backdrop-filter: blur(8px)` from "Explore Pill" and "Tech Pills"
+- **Replaced with**: Solid dark background `rgba(20,20,25,0.9)`
+- **Impact**: Massive GPU load reduction for 6+ cards
 
-#### Dil Butonları
-- Sıralama: **TR | EN** (Türkçe önce)
-- Aktif: Beyaz, Pasif: Gri
+#### 2. GridView.jsx (Case Study)
+- **Removed**:
+  - `boxShadow: 0 4px 20px` (Color Swatch)
+  - `boxShadow: 0 25px 50px` (Gallery Images)
+  - `boxShadow: 0 0 40px` (Category Badge Glow)
+- **Impact**: Better scroll performance in modal
 
----
+#### 3. Hero.jsx
+- **Removed**: `boxShadow: 0 20px 50px` from Profile Photo
+- **Impact**: Smoother float animation
 
-### Services Güncellemesi
-
-#### 4 Servis (Yeni İçerik)
-| # | Türkçe | English | Renk |
-|---|--------|---------|------|
-| 01 | Sosyal Medya Tasarımları | Social Media Design | #9333EA (Mor) |
-| 02 | Hareketli Tasarımlar | Motion Design | #3B82F6 (Mavi) |
-| 03 | Marka Kimliği | Brand Identity | #F97316 (Turuncu) |
-| 04 | Video Edit | Video Editing | #EC4899 (Pembe) |
-
-#### ServiceBackgroundLayer Senkronizasyonu
-- Renk ve ikon sıralaması ServicesView ile eşleştirildi
-- Her servisin hover arka planı doğru renkte
+### Current Effect Status
+| Effect | Status | Reason |
+|--------|--------|--------|
+| `backdrop-filter` | ❌ Removed | Too heavy for list items |
+| `box-shadow` (Large) | ❌ Removed | High paint cost |
+| `will-change` | ✅ Added | Targeted GPU optimization |
+| CSS Animations | ✅ Optimized | Transform-only animations |
 
 ---
 
 ## Previous Phases
 
-### Phase 25-26: Case Study Format & Gallery
-- GridView Behance tarzı case study formatı
-- Logo display, Visual Identity section
-- Gallery: 3 post/satır, 4 story/satır, ortalanmış son satır
+### Phase 27: Internationalization (i18n)
+- Multi-language support (TR/EN)
+- `react-i18next` implementation
+- JSON translation fles
 
-### Phase 24: Video Vault
-- 8 dikey video, 4 kategori
-- Alternating layout + lazy loading
+### Phase 25-26: Case Study & Gallery
+- Behance-style GridView
+- Staggered gallery layout
 
 ---
-
-## Layer Order (z-index)
-```
-z-index: 99999 │ GridView (Case Study modal)
-z-index: 10+   │ Header, SideNav, Content
-z-index: 1     │ ServiceBackgroundLayer
-z-index: 0     │ PortfolioBackgroundLayer
-z-index: -1    │ AtmosphericBackground
-```
 
 ## Dev Server
 - http://localhost:5173/

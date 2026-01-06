@@ -45,7 +45,10 @@ const services = [
 
 export default function ServicesView() {
     const { t } = useTranslation()
-    const { activeServiceIndex, setActiveService, clearActiveService } = useServiceStore()
+    const { activeServiceIndex, pendingServiceIndex, setActiveService, clearActiveService } = useServiceStore()
+
+    // Use pendingServiceIndex for immediate local UI feedback
+    const hoveredIndex = pendingServiceIndex
 
     return (
         <section className="relative py-24 overflow-hidden">
@@ -97,8 +100,8 @@ export default function ServicesView() {
                         >
                             <motion.div
                                 animate={{
-                                    opacity: activeServiceIndex === null || activeServiceIndex === index ? 1 : 0.3,
-                                    x: activeServiceIndex === index ? 20 : 0
+                                    opacity: hoveredIndex === null || hoveredIndex === index ? 1 : 0.3,
+                                    x: hoveredIndex === index ? 20 : 0
                                 }}
                                 transition={{ duration: 0.3, ease: 'easeOut' }}
                                 className="py-8 md:py-10"
@@ -117,7 +120,7 @@ export default function ServicesView() {
                                             style={{
                                                 fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace',
                                                 fontSize: 12,
-                                                color: activeServiceIndex === index ? service.color : 'rgba(255,255,255,0.3)',
+                                                color: hoveredIndex === index ? service.color : 'rgba(255,255,255,0.3)',
                                                 transition: 'color 0.3s ease',
                                                 minWidth: 20
                                             }}
@@ -129,7 +132,7 @@ export default function ServicesView() {
                                                 fontSize: 'clamp(28px, 4vw, 48px)',
                                                 fontWeight: 700,
                                                 letterSpacing: '-0.03em',
-                                                color: activeServiceIndex === index ? service.color : '#F2F2F2',
+                                                color: hoveredIndex === index ? service.color : '#F2F2F2',
                                                 transition: 'color 0.3s ease',
                                                 whiteSpace: 'nowrap'
                                             }}
@@ -201,7 +204,7 @@ export default function ServicesView() {
                                 {/* Hover Indicator Line */}
                                 <motion.div
                                     initial={{ scaleX: 0 }}
-                                    animate={{ scaleX: activeServiceIndex === index ? 1 : 0 }}
+                                    animate={{ scaleX: hoveredIndex === index ? 1 : 0 }}
                                     transition={{ duration: 0.3 }}
                                     style={{
                                         position: 'absolute',
