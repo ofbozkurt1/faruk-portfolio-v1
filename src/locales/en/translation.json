@@ -1,0 +1,82 @@
+{
+    "nav": {
+        "work": "Work",
+        "about": "About",
+        "skills": "Skills",
+        "services": "Services",
+        "contact": "Contact",
+        "letsTalk": "Let's Talk"
+    },
+    "hero": {
+        "role": "MOTION & GRAPHIC DESIGNER",
+        "description": "Creating immersive visual experiences through motion and design.",
+        "cta": "View Work",
+        "downloadCV": "Download CV"
+    },
+    "portfolio": {
+        "title": "Selected Work",
+        "explore": "VIEW PROJECT"
+    },
+    "skills": {
+        "title": "Skills",
+        "subtitle": "Areas of expertise"
+    },
+    "services": {
+        "title": "Services",
+        "subtitle": "What I offer",
+        "socialMedia": {
+            "title": "Social Media Design",
+            "description": "Curating your digital storefront with engagement-focused visual series. Designing identities, not just posts."
+        },
+        "motionDesign": {
+            "title": "Motion Design",
+            "description": "Breathing life into static visuals through fluid dynamics and storytelling to capture attention in seconds."
+        },
+        "videoEditing": {
+            "title": "Video Editing",
+            "description": "Transforming raw footage into binge-worthy narratives with rhythmic cuts, sound design, and cinematic grading."
+        },
+        "brandIdentity": {
+            "title": "Brand Identity",
+            "description": "Building memorable visual systems that stand the test of time. Creating logos, typography, and guidelines that work across print and digital."
+        }
+    },
+    "videoShowcase": {
+        "title": "Video Showcase",
+        "subtitle": "Vertical stories that captivate",
+        "categories": {
+            "hype": "HYPE & EVENTS",
+            "commercial": "COMMERCIAL",
+            "social": "SOCIAL EDITS",
+            "aerial": "AERIAL & DRONE"
+        }
+    },
+    "contact": {
+        "title": "Contact",
+        "subtitle": "Have a project in mind? Let's bring your vision to life with motion and design.",
+        "headline": "LET'S CREATE TOGETHER",
+        "email": "Email",
+        "phone": "Phone",
+        "location": "Location",
+        "sendMessage": "Send Message"
+    },
+    "footer": {
+        "rights": "All rights reserved.",
+        "designed": "Designed by",
+        "copyright": "© 2026 Ömer Faruk Bozkurt. Crafted with motion."
+    },
+    "caseStudy": {
+        "client": "Client",
+        "services": "Services",
+        "year": "Year",
+        "toolkit": "Toolkit",
+        "visualIdentity": "Visual Identity",
+        "brandMark": "Brand Mark",
+        "colorPalette": "Color Palette",
+        "typography": "Typography",
+        "gallery": "Gallery",
+        "featured": "Featured",
+        "posts": "Posts",
+        "stories": "Stories"
+    }
+}

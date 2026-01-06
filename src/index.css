@@ -28,14 +28,32 @@ body {
   background-color: #050505;
 }
 
-/* Hide Scrollbar (Lenis handles smooth scroll) */
-::-webkit-scrollbar {
-  display: none;
+/* === CUSTOM SCROLLBAR === */
+
+/* Tüm tarayıcılar için genel ayar */
+html {
+  scrollbar-width: thin; /* Firefox için ince çubuk */
+  scrollbar-color: #333 #050505; /* Çubuk Rengi / Zemin Rengi */
 }
 
-html {
-  scrollbar-width: none;
-  -ms-overflow-style: none;
+/* Chrome, Edge, Safari için Özelleştirme */
+::-webkit-scrollbar {
+  width: 6px; /* Standarttan çok daha ince (Normali 17px'tir) */
+}
+
+::-webkit-scrollbar-track {
+  background: #050505; /* Sitenin arka plan rengiyle aynı olsun */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #333; /* Çok silik gri bir çubuk */
+  border-radius: 10px; /* Yuvarlak hatlar */
+  border: 2px solid #050505; /* Etrafında boşluk hissi yaratır */
+}
+
+/* Üzerine gelince belirginleşsin (Interaction) */
+::-webkit-scrollbar-thumb:hover {
+  background-color: #7B2CBF; /* Marka rengin (Mor) parlasın */
 }
 
 /* === GPU ACCELERATION UTILITIES === */

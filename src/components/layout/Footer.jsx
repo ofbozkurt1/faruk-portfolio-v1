@@ -5,6 +5,7 @@
 
 import { motion } from 'framer-motion'
 import { FaBehance, FaLinkedinIn, FaInstagram } from 'react-icons/fa'
+import { useTranslation } from 'react-i18next'
 
 const socialLinks = [
     { icon: FaBehance, href: 'https://behance.net/', label: 'Behance' },
@@ -30,6 +31,8 @@ const itemVariants = {
 }
 
 export default function Footer() {
+    const { t } = useTranslation()
+
     return (
         <footer
             id="contact"
@@ -56,7 +59,7 @@ export default function Footer() {
                         marginBottom: 24
                     }}
                 >
-                    LET'S CREATE TOGETHER
+                    {t('contact.headline', "LET'S CREATE TOGETHER")}
                 </motion.h2>
 
                 {/* Subtitle */}
@@ -70,7 +73,7 @@ export default function Footer() {
                         margin: '0 auto 32px'
                     }}
                 >
-                    Have a project in mind? Let's bring your vision to life with motion and design.
+                    {t('contact.subtitle', "Have a project in mind? Let's bring your vision to life with motion and design.")}
                 </motion.p>
 
                 {/* Email Button */}
@@ -225,7 +228,7 @@ export default function Footer() {
                         letterSpacing: '0.05em'
                     }}
                 >
-                    © 2026 Ömer Faruk Bozkurt. Crafted with motion.
+                    {t('footer.copyright', '© 2026 Ömer Faruk Bozkurt. Crafted with motion.')}
                 </motion.p>
             </motion.div>
         </footer>

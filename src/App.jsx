@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import Lenis from '@studio-freight/lenis'
+import { useTranslation } from 'react-i18next'
 import { Hero } from './features/hero'
 import { StackView, GridView } from './features/portfolio'
 import { SkillsView } from './features/skills'
@@ -12,6 +13,7 @@ import PortfolioBackgroundLayer from './components/ui/PortfolioBackgroundLayer'
 import SideNav from './components/ui/SideNav'
 
 function App() {
+    const { t } = useTranslation()
     const [selectedProject, setSelectedProject] = useState(null)
     const [lenis, setLenis] = useState(null)
 
@@ -96,7 +98,7 @@ function App() {
                                     color: '#F2F2F2'
                                 }}
                             >
-                                Portfolio
+                                {t('portfolio.title', 'Portfolio')}
                             </h2>
                             <div style={{ width: 60, height: 1, background: 'linear-gradient(90deg, rgba(255,255,255,0.3), transparent)' }} />
                         </div>

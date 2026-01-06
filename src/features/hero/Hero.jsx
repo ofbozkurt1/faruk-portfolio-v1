@@ -6,6 +6,7 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { FiChevronDown } from 'react-icons/fi'
+import { useTranslation } from 'react-i18next'
 import { cn } from '../../utils/cn'
 
 const containerVariants = {
@@ -55,6 +56,7 @@ const firstName = "ÖMER FARUK"
 const lastName = "BOZKURT"
 
 export default function Hero({ className }) {
+    const { t } = useTranslation()
     const [animationKey, setAnimationKey] = useState(0)
     const [isPhotoHovered, setIsPhotoHovered] = useState(false)
 
@@ -138,21 +140,21 @@ export default function Hero({ className }) {
                             animation: 'title-shine 4s ease-in-out infinite'
                         }}
                     >
-                        Motion & Graphic Designer
+                        {t('hero.role', 'Motion & Graphic Designer')}
                     </motion.p>
 
                     <motion.p
                         variants={itemVariants}
                         className="text-dimGray max-w-md text-base leading-relaxed mx-auto lg:mx-0"
                     >
-                        Creating immersive visual experiences through motion and design.
+                        {t('hero.description', 'Creating immersive visual experiences through motion and design.')}
                     </motion.p>
 
                     {/* Download CV Button + Social Icons */}
                     <motion.div variants={itemVariants} className="mt-8 flex items-center justify-center lg:justify-start gap-6">
                         <a href="/cv.pdf" download className="download-btn">
                             <div className="btn-wrapper">
-                                <div className="btn-text">Download CV</div>
+                                <div className="btn-text">{t('hero.downloadCV', 'Download CV')}</div>
                                 <span className="btn-icon">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                         <path d="M12 15V3m0 12l-4-4m4 4l4-4M2 17l.621 2.485A2 2 0 0 0 4.561 21h14.878a2 2 0 0 0 1.94-1.515L22 17" />

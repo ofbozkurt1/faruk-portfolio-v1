@@ -1,71 +1,71 @@
 # Active Context
 
-## Current Phase: Phase 25 - Case Study Format
-Project detail pages transformed into professional case studies.
+## Current Phase: Phase 27 - Internationalization (i18n) & Services Update
+Multi-language support (TR/EN) and services section redesign.
 
 ## Latest Session Summary (2026-01-06)
 
-### Phase 25: Case Study Format
-GridView tamamen yeniden tasarlandı - Behance tarzı proje sunumu.
+### Phase 27: Internationalization (i18n)
 
-#### Yeni Bileşenler
-| Component | Description |
-|-----------|-------------|
-| `MetaItem` | Client, Services, Year bilgisi |
-| `ColorSwatch` | Renk paleti daireleri (hover animasyonlu) |
-| `TypographyDisplay` | Font gösterimi (Aa glyph + karakter seti) |
-| `ImageCard` | Geliştirilmiş görsel kartları |
+#### Kurulum
+- `react-i18next`, `i18next`, `i18next-browser-languagedetector` eklendi
+- Varsayılan dil: Türkçe (TR)
+- Dil tercihi localStorage'da saklanır
 
-#### Case Study Yapısı
+#### Dosya Yapısı
 ```
-1. HERO SECTION
-   - Category badge (pill style)
-   - Brand color başlık
-   - Description
-
-2. META GRID (4 kolon)
-   - Client | Services | Year | Toolkit
-
-3. VISUAL IDENTITY
-   - Color Palette (4 renk + hex + isim)
-   - Typography (font + style)
-
-4. GALLERY
-   - Enhanced image cards
-   - whileInView animasyonları
+src/
+├── i18n.js                          ← Konfigürasyon
+├── main.jsx                         ← i18n import
+├── locales/
+│   ├── tr/translation.json          ← Türkçe çeviriler
+│   └── en/translation.json          ← İngilizce çeviriler
 ```
 
-#### Data Güncellemeleri
-Her projeye eklenen yeni alanlar:
-- `client` - Müşteri adı
-- `identity.colors[]` - Renk paleti
-- `identity.fontFamily` - Font adı
-- `identity.fontStyle` - Font stili
+#### Çevrilen Bileşenler
+| Bileşen | Çevrilen Metinler |
+|---------|-------------------|
+| Header | Navigation links, Let's Talk, TR/EN butonları |
+| Hero | Role, Description, Download CV |
+| Skills | Title |
+| Services | Title, Subtitle, 4 servis başlık/açıklama |
+| Portfolio | Title, "PROJEYİ İNCELE" butonu |
+| VideoVault | Title, Subtitle |
+| Footer | Headline, Subtitle, Copyright |
+| GridView (Case Study) | Tüm label'lar |
 
-#### Proje Renk Paletleri
-| Proje | Ana Renk | Ek Renkler |
-|-------|----------|------------|
-| Novastra | #9333EA | #1F1B24, #F2F2F2, #C084FC |
-| Google Yorumlar | #4285F4 | #34A853, #FBBC05, #EA4335 |
-| Adana Napoli | #E53935 | #1A1A1A, #FFFFFF, #FFD54F |
-| Hacı Hakkı Usta | #C17F59 | #2D1F1A, #F5E6D3, #8B4513 |
-| Akdeniz Etkinlik | #00BCD4 | #FF4081, #1A1A2E, #FFFFFF |
-| Tırnak Trend | #EC4899 | #FDF2F8, #1F1F1F, #F472B6 |
-| BBS Transfer | #1E88E5 | #0D47A1, #FFFFFF, #90CAF9 |
-| Kumrualtı | #F97316 | #7C2D12, #FEF3C7, #1C1917 |
+#### Dil Butonları
+- Sıralama: **TR | EN** (Türkçe önce)
+- Aktif: Beyaz, Pasif: Gri
 
 ---
 
-## Previous Phases (This Session)
+### Services Güncellemesi
+
+#### 4 Servis (Yeni İçerik)
+| # | Türkçe | English | Renk |
+|---|--------|---------|------|
+| 01 | Sosyal Medya Tasarımları | Social Media Design | #9333EA (Mor) |
+| 02 | Hareketli Tasarımlar | Motion Design | #3B82F6 (Mavi) |
+| 03 | Marka Kimliği | Brand Identity | #F97316 (Turuncu) |
+| 04 | Video Edit | Video Editing | #EC4899 (Pembe) |
+
+#### ServiceBackgroundLayer Senkronizasyonu
+- Renk ve ikon sıralaması ServicesView ile eşleştirildi
+- Her servisin hover arka planı doğru renkte
+
+---
+
+## Previous Phases
+
+### Phase 25-26: Case Study Format & Gallery
+- GridView Behance tarzı case study formatı
+- Logo display, Visual Identity section
+- Gallery: 3 post/satır, 4 story/satır, ortalanmış son satır
 
 ### Phase 24: Video Vault
 - 8 dikey video, 4 kategori
-- Alternating layout
-- Lazy loading + auto-play
-
-### Portfolio Hover Effects
-- Dinamik arka plan (firma rengi)
-- Başlık + çizgi renk değişimi
+- Alternating layout + lazy loading
 
 ---
 
@@ -77,12 +77,6 @@ z-index: 1     │ ServiceBackgroundLayer
 z-index: 0     │ PortfolioBackgroundLayer
 z-index: -1    │ AtmosphericBackground
 ```
-
-## Performance Rules
-- ✅ whileInView for lazy animations
-- ✅ Framer Motion micro-animations
-- ✅ GPU-accelerated transforms
-- ❌ NO heavy filters
 
 ## Dev Server
 - http://localhost:5173/

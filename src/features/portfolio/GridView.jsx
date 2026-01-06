@@ -10,6 +10,7 @@ import { useEffect, useRef, useMemo } from 'react'
 import { createPortal } from 'react-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { getPostImages, getLongPostImages, getStoryImages, getProjectImagePath } from '../../utils/imagePath'
 
 // Tool icon mapping
@@ -99,35 +100,28 @@ function TypographyDisplay({ fontFamily, fontStyle }) {
             transition={{ delay: 0.5 }}
             style={{
                 display: 'flex',
-                flexDirection: 'column',
-                gap: 16
+                alignItems: 'center',
+                gap: 20
             }}
         >
-            <div style={{ display: 'flex', alignItems: 'baseline', gap: 16 }}>
-                <span
-                    style={{
-                        fontSize: 72,
-                        fontWeight: 700,
-                        color: '#F2F2F2',
-                        lineHeight: 1
-                    }}
-                >
-                    Aa
+            <span
+                style={{
+                    fontSize: 80,
+                    fontWeight: 700,
+                    color: '#F2F2F2',
+                    lineHeight: 1
+                }}
+            >
+                Aa
+            </span>
+            <div>
+                <span style={{ fontSize: 22, color: '#F2F2F2', display: 'block', fontWeight: 600 }}>
+                    {fontFamily}
                 </span>
-                <div>
-                    <span style={{ fontSize: 18, color: '#F2F2F2', display: 'block' }}>
-                        {fontFamily}
-                    </span>
-                    <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)' }}>
-                        {fontStyle}
-                    </span>
-                </div>
+                <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.4)', marginTop: 4, display: 'block' }}>
+                    {fontStyle}
+                </span>
             </div>
-            <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.5)', lineHeight: 1.8 }}>
-                ABCDEFGHIJKLMNOPQRSTUVWXYZ<br />
-                abcdefghijklmnopqrstuvwxyz<br />
-                0123456789
-            </p>
         </motion.div>
     )
 }
@@ -167,6 +161,7 @@ function ImageCard({ src, alt, index, type = 'post' }) {
 }
 
 function GridViewContent({ project, onClose }) {
+    const { t } = useTranslation()
     const scrollContainerRef = useRef(null)
     const {
         id, title, category, year, description,
@@ -277,7 +272,7 @@ function GridViewContent({ project, onClose }) {
                 </motion.button>
 
                 {/* Content */}
-                <div style={{ padding: '100px 5% 120px', maxWidth: 1200, margin: '0 auto' }}>
+                <div style={{ padding: '100px 5% 120px', maxWidth: 1400, margin: '0 auto' }}>
 
                     {/* ═══════════════ HERO SECTION ═══════════════ */}
                     <motion.div
@@ -359,9 +354,9 @@ function GridViewContent({ project, onClose }) {
                             marginBottom: 80
                         }}
                     >
-                        <MetaItem label="Client" value={client || title} delay={0.5} />
-                        <MetaItem label="Services" value={role || 'Design'} delay={0.6} />
-                        <MetaItem label="Year" value={year} delay={0.7} />
+                        <MetaItem label={t('caseStudy.client', 'Client')} value={client || title} delay={0.5} />
+                        <MetaItem label={t('caseStudy.services', 'Services')} value={role || 'Design'} delay={0.6} />
+                        <MetaItem label={t('caseStudy.year', 'Year')} value={year} delay={0.7} />
 
                         {/* Toolkit */}
                         <motion.div
@@ -380,7 +375,7 @@ function GridViewContent({ project, onClose }) {
                                     marginBottom: 8
                                 }}
                             >
-                                Toolkit
+                                {t('caseStudy.toolkit', 'Toolkit')}
                             </span>
                             <div style={{ display: 'flex', gap: 8 }}>
                                 {techStack.map((tool, idx) => (
@@ -428,20 +423,65 @@ function GridViewContent({ project, onClose }) {
                                     marginBottom: 40
                                 }}
                             >
-                                Visual Identity
+                                {t('caseStudy.visualIdentity', 'Visual Identity')}
                             </h3>
 
                             <div
                                 style={{
                                     display: 'grid',
-                                    gridTemplateColumns: '1fr 1fr',
-                                    gap: 60,
+                                    gridTemplateColumns: identity.logo ? '1fr 1.5fr 1fr' : '1fr 1fr',
+                                    gap: 40,
                                     padding: 40,
                                     background: 'rgba(255,255,255,0.02)',
                                     border: '1px solid rgba(255,255,255,0.05)',
                                     borderRadius: 20
                                 }}
                             >
+                                {/* Brand Logo */}
+                                {identity.logo && (
+                                    <div>
+                                        <span
+                                            style={{
+                                                display: 'block',
+                                                fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace',
+                                                fontSize: 10,
+                                                letterSpacing: '0.15em',
+                                                color: 'rgba(255,255,255,0.3)',
+                                                marginBottom: 24
+                                            }}
+                                        >
+                                            {t('caseStudy.brandMark', 'Brand Mark')}
+                                        </span>
+                                        <motion.div
+                                            initial={{ opacity: 0, scale: 0.9 }}
+                                            animate={{ opacity: 1, scale: 1 }}
+                                            whileHover={{ scale: 1.05 }}
+                                            style={{
+                                                width: 160,
+                                                height: 160,
+                                                borderRadius: 20,
+                                                background: 'rgba(255,255,255,0.05)',
+                                                border: '1px solid rgba(255,255,255,0.1)',
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                justifyContent: 'center',
+                                                padding: 16
+                                            }}
+                                        >
+                                            <img
+                                                src={identity.logo}
+                                                alt={`${title} Logo`}
+                                                style={{
+                                                    width: '100%',
+                                                    height: '100%',
+                                                    objectFit: 'contain'
+                                                }}
+                                                onError={(e) => { e.target.parentElement.style.display = 'none' }}
+                                            />
+                                        </motion.div>
+                                    </div>
+                                )}
+
                                 {/* Color Palette */}
                                 <div>
                                     <span
@@ -454,9 +494,9 @@ function GridViewContent({ project, onClose }) {
                                             marginBottom: 24
                                         }}
                                     >
-                                        Color Palette
+                                        {t('caseStudy.colorPalette', 'Color Palette')}
                                     </span>
-                                    <div style={{ display: 'flex', gap: 24 }}>
+                                    <div style={{ display: 'flex', gap: 20 }}>
                                         {identity.colors.map((color, idx) => (
                                             <ColorSwatch key={color.code} color={color} index={idx} />
                                         ))}
@@ -475,7 +515,7 @@ function GridViewContent({ project, onClose }) {
                                             marginBottom: 24
                                         }}
                                     >
-                                        Typography
+                                        {t('caseStudy.typography', 'Typography')}
                                     </span>
                                     <TypographyDisplay
                                         fontFamily={identity.fontFamily}
@@ -502,12 +542,12 @@ function GridViewContent({ project, onClose }) {
                                 marginBottom: 40
                             }}
                         >
-                            Gallery
+                            {t('caseStudy.gallery', 'Gallery')}
                         </h3>
 
                         {/* Custom Order Gallery */}
                         {orderedImages && orderedImages.length > 0 ? (
-                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24 }}>
+                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 32 }}>
                                 {orderedImages.map((img, idx) => (
                                     <ImageCard
                                         key={img.src}
@@ -520,70 +560,101 @@ function GridViewContent({ project, onClose }) {
                             </div>
                         ) : (
                             <>
-                                {/* Long Posts */}
+                                {/* Long Posts - Full Width */}
                                 {longPostImages.length > 0 && (
-                                    <div style={{ marginBottom: 40 }}>
-                                        {longPostImages.map((src, idx) => (
-                                            <ImageCard
-                                                key={src}
-                                                src={src}
-                                                alt={`${title} Long ${idx + 1}`}
-                                                index={idx}
-                                                type="longPost"
-                                            />
-                                        ))}
-                                    </div>
-                                )}
-
-                                {/* Posts Grid */}
-                                {postImages.length > 0 && (
-                                    <div style={{
-                                        display: 'grid',
-                                        gridTemplateColumns: 'repeat(3, 1fr)',
-                                        gap: 24,
-                                        marginBottom: storyImages.length > 0 ? 60 : 0
-                                    }}>
-                                        {postImages.map((src, idx) => (
-                                            <ImageCard
-                                                key={src}
-                                                src={src}
-                                                alt={`${title} ${idx + 1}`}
-                                                index={idx}
-                                            />
-                                        ))}
-                                    </div>
-                                )}
-
-                                {/* Stories Grid */}
-                                {storyImages.length > 0 && (
-                                    <>
+                                    <div style={{ marginBottom: 48 }}>
                                         <h4
                                             style={{
                                                 fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace',
                                                 fontSize: 10,
                                                 letterSpacing: '0.2em',
+                                                textTransform: 'uppercase',
                                                 color: 'rgba(255,255,255,0.3)',
-                                                marginBottom: 24,
-                                                marginTop: 40
+                                                marginBottom: 24
                                             }}
                                         >
-                                            Stories
+                                            {t('caseStudy.featured', 'Featured')}
                                         </h4>
-                                        <div style={{
-                                            display: 'grid',
-                                            gridTemplateColumns: 'repeat(5, 1fr)',
-                                            gap: 16
-                                        }}>
-                                            {storyImages.map((src, idx) => (
+                                        <div style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
+                                            {longPostImages.map((src, idx) => (
                                                 <ImageCard
                                                     key={src}
                                                     src={src}
-                                                    alt={`${title} Story ${idx + 1}`}
-                                                    index={postImages.length + idx}
+                                                    alt={`${title} Long ${idx + 1}`}
+                                                    index={idx}
+                                                    type="longPost"
                                                 />
                                             ))}
                                         </div>
-                                    </>
+                                    </div>
+                                )}
+
+                                {/* Posts Grid - 3 per row */}
+                                {postImages.length > 0 && (
+                                    <div style={{ marginBottom: storyImages.length > 0 ? 60 : 0 }}>
+                                        <h4
+                                            style={{
+                                                fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace',
+                                                fontSize: 10,
+                                                letterSpacing: '0.2em',
+                                                textTransform: 'uppercase',
+                                                color: 'rgba(255,255,255,0.3)',
+                                                marginBottom: 24
+                                            }}
+                                        >
+                                            {t('caseStudy.posts', 'Posts')}
+                                        </h4>
+                                        <div style={{
+                                            display: 'flex',
+                                            flexWrap: 'wrap',
+                                            justifyContent: 'center',
+                                            gap: 32
+                                        }}>
+                                            {postImages.map((src, idx) => (
+                                                <div key={src} style={{ width: 'calc(33.333% - 22px)' }}>
+                                                    <ImageCard
+                                                        src={src}
+                                                        alt={`${title} ${idx + 1}`}
+                                                        index={idx}
+                                                    />
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+
+                                {/* Stories Grid - 4 per row */}
+                                {storyImages.length > 0 && (
+                                    <div>
+                                        <h4
+                                            style={{
+                                                fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace',
+                                                fontSize: 10,
+                                                letterSpacing: '0.2em',
+                                                textTransform: 'uppercase',
+                                                color: 'rgba(255,255,255,0.3)',
+                                                marginBottom: 24
+                                            }}
+                                        >
+                                            {t('caseStudy.stories', 'Stories')}
+                                        </h4>
+                                        <div style={{
+                                            display: 'flex',
+                                            flexWrap: 'wrap',
+                                            justifyContent: 'center',
+                                            gap: 28
+                                        }}>
+                                            {storyImages.map((src, idx) => (
+                                                <div key={src} style={{ width: 'calc(25% - 21px)' }}>
+                                                    <ImageCard
+                                                        src={src}
+                                                        alt={`${title} Story ${idx + 1}`}
+                                                        index={postImages.length + idx}
+                                                    />
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
                                 )}
                             </>
                         )}

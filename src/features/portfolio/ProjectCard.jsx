@@ -5,6 +5,7 @@
  */
 
 import { useState, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import { getStackImages } from '../../utils/imagePath'
 import { cn } from '../../utils/cn'
 import { usePortfolioStore } from '../../stores/portfolioStore'
@@ -17,6 +18,7 @@ const iconMap = {
 }
 
 export default function ProjectCard({ project, onClick, isReversed, cardIndex = 0, className }) {
+    const { t } = useTranslation()
     const { id, title, category, year, description, techStack = [], postCount = 5, storyCount = 0, stackFormat = 'post', brandColor = '#9333EA' } = project
     const stackImages = getStackImages(id, postCount, storyCount, stackFormat)
     const [activeIndex, setActiveIndex] = useState(0)
@@ -137,7 +139,7 @@ export default function ProjectCard({ project, onClick, isReversed, cardIndex = 
                 </div>
                 <div className="mt-24 text-center relative z-20">
                     <span className="explore-pill">
-                        <span className="explore-text">Click to explore</span>
+                        <span className="explore-text">{t('portfolio.explore', 'Click to explore')}</span>
                         <span className="explore-arrow">→</span>
                     </span>
                 </div>

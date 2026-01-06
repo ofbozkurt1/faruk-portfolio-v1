@@ -1,17 +1,20 @@
 /**
  * Header Component - OPTIMIZED
  * Throttled scroll handler, passive listeners
+ * i18n support for multi-language
  */
 
 import { useState, useEffect, useCallback, useMemo } from 'react'
 import { motion } from 'framer-motion'
+import { useTranslation } from 'react-i18next'
 
-const navLinks = [
-    { label: 'About', href: '#about' },
-    { label: 'Skills', href: '#skills' },
-    { label: 'Services', href: '#services' },
-    { label: 'Portfolio', href: '#portfolio' },
-    { label: 'Contact', href: '#contact' }
+// Navigation links - will use translation keys
+const getNavLinks = (t) => [
+    { label: t('nav.about', 'About'), href: '#about' },
+    { label: t('nav.skills', 'Skills'), href: '#skills' },
+    { label: t('nav.services', 'Services'), href: '#services' },
+    { label: t('nav.work', 'Portfolio'), href: '#portfolio' },
+    { label: t('nav.contact', 'Contact'), href: '#contact' }
 ]
 
 // Throttle utility - limits function execution frequency
@@ -34,8 +37,12 @@ const throttle = (fn, ms) => {
 }
 
 export default function Header() {
+    const { t, i18n } = useTranslation()
     const [activeSection, setActiveSection] = useState('about')
     const [scrolled, setScrolled] = useState(false)
+
+    // Memoize navLinks based on current language
+    const navLinks = useMemo(() => getNavLinks(t), [t, i18n.language])
 
     // Cache section positions to avoid repeated DOM queries
     const sectionPositions = useMemo(() => {
@@ -209,9 +216,19 @@ export default function Header() {
             <div style={{ display: 'flex', alignItems: 'center', gap: 24 }}>
                 {/* Language Switch */}
                 <div className="lang-switch">
-                    <button className="lang-btn active">EN</button>
+                    <button
+                        className={`lang-btn ${i18n.language === 'tr' ? 'active' : ''}`}
+                        onClick={() => i18n.changeLanguage('tr')}
+                    >
+                        TR
+                    </button>
                     <span style={{ color: '#444', fontSize: 12 }}>|</span>
-                    <button className="lang-btn">TR</button>
+                    <button
+                        className={`lang-btn ${i18n.language === 'en' ? 'active' : ''}`}
+                        onClick={() => i18n.changeLanguage('en')}
+                    >
+                        EN
+                    </button>
                 </div>
 
                 {/* Let's Talk Button */}
@@ -220,7 +237,7 @@ export default function Header() {
                     onClick={(e) => handleClick(e, '#contact')}
                     className="lets-talk-btn"
                 >
-                    Let's Talk
+                    {t('nav.letsTalk', "Let's Talk")}
                 </a>
             </div>
 

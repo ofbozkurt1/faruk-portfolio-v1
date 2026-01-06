@@ -5,44 +5,46 @@
  */
 
 import { motion } from 'framer-motion'
+import { useTranslation } from 'react-i18next'
 import { useServiceStore } from '../../stores/serviceStore'
 
 const services = [
     {
         id: 1,
         number: '01',
-        title: 'Motion Graphics',
-        description: 'Bringing static visuals to life with fluid dynamics and storytelling.',
-        tags: ['Commercials', 'Explainers', 'Social Media'],
+        titleKey: 'services.socialMedia.title',
+        descKey: 'services.socialMedia.description',
+        tags: ['Instagram Grid', 'Story Sets', 'Campaigns'],
         color: '#9333EA'
     },
     {
         id: 2,
         number: '02',
-        title: 'Brand Identity',
-        description: 'Building memorable visual systems that stand the test of time.',
-        tags: ['Logo Design', 'Typography', 'Guidelines'],
+        titleKey: 'services.motionDesign.title',
+        descKey: 'services.motionDesign.description',
+        tags: ['2D Animation', 'Logo Reveal', 'Kinetic Typo'],
         color: '#3B82F6'
     },
     {
         id: 3,
         number: '03',
-        title: 'UI/UX Animation',
-        description: 'Enhancing user experience through micro-interactions and smooth transitions.',
-        tags: ['App Prototypes', 'Web Interaction', 'Lottie'],
-        color: '#EC4899'
+        titleKey: 'services.brandIdentity.title',
+        descKey: 'services.brandIdentity.description',
+        tags: ['Logo Design', 'Style Guide', 'Business Cards'],
+        color: '#F97316'
     },
     {
         id: 4,
         number: '04',
-        title: 'Video Editing',
-        description: 'Crafting rhythmic narratives from raw footage to final master.',
-        tags: ['Color Grading', 'Sound Design', 'Post-Production'],
-        color: '#F97316'
+        titleKey: 'services.videoEditing.title',
+        descKey: 'services.videoEditing.description',
+        tags: ['Reels & TikTok', 'Color Grading', 'Sound Design'],
+        color: '#EC4899'
     }
 ]
 
 export default function ServicesView() {
+    const { t } = useTranslation()
     const { activeServiceIndex, setActiveService, clearActiveService } = useServiceStore()
 
     return (
@@ -67,12 +69,12 @@ export default function ServicesView() {
                                 color: '#F2F2F2'
                             }}
                         >
-                            Services
+                            {t('services.title', 'Services')}
                         </h2>
                         <div style={{ width: 60, height: 1, background: 'linear-gradient(90deg, rgba(255,255,255,0.3), transparent)' }} />
                     </div>
                     <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 14 }}>
-                        What I bring to the table
+                        {t('services.subtitle', 'What I bring to the table')}
                     </p>
                 </motion.div>
 
@@ -132,7 +134,7 @@ export default function ServicesView() {
                                                 whiteSpace: 'nowrap'
                                             }}
                                         >
-                                            {service.title}
+                                            {t(service.titleKey)}
                                         </h3>
                                     </div>
 
@@ -165,7 +167,7 @@ export default function ServicesView() {
                                                     textAlign: 'left'
                                                 }}
                                             >
-                                                {service.description}
+                                                {t(service.descKey)}
                                             </p>
                                         </div>
 

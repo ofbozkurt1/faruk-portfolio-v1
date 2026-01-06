@@ -5,6 +5,7 @@
 
 import { useRef, useEffect } from 'react'
 import { motion, useInView } from 'framer-motion'
+import { useTranslation } from 'react-i18next'
 
 // Video data - 4 groups with 2 videos each + tools
 const groups = [
@@ -367,6 +368,8 @@ function VideoGroupRow({ group, index }) {
 
 // Main VideoVault Component
 export default function VideoVault() {
+    const { t } = useTranslation()
+
     return (
         <section className="py-32 overflow-hidden">
             <div className="max-w-7xl mx-auto px-6">
@@ -388,12 +391,12 @@ export default function VideoVault() {
                                 color: '#F2F2F2'
                             }}
                         >
-                            Video Showcase
+                            {t('videoShowcase.title', 'Video Showcase')}
                         </h2>
                         <div style={{ width: 60, height: 1, background: 'linear-gradient(90deg, rgba(255,255,255,0.3), transparent)' }} />
                     </div>
                     <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 15 }}>
-                        Vertical stories that captivate
+                        {t('videoShowcase.subtitle', 'Vertical stories that captivate')}
                     </p>
                 </motion.div>
 

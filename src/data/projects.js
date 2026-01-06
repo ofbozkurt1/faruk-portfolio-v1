@@ -20,6 +20,7 @@ export const PROJECTS = [
         techStack: ["illustrator", "photoshop"],
         client: "Novastra Media",
         identity: {
+            logo: '/gorseller/novastra/novastralogo.svg',
             colors: [
                 { code: "#9333EA", name: "Royal Purple" },
                 { code: "#1F1B24", name: "Deep Noir" },
@@ -73,6 +74,7 @@ export const PROJECTS = [
         techStack: ["photoshop", "illustrator"],
         client: "Adana Napoli Restaurant",
         identity: {
+            logo: '/gorseller/adananapoli/adananapolilogo.svg',
             colors: [
                 { code: "#E53935", name: "Napoli Red" },
                 { code: "#1A1A1A", name: "Carbon Black" },
@@ -100,6 +102,7 @@ export const PROJECTS = [
         techStack: ["photoshop", "illustrator"],
         client: "Hacı Hakkı Usta",
         identity: {
+            logo: '/gorseller/hacıhakkıusta/hacıhakkıustalogo.svg',
             colors: [
                 { code: "#C17F59", name: "Terracotta" },
                 { code: "#2D1F1A", name: "Dark Wood" },
@@ -146,6 +149,7 @@ export const PROJECTS = [
         techStack: ["photoshop", "illustrator"],
         client: "Akdeniz Etkinlik",
         identity: {
+            logo: '/gorseller/akdenizetkinlik/akdenizetkinliklogo.svg',
             colors: [
                 { code: "#00BCD4", name: "Cyan" },
                 { code: "#FF4081", name: "Pink Accent" },

@@ -4,6 +4,44 @@ All notable changes to the **Ömer Faruk Bozkurt Portfolio** project will be doc
 
 ## [Unreleased] - 2026-01-06
 
+### 🌍 Phase 27: Internationalization (i18n) & Services Update
+
+#### Çoklu Dil Desteği
+- `react-i18next`, `i18next`, `i18next-browser-languagedetector` kurulumu
+- Varsayılan dil: Türkçe (TR)
+- Dil tercihi localStorage'da saklanır
+- Header'da TR | EN butonları (TR önce)
+
+#### Çeviri Dosyaları
+```
+src/locales/
+├── tr/translation.json   ← Türkçe
+└── en/translation.json   ← İngilizce
+```
+
+#### Çevrilen Bileşenler
+- **Header**: Navigation, Let's Talk butonu
+- **Hero**: Role, Description, Download CV
+- **Skills**: Title
+- **Services**: Title, Subtitle, 4 servis başlık/açıklama
+- **Portfolio**: Title, "PROJEYİ İNCELE" butonu
+- **VideoVault**: Title, Subtitle
+- **Footer**: Headline, Subtitle, Copyright
+- **GridView**: Tüm case study label'ları
+
+#### Services Yeniden Düzenleme
+| # | Türkçe | English | Renk |
+|---|--------|---------|------|
+| 01 | Sosyal Medya Tasarımları | Social Media Design | #9333EA |
+| 02 | Hareketli Tasarımlar | Motion Design | #3B82F6 |
+| 03 | Marka Kimliği | Brand Identity | #F97316 |
+| 04 | Video Edit | Video Editing | #EC4899 |
+
+#### ServiceBackgroundLayer Senkronizasyonu
+- Renk ve ikon sıralaması ServicesView ile eşleştirildi
+
+---
+
 ### 📋 Phase 25: Case Study Format
 
 #### Proje Detay Sayfası Yeniden Tasarımı

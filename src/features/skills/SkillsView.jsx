@@ -6,6 +6,7 @@
 
 import { useState } from 'react'
 import { motion } from 'framer-motion'
+import { useTranslation } from 'react-i18next'
 import TiltCard from '../../components/ui/TiltCard'
 import { cn } from '../../utils/cn'
 
@@ -319,6 +320,8 @@ function SkillBentoCard({ skill }) {
 
 
 export default function SkillsView({ className }) {
+    const { t } = useTranslation()
+
     return (
         <motion.div
             className={cn("w-full", className)}
@@ -339,7 +342,7 @@ export default function SkillsView({ className }) {
                             color: '#F2F2F2'
                         }}
                     >
-                        Skills
+                        {t('skills.title', 'Skills')}
                     </h2>
                     <div style={{ width: 50, height: 1, background: 'linear-gradient(90deg, rgba(255,255,255,0.3), transparent)' }} />
                 </div>

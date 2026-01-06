@@ -9,21 +9,22 @@ import { motion } from 'framer-motion'
 import { useServiceStore } from '../../stores/serviceStore'
 
 // Service colors
+// Service colors
 const serviceColors = [
-    '#9333EA', // 01 Motion Graphics - Purple
-    '#3B82F6', // 02 Brand Identity - Blue
-    '#EC4899', // 03 UI/UX Animation - Pink
-    '#F97316'  // 04 Video Editing - Orange
+    '#9333EA', // 01 Social Media Design - Purple
+    '#3B82F6', // 02 Motion Design - Blue
+    '#F97316', // 03 Brand Identity - Orange
+    '#EC4899'  // 04 Video Editing - Pink
 ]
 
 const serviceNumbers = ['01', '02', '03', '04']
 
-// Tool icons for each service (using existing project icons)
+// Tool icons for each service
 const serviceIcons = [
-    ['/gorseller/iconlar/after-effects.svg'], // 01 Motion Graphics
-    ['/gorseller/iconlar/photoshop.svg', '/gorseller/iconlar/illustrator.svg'], // 02 Brand Identity
-    ['/gorseller/iconlar/after-effects.svg'], // 03 UI/UX Animation (Lottie exports from AE)
-    ['/gorseller/iconlar/premiere-pro.svg'] // 04 Video Editing
+    ['/gorseller/iconlar/photoshop.svg', '/gorseller/iconlar/illustrator.svg'], // 01 Social Media
+    ['/gorseller/iconlar/after-effects.svg'], // 02 Motion Design
+    ['/gorseller/iconlar/illustrator.svg', '/gorseller/iconlar/photoshop.svg'], // 03 Brand Identity
+    ['/gorseller/iconlar/premiere-pro.svg', '/gorseller/iconlar/after-effects.svg'] // 04 Video Editing
 ]
 
 export default function ServiceBackgroundLayer() {

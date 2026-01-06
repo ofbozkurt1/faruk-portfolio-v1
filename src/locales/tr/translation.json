@@ -1,0 +1,82 @@
+{
+    "nav": {
+        "work": "Portfolyo",
+        "about": "Hakkımda",
+        "skills": "Yetenekler",
+        "services": "Hizmetler",
+        "contact": "İletişim",
+        "letsTalk": "Hadi Konuşalım"
+    },
+    "hero": {
+        "role": "MOTION & GRAPHIC DESIGNER",
+        "description": "Markalar için akılda kalıcı görsel deneyimler tasarlıyorum.",
+        "cta": "Portfolyo",
+        "downloadCV": "CV'mi İndir"
+    },
+    "portfolio": {
+        "title": "Portfolyo",
+        "explore": "PROJEYİ İNCELE"
+    },
+    "skills": {
+        "title": "Yetenekler",
+        "subtitle": "Uzmanlık alanlarım"
+    },
+    "services": {
+        "title": "Hizmetler",
+        "subtitle": "Sunduğum hizmetler",
+        "socialMedia": {
+            "title": "Sosyal Medya Tasarımları",
+            "description": "Markanızın dijital sesini, etkileşim odaklı ve estetik görsel serilerle kurguluyorum. Sadece post değil, bir kimlik tasarlıyorum."
+        },
+        "motionDesign": {
+            "title": "Hareketli Tasarımlar",
+            "description": "Statik görselleri, akıcı dinamikler ve hikaye anlatımıyla canlandırarak izleyicinin dikkatini saniyeler içinde yakalıyorum."
+        },
+        "videoEditing": {
+            "title": "Video Edit",
+            "description": "Ham görüntüleri, ritmik kurgu, ses tasarımı ve sinematik dokunuşlarla 'tekrar izlenen' hikayelere dönüştürüyorum."
+        },
+        "brandIdentity": {
+            "title": "Marka Kimliği",
+            "description": "Markanın DNA'sını oluşturan logo, renk paleti ve kurumsal öğeleri, hem baskı hem de dijital dünyada tutarlı duracak şekilde tasarlıyorum."
+        }
+    },
+    "videoShowcase": {
+        "title": "Video Vitrini",
+        "subtitle": "Etkileyici dikey hikayeler",
+        "categories": {
+            "hype": "HYPE & ETKİNLİKLER",
+            "commercial": "TİCARİ",
+            "social": "SOSYAL EDİTLER",
+            "aerial": "HAVA & DRONE"
+        }
+    },
+    "contact": {
+        "title": "İletişim",
+        "subtitle": "Bir proje mi var aklında?",
+        "headline": "HAYDİ BİRLİKTE TASARLAYALIM",
+        "email": "E-posta",
+        "phone": "Telefon",
+        "location": "Konum",
+        "sendMessage": "Mesaj Gönder"
+    },
+    "footer": {
+        "rights": "Tüm hakları saklıdır.",
+        "designed": "Tasarım",
+        "copyright": "© 2026 Ömer Faruk Bozkurt. Motion ile hazırlandı."
+    },
+    "caseStudy": {
+        "client": "Müşteri",
+        "services": "Hizmetler",
+        "year": "Yıl",
+        "toolkit": "Araçlar",
+        "visualIdentity": "Görsel Kimlik",
+        "brandMark": "Marka İşareti",
+        "colorPalette": "Renk Paleti",
+        "typography": "Tipografi",
+        "gallery": "Galeri",
+        "featured": "Öne Çıkan",
+        "posts": "Gönderiler",
+        "stories": "Hikayeler"
+    }
+}
