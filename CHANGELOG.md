@@ -4,16 +4,27 @@ All notable changes to the **Ömer Faruk Bozkurt Portfolio** project will be doc
 
 ## [Unreleased] - 2026-01-07
 
+### ⚡ Phase 29: Final Performance Polish (LCP & Image Loading)
+
+#### 🚀 LCP (Largest Contentful Paint) Optimizasyonu
+- **Hero Profil Fotoğrafı**:
+  - `loading="lazy"` kaldırıldı (İlk yüklenen öğe olduğu için gecikme yaratıyordu).
+  - `fetchPriority="high"` eklendi (Tarayıcıya öncelikli yüklemesi söylendi).
+  - `decoding="sync"` eklendi.
+  - CLS (Layout Shift) önlemek için width/height eklendi.
+
+#### 🖼️ Ghost Reel Görsel Optimizasyonu
+- **Optimize Klasör**: `public/gorseller/slidergörseller` klasörü `slidergorseller` olarak yeniden adlandırıldı (Türkçe karakter sorunu giderildi).
+- **Lazy Loading**: Arka plan görsellerine `loading="lazy"` ve `decoding="async"` eklendi.
+- **Erişilebilirlik**: `aria-hidden="true"` eklendi.
+
 ### 🚀 Phase 28: Performance Optimization & Ghost Reel
 
 #### Ghost Reel Animation (Hero Background)
 - **Yeni Bileşen**: `HeroBackground.jsx` - Hero bölümü arkasında kayan proje görselleri.
 - **Tasarım**: Sağ ve sol tarafta açılı (+6° / -6°) çift sütun.
-- **İçerik**: Tüm projelerden (Novastra, Adana Napoli, vb.) karışık Post ve Story görselleri.
-- **Layout**:
-  - Sol: Post (Yukarı) + Story (Aşağı)
-  - Sağ: Post (Yukarı) + Story (Aşağı)
-- **Performans**: CSS-only transform animasyonları, `will-change` optimizasyonu. Hover efektleri kaldırıldı.
+- **İçerik**: Tüm projelerden karışık Post ve Story görselleri.
+- **Performans**: CSS-only transform animasyonları, `will-change` optimizasyonu.
 
 #### ⚡ Kritik Performans İyileştirmeleri
 Sitedeki ağır grafik efektleri temizlendi ve GPU yükü azaltıldı:

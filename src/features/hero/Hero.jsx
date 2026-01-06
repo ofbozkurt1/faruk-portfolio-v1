@@ -358,6 +358,10 @@ export default function Hero({ className }) {
                         <img
                             src="/gorseller/profil/ben.webp"
                             alt="Ömer Faruk Bozkurt"
+                            fetchPriority="high"
+                            decoding="sync"
+                            width="420"
+                            height="420"
                             style={{
                                 width: '100%',
                                 height: '100%',

@@ -4,50 +4,56 @@
  * CSS-only animations for performance
  * 
  * Both sides have mixed content: 1 column stories + 1 column posts
- * Images from ALL projects for variety
+ * Images from optimized slider directory
  */
 
 const HeroBackground = () => {
-    // POST images from ALL projects - mixed variety
+    // POST images - Left Side
     const postImagesLeft = [
-        '/gorseller/novastra/pst1.webp',
-        '/gorseller/akdenizetkinlik/pst3.webp',
-        '/gorseller/googleyorumlar/pst5.webp',
-        '/gorseller/adananapoli/pst1.webp',
-        '/gorseller/kumrualtı/pst1.webp',
-        '/gorseller/hacıhakkıusta/pst1.webp',
-        '/gorseller/tırnaktrend/pst1.webp',
-        '/gorseller/bbstransfer/pst1.webp',
+        '/gorseller/slidergorseller/pst1.webp',
+        '/gorseller/slidergorseller/pst2.webp',
+        '/gorseller/slidergorseller/pst3.webp',
+        '/gorseller/slidergorseller/pst4.webp',
+        '/gorseller/slidergorseller/pst5.webp',
+        '/gorseller/slidergorseller/pst6.webp',
+        '/gorseller/slidergorseller/pst7.webp',
+        '/gorseller/slidergorseller/pst8.webp',
+        '/gorseller/slidergorseller/pst9.webp',
+        '/gorseller/slidergorseller/pst10.webp',
     ]
 
+    // POST images - Right Side
     const postImagesRight = [
-        '/gorseller/akdenizetkinlik/pst1.webp',
-        '/gorseller/novastra/pst4.webp',
-        '/gorseller/googleyorumlar/pst2.webp',
-        '/gorseller/kumrualtı/pst2.webp',
-        '/gorseller/adananapoli/pst2.webp',
-        '/gorseller/tırnaktrend/pst2.webp',
-        '/gorseller/akdenizetkinlik/pst7.webp',
-        '/gorseller/novastra/pst6.webp',
+        '/gorseller/slidergorseller/pst11.webp',
+        '/gorseller/slidergorseller/pst12.webp',
+        '/gorseller/slidergorseller/pst13.webp',
+        '/gorseller/slidergorseller/pst14.webp',
+        '/gorseller/slidergorseller/pst15.webp',
+        '/gorseller/slidergorseller/pst16.webp',
+        '/gorseller/slidergorseller/pst17.webp',
+        '/gorseller/slidergorseller/pst18.webp',
+        '/gorseller/slidergorseller/pst19.webp',
+        '/gorseller/slidergorseller/pst20.webp',
     ]
 
-    // STORY images - vertical format (from projects that have stories)
+    // STORY images - Left Side
     const storyImagesLeft = [
-        '/gorseller/novastra/str1.webp',
-        '/gorseller/adananapoli/str2.webp',
-        '/gorseller/novastra/str5.webp',
-        '/gorseller/hacıhakkıusta/str1.webp',
-        '/gorseller/adananapoli/str4.webp',
-        '/gorseller/novastra/str9.webp',
+        '/gorseller/slidergorseller/str1.webp',
+        '/gorseller/slidergorseller/str2.webp',
+        '/gorseller/slidergorseller/str3.webp',
+        '/gorseller/slidergorseller/str4.webp',
+        '/gorseller/slidergorseller/str5.webp',
+        '/gorseller/slidergorseller/str6.webp',
     ]
 
+    // STORY images - Right Side
     const storyImagesRight = [
-        '/gorseller/novastra/str3.webp',
-        '/gorseller/adananapoli/str1.webp',
-        '/gorseller/novastra/str7.webp',
-        '/gorseller/hacıhakkıusta/str2.webp',
-        '/gorseller/adananapoli/str3.webp',
-        '/gorseller/novastra/str11.webp',
+        '/gorseller/slidergorseller/str7.webp',
+        '/gorseller/slidergorseller/str8.webp',
+        '/gorseller/slidergorseller/str9.webp',
+        '/gorseller/slidergorseller/str10.webp',
+        '/gorseller/slidergorseller/str11.webp',
+        '/gorseller/slidergorseller/str12.webp',
     ]
 
     return (
@@ -115,6 +121,7 @@ const HeroBackground = () => {
                     flex-direction: column;
                     gap: 12px;
                     flex-shrink: 0;
+                    will-change: transform;
                 }
 
                 .ghost-column-story {
@@ -169,16 +176,30 @@ const HeroBackground = () => {
             `}</style>
 
             {/* LEFT SIDE - Post column + Story column */}
-            <div className="ghost-reel-left">
+            <div className="ghost-reel-left" aria-hidden="true">
                 <div className="ghost-columns-left">
                     {/* Posts - Scrolls Up */}
                     <div className="ghost-column ghost-column-post scroll-up">
                         <div className="ghost-column-inner">
                             {postImagesLeft.map((src, idx) => (
-                                <img key={`lp-${idx}`} src={src} alt="" className="ghost-image ghost-image-post" loading="lazy" />
+                                <img
+                                    key={`lp-${idx}`}
+                                    src={src}
+                                    alt=""
+                                    className="ghost-image ghost-image-post"
+                                    loading="lazy"
+                                    decoding="async"
+                                />
                             ))}
                             {postImagesLeft.map((src, idx) => (
-                                <img key={`lp-dup-${idx}`} src={src} alt="" className="ghost-image ghost-image-post" loading="lazy" />
+                                <img
+                                    key={`lp-dup-${idx}`}
+                                    src={src}
+                                    alt=""
+                                    className="ghost-image ghost-image-post"
+                                    loading="lazy"
+                                    decoding="async"
+                                />
                             ))}
                         </div>
                     </div>
@@ -187,27 +208,55 @@ const HeroBackground = () => {
                     <div className="ghost-column ghost-column-story scroll-down">
                         <div className="ghost-column-inner">
                             {storyImagesLeft.map((src, idx) => (
-                                <img key={`ls-${idx}`} src={src} alt="" className="ghost-image ghost-image-story" loading="lazy" />
+                                <img
+                                    key={`ls-${idx}`}
+                                    src={src}
+                                    alt=""
+                                    className="ghost-image ghost-image-story"
+                                    loading="lazy"
+                                    decoding="async"
+                                />
                             ))}
                             {storyImagesLeft.map((src, idx) => (
-                                <img key={`ls-dup-${idx}`} src={src} alt="" className="ghost-image ghost-image-story" loading="lazy" />
+                                <img
+                                    key={`ls-dup-${idx}`}
+                                    src={src}
+                                    alt=""
+                                    className="ghost-image ghost-image-story"
+                                    loading="lazy"
+                                    decoding="async"
+                                />
                             ))}
                         </div>
                     </div>
                 </div>
             </div>
 
-            {/* RIGHT SIDE - Post column + Story column (swapped) */}
-            <div className="ghost-reel-right">
+            {/* RIGHT SIDE - Post column + Story column */}
+            <div className="ghost-reel-right" aria-hidden="true">
                 <div className="ghost-columns-right">
                     {/* Posts - Scrolls Up */}
                     <div className="ghost-column ghost-column-post scroll-up">
                         <div className="ghost-column-inner">
                             {postImagesRight.map((src, idx) => (
-                                <img key={`rp-${idx}`} src={src} alt="" className="ghost-image ghost-image-post" loading="lazy" />
+                                <img
+                                    key={`rp-${idx}`}
+                                    src={src}
+                                    alt=""
+                                    className="ghost-image ghost-image-post"
+                                    loading="lazy"
+                                    decoding="async"
+                                />
                             ))}
                             {postImagesRight.map((src, idx) => (
-                                <img key={`rp-dup-${idx}`} src={src} alt="" className="ghost-image ghost-image-post" loading="lazy" />
+                                <img
+                                    key={`rp-dup-${idx}`}
+                                    src={src}
+                                    alt=""
+                                    className="ghost-image ghost-image-post"
+                                    loading="lazy"
+                                    decoding="async"
+                                />
                             ))}
                         </div>
                     </div>
@@ -216,10 +265,24 @@ const HeroBackground = () => {
                     <div className="ghost-column ghost-column-story scroll-down">
                         <div className="ghost-column-inner">
                             {storyImagesRight.map((src, idx) => (
-                                <img key={`rs-${idx}`} src={src} alt="" className="ghost-image ghost-image-story" loading="lazy" />
+                                <img
+                                    key={`rs-${idx}`}
+                                    src={src}
+                                    alt=""
+                                    className="ghost-image ghost-image-story"
+                                    loading="lazy"
+                                    decoding="async"
+                                />
                             ))}
                             {storyImagesRight.map((src, idx) => (
-                                <img key={`rs-dup-${idx}`} src={src} alt="" className="ghost-image ghost-image-story" loading="lazy" />
+                                <img
+                                    key={`rs-dup-${idx}`}
+                                    src={src}
+                                    alt=""
+                                    className="ghost-image ghost-image-story"
+                                    loading="lazy"
+                                    decoding="async"
+                                />
                             ))}
                         </div>
                     </div>

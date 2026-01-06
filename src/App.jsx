@@ -24,15 +24,15 @@ function App() {
 
     useEffect(() => {
         const lenisInstance = new Lenis({
-            duration: 1.0,
+            duration: 1.2,
             easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
             direction: 'vertical',
             gestureDirection: 'vertical',
             smooth: true,
             smoothTouch: false,
-            touchMultiplier: 1.5,
-            lerp: 0.08,
-            wheelMultiplier: 0.8,
+            touchMultiplier: 2,
+            lerp: 0.1,
+            wheelMultiplier: 1,
         })
 
         // Force scroll to top after Lenis init

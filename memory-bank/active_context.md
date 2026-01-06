@@ -1,28 +1,25 @@
 # Active Context
 
-## Current Phase: Phase 28 - Performance Optimization & Services Polish
-Major performance optimizations across the entire site and Services section refinement.
+## Current Phase: Phase 29 - Final Performance Polish & LCP Optimization
+Final round of performance optimization focusing on LCP (Largest Contentful Paint) and image loading strategies.
 
 ## Latest Session Summary (2026-01-07)
 
-### Ghost Reel Animation (Hero Background)
-- **Component**: `HeroBackground.jsx`
-- **Design**: 
-  - 2 side columns (Left & Right)
-  - Left: Rotated +6deg (Outward)
-  - Right: Rotated -6deg (Inward)
-- **Content Strategy**:
-  - **Left Side**: Column 1 (Posts ↑), Column 2 (Stories ↓)
-  - **Right Side**: Column 1 (Posts ↑), Column 2 (Stories ↓)
-  - **Mixed Content**: Images from ALL projects (Novastra, Adana Napoli, Hacı Hakkı Usta, etc.)
-- **Performance**:
-  - GPU-accelerated CSS animations (`will-change: transform`)
-  - **NO Hover Effects**: Removed heavy blur/opacity transitions
-  - **Static Filter**: `grayscale(100%)` and low opacity (0.08)
+### LCP & Image Optimization
+- **Hero Profile Image (LCP Fixed)**:
+  - Removed `loading="lazy"` (Critical fix)
+  - Added `fetchPriority="high"`
+  - Added `decoding="sync"`
+  - Explicit `width` and `height` attributes to prevent CLS
+- **Ghost Reel Images (Background)**:
+  - Updated to use optimized images from `public/gorseller/slidergorseller/` (renamed from `slidergörseller`)
+  - Added `loading="lazy"`
+  - Added `decoding="async"`
+  - Added `aria-hidden="true"` since they are decorative
 
 ### Services Section Polish
 - **Hover Logic**:
-  - **UI Feedback**: Instant response (color change, indicator line) via `pendingServiceIndex`
+  - **UI Feedback**: Instant response via `pendingServiceIndex`
   - **Background Animation**: **1 second delay** via `activeServiceIndex`
   - Prevents background flashing during fast scrolling
 - **Store Updates**: Added debounce logic to `serviceStore.js`
@@ -45,14 +42,6 @@ Removed expensive graphic effects that were causing frame drops:
 #### 3. Hero.jsx
 - **Removed**: `boxShadow: 0 20px 50px` from Profile Photo
 - **Impact**: Smoother float animation
-
-### Current Effect Status
-| Effect | Status | Reason |
-|--------|--------|--------|
-| `backdrop-filter` | ❌ Removed | Too heavy for list items |
-| `box-shadow` (Large) | ❌ Removed | High paint cost |
-| `will-change` | ✅ Added | Targeted GPU optimization |
-| CSS Animations | ✅ Optimized | Transform-only animations |
 
 ---
 
