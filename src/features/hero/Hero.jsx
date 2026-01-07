@@ -121,7 +121,7 @@ export default function Hero({ className }) {
                     {/* Name with dynamic letter animation */}
                     <motion.h1
                         variants={itemVariants}
-                        className="text-[clamp(32px,8vw,80px)] md:text-7xl font-extrabold tracking-[-0.03em] leading-[1.1] text-[#F2F2F2] min-h-[84px] md:min-h-[150px] w-full px-4 break-words"
+                        className="text-[clamp(32px,8vw,80px)] md:text-7xl font-extrabold tracking-[-0.03em] leading-[1.1] text-[#F2F2F2] min-h-[84px] md:min-h-[150px] w-full px-4 lg:px-0 break-words"
                     >
                         {renderAnimatedText(firstName)}
                         <br />

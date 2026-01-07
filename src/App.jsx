@@ -74,7 +74,8 @@ function App() {
                 <Header />
                 <Hero />
 
-                <section id="skills" className="py-10 md:py-32 container-padding">
+                {/* Skills Section - Responsive padding */}
+                <section id="skills" className="relative w-full pt-0 pb-10 md:py-32 container-padding">
                     <SkillsView />
                 </section>
 

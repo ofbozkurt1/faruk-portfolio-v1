@@ -138,8 +138,8 @@ export default function Header() {
                     <button
                         onClick={() => i18n.language !== 'tr' && startTransition('tr')}
                         className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all duration-300 ${i18n.language === 'tr'
-                                ? 'bg-[#F2F2F2] text-black shadow-lg'
-                                : 'text-[#F2F2F2]/60 hover:text-[#F2F2F2]'
+                            ? 'bg-[#F2F2F2] text-black shadow-lg'
+                            : 'text-[#F2F2F2]/60 hover:text-[#F2F2F2]'
                             }`}
                     >
                         TR
@@ -147,8 +147,8 @@ export default function Header() {
                     <button
                         onClick={() => i18n.language !== 'en' && startTransition('en')}
                         className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all duration-300 ${i18n.language === 'en'
-                                ? 'bg-[#F2F2F2] text-black shadow-lg'
-                                : 'text-[#F2F2F2]/60 hover:text-[#F2F2F2]'
+                            ? 'bg-[#F2F2F2] text-black shadow-lg'
+                            : 'text-[#F2F2F2]/60 hover:text-[#F2F2F2]'
                             }`}
                     >
                         EN
@@ -286,14 +286,14 @@ export default function Header() {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -20 }}
                         transition={{ duration: 0.3 }}
-                        className="fixed inset-0 z-[900] bg-black/95 backdrop-blur-xl flex flex-col items-center py-24 md:hidden overflow-hidden"
+                        className="fixed inset-0 z-[900] bg-black/95 backdrop-blur-xl flex flex-col items-center justify-center py-10 md:hidden overflow-hidden"
                     >
                         {/* Mobile Lang Switch - Closer to menu */}
-                        <div className="mb-6">
+                        <div className="mb-8 flex-shrink-0">
                             <LanguageToggle isMobile />
                         </div>
 
-                        <nav className="flex-1 flex flex-col items-center justify-center gap-8 w-full px-4">
+                        <nav className="flex flex-col items-center justify-center gap-8 w-full px-4 flex-shrink-0">
                             {navLinks.map((link, i) => {
                                 const isActive = activeSection === link.href.replace('#', '')
                                 return (
@@ -307,7 +307,7 @@ export default function Header() {
                                         className={`relative text-center w-full max-w-[300px] text-2xl sm:text-3xl font-bold tracking-widest uppercase ${isActive ? 'text-white' : 'text-zinc-500'}`}
                                         style={{ wordBreak: 'break-word' }}
                                     >
-                                        <span className="relative inline-block pb-2">
+                                        <span className="relative inline-block pb-1">
                                             {link.label}
                                             {isActive && (
                                                 <motion.div
@@ -330,7 +330,7 @@ export default function Header() {
                             transition={{ delay: 0.4 }}
                             href="#contact"
                             onClick={(e) => handleClick(e, '#contact')}
-                            className="lets-talk-btn mt-8 !px-8 !py-3 !text-sm flex-shrink-0"
+                            className="lets-talk-btn mt-10 !px-8 !py-3 !text-sm flex-shrink-0"
                         >
                             {t('nav.letsTalk', "Let's Talk")}
                         </motion.a>
