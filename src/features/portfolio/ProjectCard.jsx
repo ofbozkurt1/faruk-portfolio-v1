@@ -91,12 +91,13 @@ export default function ProjectCard({ project, onClick, isReversed, cardIndex = 
                         const baseRotation = (rotations[orderIndex] || 0) * direction
                         const hoverRotation = baseRotation * 1.5
 
-                        const scales = [1, 0.96, 0.92, 0.88, 0.84]
-                        const scale = scales[orderIndex] || 0.8
+                        // Mobile: almost no scale difference
+                        const scales = isMobile ? [1, 0.98, 0.96, 0.94, 0.92] : [1, 0.96, 0.92, 0.88, 0.84]
+                        const scale = scales[orderIndex] || 0.9
 
-                        // Mobile: less Y movement
-                        const baseYValues = isMobile ? [0, 5, 10, 15, 20] : [0, 10, 20, 30, 40]
-                        const hoverYValues = isMobile ? [0, -5, -10, -15, -20] : [0, -10, -20, -30, -40]
+                        // Mobile: NO Y movement (cards stay at same level)
+                        const baseYValues = isMobile ? [0, 0, 0, 0, 0] : [0, 10, 20, 30, 40]
+                        const hoverYValues = isMobile ? [0, 0, 0, 0, 0] : [0, -10, -20, -30, -40]
                         const baseY = baseYValues[orderIndex] || 50
                         const hoverY = hoverYValues[orderIndex] || -50
 
@@ -140,10 +141,10 @@ export default function ProjectCard({ project, onClick, isReversed, cardIndex = 
                         )
                     })}
 
-                    {/* MOBILE OVERLAY - Gradient + Text BELOW IMAGE */}
-                    <div className="absolute -bottom-28 left-0 right-0 md:hidden z-20">
-                        {/* Gradient behind text - extends upward */}
-                        <div className="absolute -top-10 left-0 w-full h-[150%] bg-gradient-to-t from-black via-black/90 to-transparent pointer-events-none" />
+                    {/* MOBILE OVERLAY - Gradient + Text */}
+                    <div className="absolute -bottom-16 left-0 right-0 md:hidden z-20">
+                        {/* Gradient - extends far up into image */}
+                        <div className="absolute -top-24 left-0 w-full h-[200%] bg-gradient-to-t from-black via-black/80 to-transparent pointer-events-none" />
 
                         {/* Content */}
                         <div className="relative z-10 px-4 pb-1">
