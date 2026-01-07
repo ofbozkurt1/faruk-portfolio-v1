@@ -255,33 +255,12 @@ function GridViewContent({ project, onClose }) {
     }, [])
 
     return (
-        <div
-            style={{
-                position: 'fixed',
-                top: 0,
-                left: 0,
-                width: '100vw',
-                height: '100vh',
-                zIndex: 99999,
-                backgroundColor: '#0a0a0a'
-            }}
-        >
+        <div className="fixed inset-0 z-[99999] bg-[#0a0a0a]">
             {/* Scrollable Container */}
             <div
                 ref={scrollContainerRef}
-                onTouchStart={(e) => e.stopPropagation()}
-                style={{
-                    position: 'absolute',
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    bottom: 0,
-                    overflowY: 'scroll',
-                    overflowX: 'hidden',
-                    WebkitOverflowScrolling: 'touch',
-                    msOverflowStyle: 'auto',
-                    scrollbarWidth: 'thin'
-                }}
+                className="absolute inset-0 overflow-y-auto overflow-x-hidden"
+                style={{ WebkitOverflowScrolling: 'touch' }}
             >
                 {/* Close Button */}
                 <motion.button
