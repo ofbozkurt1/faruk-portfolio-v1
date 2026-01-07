@@ -46,7 +46,7 @@ export default function ServiceBackgroundLayer() {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        transition={{ duration: 0.5, ease: 'linear' }}
+                        transition={{ duration: 0.2 }}
                         style={{
                             position: 'absolute',
                             inset: '-10%',
@@ -66,7 +66,7 @@ export default function ServiceBackgroundLayer() {
                         initial={{ opacity: 0, scale: 0.8 }}
                         animate={{ opacity: 1, scale: 1 }}
                         exit={{ opacity: 0, scale: 0.8 }}
-                        transition={{ duration: 0.5 }}
+                        transition={{ duration: 0.3 }}
                         className="hidden md:flex flex-col items-center gap-5"
                         style={{
                             position: 'absolute',
@@ -126,7 +126,7 @@ export default function ServiceBackgroundLayer() {
                             y: `${activeServiceIndex * 20}%`
                         }}
                         exit={{ opacity: 0 }}
-                        transition={{ duration: 0.6, ease: 'easeOut' }}
+                        transition={{ duration: 0.4, ease: 'easeOut' }}
                         style={{
                             position: 'absolute',
                             top: '0%',

@@ -4,6 +4,7 @@
  * Clean hover animations without floating previews
  */
 
+import { useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
 import { useServiceStore } from '../../stores/serviceStore'
@@ -47,6 +48,17 @@ export default function ServicesView() {
     const { t } = useTranslation()
     const { activeServiceIndex, pendingServiceIndex, setActiveService, clearActiveService } = useServiceStore()
 
+    // Scroll listener: Close active service when scrolling on mobile
+    useEffect(() => {
+        const handleScroll = () => {
+            if (activeServiceIndex !== null && window.innerWidth < 1024) {
+                clearActiveService()
+            }
+        }
+        window.addEventListener('scroll', handleScroll, { passive: true })
+        return () => window.removeEventListener('scroll', handleScroll)
+    }, [activeServiceIndex, clearActiveService])
+
     // Use pendingServiceIndex for immediate local UI feedback
     const hoveredIndex = pendingServiceIndex
 
@@ -81,9 +93,9 @@ export default function ServicesView() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.6 }}
-                    className="mb-8 md:mb-16 text-center"
+                    className="mb-4 md:mb-12 text-center"
                 >
-                    <div className="flex items-center justify-center gap-6 mb-4">
+                    <div className="flex items-center justify-center gap-6">
                         <div style={{ width: 60, height: 1, background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.3))' }} />
                         <h2
                             className="text-3xl md:text-5xl font-bold tracking-tight text-[#F2F2F2]"
@@ -92,9 +104,6 @@ export default function ServicesView() {
                         </h2>
                         <div style={{ width: 60, height: 1, background: 'linear-gradient(90deg, rgba(255,255,255,0.3), transparent)' }} />
                     </div>
-                    <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 14 }}>
-                        {t('services.subtitle', 'What I bring to the table')}
-                    </p>
                 </motion.div>
 
                 {/* Services List */}
