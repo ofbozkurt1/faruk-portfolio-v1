@@ -250,9 +250,11 @@ function GridViewContent({ project, onClose }) {
                 style={{
                     position: 'absolute',
                     inset: 0,
-                    overflowY: 'scroll',
+                    height: '100%',
+                    overflowY: 'auto',
                     overflowX: 'hidden',
-                    WebkitOverflowScrolling: 'touch'
+                    WebkitOverflowScrolling: 'touch',
+                    touchAction: 'pan-y'
                 }}
             >
                 {/* Close Button */}
