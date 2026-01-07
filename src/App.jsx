@@ -79,7 +79,7 @@ function App() {
                     <SkillsView />
                 </section>
 
-                <div className="container-padding">
+                <div className="container-padding hidden md:block">
                     <div className="luxury-divider" />
                 </div>
 

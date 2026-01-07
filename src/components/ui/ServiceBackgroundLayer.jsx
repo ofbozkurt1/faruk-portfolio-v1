@@ -58,7 +58,7 @@ export default function ServiceBackgroundLayer() {
                 )}
             </AnimatePresence>
 
-            {/* Only render active number & icons */}
+            {/* Only render active number & icons - DESKTOP ONLY */}
             <AnimatePresence mode="wait">
                 {activeServiceIndex !== null && (
                     <motion.div
@@ -67,15 +67,12 @@ export default function ServiceBackgroundLayer() {
                         animate={{ opacity: 1, scale: 1 }}
                         exit={{ opacity: 0, scale: 0.8 }}
                         transition={{ duration: 0.5 }}
+                        className="hidden md:flex flex-col items-center gap-5"
                         style={{
                             position: 'absolute',
                             top: '50%',
                             right: '8%',
                             transform: 'translateY(-50%)',
-                            display: 'flex',
-                            flexDirection: 'column',
-                            alignItems: 'center',
-                            gap: 20,
                             pointerEvents: 'none',
                             zIndex: 0,
                             willChange: 'opacity, transform'
@@ -117,11 +114,12 @@ export default function ServiceBackgroundLayer() {
                 )}
             </AnimatePresence>
 
-            {/* Accent color glow - only when active */}
+            {/* Accent color glow - only when active - DESKTOP ONLY */}
             <AnimatePresence>
                 {activeServiceIndex !== null && (
                     <motion.div
                         key="glow"
+                        className="hidden md:block" // Hidden on mobile to reduce brightness
                         initial={{ opacity: 0 }}
                         animate={{
                             opacity: 0.6,
