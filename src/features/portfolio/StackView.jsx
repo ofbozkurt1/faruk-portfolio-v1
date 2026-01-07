@@ -20,7 +20,7 @@ export default function StackView({ onProjectClick, className }) {
                     />
 
                     {index < PROJECTS.length - 1 && (
-                        <div className="luxury-divider mt-32 md:mt-40" />
+                        <div className="luxury-divider hidden md:block mt-32 md:mt-40" />
                     )}
                 </div>
             ))}

@@ -12,20 +12,15 @@ export const useServiceStore = create((set) => ({
     activeServiceIndex: null,
     pendingServiceIndex: null,
 
-    // Set active service with 3 second delay
+    // Set active service IMMEDIATELY (no delay)
     setActiveService: (index) => {
-        // Clear any existing timeout
+        // Clear any existing timeout (legacy)
         if (hoverTimeout) {
             clearTimeout(hoverTimeout)
         }
 
-        // Set pending immediately (for local UI feedback)
-        set({ pendingServiceIndex: index })
-
-        // Set active after 1 second (for background animation)
-        hoverTimeout = setTimeout(() => {
-            set({ activeServiceIndex: index })
-        }, 1000)
+        // Set both pending and active immediately
+        set({ pendingServiceIndex: index, activeServiceIndex: index })
     },
 
     // Clear active service immediately
