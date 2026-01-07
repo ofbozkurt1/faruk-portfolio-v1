@@ -38,12 +38,29 @@ Major performance optimization pass eliminating high-frequency re-renders, memor
    - `VideoCard` wrapped with memo
    - **Impact:** Parent re-renders don't affect children
 
-### Phase 33: Cinematic Wipe Transition
-- **New Component:** `WipeTransition.jsx`
-- **Store:** `languageTransitionStore.js`
-- Language switch triggers full-screen black overlay
-- Shows flag emoji + language name + decorative elements
-- Slow-in (0.4s), fast-out (0.2s) asymmetric timing
+### Phase 36: Comprehensive Mobile Optimization
+**Focus:** Perfect rendering on Viewport < 768px (iPhone 14 Pro baseline).
+
+**Key Actions:**
+1. **Header.jsx:**
+   - Implemented Responsive Hamburger Menu (`isMenuOpen` state).
+   - Added full-screen accessible overlay with `AnimatePresence`.
+   - Hidden desktop nav on mobile (`md:flex`/`md:hidden`).
+
+2. **Hero.jsx:**
+   - Resized Profile Image: `w-40` (160px) mobile → `md:w-[420px]` desktop.
+   - Layout: `flex-col-reverse` (Mobile: Photo Top, Text Bottom) → `lg:flex-row`.
+   - Typography: Scaled down Name (`text-4xl` → `text-7xl`).
+
+3. **Grid Layouts Adjusted:**
+   - **ServicesView.jsx:** Converted inline grid to Tailwind `grid-cols-1 lg:grid-cols-[1fr_auto]`. Content stacks vertically on mobile.
+   - **SkillsView.jsx:** Unified codebase. Uses single loop + CSS responsive grid (`1-col` mobile, `12-col bento` desktop).
+   - **GridView.jsx:** Converted all inline grids to responsive Tailwind classes (`grid-cols-2`, `grid-cols-3` etc.).
+
+4. **HeroBackground (Ghost Reel):**
+   - Verified hidden on mobile/tablet via CSS (`display: none` under 1024px) for maximum performance.
+
+### Phase 35: Critical Performance Refactor
 
 ### Phase 29: LCP & Image Optimization
 - Hero profile image: `fetchPriority="high"`, `decoding="sync"`
@@ -69,3 +86,4 @@ Major performance optimization pass eliminating high-frequency re-renders, memor
 
 ## Dev Server
 - http://localhost:5173/
+- **Recent Fix:** Fixed ServicesView tags alignment (Phase 35 follow-up). Tags are now aligned with the description text, not the icon.

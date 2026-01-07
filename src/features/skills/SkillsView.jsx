@@ -349,97 +349,32 @@ export default function SkillsView({ className }) {
                 </div>
             </motion.div>
 
-            {/* Bento Grid - 12 Column Desktop */}
-            <div
-                style={{
-                    display: 'grid',
-                    gridTemplateColumns: 'repeat(12, 1fr)',
-                    gridTemplateRows: 'auto auto',
-                    gridTemplateAreas: `
-                        "ps ps ps ps ps ps ps ae ae ae ae ae"
-                        "ai ai ai ai ai ai pr pr pr pr pr pr"
-                    `,
-                    gap: 20,
-                    maxWidth: 1200,
-                    margin: '0 auto'
-                }}
-                className="hidden md:grid"
-            >
+            {/* Unified Responsive Bento Grid */}
+            <div className="bento-grid max-w-6xl mx-auto px-4 md:px-0">
                 {skills.map((skill) => (
                     <SkillBentoCard key={skill.id} skill={skill} />
                 ))}
             </div>
 
-            {/* Mobile: Stacked */}
-            <div
-                className="md:hidden flex flex-col gap-4"
-                style={{ maxWidth: 500, margin: '0 auto' }}
-            >
-                {skills.map((skill) => (
-                    <motion.div key={skill.id} variants={cardVariants}>
-                        <TiltCard
-                            glowColor={skill.glowColor}
-                            intensity={10}
-                        >
-                            <div className="p-5 flex items-center gap-4">
-                                <div
-                                    style={{
-                                        width: 48,
-                                        height: 48,
-                                        borderRadius: 10,
-                                        overflow: 'hidden',
-                                        flexShrink: 0
-                                    }}
-                                >
-                                    <img
-                                        src={skill.icon}
-                                        alt={skill.name}
-                                        style={{
-                                            width: '100%',
-                                            height: '100%',
-                                            objectFit: 'contain'
-                                        }}
-                                    />
-                                </div>
-                                <div className="flex-1">
-                                    <h3
-                                        style={{
-                                            fontSize: 18,
-                                            fontWeight: 700,
-                                            color: '#F2F2F2',
-                                            margin: 0,
-                                            marginBottom: 4
-                                        }}
-                                    >
-                                        {skill.name}
-                                    </h3>
-                                    <div className="flex items-center gap-3">
-                                        <span
-                                            style={{
-                                                fontFamily: 'monospace',
-                                                fontSize: 10,
-                                                fontWeight: 600,
-                                                letterSpacing: '0.1em',
-                                                color: skill.color
-                                            }}
-                                        >
-                                            {skill.level}
-                                        </span>
-                                        <span
-                                            style={{
-                                                fontSize: 10,
-                                                color: 'rgba(255,255,255,0.4)'
-                                            }}
-                                        >
-                                            {skill.years}
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </TiltCard>
-                    </motion.div>
-                ))}
-            </div>
+            <style>{`
+                .bento-grid {
+                    display: grid;
+                    grid-template-columns: 1fr;
+                    gap: 16px;
+                }
+                
+                @media (min-width: 768px) {
+                    .bento-grid {
+                        grid-template-columns: repeat(12, 1fr);
+                        grid-template-rows: auto auto;
+                        grid-template-areas: 
+                            "ps ps ps ps ps ps ps ae ae ae ae ae"
+                            "ai ai ai ai ai ai pr pr pr pr pr pr";
+                        gap: 20px;
+                    }
+                }
+            `}</style>
         </motion.div>
     )
 }
+

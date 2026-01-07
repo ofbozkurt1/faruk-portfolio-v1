@@ -4,6 +4,32 @@ All notable changes to the **Ömer Faruk Bozkurt Portfolio** project will be doc
 
 ## [Unreleased] - 2026-01-07
 
+### 📱 Phase 36: Kapsamlı Mobil Optimizasyon (iPhone 14 Pro Baseline)
+
+**Hedef:** 768px altındaki ekranlarda (Mobil) kusursuz "Sessiz Lüks" deneyimi.
+
+#### 🍔 Responsive Header & Menü
+- **Hamburger Menü**: Masaüstü menüsü mobilde gizlendi, yerine minimalist hamburger ikon (`HiMenuAlt4`) eklendi.
+- **Full Screen Overlay**: Menü açıldığında `AnimatePresence` ile çalışan, arkaplanı bulanık (`backdrop-blur-xl`) tam ekran menü katmanı eklendi.
+- **Scroll Kilidi**: Menü açıkken sayfanın kaydırılması engellendi.
+
+#### 🖼️ Hero Bölümü Düzenlemeleri
+- **Profil Fotoğrafı**: Mobil için küçültüldü (`w-40`/160px). Masaüstünde büyük (`md:w-[420px]`).
+- **Layout**: Mobilde `flex-col-reverse` (Fotoğraf üstte, İsim altta) yapısına geçildi.
+- **Tipografi**: İsim boyutu mobilde `text-4xl`, masaüstünde `text-7xl` olarak ayarlandı.
+
+#### 📐 Grid Yapılandırması (Stacking Fix)
+- **SkillsView**: Mobil ve Masaüstü için ayrılan kodlar **birleştirildi**. Tek bir döngü ile CSS Grid (`.bento-grid`) kullanılarak responsive hale getirildi. (Mobilde 1 sütun, Masaüstünde 12 sütun Bento).
+- **ServicesView**: Satır içi stiller Tailwind classlarına çevrildi. Mobilde içerikler dikey yığılırken (`grid-cols-1`), masaüstünde yan yana (`1fr auto`).
+- **GridView (Case Study)**: Tüm galeriler responsive grid'e çevrildi:
+  - Meta Alanı: `grid-cols-2` (Mobil) → `grid-cols-4` (PC).
+  - Galeri: `grid-cols-1` (Mobil) → `grid-cols-3` (PC).
+
+#### 👻 Performans
+- **HeroBackground (Ghost Reel)**: Görsel karmaşayı önlemek ve performansı artırmak için mobilde (`< 1024px`) tamamen gizlendi (`display: none`).
+
+---
+
 ### ⚡ Phase 35: Critical Performance Refactor & Memory Leak Fix
 
 **Performans Skoru: %82 → %95+**

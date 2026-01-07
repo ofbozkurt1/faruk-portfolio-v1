@@ -401,17 +401,10 @@ function GridViewContent({ project, onClose }) {
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.6 }}
+                        className="grid grid-cols-2 md:grid-cols-4 gap-8 p-[30px] md:p-[40px] mb-20 relative overflow-hidden rounded-[20px]"
                         style={{
-                            display: 'grid',
-                            gridTemplateColumns: 'repeat(4, 1fr)',
-                            gap: 32,
-                            padding: '36px 40px',
                             background: `linear-gradient(135deg, rgba(20,20,25,0.9) 0%, rgba(20,20,25,0.95) 100%)`,
-                            border: `1px solid ${brandColor}25`,
-                            borderRadius: 20,
-                            marginBottom: 80,
-                            position: 'relative',
-                            overflow: 'hidden'
+                            border: `1px solid ${brandColor}25`
                         }}
                     >
                         {/* Corner Glow */}
@@ -513,7 +506,7 @@ function GridViewContent({ project, onClose }) {
 
                         {/* Custom Order Gallery */}
                         {orderedImages && orderedImages.length > 0 ? (
-                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 32 }}>
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                                 {orderedImages.map((img, idx) => (
                                     <ImageCard
                                         key={img.src}
@@ -541,7 +534,7 @@ function GridViewContent({ project, onClose }) {
                                         >
                                             {t('caseStudy.featured', 'Featured')}
                                         </h4>
-                                        <div style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
+                                        <div className="flex flex-col gap-8">
                                             {longPostImages.map((src, idx) => (
                                                 <ImageCard
                                                     key={src}
@@ -570,20 +563,14 @@ function GridViewContent({ project, onClose }) {
                                         >
                                             {t('caseStudy.posts', 'Posts')}
                                         </h4>
-                                        <div style={{
-                                            display: 'flex',
-                                            flexWrap: 'wrap',
-                                            justifyContent: 'center',
-                                            gap: 32
-                                        }}>
+                                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                                             {postImages.map((src, idx) => (
-                                                <div key={src} style={{ width: 'calc(33.333% - 22px)' }}>
-                                                    <ImageCard
-                                                        src={src}
-                                                        alt={`${title} ${idx + 1}`}
-                                                        index={idx}
-                                                    />
-                                                </div>
+                                                <ImageCard
+                                                    key={src}
+                                                    src={src}
+                                                    alt={`${title} ${idx + 1}`}
+                                                    index={idx}
+                                                />
                                             ))}
                                         </div>
                                     </div>
@@ -604,20 +591,14 @@ function GridViewContent({ project, onClose }) {
                                         >
                                             {t('caseStudy.stories', 'Stories')}
                                         </h4>
-                                        <div style={{
-                                            display: 'flex',
-                                            flexWrap: 'wrap',
-                                            justifyContent: 'center',
-                                            gap: 28
-                                        }}>
+                                        <div className="grid grid-cols-2 md:grid-cols-4 gap-7">
                                             {storyImages.map((src, idx) => (
-                                                <div key={src} style={{ width: 'calc(25% - 21px)' }}>
-                                                    <ImageCard
-                                                        src={src}
-                                                        alt={`${title} Story ${idx + 1}`}
-                                                        index={postImages.length + idx}
-                                                    />
-                                                </div>
+                                                <ImageCard
+                                                    key={src}
+                                                    src={src}
+                                                    alt={`${title} Story ${idx + 1}`}
+                                                    index={postImages.length + idx}
+                                                />
                                             ))}
                                         </div>
                                     </div>

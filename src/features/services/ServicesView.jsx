@@ -121,13 +121,7 @@ export default function ServicesView() {
                                 className="py-8 md:py-10"
                             >
                                 {/* Row Content - Grid Layout */}
-                                <div
-                                    style={{
-                                        display: 'grid',
-                                        gridTemplateColumns: '1fr auto',
-                                        alignItems: 'center',
-                                        gap: 40
-                                    }}>
+                                <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-6 lg:gap-10 items-start lg:items-center">
                                     {/* Left: Number + Title (Kinetic Typography) */}
                                     <div className="flex items-center gap-5">
                                         <span
@@ -142,12 +136,12 @@ export default function ServicesView() {
                                             {service.number}
                                         </span>
                                         <h3
-                                            className={`service-title ${hoveredIndex === index ? 'active' : ''}`}
+                                            className={`service-title ${hoveredIndex === index ? 'active' : ''} whitespace-normal lg:whitespace-nowrap`}
                                             style={{
-                                                fontSize: 'clamp(28px, 4vw, 48px)',
+                                                fontSize: 'clamp(24px, 4vw, 48px)',
                                                 fontWeight: 700,
                                                 color: hoveredIndex === index ? service.color : '#F2F2F2',
-                                                whiteSpace: 'nowrap'
+                                                lineHeight: 1.1
                                             }}
                                         >
                                             {t(service.titleKey)}
@@ -155,10 +149,9 @@ export default function ServicesView() {
                                     </div>
 
                                     {/* Right: Description + Tags */}
-                                    <div style={{ width: 340, flexShrink: 0 }}>
-                                        {/* Description with decorative symbol */}
-                                        <div style={{ display: 'flex', alignItems: 'flex-start', gap: 10, marginBottom: 12 }}>
-                                            {/* Abstract Decorative Symbol */}
+                                    <div className="w-full lg:w-[340px] flex-shrink-0">
+                                        <div style={{ display: 'flex', alignItems: 'flex-start', gap: 10 }}>
+                                            {/* Abstract Decorative Symbol - Left Column */}
                                             <span
                                                 style={{
                                                     fontSize: 14,
@@ -175,41 +168,46 @@ export default function ServicesView() {
                                                 {index === 2 && '★'}
                                                 {index === 3 && '●'}
                                             </span>
-                                            <p
-                                                style={{
-                                                    color: 'rgba(255,255,255,0.5)',
-                                                    fontSize: 13,
-                                                    lineHeight: 1.6,
-                                                    textAlign: 'left'
-                                                }}
-                                            >
-                                                {t(service.descKey)}
-                                            </p>
-                                        </div>
 
-                                        {/* Glass Pill Tags - Horizontal Row */}
-                                        <div style={{ display: 'flex', gap: 8, justifyContent: 'flex-end', flexWrap: 'nowrap' }}>
-                                            {service.tags.map((tag) => (
-                                                <span
-                                                    key={tag}
+                                            {/* Right Column: Text + Tags */}
+                                            <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                                                <p
                                                     style={{
-                                                        fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace',
-                                                        fontSize: 9,
-                                                        fontWeight: 500,
-                                                        letterSpacing: '0.08em',
-                                                        textTransform: 'uppercase',
-                                                        color: activeServiceIndex === index ? 'rgba(255,255,255,0.9)' : 'rgba(255,255,255,0.4)',
-                                                        padding: '5px 10px',
-                                                        background: activeServiceIndex === index ? `${service.color}15` : 'rgba(255,255,255,0.03)',
-                                                        border: `1px solid ${activeServiceIndex === index ? `${service.color}50` : 'rgba(255,255,255,0.08)'}`,
-                                                        borderRadius: 50,
-                                                        transition: 'all 0.3s ease',
-                                                        whiteSpace: 'nowrap'
+                                                        color: 'rgba(255,255,255,0.5)',
+                                                        fontSize: 13,
+                                                        lineHeight: 1.6,
+                                                        textAlign: 'left',
+                                                        margin: 0
                                                     }}
                                                 >
-                                                    {tag}
-                                                </span>
-                                            ))}
+                                                    {t(service.descKey)}
+                                                </p>
+
+                                                {/* Glass Pill Tags - Aligned with text */}
+                                                <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                                                    {service.tags.map((tag) => (
+                                                        <span
+                                                            key={tag}
+                                                            style={{
+                                                                fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace',
+                                                                fontSize: 9,
+                                                                fontWeight: 500,
+                                                                letterSpacing: '0.08em',
+                                                                textTransform: 'uppercase',
+                                                                color: activeServiceIndex === index ? 'rgba(255,255,255,0.9)' : 'rgba(255,255,255,0.4)',
+                                                                padding: '5px 10px',
+                                                                background: activeServiceIndex === index ? `${service.color}15` : 'rgba(255,255,255,0.03)',
+                                                                border: `1px solid ${activeServiceIndex === index ? `${service.color}50` : 'rgba(255,255,255,0.08)'}`,
+                                                                borderRadius: 50,
+                                                                transition: 'all 0.3s ease',
+                                                                whiteSpace: 'nowrap'
+                                                            }}
+                                                        >
+                                                            {tag}
+                                                        </span>
+                                                    ))}
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

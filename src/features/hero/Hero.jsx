@@ -121,14 +121,7 @@ export default function Hero({ className }) {
                     {/* Name with dynamic letter animation */}
                     <motion.h1
                         variants={itemVariants}
-                        style={{
-                            fontSize: 'clamp(38px, 6vw, 68px)',
-                            fontWeight: 800,
-                            letterSpacing: '-0.03em',
-                            lineHeight: 1.1,
-                            color: '#F2F2F2',
-                            minHeight: 'clamp(84px, 13vw, 150px)'
-                        }}
+                        className="text-4xl md:text-7xl font-extrabold tracking-[-0.03em] leading-[1.1] text-[#F2F2F2] min-h-[84px] md:min-h-[150px]"
                     >
                         {renderAnimatedText(firstName)}
                         <br />
@@ -350,12 +343,8 @@ export default function Hero({ className }) {
 
                     {/* Floating Photo Container - Pure CSS Animation */}
                     <div
+                        className="w-40 h-40 md:w-[420px] md:h-[420px] rounded-full overflow-hidden relative"
                         style={{
-                            position: 'relative',
-                            width: 'clamp(300px, 35vw, 420px)',
-                            height: 'clamp(300px, 35vw, 420px)',
-                            borderRadius: '50%',
-                            overflow: 'hidden',
                             animation: 'float-photo 4s ease-in-out infinite',
                             transform: isPhotoHovered ? 'scale(1.03)' : 'scale(1)',
                             transition: 'transform 0.4s ease',
@@ -367,13 +356,8 @@ export default function Hero({ className }) {
                             alt="Ömer Faruk Bozkurt"
                             fetchPriority="high"
                             decoding="sync"
-                            width="420"
-                            height="420"
+                            className="w-full h-full object-cover transition-transform duration-400"
                             style={{
-                                width: '100%',
-                                height: '100%',
-                                objectFit: 'cover',
-                                transition: 'transform 0.4s ease',
                                 transform: isPhotoHovered ? 'scale(1.1)' : 'scale(1)'
                             }}
                         />

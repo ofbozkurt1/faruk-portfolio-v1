@@ -5,7 +5,7 @@
  */
 
 import { useState, useEffect, useCallback, useMemo } from 'react'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
 import { useLanguageTransitionStore } from '../../stores/languageTransitionStore'
 
@@ -42,9 +42,20 @@ export default function Header() {
     const { startTransition } = useLanguageTransitionStore()
     const [activeSection, setActiveSection] = useState('about')
     const [scrolled, setScrolled] = useState(false)
+    const [isMenuOpen, setIsMenuOpen] = useState(false)
 
     // Memoize navLinks based on current language
     const navLinks = useMemo(() => getNavLinks(t), [t, i18n.language])
+
+    // Lock body scroll when menu is open
+    useEffect(() => {
+        if (isMenuOpen) {
+            document.body.style.overflow = 'hidden'
+        } else {
+            document.body.style.overflow = 'unset'
+        }
+        return () => { document.body.style.overflow = 'unset' }
+    }, [isMenuOpen])
 
     // Cache section positions to avoid repeated DOM queries
     const sectionPositions = useMemo(() => {
@@ -111,6 +122,7 @@ export default function Header() {
 
     const handleClick = (e, href) => {
         e.preventDefault()
+        setIsMenuOpen(false) // Close mobile menu
         const section = document.querySelector(href)
         if (section) {
             const top = section.offsetTop - 80
@@ -118,130 +130,173 @@ export default function Header() {
         }
     }
 
-    return (
-        <motion.header
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            style={{
-                position: 'fixed',
-                top: 0,
-                left: 0,
-                right: 0,
-                zIndex: 1000,
-                padding: '14px 5vw',
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                overflow: 'hidden'
-            }}
-        >
-            {/* Dark base background - uses opacity for smooth transition */}
-            <div
-                style={{
-                    position: 'absolute',
-                    inset: 0,
-                    background: 'linear-gradient(90deg, rgba(5,5,5,0.95) 0%, rgba(25,8,12,0.95) 50%, rgba(5,5,5,0.95) 100%)',
-                    opacity: scrolled ? 1 : 0,
-                    transition: 'opacity 0.5s ease',
-                    zIndex: -1
-                }}
-            />
-
-            {/* Left: OFB Logo */}
-            <a
-                href="#about"
-                onClick={(e) => handleClick(e, '#about')}
-                style={{
-                    fontSize: 20,
-                    fontWeight: 700,
-                    letterSpacing: '0.1em',
-                    color: '#F2F2F2',
-                    textDecoration: 'none'
-                }}
+    // Language Toggle Component (Reusable)
+    const LanguageToggle = ({ isMobile = false }) => (
+        <div className={`lang-switch ${isMobile ? 'mobile' : ''}`}>
+            <button
+                className={`lang-btn ${i18n.language === 'tr' ? 'active' : ''}`}
+                onClick={() => i18n.language !== 'tr' && startTransition('tr')}
             >
-                OFB
-            </a>
+                TR
+            </button>
+            <span style={{ color: '#444', fontSize: 12 }}>|</span>
+            <button
+                className={`lang-btn ${i18n.language === 'en' ? 'active' : ''}`}
+                onClick={() => i18n.language !== 'en' && startTransition('en')}
+            >
+                EN
+            </button>
+        </div>
+    )
 
-            {/* Center: Navigation */}
-            <nav style={{
-                display: 'flex',
-                gap: 40,
-                position: 'absolute',
-                left: '50%',
-                transform: 'translateX(-50%)'
-            }}>
-                {navLinks.map((link) => {
-                    const isActive = activeSection === link.href.replace('#', '')
+    return (
+        <>
+            <motion.header
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+                className="fixed top-0 left-0 right-0 z-[1000] px-[5vw] py-4 flex justify-between items-center"
+            >
+                {/* Dark base background - uses opacity for smooth transition */}
+                <div
+                    style={{
+                        position: 'absolute',
+                        inset: 0,
+                        background: 'linear-gradient(90deg, rgba(5,5,5,0.95) 0%, rgba(25,8,12,0.95) 50%, rgba(5,5,5,0.95) 100%)',
+                        opacity: scrolled ? 1 : 0,
+                        transition: 'opacity 0.5s ease',
+                        zIndex: -1
+                    }}
+                />
 
-                    return (
-                        <a
-                            key={link.label}
-                            href={link.href}
-                            onClick={(e) => handleClick(e, link.href)}
-                            style={{
-                                position: 'relative',
-                                color: isActive ? '#F2F2F2' : '#666',
-                                fontSize: 13,
-                                fontWeight: 500,
-                                letterSpacing: '0.08em',
-                                textTransform: 'uppercase',
-                                textDecoration: 'none',
-                                padding: '8px 0',
-                                transition: 'color 0.3s'
-                            }}
-                        >
-                            {link.label}
+                {/* Left: OFB Logo */}
+                <a
+                    href="#about"
+                    onClick={(e) => handleClick(e, '#about')}
+                    className="text-xl font-bold tracking-[0.1em] text-[#F2F2F2] no-underline relative z-50"
+                >
+                    OFB
+                </a>
 
-                            {/* Active indicator line with glow */}
-                            <span
+                {/* Desktop: Navigation */}
+                <nav className="hidden md:flex gap-10 absolute left-1/2 -translate-x-1/2">
+                    {navLinks.map((link) => {
+                        const isActive = activeSection === link.href.replace('#', '')
+
+                        return (
+                            <a
+                                key={link.label}
+                                href={link.href}
+                                onClick={(e) => handleClick(e, link.href)}
                                 style={{
-                                    position: 'absolute',
-                                    bottom: 0,
-                                    left: 0,
-                                    right: 0,
-                                    height: 2,
-                                    background: '#F2F2F2',
-                                    borderRadius: 1,
-                                    boxShadow: '0 0 8px rgba(255,255,255,0.6), 0 0 12px rgba(255,255,255,0.3)',
-                                    transform: isActive ? 'scaleX(1)' : 'scaleX(0)',
-                                    opacity: isActive ? 1 : 0,
-                                    transition: 'transform 0.3s, opacity 0.3s'
+                                    position: 'relative',
+                                    color: isActive ? '#F2F2F2' : '#666',
+                                    fontSize: 13,
+                                    fontWeight: 500,
+                                    letterSpacing: '0.08em',
+                                    textTransform: 'uppercase',
+                                    textDecoration: 'none',
+                                    padding: '8px 0',
+                                    transition: 'color 0.3s'
                                 }}
-                            />
-                        </a>
-                    )
-                })}
-            </nav>
+                            >
+                                {link.label}
 
-            {/* Right side: Language Switch + Let's Talk */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: 24 }}>
-                {/* Language Switch */}
-                <div className="lang-switch">
-                    <button
-                        className={`lang-btn ${i18n.language === 'tr' ? 'active' : ''}`}
-                        onClick={() => i18n.language !== 'tr' && startTransition('tr')}
-                    >
-                        TR
-                    </button>
-                    <span style={{ color: '#444', fontSize: 12 }}>|</span>
-                    <button
-                        className={`lang-btn ${i18n.language === 'en' ? 'active' : ''}`}
-                        onClick={() => i18n.language !== 'en' && startTransition('en')}
-                    >
-                        EN
-                    </button>
+                                {/* Active indicator line with glow */}
+                                <span
+                                    style={{
+                                        position: 'absolute',
+                                        bottom: 0,
+                                        left: 0,
+                                        right: 0,
+                                        height: 2,
+                                        background: '#F2F2F2',
+                                        borderRadius: 1,
+                                        boxShadow: '0 0 8px rgba(255,255,255,0.6), 0 0 12px rgba(255,255,255,0.3)',
+                                        transform: isActive ? 'scaleX(1)' : 'scaleX(0)',
+                                        opacity: isActive ? 1 : 0,
+                                        transition: 'transform 0.3s, opacity 0.3s'
+                                    }}
+                                />
+                            </a>
+                        )
+                    })}
+                </nav>
+
+                {/* Desktop: Right side */}
+                <div className="hidden md:flex items-center gap-6">
+                    <LanguageToggle />
+                    <a href="#contact" onClick={(e) => handleClick(e, '#contact')} className="lets-talk-btn">
+                        {t('nav.letsTalk', "Let's Talk")}
+                    </a>
                 </div>
 
-                {/* Let's Talk Button */}
-                <a
-                    href="#contact"
-                    onClick={(e) => handleClick(e, '#contact')}
-                    className="lets-talk-btn"
+                {/* Mobile: Hamburger Menu Button */}
+                <button
+                    onClick={() => setIsMenuOpen(!isMenuOpen)}
+                    className="md:hidden relative z-50 p-2 text-[#F2F2F2]"
                 >
-                    {t('nav.letsTalk', "Let's Talk")}
-                </a>
-            </div>
+                    <div className="flex flex-col gap-[6px] items-end">
+                        <motion.span
+                            animate={{ rotate: isMenuOpen ? 45 : 0, y: isMenuOpen ? 8 : 0 }}
+                            className="w-6 h-[2px] bg-white block"
+                        />
+                        <motion.span
+                            animate={{ opacity: isMenuOpen ? 0 : 1 }}
+                            className="w-4 h-[2px] bg-white block"
+                        />
+                        <motion.span
+                            animate={{ rotate: isMenuOpen ? -45 : 0, y: isMenuOpen ? -8 : 0 }}
+                            className="w-6 h-[2px] bg-white block"
+                        />
+                    </div>
+                </button>
+            </motion.header>
+
+            {/* Mobile Menu Overlay */}
+            <AnimatePresence>
+                {isMenuOpen && (
+                    <motion.div
+                        initial={{ opacity: 0, y: -20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -20 }}
+                        transition={{ duration: 0.3 }}
+                        className="fixed inset-0 z-[900] bg-black/95 backdrop-blur-xl flex flex-col items-center justify-center gap-8 md:hidden"
+                    >
+                        {/* Mobile Lang Switch */}
+                        <div className="absolute top-24">
+                            <LanguageToggle isMobile />
+                        </div>
+
+                        <nav className="flex flex-col items-center gap-8">
+                            {navLinks.map((link, i) => (
+                                <motion.a
+                                    key={link.label}
+                                    href={link.href}
+                                    onClick={(e) => handleClick(e, link.href)}
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ delay: 0.1 + i * 0.05 }}
+                                    className="text-2xl font-light tracking-widest text-[#F2F2F2] uppercase"
+                                >
+                                    {link.label}
+                                </motion.a>
+                            ))}
+                        </nav>
+
+                        <motion.a
+                            initial={{ opacity: 0, scale: 0.9 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{ delay: 0.4 }}
+                            href="#contact"
+                            onClick={(e) => handleClick(e, '#contact')}
+                            className="lets-talk-btn mt-8 !px-8 !py-3 !text-sm"
+                        >
+                            {t('nav.letsTalk', "Let's Talk")}
+                        </motion.a>
+                    </motion.div>
+                )}
+            </AnimatePresence>
 
             {/* Let's Talk Button Styles */}
             <style>{`
@@ -296,6 +351,11 @@ export default function Header() {
                     align-items: center;
                     gap: 8px;
                 }
+
+                .lang-switch.mobile .lang-btn {
+                    font-size: 14px;
+                    padding: 10px 14px;
+                }
                 
                 .lang-btn {
                     background: none;
@@ -317,6 +377,6 @@ export default function Header() {
                     color: #F2F2F2;
                 }
             `}</style>
-        </motion.header>
+        </>
     )
 }
