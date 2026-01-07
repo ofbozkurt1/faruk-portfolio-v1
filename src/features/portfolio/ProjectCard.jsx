@@ -23,11 +23,17 @@ export default function ProjectCard({ project, onClick, isReversed, cardIndex = 
     const stackImages = getStackImages(id, postCount, storyCount, stackFormat)
     const [activeIndex, setActiveIndex] = useState(0)
     const [isHovered, setIsHovered] = useState(false)
+    const [isMobile, setIsMobile] = useState(false)
 
     const cardRef = useRef(null)
     const isInView = useInView(cardRef, { amount: 0.3 })
 
     const { setActiveProject, clearActiveProject } = usePortfolioStore()
+
+    // Check mobile once on mount
+    useEffect(() => {
+        setIsMobile(window.innerWidth < 768)
+    }, [])
 
     const isStoryOnlyFormat = stackFormat === 'story'
     const aspectClass = isStoryOnlyFormat ? 'aspect-[9/16]' : 'aspect-[4/5]'
@@ -60,19 +66,19 @@ export default function ProjectCard({ project, onClick, isReversed, cardIndex = 
                 className="relative cursor-pointer group flex-shrink-0"
                 onClick={() => onClick?.(project)}
                 onMouseEnter={() => {
-                    if (window.innerWidth >= 768) {
+                    if (!isMobile) {
                         setIsHovered(true)
                         setActiveProject(id, brandColor)
                     }
                 }}
                 onMouseLeave={() => {
-                    if (window.innerWidth >= 768) {
+                    if (!isMobile) {
                         setIsHovered(false)
                         clearActiveProject()
                     }
                 }}
                 style={{
-                    transform: isHovered && window.innerWidth >= 768 ? 'translateY(-5px)' : 'translateY(0)',
+                    transform: isHovered && !isMobile ? 'translateY(-5px)' : 'translateY(0)',
                     transition: 'transform 0.2s ease-out'
                 }}
             >
@@ -85,8 +91,7 @@ export default function ProjectCard({ project, onClick, isReversed, cardIndex = 
                         const isStory = type === 'story'
                         const cardAspect = isStory ? '9/16' : '4/5'
 
-                        // Mobile: less rotation, Desktop: normal rotation
-                        const isMobile = typeof window !== 'undefined' && window.innerWidth < 768
+                        // Use cached isMobile value
                         const rotations = isMobile ? [-1.5, -0.5, 0, 0.5, 1.5] : [-4, -2, 0, 2, 4]
                         const baseRotation = (rotations[orderIndex] || 0) * direction
                         const hoverRotation = baseRotation * 1.5
@@ -141,8 +146,8 @@ export default function ProjectCard({ project, onClick, isReversed, cardIndex = 
                         )
                     })}
 
-                    {/* MOBILE OVERLAY - Gradient extends to sides, very soft edges */}
-                    <div className="absolute -bottom-20 -left-32 -right-32 h-80 bg-gradient-to-t from-black via-black/60 to-transparent pointer-events-none md:hidden z-10 blur-sm" />
+                    {/* MOBILE OVERLAY - Gradient extends to sides */}
+                    <div className="absolute -bottom-20 -left-32 -right-32 h-80 bg-gradient-to-t from-black via-black/60 to-transparent pointer-events-none md:hidden z-10" />
 
                     {/* MOBILE CONTENT - Extended beyond image bounds */}
                     <div className="absolute -bottom-16 -left-4 -right-4 md:hidden z-20">

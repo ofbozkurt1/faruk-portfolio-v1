@@ -202,6 +202,15 @@ function GridViewContent({ project, onClose }) {
         return () => window.removeEventListener('keydown', handleEsc)
     }, [onClose])
 
+    // Lock body scroll when panel is open
+    useEffect(() => {
+        const originalStyle = document.body.style.overflow
+        document.body.style.overflow = 'hidden'
+        return () => {
+            document.body.style.overflow = originalStyle
+        }
+    }, [])
+
     // Smooth scroll - Only on desktop (mobile uses native touch scroll)
     useEffect(() => {
         const container = scrollContainerRef.current
@@ -246,18 +255,32 @@ function GridViewContent({ project, onClose }) {
     }, [])
 
     return (
-        <div style={{ position: 'fixed', inset: 0, zIndex: 99999, backgroundColor: '#0a0a0a' }}>
+        <div
+            style={{
+                position: 'fixed',
+                top: 0,
+                left: 0,
+                width: '100vw',
+                height: '100vh',
+                zIndex: 99999,
+                backgroundColor: '#0a0a0a'
+            }}
+        >
             {/* Scrollable Container */}
             <div
                 ref={scrollContainerRef}
+                onTouchStart={(e) => e.stopPropagation()}
                 style={{
                     position: 'absolute',
-                    inset: 0,
-                    height: '100%',
-                    overflowY: 'auto',
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    overflowY: 'scroll',
                     overflowX: 'hidden',
                     WebkitOverflowScrolling: 'touch',
-                    touchAction: 'pan-y'
+                    msOverflowStyle: 'auto',
+                    scrollbarWidth: 'thin'
                 }}
             >
                 {/* Close Button */}
