@@ -141,14 +141,14 @@ export default function ProjectCard({ project, onClick, isReversed, cardIndex = 
                         )
                     })}
 
-                    {/* MOBILE OVERLAY - Gradient + Text */}
-                    <div className="absolute -bottom-16 left-0 right-0 md:hidden z-20">
-                        {/* Gradient - extends far up into image */}
-                        <div className="absolute -top-24 left-0 w-full h-[200%] bg-gradient-to-t from-black via-black/80 to-transparent pointer-events-none" />
+                    {/* MOBILE OVERLAY - Gradient extends to sides, very soft edges */}
+                    <div className="absolute -bottom-20 -left-32 -right-32 h-80 bg-gradient-to-t from-black via-black/60 to-transparent pointer-events-none md:hidden z-10 blur-sm" />
 
+                    {/* MOBILE CONTENT - Extended beyond image bounds */}
+                    <div className="absolute -bottom-16 -left-4 -right-4 md:hidden z-20">
                         {/* Content */}
                         <div className="relative z-10 px-4 pb-1">
-                            <div className="flex justify-between items-end w-full">
+                            <div className="flex flex-nowrap justify-between items-end w-full gap-4">
                                 <div className="flex flex-col gap-1 flex-1 min-w-0 pr-4">
                                     <span className="text-[10px] tracking-[0.15em] font-medium text-white/50 uppercase font-mono">
                                         {category} — {year}
@@ -156,7 +156,7 @@ export default function ProjectCard({ project, onClick, isReversed, cardIndex = 
                                     <h3 className="text-2xl font-bold text-white leading-tight">
                                         {title}
                                     </h3>
-                                    <div className="flex flex-wrap gap-2 mt-1">
+                                    <div className="flex flex-nowrap gap-2 mt-1 overflow-hidden">
                                         {techStack.map((tech) => {
                                             const iconData = iconMap[tech]
                                             if (!iconData) return null
