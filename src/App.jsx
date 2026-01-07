@@ -66,13 +66,15 @@ function App() {
             <ServiceBackgroundLayer />
             <PortfolioBackgroundLayer />
             <CustomCursor />
-            <SideNav />
+            <div className="hidden md:block">
+                <SideNav />
+            </div>
 
-            <div className="relative min-h-screen">
+            <div className="relative min-h-screen w-full overflow-x-hidden">
                 <Header />
                 <Hero />
 
-                <section id="skills" className="section-spacing container-padding">
+                <section id="skills" className="py-10 md:py-32 container-padding">
                     <SkillsView />
                 </section>
 

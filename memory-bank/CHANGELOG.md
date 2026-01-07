@@ -4,6 +4,27 @@ All notable changes to the **Ömer Faruk Bozkurt Portfolio** project will be doc
 
 ## [Unreleased] - 2026-01-07
 
+### 💎 Phase 39: Mobile UI Polish & Layout Refinement (Layout Geliştirmeleri)
+**Hedef:** Küçük ekranlarda (Mobil) profesyonel hizalama, okuma kolaylığı ve görsel bütünlük.
+
+#### Header ve Menü
+- **Flex Layout:** Menü düzeni `absolute` pozisyondan `flex` yapıya geçirildi, böylece cihaz boyutuna göre içerikler otomatik hizalanıyor ve taşma yapmıyor.
+- **Dil Seçimi (Mobile Toggle):** Mobilde dil değişimi için özel "Kutu Tasarımı" (Siyah/Beyaz Toggle) oluşturuldu.
+- **Font Güncellemesi:** Menü linkleri daha kalın (`font-bold`) ve daha belirgin hale getirildi.
+- **Active Indicator:** Seçili menü öğesinin altındaki çizgi tam metin genişliğine ayarlandı.
+
+#### Hero Bölümü
+- **Responsive Typography:** Başlık fontu `clamp(32px, 8vw, 80px)` ile dinamikleştirildi, küçük ekranlarda taşma engellendi.
+- **Scroll Indicator:** Mobilde içeriğin altına (`relative`) taşındı, masaüstünde `absolute` alt konumunu korudu.
+- **Görsel Boyutu:** Profil fotoğrafı mobilde 240px'e büyütüldü.
+- **Layout Koruması:** `overflow-x-hidden` ile yatay kaydırma engellendi.
+
+#### Skills (Bento Grid)
+- **Hizalama Düzeltmesi:** Mobilde flex container yüksekliği (`h-full`) ayarlanarak "Photoshop" başlığının yukarı kayması engellendi.
+- **Kompakt Kartlar:** Kart yüksekliği mobilde sabit `160px` yapılarak daha düzenli bir görünüm sağlandı.
+
+---
+
 ### 📱 Phase 36: Kapsamlı Mobil Optimizasyon (iPhone 14 Pro Baseline)
 
 **Hedef:** 768px altındaki ekranlarda (Mobil) kusursuz "Sessiz Lüks" deneyimi.

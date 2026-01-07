@@ -4,7 +4,7 @@
  * NO useState for mouse position - uses CSS Variables (ZERO re-renders)
  */
 
-import { useRef, useState } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion'
 
 export default function TiltCard({
@@ -17,6 +17,25 @@ export default function TiltCard({
 }) {
     const cardRef = useRef(null)
     const [isHovered, setIsHovered] = useState(false)
+    const [isMobile, setIsMobile] = useState(false)
+
+    // Check for mobile device on mount & resize
+    useEffect(() => {
+        const checkMobile = () => {
+            const mobile = window.innerWidth < 768
+            setIsMobile(mobile)
+            // Reset values if switching to mobile
+            if (mobile) {
+                mouseX.set(0)
+                mouseY.set(0)
+                setIsHovered(false)
+            }
+        }
+
+        checkMobile()
+        window.addEventListener('resize', checkMobile)
+        return () => window.removeEventListener('resize', checkMobile)
+    }, [])
 
     // Mouse position relative to card center
     const mouseX = useMotionValue(0)
@@ -27,7 +46,8 @@ export default function TiltCard({
     const rotateY = useSpring(useTransform(mouseX, [-0.5, 0.5], [-intensity, intensity]), springConfig)
 
     const handleMouseMove = (e) => {
-        if (!cardRef.current) return
+        // Performance Guard: Disable logic on mobile
+        if (isMobile || !cardRef.current) return
 
         const rect = cardRef.current.getBoundingClientRect()
         const centerX = rect.left + rect.width / 2
@@ -48,6 +68,7 @@ export default function TiltCard({
     }
 
     const handleMouseLeave = () => {
+        if (isMobile) return
         setIsHovered(false)
         mouseX.set(0)
         mouseY.set(0)
@@ -59,19 +80,25 @@ export default function TiltCard({
 
     // Dynamic border color
     const activeBorderColor = borderColor
-        ? (isHovered ? borderColor : 'rgba(255,255,255,0.08)')
+        ? (isHovered && !isMobile ? borderColor : 'rgba(255,255,255,0.08)')
         : 'rgba(255,255,255,0.08)'
+
+    // Mobile Static Gradient vs Desktop Dynamic Spotlight
+    const backgroundGradient = isMobile
+        ? `radial-gradient(circle at 50% 0%, ${glowColor} 0%, transparent 60%)` // Fixed top glow
+        : `radial-gradient(circle at var(--spot-x) var(--spot-y), ${glowColor} 0%, transparent 60%)`
 
     return (
         <motion.div
             ref={cardRef}
             className={className}
             onMouseMove={handleMouseMove}
-            onMouseEnter={() => setIsHovered(true)}
+            onMouseEnter={() => !isMobile && setIsHovered(true)}
             onMouseLeave={handleMouseLeave}
             style={{
-                rotateX,
-                rotateY,
+                // Disable 3D tilt on mobile
+                rotateX: isMobile ? 0 : rotateX,
+                rotateY: isMobile ? 0 : rotateY,
                 transformStyle: 'preserve-3d',
                 transformPerspective: 1000,
                 position: 'relative',
@@ -86,37 +113,39 @@ export default function TiltCard({
                 '--spot-y': '50%'
             }}
         >
-            {/* Spotlight Glow - Uses CSS Variables (no re-render) */}
+            {/* Spotlight / Static Glow */}
             <div
                 style={{
                     position: 'absolute',
                     inset: 0,
-                    opacity: isHovered ? 1 : 0,
-                    background: `radial-gradient(circle at var(--spot-x) var(--spot-y), ${glowColor} 0%, transparent 60%)`,
+                    opacity: isMobile ? 0.6 : (isHovered ? 1 : 0), // Always show subtle glow on mobile
+                    background: backgroundGradient,
                     pointerEvents: 'none',
                     transition: 'opacity 0.3s ease'
                 }}
             />
 
-            {/* Border Glow on Hover */}
-            <div
-                style={{
-                    position: 'absolute',
-                    inset: -1,
-                    borderRadius: 17,
-                    opacity: isHovered ? 1 : 0,
-                    background: `linear-gradient(135deg, ${glowColor}, transparent 50%)`,
-                    pointerEvents: 'none',
-                    transition: 'opacity 0.3s ease',
-                    zIndex: -1
-                }}
-            />
+            {/* Border Glow on Hover (Desktop Only) */}
+            {!isMobile && (
+                <div
+                    style={{
+                        position: 'absolute',
+                        inset: -1,
+                        borderRadius: 17,
+                        opacity: isHovered ? 1 : 0,
+                        background: `linear-gradient(135deg, ${glowColor}, transparent 50%)`,
+                        pointerEvents: 'none',
+                        transition: 'opacity 0.3s ease',
+                        zIndex: -1
+                    }}
+                />
+            )}
 
-            {/* Content with Z-translate for parallax */}
+            {/* Content with Z-translate for parallax (Reduced on mobile) */}
             <div
                 style={{
                     position: 'relative',
-                    transform: 'translateZ(20px)',
+                    transform: isMobile ? 'none' : 'translateZ(20px)',
                     transformStyle: 'preserve-3d',
                     height: '100%'
                 }}

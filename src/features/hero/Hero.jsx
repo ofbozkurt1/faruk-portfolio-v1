@@ -102,7 +102,7 @@ export default function Hero({ className }) {
             id="about"
             className={cn(
                 "min-h-screen flex flex-col items-center justify-center relative overflow-hidden",
-                "container-padding pt-28 pb-20",
+                "container-padding pt-20 pb-10 md:pt-28 md:pb-20",
                 className
             )}
         >
@@ -121,7 +121,7 @@ export default function Hero({ className }) {
                     {/* Name with dynamic letter animation */}
                     <motion.h1
                         variants={itemVariants}
-                        className="text-4xl md:text-7xl font-extrabold tracking-[-0.03em] leading-[1.1] text-[#F2F2F2] min-h-[84px] md:min-h-[150px]"
+                        className="text-[clamp(32px,8vw,80px)] md:text-7xl font-extrabold tracking-[-0.03em] leading-[1.1] text-[#F2F2F2] min-h-[84px] md:min-h-[150px] w-full px-4 break-words"
                     >
                         {renderAnimatedText(firstName)}
                         <br />
@@ -343,7 +343,7 @@ export default function Hero({ className }) {
 
                     {/* Floating Photo Container - Pure CSS Animation */}
                     <div
-                        className="w-40 h-40 md:w-[420px] md:h-[420px] rounded-full overflow-hidden relative"
+                        className="w-60 h-60 md:w-[420px] md:h-[420px] rounded-full overflow-hidden relative"
                         style={{
                             animation: 'float-photo 4s ease-in-out infinite',
                             transform: isPhotoHovered ? 'scale(1.03)' : 'scale(1)',
@@ -354,7 +354,7 @@ export default function Hero({ className }) {
                         <img
                             src="/gorseller/profil/ben.webp"
                             alt="Ömer Faruk Bozkurt"
-                            fetchPriority="high"
+                            fetchpriority="high"
                             decoding="sync"
                             className="w-full h-full object-cover transition-transform duration-400"
                             style={{
@@ -370,7 +370,7 @@ export default function Hero({ className }) {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 1.5 }}
-                style={{ position: 'absolute', bottom: 40, left: '50%', transform: 'translateX(-50%)' }}
+                className="relative md:absolute mt-12 md:mt-0 md:bottom-10 md:left-1/2 md:-translate-x-1/2 flex justify-center w-full md:w-auto"
             >
                 <motion.div animate={{ y: [0, 10, 0] }} transition={{ duration: 1.5, repeat: Infinity }}>
                     <FiChevronDown size={36} color="#666" />

@@ -130,24 +130,51 @@ export default function Header() {
         }
     }
 
-    // Language Toggle Component (Reusable)
-    const LanguageToggle = ({ isMobile = false }) => (
-        <div className={`lang-switch ${isMobile ? 'mobile' : ''}`}>
-            <button
-                className={`lang-btn ${i18n.language === 'tr' ? 'active' : ''}`}
-                onClick={() => i18n.language !== 'tr' && startTransition('tr')}
-            >
-                TR
-            </button>
-            <span style={{ color: '#444', fontSize: 12 }}>|</span>
-            <button
-                className={`lang-btn ${i18n.language === 'en' ? 'active' : ''}`}
-                onClick={() => i18n.language !== 'en' && startTransition('en')}
-            >
-                EN
-            </button>
-        </div>
-    )
+    // Language Toggle Component (Reusable with Mobile Variation)
+    const LanguageToggle = ({ isMobile = false }) => {
+        if (isMobile) {
+            return (
+                <div className="flex items-center bg-black/40 border border-white/20 rounded-full p-1">
+                    <button
+                        onClick={() => i18n.language !== 'tr' && startTransition('tr')}
+                        className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all duration-300 ${i18n.language === 'tr'
+                                ? 'bg-[#F2F2F2] text-black shadow-lg'
+                                : 'text-[#F2F2F2]/60 hover:text-[#F2F2F2]'
+                            }`}
+                    >
+                        TR
+                    </button>
+                    <button
+                        onClick={() => i18n.language !== 'en' && startTransition('en')}
+                        className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all duration-300 ${i18n.language === 'en'
+                                ? 'bg-[#F2F2F2] text-black shadow-lg'
+                                : 'text-[#F2F2F2]/60 hover:text-[#F2F2F2]'
+                            }`}
+                    >
+                        EN
+                    </button>
+                </div>
+            )
+        }
+
+        return (
+            <div className="lang-switch">
+                <button
+                    className={`lang-btn ${i18n.language === 'tr' ? 'active' : ''}`}
+                    onClick={() => i18n.language !== 'tr' && startTransition('tr')}
+                >
+                    TR
+                </button>
+                <span style={{ color: '#444', fontSize: 12 }}>|</span>
+                <button
+                    className={`lang-btn ${i18n.language === 'en' ? 'active' : ''}`}
+                    onClick={() => i18n.language !== 'en' && startTransition('en')}
+                >
+                    EN
+                </button>
+            </div>
+        )
+    }
 
     return (
         <>
@@ -157,7 +184,7 @@ export default function Header() {
                 transition={{ duration: 0.6, delay: 0.3 }}
                 className="fixed top-0 left-0 right-0 z-[1000] px-[5vw] py-4 flex justify-between items-center"
             >
-                {/* Dark base background - uses opacity for smooth transition */}
+                {/* Dark base background */}
                 <div
                     style={{
                         position: 'absolute',
@@ -178,7 +205,7 @@ export default function Header() {
                     OFB
                 </a>
 
-                {/* Desktop: Navigation */}
+                {/* Desktop: Navigation (Center) */}
                 <nav className="hidden md:flex gap-10 absolute left-1/2 -translate-x-1/2">
                     {navLinks.map((link) => {
                         const isActive = activeSection === link.href.replace('#', '')
@@ -201,8 +228,6 @@ export default function Header() {
                                 }}
                             >
                                 {link.label}
-
-                                {/* Active indicator line with glow */}
                                 <span
                                     style={{
                                         position: 'absolute',
@@ -261,27 +286,42 @@ export default function Header() {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -20 }}
                         transition={{ duration: 0.3 }}
-                        className="fixed inset-0 z-[900] bg-black/95 backdrop-blur-xl flex flex-col items-center justify-center gap-8 md:hidden"
+                        className="fixed inset-0 z-[900] bg-black/95 backdrop-blur-xl flex flex-col items-center py-24 md:hidden overflow-hidden"
                     >
-                        {/* Mobile Lang Switch */}
-                        <div className="absolute top-24">
+                        {/* Mobile Lang Switch - Closer to menu */}
+                        <div className="mb-6">
                             <LanguageToggle isMobile />
                         </div>
 
-                        <nav className="flex flex-col items-center gap-8">
-                            {navLinks.map((link, i) => (
-                                <motion.a
-                                    key={link.label}
-                                    href={link.href}
-                                    onClick={(e) => handleClick(e, link.href)}
-                                    initial={{ opacity: 0, y: 20 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    transition={{ delay: 0.1 + i * 0.05 }}
-                                    className="text-2xl font-light tracking-widest text-[#F2F2F2] uppercase"
-                                >
-                                    {link.label}
-                                </motion.a>
-                            ))}
+                        <nav className="flex-1 flex flex-col items-center justify-center gap-8 w-full px-4">
+                            {navLinks.map((link, i) => {
+                                const isActive = activeSection === link.href.replace('#', '')
+                                return (
+                                    <motion.a
+                                        key={link.label}
+                                        href={link.href}
+                                        onClick={(e) => handleClick(e, link.href)}
+                                        initial={{ opacity: 0, y: 20 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ delay: 0.1 + i * 0.05 }}
+                                        className={`relative text-center w-full max-w-[300px] text-2xl sm:text-3xl font-bold tracking-widest uppercase ${isActive ? 'text-white' : 'text-zinc-500'}`}
+                                        style={{ wordBreak: 'break-word' }}
+                                    >
+                                        <span className="relative inline-block pb-2">
+                                            {link.label}
+                                            {isActive && (
+                                                <motion.div
+                                                    layoutId="mobileActiveLine"
+                                                    className="absolute bottom-0 left-0 right-0 h-[2px] bg-white rounded-full shadow-[0_0_10px_rgba(255,255,255,0.5)]"
+                                                    initial={{ scaleX: 0 }}
+                                                    animate={{ scaleX: 1 }}
+                                                    transition={{ duration: 0.3 }}
+                                                />
+                                            )}
+                                        </span>
+                                    </motion.a>
+                                )
+                            })}
                         </nav>
 
                         <motion.a
@@ -290,7 +330,7 @@ export default function Header() {
                             transition={{ delay: 0.4 }}
                             href="#contact"
                             onClick={(e) => handleClick(e, '#contact')}
-                            className="lets-talk-btn mt-8 !px-8 !py-3 !text-sm"
+                            className="lets-talk-btn mt-8 !px-8 !py-3 !text-sm flex-shrink-0"
                         >
                             {t('nav.letsTalk', "Let's Talk")}
                         </motion.a>
@@ -352,11 +392,6 @@ export default function Header() {
                     gap: 8px;
                 }
 
-                .lang-switch.mobile .lang-btn {
-                    font-size: 14px;
-                    padding: 10px 14px;
-                }
-                
                 .lang-btn {
                     background: none;
                     border: none;

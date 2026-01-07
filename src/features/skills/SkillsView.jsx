@@ -193,12 +193,16 @@ const SkillBentoCard = memo(function SkillBentoCard({ skill }) {
     const [isHovered, setIsHovered] = useState(false)
     const MicroTool = MicroTools[skill.id]
 
+    // Mobile-specific classes helper
+    // We use 'aspect-square' or fixed height for mobile to prevent squashiness
+
     return (
         <motion.div
             variants={cardVariants}
-            style={{ gridArea: skill.gridArea }}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
+            // Remove inline gridArea, use class for desktop styling
+            className={`h-full area-${skill.gridArea}`}
         >
             <TiltCard
                 glowColor={skill.glowColor}
@@ -207,8 +211,14 @@ const SkillBentoCard = memo(function SkillBentoCard({ skill }) {
                 className="h-full"
             >
                 <div
-                    className="relative h-full p-6 md:p-8 flex flex-col justify-between overflow-hidden"
-                    style={{ minHeight: isLarge ? 280 : isTall ? 320 : 200 }}
+                    className={cn(
+                        "relative h-full flex flex-col justify-between overflow-hidden",
+                        "p-5 md:p-6", // Reduced desktop padding to p-6 (24px) for better alignment
+                        // MOBILE: Fixed height of 160px
+                        // DESKTOP: Dynamic height based on bento size (Must be h-full to fill grid cell)
+                        "h-[160px] md:h-full",
+                        isLarge ? "md:min-h-[280px]" : isTall ? "md:min-h-[320px]" : "md:min-h-[200px]"
+                    )}
                 >
                     {/* Giant Watermark - Tool's Own Logo */}
                     <div
@@ -226,33 +236,23 @@ const SkillBentoCard = memo(function SkillBentoCard({ skill }) {
                         <img
                             src={skill.icon}
                             alt=""
-                            style={{
-                                width: '100%',
-                                height: '100%',
-                                objectFit: 'contain'
-                            }}
+                            className="w-full h-full object-contain"
                         />
                     </div>
 
                     {/* Top: Icon + Micro-Tool + Years */}
                     <div className="relative z-10 flex justify-between items-start">
                         <div
-                            style={{
-                                width: isLarge ? 64 : 48,
-                                height: isLarge ? 64 : 48,
-                                borderRadius: 12,
-                                overflow: 'hidden',
-                                transform: 'translateZ(30px)'
-                            }}
+                            className={cn(
+                                "rounded-xl overflow-hidden",
+                                "w-10 h-10 md:w-12 md:h-12 lg:w-[64px] lg:h-[64px]"
+                            )}
+                            style={{ transform: 'translateZ(30px)' }}
                         >
                             <img
                                 src={skill.icon}
                                 alt={skill.name}
-                                style={{
-                                    width: '100%',
-                                    height: '100%',
-                                    objectFit: 'contain'
-                                }}
+                                className="w-full h-full object-contain"
                             />
                         </div>
 
@@ -260,7 +260,7 @@ const SkillBentoCard = memo(function SkillBentoCard({ skill }) {
                         <div className="flex items-center gap-3" style={{ transform: 'translateZ(25px)' }}>
                             {/* Micro-Tool Indicator */}
                             {MicroTool && (
-                                <div style={{ width: isLarge ? 40 : 32, height: isLarge ? 40 : 32 }}>
+                                <div className={cn("hidden xs:block", isLarge ? "w-8 h-8 md:w-10 md:h-10" : "w-6 h-6 md:w-8 md:h-8")}>
                                     <MicroTool color={skill.color} isHovered={isHovered} />
                                 </div>
                             )}
@@ -285,29 +285,25 @@ const SkillBentoCard = memo(function SkillBentoCard({ skill }) {
 
                     {/* Bottom: Name & Level */}
                     <div
-                        className="relative z-10 flex items-end justify-between"
+                        className="relative z-10 flex items-end justify-between mt-auto"
                         style={{ transform: 'translateZ(25px)' }}
                     >
                         <h3
-                            style={{
-                                fontSize: isLarge ? 28 : 22,
-                                fontWeight: 700,
-                                letterSpacing: '-0.02em',
-                                color: '#F2F2F2',
-                                margin: 0
-                            }}
+                            className={cn(
+                                "font-bold tracking-tight text-[#F2F2F2] m-0",
+                                // Sligtly reduced large text size for better balance
+                                isLarge ? "text-2xl md:text-[26px]" : "text-lg md:text-[22px]"
+                            )}
                         >
                             {skill.name}
                         </h3>
 
                         <span
+                            className="font-mono font-semibold tracking-widest uppercase"
                             style={{
-                                fontFamily: 'monospace',
-                                fontSize: isLarge ? 12 : 10,
-                                fontWeight: 600,
-                                letterSpacing: '0.15em',
                                 color: skill.color,
-                                textTransform: 'uppercase'
+                                fontSize: isLarge ? (window.innerWidth < 768 ? '10px' : '12px') : '10px',
+                                letterSpacing: '0.15em'
                             }}
                         >
                             {skill.level}
@@ -332,16 +328,11 @@ export default function SkillsView({ className }) {
             viewport={{ once: true, margin: "-100px" }}
         >
             {/* Header - Clean Single Line */}
-            <motion.div variants={cardVariants} className="text-center mb-16">
+            <motion.div variants={cardVariants} className="text-center mb-10 md:mb-16">
                 <div className="flex items-center justify-center gap-6">
                     <div style={{ width: 50, height: 1, background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.3))' }} />
                     <h2
-                        style={{
-                            fontSize: 'clamp(28px, 4vw, 42px)',
-                            fontWeight: 700,
-                            letterSpacing: '-0.02em',
-                            color: '#F2F2F2'
-                        }}
+                        className="text-3xl md:text-5xl font-bold tracking-tight text-[#F2F2F2]"
                     >
                         {t('skills.title', 'Skills')}
                     </h2>
@@ -349,8 +340,10 @@ export default function SkillsView({ className }) {
                 </div>
             </motion.div>
 
-            {/* Unified Responsive Bento Grid */}
-            <div className="bento-grid max-w-6xl mx-auto px-4 md:px-0">
+            {/* Unified Responsive Bento Grid 
+                MOBILE: max-w-md mx-auto prevents cards from stretching too wide on phones.
+            */}
+            <div className="bento-grid w-full max-w-md md:max-w-6xl mx-auto px-6 md:px-20 lg:px-0">
                 {skills.map((skill) => (
                     <SkillBentoCard key={skill.id} skill={skill} />
                 ))}
@@ -360,10 +353,17 @@ export default function SkillsView({ className }) {
                 .bento-grid {
                     display: grid;
                     grid-template-columns: 1fr;
-                    gap: 16px;
+                    gap: 24px;
                 }
                 
                 @media (min-width: 768px) {
+                    .bento-grid {
+                        grid-template-columns: 1fr 1fr;
+                        gap: 24px;
+                    }
+                }
+
+                @media (min-width: 1024px) {
                     .bento-grid {
                         grid-template-columns: repeat(12, 1fr);
                         grid-template-rows: auto auto;
@@ -372,6 +372,12 @@ export default function SkillsView({ className }) {
                             "ai ai ai ai ai ai pr pr pr pr pr pr";
                         gap: 20px;
                     }
+
+                    /* Grid Areas - Assigned ONLY on desktop */
+                    .area-ps { grid-area: ps; }
+                    .area-ae { grid-area: ae; }
+                    .area-ai { grid-area: ai; }
+                    .area-pr { grid-area: pr; }
                 }
             `}</style>
         </motion.div>
