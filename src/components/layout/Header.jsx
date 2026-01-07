@@ -1,12 +1,13 @@
 /**
  * Header Component - OPTIMIZED
  * Throttled scroll handler, passive listeners
- * i18n support for multi-language
+ * i18n support with cinematic wipe transition
  */
 
 import { useState, useEffect, useCallback, useMemo } from 'react'
 import { motion } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
+import { useLanguageTransitionStore } from '../../stores/languageTransitionStore'
 
 // Navigation links - will use translation keys
 const getNavLinks = (t) => [
@@ -38,6 +39,7 @@ const throttle = (fn, ms) => {
 
 export default function Header() {
     const { t, i18n } = useTranslation()
+    const { startTransition } = useLanguageTransitionStore()
     const [activeSection, setActiveSection] = useState('about')
     const [scrolled, setScrolled] = useState(false)
 
@@ -218,14 +220,14 @@ export default function Header() {
                 <div className="lang-switch">
                     <button
                         className={`lang-btn ${i18n.language === 'tr' ? 'active' : ''}`}
-                        onClick={() => i18n.changeLanguage('tr')}
+                        onClick={() => i18n.language !== 'tr' && startTransition('tr')}
                     >
                         TR
                     </button>
                     <span style={{ color: '#444', fontSize: 12 }}>|</span>
                     <button
                         className={`lang-btn ${i18n.language === 'en' ? 'active' : ''}`}
-                        onClick={() => i18n.changeLanguage('en')}
+                        onClick={() => i18n.language !== 'en' && startTransition('en')}
                     >
                         EN
                     </button>

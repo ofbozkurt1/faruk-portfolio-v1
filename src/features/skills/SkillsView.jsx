@@ -1,10 +1,10 @@
 /**
- * SkillsView Component - Phase 14
+ * SkillsView Component - Phase 35 OPTIMIZED
  * Bento Grid Layout with 3D Tilt Cards
- * Apple-style asymmetrical grid showing proficiency hierarchy
+ * React.memo for list items
  */
 
-import { useState } from 'react'
+import React, { useState, memo } from 'react'
 import { motion } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
 import TiltCard from '../../components/ui/TiltCard'
@@ -186,7 +186,8 @@ const MicroTools = {
     )
 }
 
-function SkillBentoCard({ skill }) {
+// Memoized to prevent re-renders from parent
+const SkillBentoCard = memo(function SkillBentoCard({ skill }) {
     const isLarge = skill.size === 'large'
     const isTall = skill.size === 'tall'
     const [isHovered, setIsHovered] = useState(false)
@@ -316,7 +317,7 @@ function SkillBentoCard({ skill }) {
             </TiltCard>
         </motion.div>
     )
-}
+})
 
 
 export default function SkillsView({ className }) {

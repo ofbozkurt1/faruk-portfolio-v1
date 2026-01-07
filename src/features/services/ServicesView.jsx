@@ -1,7 +1,7 @@
 /**
- * ServicesView Component - Phase 20 Optimized
+ * ServicesView Component - Phase 31: Kinetic Typography
  * Uses Zustand store for global state
- * No local AnimatePresence for backgrounds (moved to App level)
+ * Clean hover animations without floating previews
  */
 
 import { motion } from 'framer-motion'
@@ -52,6 +52,20 @@ export default function ServicesView() {
 
     return (
         <section className="relative py-24 overflow-hidden">
+            {/* CSS for Kinetic Typography */}
+            <style>{`
+                .service-title {
+                    letter-spacing: -0.03em;
+                    transition: letter-spacing 0.5s cubic-bezier(0.4, 0, 0.2, 1), 
+                                color 0.3s ease,
+                                text-shadow 0.3s ease;
+                }
+                .service-title.active {
+                    letter-spacing: 0.05em;
+                    text-shadow: 0 0 40px currentColor;
+                }
+            `}</style>
+
             {/* Content */}
             <div className="relative z-10 max-w-6xl mx-auto px-6">
                 {/* Section Header - CENTERED */}
@@ -114,7 +128,7 @@ export default function ServicesView() {
                                         alignItems: 'center',
                                         gap: 40
                                     }}>
-                                    {/* Left: Number + Title */}
+                                    {/* Left: Number + Title (Kinetic Typography) */}
                                     <div className="flex items-center gap-5">
                                         <span
                                             style={{
@@ -128,12 +142,11 @@ export default function ServicesView() {
                                             {service.number}
                                         </span>
                                         <h3
+                                            className={`service-title ${hoveredIndex === index ? 'active' : ''}`}
                                             style={{
                                                 fontSize: 'clamp(28px, 4vw, 48px)',
                                                 fontWeight: 700,
-                                                letterSpacing: '-0.03em',
                                                 color: hoveredIndex === index ? service.color : '#F2F2F2',
-                                                transition: 'color 0.3s ease',
                                                 whiteSpace: 'nowrap'
                                             }}
                                         >
@@ -141,7 +154,7 @@ export default function ServicesView() {
                                         </h3>
                                     </div>
 
-                                    {/* Right: Decorative Icon + Description + Tags */}
+                                    {/* Right: Description + Tags */}
                                     <div style={{ width: 340, flexShrink: 0 }}>
                                         {/* Description with decorative symbol */}
                                         <div style={{ display: 'flex', alignItems: 'flex-start', gap: 10, marginBottom: 12 }}>

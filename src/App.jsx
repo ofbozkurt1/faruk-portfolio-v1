@@ -11,6 +11,7 @@ import { AtmosphericBackground, CustomCursor } from './components/ui'
 import ServiceBackgroundLayer from './components/ui/ServiceBackgroundLayer'
 import PortfolioBackgroundLayer from './components/ui/PortfolioBackgroundLayer'
 import SideNav from './components/ui/SideNav'
+import WipeTransition from './components/ui/WipeTransition'
 
 function App() {
     const { t } = useTranslation()
@@ -58,6 +59,9 @@ function App() {
 
     return (
         <>
+            {/* Cinematic Language Transition */}
+            <WipeTransition />
+
             <AtmosphericBackground />
             <ServiceBackgroundLayer />
             <PortfolioBackgroundLayer />

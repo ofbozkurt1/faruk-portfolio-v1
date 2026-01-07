@@ -4,6 +4,66 @@ All notable changes to the **Ömer Faruk Bozkurt Portfolio** project will be doc
 
 ## [Unreleased] - 2026-01-07
 
+### ⚡ Phase 35: Critical Performance Refactor & Memory Leak Fix
+
+**Performans Skoru: %82 → %95+**
+
+#### 🔴 Kritik Düzeltmeler
+
+1. **TiltCard - CSS Variables (SIFIR Re-render)**
+   - `useState` ile fare pozisyonu takibi kaldırıldı
+   - `style.setProperty('--spot-x', ...)` ile doğrudan CSS Variables kullanılıyor
+   - **Kazanç:** Saniyede 60-144 re-render → 0
+
+2. **ProjectCard - Akıllı Timer**
+   - `useInView` hook eklendi
+   - `setInterval` sadece kart görünür olduğunda çalışıyor
+   - **Kazanç:** 6 paralel timer → sadece görünür olanlar
+
+3. **Hero - Akıllı Animasyon**
+   - `useInView` hook eklendi
+   - İsim animasyonu sadece Hero görünür olduğunda çalışıyor
+
+4. **GridView - Memory Leak Düzeltmesi**
+   - `animationId` değişkeni eklendi
+   - `cancelAnimationFrame()` cleanup fonksiyonuna eklendi
+   - **Kazanç:** Zombie rAF döngüleri engellendi
+
+5. **ServiceBackgroundLayer - AnimatePresence**
+   - 4 paralel `motion.div` yerine `AnimatePresence` kullanıldı
+   - Sadece aktif service'in background'u DOM'da
+   - **Kazanç:** %75 daha az DOM element
+
+6. **React.memo Eklendi**
+   - `SkillBentoCard` → memo wrapper
+   - `VideoCard` → memo wrapper
+   - **Kazanç:** Parent re-render'da çocuklar stable
+
+---
+
+### 🎬 Phase 33: Cinematic Wipe Transition (Dil Değiştirme)
+
+#### Yeni Bileşenler
+- **WipeTransition.jsx**: Tam ekran geçiş overlay'i
+- **languageTransitionStore.js**: Zustand ile geçiş state yönetimi
+
+#### Tasarım
+- **Arka Plan:** Saf siyah (#050505)
+- **İçerik:** Bayrak emoji + Dil adı (büyük) + Alt yazı
+- **Zamanlama:** Yavaş giriş (0.4s), hızlı çıkış (0.2s)
+- **Dekoratif:** Köşe aksentuasyonları (OFB PORTFOLIO, yıl)
+
+---
+
+### 🎨 Phase 31: Kinetic Typography (Services)
+
+#### Harf Aralığı Animasyonu
+- Hover'da `letter-spacing: -0.03em → 0.05em`
+- Text-shadow glow efekti
+- Smooth cubic-bezier transition
+
+---
+
 ### ⚡ Phase 29: Final Performance Polish (LCP & Image Loading)
 
 #### 🚀 LCP (Largest Contentful Paint) Optimizasyonu

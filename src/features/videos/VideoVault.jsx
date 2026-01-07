@@ -1,9 +1,9 @@
 /**
- * VideoVault Component - Phase 24
- * Alternating layout with info panels
+ * VideoVault Component - Phase 35 OPTIMIZED
+ * React.memo for list items
  */
 
-import { useRef, useEffect } from 'react'
+import React, { useRef, useEffect, memo } from 'react'
 import { motion, useInView } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
 
@@ -72,8 +72,8 @@ const groups = [
     }
 ]
 
-// Smart Video Player Component
-function VideoCard({ video, index }) {
+// Smart Video Player Component - Memoized
+const VideoCard = memo(function VideoCard({ video, index }) {
     const ref = useRef(null)
     const videoRef = useRef(null)
     const isInView = useInView(ref, { amount: 0.6 })
@@ -174,7 +174,7 @@ function VideoCard({ video, index }) {
             </motion.div>
         </motion.div>
     )
-}
+})
 
 // Info Panel Component
 function InfoPanel({ group }) {

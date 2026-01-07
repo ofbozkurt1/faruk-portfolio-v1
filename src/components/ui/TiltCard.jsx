@@ -1,7 +1,7 @@
 /**
- * TiltCard Component - OPTIMIZED
+ * TiltCard Component - PHASE 35 OPTIMIZED
  * 3D Tilt Effect with Framer Motion
- * NO backdrop-blur, CSS variable-based spotlight
+ * NO useState for mouse position - uses CSS Variables (ZERO re-renders)
  */
 
 import { useRef, useState } from 'react'
@@ -17,7 +17,6 @@ export default function TiltCard({
 }) {
     const cardRef = useRef(null)
     const [isHovered, setIsHovered] = useState(false)
-    const [spotPos, setSpotPos] = useState({ x: 50, y: 50 })
 
     // Mouse position relative to card center
     const mouseX = useMotionValue(0)
@@ -41,17 +40,21 @@ export default function TiltCard({
         mouseX.set(normalizedX)
         mouseY.set(normalizedY)
 
-        // Spotlight position (0-100%) - throttled via state batching
+        // Spotlight position via CSS Variables (NO STATE UPDATE)
         const spotX = Math.round(((e.clientX - rect.left) / rect.width) * 100)
         const spotY = Math.round(((e.clientY - rect.top) / rect.height) * 100)
-        setSpotPos({ x: spotX, y: spotY })
+        cardRef.current.style.setProperty('--spot-x', `${spotX}%`)
+        cardRef.current.style.setProperty('--spot-y', `${spotY}%`)
     }
 
     const handleMouseLeave = () => {
         setIsHovered(false)
         mouseX.set(0)
         mouseY.set(0)
-        setSpotPos({ x: 50, y: 50 })
+        if (cardRef.current) {
+            cardRef.current.style.setProperty('--spot-x', '50%')
+            cardRef.current.style.setProperty('--spot-y', '50%')
+        }
     }
 
     // Dynamic border color
@@ -72,22 +75,24 @@ export default function TiltCard({
                 transformStyle: 'preserve-3d',
                 transformPerspective: 1000,
                 position: 'relative',
-                // NO backdrop-blur - solid dark background instead
                 background: 'rgba(18, 18, 22, 0.92)',
                 border: `1px solid ${activeBorderColor}`,
                 borderRadius: 16,
                 overflow: 'hidden',
                 willChange: 'transform',
-                transition: 'border-color 0.3s ease'
+                transition: 'border-color 0.3s ease',
+                // CSS Variable defaults
+                '--spot-x': '50%',
+                '--spot-y': '50%'
             }}
         >
-            {/* Spotlight Glow - CSS Variable based (no string interpolation) */}
+            {/* Spotlight Glow - Uses CSS Variables (no re-render) */}
             <div
                 style={{
                     position: 'absolute',
                     inset: 0,
                     opacity: isHovered ? 1 : 0,
-                    background: `radial-gradient(circle at ${spotPos.x}% ${spotPos.y}%, ${glowColor} 0%, transparent 60%)`,
+                    background: `radial-gradient(circle at var(--spot-x) var(--spot-y), ${glowColor} 0%, transparent 60%)`,
                     pointerEvents: 'none',
                     transition: 'opacity 0.3s ease'
                 }}

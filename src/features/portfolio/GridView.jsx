@@ -202,22 +202,24 @@ function GridViewContent({ project, onClose }) {
         return () => window.removeEventListener('keydown', handleEsc)
     }, [onClose])
 
-    // Smooth scroll
+    // Smooth scroll - PHASE 35: Fixed memory leak
     useEffect(() => {
         const container = scrollContainerRef.current
         if (!container) return
 
         let targetScrollTop = container.scrollTop
         let isScrolling = false
+        let animationId = null
 
         const smoothScroll = () => {
             const diff = targetScrollTop - container.scrollTop
             if (Math.abs(diff) > 0.5) {
                 container.scrollTop += diff * 0.12
-                requestAnimationFrame(smoothScroll)
+                animationId = requestAnimationFrame(smoothScroll)
             } else {
                 container.scrollTop = targetScrollTop
                 isScrolling = false
+                animationId = null
             }
         }
 
@@ -229,12 +231,15 @@ function GridViewContent({ project, onClose }) {
             targetScrollTop = Math.max(0, Math.min(targetScrollTop, maxScroll))
             if (!isScrolling) {
                 isScrolling = true
-                requestAnimationFrame(smoothScroll)
+                animationId = requestAnimationFrame(smoothScroll)
             }
         }
 
         container.addEventListener('wheel', handleWheel, { passive: false })
-        return () => container.removeEventListener('wheel', handleWheel)
+        return () => {
+            container.removeEventListener('wheel', handleWheel)
+            if (animationId) cancelAnimationFrame(animationId)
+        }
     }, [])
 
     return (

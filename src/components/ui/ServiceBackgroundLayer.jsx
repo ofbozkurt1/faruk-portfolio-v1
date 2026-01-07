@@ -1,14 +1,12 @@
 /**
- * ServiceBackgroundLayer - Performance Optimized
- * CSS-only patterns, no images, no blend modes, no backdrop-filter
- * Uses will-change: opacity for GPU acceleration
- * Includes: Number watermark + Tool logos + Full color background
+ * ServiceBackgroundLayer - PHASE 35 OPTIMIZED
+ * Uses AnimatePresence to mount ONLY the active background layer
+ * Prevents 4 parallel DOM elements from existing simultaneously
  */
 
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import { useServiceStore } from '../../stores/serviceStore'
 
-// Service colors
 // Service colors
 const serviceColors = [
     '#9333EA', // 01 Social Media Design - Purple
@@ -40,106 +38,111 @@ export default function ServiceBackgroundLayer() {
                 overflow: 'hidden'
             }}
         >
-            {/* Full color background for each service - SOFTER */}
-            {serviceColors.map((color, index) => (
-                <motion.div
-                    key={`bg-${index}`}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: activeServiceIndex === index ? 1 : 0 }}
-                    transition={{ duration: 0.5, ease: 'linear' }}
-                    style={{
-                        position: 'absolute',
-                        inset: '-10%',
-                        background: `radial-gradient(ellipse at center, ${color}35 0%, ${color}15 40%, transparent 75%)`,
-                        willChange: 'opacity',
-                        pointerEvents: 'none'
-                    }}
-                />
-            ))}
-
-            {/* Large Number Watermark + Tool Icons */}
-            {serviceNumbers.map((number, index) => (
-                <motion.div
-                    key={`num-${index}`}
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{
-                        opacity: activeServiceIndex === index ? 1 : 0,
-                        scale: activeServiceIndex === index ? 1 : 0.8
-                    }}
-                    transition={{ duration: 0.5 }}
-                    style={{
-                        position: 'absolute',
-                        top: '50%',
-                        right: '8%',
-                        transform: 'translateY(-50%)',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                        gap: 20,
-                        pointerEvents: 'none',
-                        zIndex: 0,
-                        willChange: 'opacity, transform'
-                    }}
-                >
-                    {/* Number */}
-                    <span
+            {/* Only render active background - not all 4 simultaneously */}
+            <AnimatePresence mode="wait">
+                {activeServiceIndex !== null && (
+                    <motion.div
+                        key={`bg-${activeServiceIndex}`}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.5, ease: 'linear' }}
                         style={{
-                            fontSize: 'clamp(150px, 25vw, 300px)',
-                            fontWeight: 900,
-                            color: serviceColors[index],
-                            opacity: 0.9,
-                            fontFamily: 'system-ui, -apple-system, sans-serif',
-                            lineHeight: 1
+                            position: 'absolute',
+                            inset: '-10%',
+                            background: `radial-gradient(ellipse at center, ${serviceColors[activeServiceIndex]}35 0%, ${serviceColors[activeServiceIndex]}15 40%, transparent 75%)`,
+                            willChange: 'opacity',
+                            pointerEvents: 'none'
+                        }}
+                    />
+                )}
+            </AnimatePresence>
+
+            {/* Only render active number & icons */}
+            <AnimatePresence mode="wait">
+                {activeServiceIndex !== null && (
+                    <motion.div
+                        key={`num-${activeServiceIndex}`}
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.8 }}
+                        transition={{ duration: 0.5 }}
+                        style={{
+                            position: 'absolute',
+                            top: '50%',
+                            right: '8%',
+                            transform: 'translateY(-50%)',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                            gap: 20,
+                            pointerEvents: 'none',
+                            zIndex: 0,
+                            willChange: 'opacity, transform'
                         }}
                     >
-                        {number}
-                    </span>
+                        {/* Number */}
+                        <span
+                            style={{
+                                fontSize: 'clamp(150px, 25vw, 300px)',
+                                fontWeight: 900,
+                                color: serviceColors[activeServiceIndex],
+                                opacity: 0.9,
+                                fontFamily: 'system-ui, -apple-system, sans-serif',
+                                lineHeight: 1
+                            }}
+                        >
+                            {serviceNumbers[activeServiceIndex]}
+                        </span>
 
-                    {/* Tool Icons */}
-                    <div style={{ display: 'flex', gap: 16 }}>
-                        {serviceIcons[index].map((icon, iconIdx) => (
-                            <motion.img
-                                key={iconIdx}
-                                src={icon}
-                                alt=""
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{
-                                    opacity: activeServiceIndex === index ? 0.9 : 0,
-                                    y: activeServiceIndex === index ? 0 : 20
-                                }}
-                                transition={{ duration: 0.4, delay: iconIdx * 0.1 }}
-                                style={{
-                                    width: 'clamp(50px, 6vw, 80px)',
-                                    height: 'clamp(50px, 6vw, 80px)',
-                                    willChange: 'opacity, transform'
-                                }}
-                            />
-                        ))}
-                    </div>
-                </motion.div>
-            ))}
+                        {/* Tool Icons */}
+                        <div style={{ display: 'flex', gap: 16 }}>
+                            {serviceIcons[activeServiceIndex].map((icon, iconIdx) => (
+                                <motion.img
+                                    key={iconIdx}
+                                    src={icon}
+                                    alt=""
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 0.9, y: 0 }}
+                                    transition={{ duration: 0.4, delay: iconIdx * 0.1 }}
+                                    style={{
+                                        width: 'clamp(50px, 6vw, 80px)',
+                                        height: 'clamp(50px, 6vw, 80px)',
+                                        willChange: 'opacity, transform'
+                                    }}
+                                />
+                            ))}
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
 
-            {/* Accent color glow - larger and more visible */}
-            <motion.div
-                animate={{
-                    opacity: activeServiceIndex !== null ? 0.6 : 0,
-                    y: activeServiceIndex !== null ? `${activeServiceIndex * 20}%` : '50%'
-                }}
-                transition={{ duration: 0.6, ease: 'easeOut' }}
-                style={{
-                    position: 'absolute',
-                    top: '0%',
-                    right: '-20%',
-                    width: '70vw',
-                    height: '70vw',
-                    borderRadius: '50%',
-                    background: activeServiceIndex !== null
-                        ? `radial-gradient(circle, ${serviceColors[activeServiceIndex]}40 0%, transparent 70%)`
-                        : 'transparent',
-                    willChange: 'opacity, transform',
-                    pointerEvents: 'none'
-                }}
-            />
+            {/* Accent color glow - only when active */}
+            <AnimatePresence>
+                {activeServiceIndex !== null && (
+                    <motion.div
+                        key="glow"
+                        initial={{ opacity: 0 }}
+                        animate={{
+                            opacity: 0.6,
+                            y: `${activeServiceIndex * 20}%`
+                        }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.6, ease: 'easeOut' }}
+                        style={{
+                            position: 'absolute',
+                            top: '0%',
+                            right: '-20%',
+                            width: '70vw',
+                            height: '70vw',
+                            borderRadius: '50%',
+                            background: `radial-gradient(circle, ${serviceColors[activeServiceIndex]}40 0%, transparent 70%)`,
+                            willChange: 'opacity, transform',
+                            pointerEvents: 'none'
+                        }}
+                    />
+                )}
+            </AnimatePresence>
         </div>
     )
 }

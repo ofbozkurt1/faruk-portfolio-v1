@@ -1,10 +1,10 @@
 /**
- * ProjectCard Component
- * Alternating rotation (left/right), but same upward lift on hover
- * Now with global hover state for background effects
+ * ProjectCard Component - PHASE 35 OPTIMIZED
+ * Smart timer: only rotates images when card is visible
  */
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
+import { useInView } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
 import { getStackImages } from '../../utils/imagePath'
 import { cn } from '../../utils/cn'
@@ -24,11 +24,13 @@ export default function ProjectCard({ project, onClick, isReversed, cardIndex = 
     const [activeIndex, setActiveIndex] = useState(0)
     const [isHovered, setIsHovered] = useState(false)
 
+    // Visibility tracking for smart timer
+    const cardRef = useRef(null)
+    const isInView = useInView(cardRef, { amount: 0.3 })
+
     const { setActiveProject, clearActiveProject } = usePortfolioStore()
 
     // Determine aspect ratio based on stackFormat
-    // 'story' = only stories (9/16 vertical)
-    // 'post' or 'hybrid' = posts or mixed (4/5 horizontal)
     const isStoryOnlyFormat = stackFormat === 'story'
     const aspectClass = isStoryOnlyFormat ? 'aspect-[9/16]' : 'aspect-[4/5]'
     const widthClass = isStoryOnlyFormat ? 'w-64 md:w-72 lg:w-80' : 'w-80 md:w-96 lg:w-[420px]'
@@ -36,13 +38,15 @@ export default function ProjectCard({ project, onClick, isReversed, cardIndex = 
     // Direction for rotation only (left/right lean)
     const direction = cardIndex % 2 === 0 ? 1 : -1
 
-    // Auto-rotate images every 4 seconds
+    // Auto-rotate images only when VISIBLE
     useEffect(() => {
+        if (!isInView) return // Don't run timer when off-screen
+
         const interval = setInterval(() => {
             setActiveIndex((prev) => (prev + 1) % stackImages.length)
         }, 4000)
         return () => clearInterval(interval)
-    }, [stackImages.length])
+    }, [isInView, stackImages.length])
 
     const getImageOrder = (originalIndex) => {
         return (originalIndex - activeIndex + stackImages.length) % stackImages.length
@@ -50,6 +54,7 @@ export default function ProjectCard({ project, onClick, isReversed, cardIndex = 
 
     return (
         <article
+            ref={cardRef}
             className={cn(
                 "flex flex-col lg:flex-row items-center gap-12 lg:gap-28",
                 isReversed && "lg:flex-row-reverse",

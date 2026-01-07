@@ -1,10 +1,10 @@
 /**
- * Hero Component
- * Dynamic letter animation, Download CV button
+ * Hero Component - PHASE 35 OPTIMIZED
+ * Smart animation: pauses when scrolled out of view
  */
 
-import { useState, useEffect } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { useState, useEffect, useRef } from 'react'
+import { motion, AnimatePresence, useInView } from 'framer-motion'
 import { FiChevronDown } from 'react-icons/fi'
 import { useTranslation } from 'react-i18next'
 import { cn } from '../../utils/cn'
@@ -62,13 +62,19 @@ export default function Hero({ className }) {
     const [animationKey, setAnimationKey] = useState(0)
     const [isPhotoHovered, setIsPhotoHovered] = useState(false)
 
-    // Replay animation every 6 seconds
+    // Visibility tracking for smart animation
+    const heroRef = useRef(null)
+    const isInView = useInView(heroRef, { amount: 0.3 })
+
+    // Replay animation only when VISIBLE
     useEffect(() => {
+        if (!isInView) return // Don't run timer when off-screen
+
         const interval = setInterval(() => {
             setAnimationKey(prev => prev + 1)
         }, 6000)
         return () => clearInterval(interval)
-    }, [])
+    }, [isInView])
 
     const renderAnimatedText = (text, offset = 0) => (
         <span style={{ display: 'inline-block' }}>
@@ -92,6 +98,7 @@ export default function Hero({ className }) {
 
     return (
         <section
+            ref={heroRef}
             id="about"
             className={cn(
                 "min-h-screen flex flex-col items-center justify-center relative overflow-hidden",
