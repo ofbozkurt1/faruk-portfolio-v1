@@ -202,10 +202,13 @@ function GridViewContent({ project, onClose }) {
         return () => window.removeEventListener('keydown', handleEsc)
     }, [onClose])
 
-    // Smooth scroll - PHASE 35: Fixed memory leak
+    // Smooth scroll - Only on desktop (mobile uses native touch scroll)
     useEffect(() => {
         const container = scrollContainerRef.current
         if (!container) return
+
+        // Skip custom scroll on mobile - use native touch scroll
+        if (window.innerWidth < 768) return
 
         let targetScrollTop = container.scrollTop
         let isScrolling = false
