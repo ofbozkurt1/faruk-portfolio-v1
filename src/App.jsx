@@ -52,8 +52,13 @@ function App() {
 
     useEffect(() => {
         if (lenis) {
-            if (selectedProject) lenis.stop()
-            else lenis.start()
+            if (selectedProject) {
+                lenis.stop()
+                document.body.style.overflow = 'hidden'
+            } else {
+                lenis.start()
+                document.body.style.overflow = ''
+            }
         }
     }, [selectedProject, lenis])
 

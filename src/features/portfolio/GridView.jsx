@@ -167,7 +167,7 @@ function ImageCard({ src, alt, index, type = 'post' }) {
 
 function GridViewContent({ project, onClose }) {
     const { t } = useTranslation()
-    const scrollContainerRef = useRef(null)
+    // scrollContainerRef removed - using native scroll on motion.div wrapper
     const {
         id, title, category, year, description,
         postCount = 0, longPostCount = 0, storyCount = 0,
@@ -202,71 +202,43 @@ function GridViewContent({ project, onClose }) {
         return () => window.removeEventListener('keydown', handleEsc)
     }, [onClose])
 
-    // Lock body scroll when panel is open
-    useEffect(() => {
-        const originalStyle = document.body.style.overflow
-        document.body.style.overflow = 'hidden'
-        return () => {
-            document.body.style.overflow = originalStyle
-        }
-    }, [])
-
-    // Native scroll - removed custom scroll handler for mobile compatibility
+    // DISABLED FOR TESTING - Body scroll lock
+    // useEffect(() => {
+    //     const originalStyle = document.body.style.overflow
+    //     document.body.style.overflow = 'hidden'
+    //     return () => {
+    //         document.body.style.overflow = originalStyle
+    //     }
+    // }, [])
 
     return (
-        <div
-            style={{
-                position: 'fixed',
-                top: 0,
-                left: 0,
-                width: '100%',
-                height: '100vh',
-                zIndex: 99999,
-                backgroundColor: '#0a0a0a',
-                overflow: 'hidden'
-            }}
+        // LENIS BYPASS: data-lenis-prevent stops Lenis from hijacking scroll
+        <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[9999] h-[100dvh] w-screen overflow-y-scroll overflow-x-hidden bg-[#0a0a0a] overscroll-y-none pointer-events-auto"
+            // 🛑 STOP LENIS FROM STEALING SCROLL EVENTS
+            data-lenis-prevent="true"
+            onWheel={(e) => e.stopPropagation()}
+            onTouchMove={(e) => e.stopPropagation()}
         >
-            {/* Close Button - OUTSIDE scroll container */}
+            {/* Close Button - Fixed position, always visible */}
             <motion.button
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
-                whileHover={{ scale: 1.1, backgroundColor: 'rgba(255,255,255,0.2)' }}
+                whileHover={{ scale: 1.1 }}
                 onClick={onClose}
-                style={{
-                    position: 'absolute',
-                    top: 24,
-                    right: 24,
-                    zIndex: 100000,
-                    width: 48,
-                    height: 48,
-                    borderRadius: '50%',
-                    backgroundColor: 'rgba(255,255,255,0.1)',
-                    border: '1px solid rgba(255,255,255,0.1)',
-                    cursor: 'pointer',
-                    color: 'white',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center'
-                }}
+                className="fixed top-6 right-6 z-[10000] w-12 h-12 rounded-full bg-white/10 border border-white/10 cursor-pointer text-white flex items-center justify-center hover:bg-white/20 transition-colors"
             >
                 <X size={20} />
             </motion.button>
 
-            {/* Scrollable Container */}
-            <div
-                ref={scrollContainerRef}
-                style={{
-                    position: 'absolute',
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    bottom: 0,
-                    overflowY: 'scroll',
-                    overflowX: 'hidden'
-                }}
-            >
-                {/* Content wrapper with actual content height */}
-                <div style={{ padding: '80px 5% 120px', maxWidth: 1400, margin: '0 auto' }}>
+            {/* SCROLL CONTENT WRAPPER - py-24 ensures content is taller than viewport */}
+            <div className="min-h-full w-full px-[5%] py-24">
+
+                {/* CONTENT CARD */}
+                <div className="relative z-10 w-full max-w-[1400px] mx-auto">
 
                     {/* ═══════════════ HERO SECTION - ENHANCED ═══════════════ */}
                     <motion.div
@@ -592,7 +564,7 @@ function GridViewContent({ project, onClose }) {
                     </motion.div>
                 </div>
             </div>
-        </div>
+        </motion.div>
     )
 }
 
