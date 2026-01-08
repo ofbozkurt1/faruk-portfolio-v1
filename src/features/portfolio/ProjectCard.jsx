@@ -192,14 +192,17 @@ export default function ProjectCard({ project, onClick, isReversed, cardIndex = 
                                         <defs>
                                             <path id="circlePath" d="M 50,50 m -40,0 a 40,40 0 1,1 80,0 a 40,40 0 1,1 -80,0" fill="none" />
                                         </defs>
-                                        <text className="fill-white/40" style={{ fontSize: '10px', letterSpacing: '0.15em', textTransform: 'uppercase' }}>
+                                        <text className="fill-white/50" style={{ fontSize: '9px', letterSpacing: '0.12em', fontWeight: 500 }}>
                                             <textPath href="#circlePath">
-                                                P R O J E Y İ   İ N C E L E   •
+                                                PROJEYİ · İNCELE · PROJEYİ · İNCELE ·
                                             </textPath>
                                         </text>
                                     </svg>
                                     <div className="w-9 h-9 flex items-center justify-center rounded-full bg-white/10 border border-white/20 text-white">
-                                        <span className="text-base">→</span>
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                            <path d="M7 17L17 7" />
+                                            <path d="M7 7h10v10" />
+                                        </svg>
                                     </div>
                                 </div>
                             </div>
