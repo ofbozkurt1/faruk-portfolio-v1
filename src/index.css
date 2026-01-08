@@ -32,28 +32,36 @@ body {
 
 /* Tüm tarayıcılar için genel ayar */
 html {
-  scrollbar-width: thin; /* Firefox için ince çubuk */
-  scrollbar-color: #333 #050505; /* Çubuk Rengi / Zemin Rengi */
+  scrollbar-width: thin;
+  /* Firefox için ince çubuk */
+  scrollbar-color: #333 #050505;
+  /* Çubuk Rengi / Zemin Rengi */
 }
 
 /* Chrome, Edge, Safari için Özelleştirme */
 ::-webkit-scrollbar {
-  width: 6px; /* Standarttan çok daha ince (Normali 17px'tir) */
+  width: 6px;
+  /* Standarttan çok daha ince (Normali 17px'tir) */
 }
 
 ::-webkit-scrollbar-track {
-  background: #050505; /* Sitenin arka plan rengiyle aynı olsun */
+  background: #050505;
+  /* Sitenin arka plan rengiyle aynı olsun */
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: #333; /* Çok silik gri bir çubuk */
-  border-radius: 10px; /* Yuvarlak hatlar */
-  border: 2px solid #050505; /* Etrafında boşluk hissi yaratır */
+  background-color: #333;
+  /* Çok silik gri bir çubuk */
+  border-radius: 10px;
+  /* Yuvarlak hatlar */
+  border: 2px solid #050505;
+  /* Etrafında boşluk hissi yaratır */
 }
 
 /* Üzerine gelince belirginleşsin (Interaction) */
 ::-webkit-scrollbar-thumb:hover {
-  background-color: #7B2CBF; /* Marka rengin (Mor) parlasın */
+  background-color: #7B2CBF;
+  /* Marka rengin (Mor) parlasın */
 }
 
 /* === GPU ACCELERATION UTILITIES === */
@@ -154,4 +162,17 @@ a {
 /* === TEXT SHADOW FOR READABILITY === */
 .text-glow {
   text-shadow: 0 0 40px rgba(242, 242, 242, 0.1);
+}
+
+/* === SCROLLBAR HIDE (For Carousels) === */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+  /* Chrome, Safari, Opera */
 }

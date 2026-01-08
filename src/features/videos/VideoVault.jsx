@@ -319,7 +319,7 @@ function InfoPanel({ group }) {
     )
 }
 
-// Video Group Row - Alternating Layout
+// Video Group Row - Desktop: Alternating Layout, Mobile: Carousel
 function VideoGroupRow({ group, index }) {
     const isReversed = index % 2 === 1
 
@@ -329,38 +329,100 @@ function VideoGroupRow({ group, index }) {
             whileInView={{ opacity: 1 }}
             viewport={{ once: true, margin: '-100px' }}
             transition={{ duration: 0.5 }}
-            style={{
-                display: 'flex',
-                flexDirection: isReversed ? 'row-reverse' : 'row',
-                gap: 60,
-                alignItems: 'center'
-            }}
         >
-            {/* Videos Grid */}
+            {/* DESKTOP LAYOUT - Side by Side */}
             <div
+                className="hidden md:flex"
                 style={{
-                    display: 'grid',
-                    gridTemplateColumns: '1fr 1fr',
-                    gap: 20,
-                    flex: '0 0 auto',
-                    width: '45%'
-                }}
-            >
-                {group.videos.map((video, idx) => (
-                    <VideoCard key={video.id} video={video} index={idx} />
-                ))}
-            </div>
-
-            {/* Info Panel - Centered in empty space */}
-            <div
-                style={{
-                    flex: 1,
-                    display: 'flex',
-                    justifyContent: 'center',
+                    flexDirection: isReversed ? 'row-reverse' : 'row',
+                    gap: 60,
                     alignItems: 'center'
                 }}
             >
-                <InfoPanel group={group} />
+                {/* Videos Grid */}
+                <div
+                    style={{
+                        display: 'grid',
+                        gridTemplateColumns: '1fr 1fr',
+                        gap: 20,
+                        flex: '0 0 auto',
+                        width: '45%'
+                    }}
+                >
+                    {group.videos.map((video, idx) => (
+                        <VideoCard key={video.id} video={video} index={idx} />
+                    ))}
+                </div>
+
+                {/* Info Panel */}
+                <div
+                    style={{
+                        flex: 1,
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center'
+                    }}
+                >
+                    <InfoPanel group={group} />
+                </div>
+            </div>
+
+            {/* MOBILE LAYOUT - Vertical Stack with Carousel */}
+            <div className="md:hidden flex flex-col gap-6">
+                {/* Text Content - Compact */}
+                <div className="text-center px-4">
+                    <span className="text-[10px] tracking-[0.2em] uppercase text-white/40 font-mono">
+                        Video Work — {group.year}
+                    </span>
+                    <h3 className="text-2xl font-bold text-white mt-2 mb-2 tracking-tight">
+                        {group.title}
+                    </h3>
+                    <p className="text-sm text-white/50 mb-4">
+                        {group.desc}
+                    </p>
+                    {/* Tools Row */}
+                    <div className="flex justify-center gap-2 mb-4">
+                        {group.tools.map((tool, idx) => (
+                            <div
+                                key={idx}
+                                className="w-10 h-10 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center"
+                                title={tool.name}
+                            >
+                                <img
+                                    src={tool.icon}
+                                    alt={tool.name}
+                                    className="w-5 h-5"
+                                    onError={(e) => { e.target.style.display = 'none' }}
+                                />
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+                {/* HORIZONTAL CAROUSEL - Instagram Style */}
+                <div
+                    className="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-4 px-4 scrollbar-hide"
+                    style={{
+                        scrollbarWidth: 'none',
+                        msOverflowStyle: 'none',
+                        WebkitOverflowScrolling: 'touch'
+                    }}
+                >
+                    {group.videos.map((video, idx) => (
+                        <div
+                            key={video.id}
+                            className="flex-shrink-0 snap-center"
+                            style={{ width: '75vw', maxWidth: '300px' }}
+                        >
+                            <VideoCard video={video} index={idx} />
+                        </div>
+                    ))}
+                </div>
+
+                {/* Swipe Hint */}
+                <div className="text-center text-[11px] text-white/30 animate-pulse">
+                    ← Kaydır →
+                </div>
             </div>
         </motion.div>
     )
