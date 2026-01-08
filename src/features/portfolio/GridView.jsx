@@ -211,85 +211,62 @@ function GridViewContent({ project, onClose }) {
         }
     }, [])
 
-    // Smooth scroll - Only on desktop (mobile uses native touch scroll)
-    useEffect(() => {
-        const container = scrollContainerRef.current
-        if (!container) return
-
-        // Skip custom scroll on mobile - use native touch scroll
-        if (window.innerWidth < 768) return
-
-        let targetScrollTop = container.scrollTop
-        let isScrolling = false
-        let animationId = null
-
-        const smoothScroll = () => {
-            const diff = targetScrollTop - container.scrollTop
-            if (Math.abs(diff) > 0.5) {
-                container.scrollTop += diff * 0.12
-                animationId = requestAnimationFrame(smoothScroll)
-            } else {
-                container.scrollTop = targetScrollTop
-                isScrolling = false
-                animationId = null
-            }
-        }
-
-        const handleWheel = (e) => {
-            e.preventDefault()
-            e.stopPropagation()
-            targetScrollTop += e.deltaY * 1.5
-            const maxScroll = container.scrollHeight - container.clientHeight
-            targetScrollTop = Math.max(0, Math.min(targetScrollTop, maxScroll))
-            if (!isScrolling) {
-                isScrolling = true
-                animationId = requestAnimationFrame(smoothScroll)
-            }
-        }
-
-        container.addEventListener('wheel', handleWheel, { passive: false })
-        return () => {
-            container.removeEventListener('wheel', handleWheel)
-            if (animationId) cancelAnimationFrame(animationId)
-        }
-    }, [])
+    // Native scroll - removed custom scroll handler for mobile compatibility
 
     return (
-        <div className="fixed inset-0 z-[99999] bg-[#0a0a0a]">
+        <div
+            style={{
+                position: 'fixed',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100vh',
+                zIndex: 99999,
+                backgroundColor: '#0a0a0a',
+                overflow: 'hidden'
+            }}
+        >
+            {/* Close Button - OUTSIDE scroll container */}
+            <motion.button
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                whileHover={{ scale: 1.1, backgroundColor: 'rgba(255,255,255,0.2)' }}
+                onClick={onClose}
+                style={{
+                    position: 'absolute',
+                    top: 24,
+                    right: 24,
+                    zIndex: 100000,
+                    width: 48,
+                    height: 48,
+                    borderRadius: '50%',
+                    backgroundColor: 'rgba(255,255,255,0.1)',
+                    border: '1px solid rgba(255,255,255,0.1)',
+                    cursor: 'pointer',
+                    color: 'white',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                }}
+            >
+                <X size={20} />
+            </motion.button>
+
             {/* Scrollable Container */}
             <div
                 ref={scrollContainerRef}
-                className="absolute inset-0 overflow-y-auto overflow-x-hidden"
-                style={{ WebkitOverflowScrolling: 'touch' }}
+                style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    overflowY: 'scroll',
+                    overflowX: 'hidden'
+                }}
             >
-                {/* Close Button */}
-                <motion.button
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    whileHover={{ scale: 1.1, backgroundColor: 'rgba(255,255,255,0.2)' }}
-                    onClick={onClose}
-                    style={{
-                        position: 'fixed',
-                        top: 24,
-                        right: 24,
-                        zIndex: 100000,
-                        width: 48,
-                        height: 48,
-                        borderRadius: '50%',
-                        backgroundColor: 'rgba(255,255,255,0.1)',
-                        border: '1px solid rgba(255,255,255,0.1)',
-                        cursor: 'pointer',
-                        color: 'white',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center'
-                    }}
-                >
-                    <X size={20} />
-                </motion.button>
-
-                {/* Content */}
-                <div style={{ padding: '80px 5% 120px', maxWidth: 1400, margin: '0 auto', position: 'relative' }}>
+                {/* Content wrapper with actual content height */}
+                <div style={{ padding: '80px 5% 120px', maxWidth: 1400, margin: '0 auto' }}>
 
                     {/* ═══════════════ HERO SECTION - ENHANCED ═══════════════ */}
                     <motion.div
