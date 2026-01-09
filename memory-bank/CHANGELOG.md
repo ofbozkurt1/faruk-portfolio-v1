@@ -6,17 +6,22 @@ All notable changes to the **Ömer Faruk Bozkurt Portfolio** project will be doc
 
 ### 🎬 Phase 47: Cinematic Preloader (Counter + Curtain Reveal)
 
-#### Yeni Bileşen
-- **Preloader.jsx**: Premium sayfa yükleme deneyimi
-- **Sayaç Animasyonu**: 0'dan 100'e rastgele artışlarla sayar
-- **Perde Efekti**: Yükleme bitince siyah ekran yukarı kayarak açılır
-- **Sinematik Ease**: `[0.76, 0, 0.24, 1]` - Premium geçiş animasyonu
+#### Tasarım
+- **Sayaç:** 0-100%, büyük tipografi (text-7xl / 140px)
+- **İsim:** "Ömer Faruk Bozkurt" (tracking-wide, text-lg)
+- **Unvan:** "MOTION & GRAPHIC DESIGNER" (text-sm)
+- **Tool Icons:** Photoshop, After Effects, Illustrator, Premiere Pro
+- **Perde Efekti:** Siyah ekran yukarı kayarak açılır
 
-#### GPU Optimizasyonları (v2)
+#### Zamanlama (~2 saniye)
+- Sayaç: ~1.0s (90ms interval, 6-10 artış)
+- Bekleme: 300ms
+- Perde animasyonu: 700ms
+
+#### Optimizasyonlar
 - `willChange: 'transform'` - GPU hızlandırma
-- `overflow: hidden` - Yükleme sırasında scroll kilidi
-- Hız artırıldı: 150ms → 120ms
-- Minimal tasarım (köşe dekorasyonları kaldırıldı)
+- `overflow: hidden` - Scroll kilidi
+- Staggered fade-in animasyonlar
 
 ---
 
