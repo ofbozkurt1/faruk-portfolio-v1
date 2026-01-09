@@ -4,6 +4,22 @@ All notable changes to the **Ömer Faruk Bozkurt Portfolio** project will be doc
 
 ## [Unreleased] - 2026-01-10
 
+### 🎬 Phase 47: Cinematic Preloader (Counter + Curtain Reveal)
+
+#### Yeni Bileşen
+- **Preloader.jsx**: Premium sayfa yükleme deneyimi
+- **Sayaç Animasyonu**: 0'dan 100'e rastgele artışlarla sayar
+- **Perde Efekti**: Yükleme bitince siyah ekran yukarı kayarak açılır
+- **Sinematik Ease**: `[0.76, 0, 0.24, 1]` - Premium geçiş animasyonu
+
+#### GPU Optimizasyonları (v2)
+- `willChange: 'transform'` - GPU hızlandırma
+- `overflow: hidden` - Yükleme sırasında scroll kilidi
+- Hız artırıldı: 150ms → 120ms
+- Minimal tasarım (köşe dekorasyonları kaldırıldı)
+
+---
+
 ### 🚀 Phase 46: Cold Start Optimization (Asset Loading Strategy)
 
 #### Lazy Loading Uygulaması

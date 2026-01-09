@@ -12,6 +12,7 @@ import ServiceBackgroundLayer from './components/ui/ServiceBackgroundLayer'
 import PortfolioBackgroundLayer from './components/ui/PortfolioBackgroundLayer'
 import SideNav from './components/ui/SideNav'
 import WipeTransition from './components/ui/WipeTransition'
+import Preloader from './components/ui/Preloader'
 
 function App() {
     const { t } = useTranslation()
@@ -74,6 +75,9 @@ function App() {
 
     return (
         <>
+            {/* Premium Preloader - Counter + Curtain Reveal */}
+            <Preloader />
+
             {/* Cinematic Language Transition */}
             <WipeTransition />
 

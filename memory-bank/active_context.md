@@ -1,61 +1,39 @@
 # Active Context
 
-## Current Phase: Phase 45-46 - Performans Optimizasyonu
-Düşük donanımlı cihazlarda bile 60 FPS hedefleyerek tüm ağır efektler kaldırıldı veya optimize edildi.
+## Current Phase: Phase 47 - Premium Preloader (Optimized)
+Sayfa ilk açılışında profesyonel bir yükleme deneyimi için tipografik yüzde sayacı ve perde açılış efekti eklendi. GPU optimizasyonları uygulandı.
 
 ## Latest Session Summary (2026-01-10)
 
-### Phase 45: Low-End Hardware Optimization
-**Hedef:** "Patates Testi" - Zayıf cihazlarda bile akıcı deneyim.
+### Phase 47: Cinematic Preloader (v2 - Optimized)
+**Hedef:** İlk sayfa açılışında layout shift'i gizlemek ve premium deneyim.
 
-**1. Devre Dışı Bırakılan Bileşenler:**
-- `PortfolioBackgroundLayer.jsx` → `return null` (Gradient animasyonları kaldırıldı)
-- `ServiceBackgroundLayer.jsx` → `return null` (01/02 sayıları, iconlar, glow kaldırıldı)
-- `CustomCursor.jsx` → Zaten disabled
+**Bileşen:** `src/components/ui/Preloader.jsx`
 
-**2. ServicesView Sadeleştirmesi:**
-- 01, 02, 03, 04 numaraları kaldırıldı
-- Dekoratif semboller (▶, ◆, ★, ●) kaldırıldı
-- text-shadow glow efekti kaldırıldı
-- serviceStore bağımlılığı kaldırıldı
-- **Kalan:** Yazının yana kayması (x: 20), renk değişimi
+**Özellikler:**
+- **Sayaç:** 0'dan 100'e rastgele artışlarla sayar
+- **Perde Efekti:** 100% olunca siyah ekran yukarı kayarak açılır
+- **Sinematik Ease:** `[0.76, 0, 0.24, 1]` - Premium geçiş
 
-**3. App.jsx Conditional Render:**
-- `isDesktop` state eklendi
-- SideNav mobilde DOM'dan tamamen kaldırıldı
-- Luxury divider'lar mobilde render edilmiyor
+**Optimizasyonlar (v2):**
+- `willChange: 'transform'` - GPU hızlandırma
+- `document.body.style.overflow = 'hidden'` - Yükleme sırasında scroll kilidi
+- Hız artırıldı: 150ms → 120ms
+- Köşe dekorasyonları kaldırıldı (daha minimal tasarım)
 
-### Phase 46: Cold Start Optimization
-**Hedef:** İlk yüklemede kasma/takılma önleme.
+---
 
-**1. SkillsView Icons:**
-- `loading="lazy"` ve `decoding="async"` eklendi
+### Önceki Oturum: Phase 45-46
 
-**2. VideoVault:**
-- `poster` attribute eklendi (video yerine hafif resim gösterilir)
-- `preload="none"` zaten mevcuttu
-
-**3. Zaten Optimize Olanlar:**
-- Hero profil resmi: `fetchpriority="high"`, `decoding="sync"` ✅
-- HeroBackground: Tüm resimler `loading="lazy"` ✅
-- ProjectCard: İlk görünür eager, geri kalan lazy ✅
+**Performans Optimizasyonu:**
+- `PortfolioBackgroundLayer` devre dışı
+- `ServiceBackgroundLayer` devre dışı
+- ServicesView sadeleştirildi
+- Lazy loading uygulandı
 
 ## Key Files Modified
-- `src/components/ui/PortfolioBackgroundLayer.jsx` (Disabled)
-- `src/components/ui/ServiceBackgroundLayer.jsx` (Disabled)
-- `src/features/services/ServicesView.jsx` (Simplified)
-- `src/features/skills/SkillsView.jsx` (Lazy loading)
-- `src/features/videos/VideoVault.jsx` (Poster added)
-- `src/App.jsx` (Conditional render)
-
-## Performance Impact
-| Metrik | Önce | Sonra |
-|--------|------|-------|
-| GPU Layers | ~15+ | ~6 |
-| Background Efektleri | 6 aktif | 1 aktif |
-| Hover Efektleri | Ağır | Hafif |
-| DOM Node'lar | Yüksek | Düşük |
+- `src/components/ui/Preloader.jsx` (UPDATED)
 
 ## Next Steps
-- AtmosphericBackground hala aktif, gerekirse devre dışı bırakılabilir
-- HeroBackground resim sayısı azaltılabilir (64 → 32)
+- Preloader testlerini tamamla
+- Production build performans testi
