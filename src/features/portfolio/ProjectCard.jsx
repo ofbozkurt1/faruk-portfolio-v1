@@ -37,7 +37,8 @@ export default function ProjectCard({ project, onClick, isReversed, cardIndex = 
 
     const isStoryOnlyFormat = stackFormat === 'story'
     const aspectClass = isStoryOnlyFormat ? 'aspect-[9/16]' : 'aspect-[4/5]'
-    const widthClass = isStoryOnlyFormat ? 'w-64 md:w-72 lg:w-80' : 'w-80 md:w-96 lg:w-[420px]'
+    // Mobile widths reduced significantly: w-64 -> w-52, w-80 -> w-60
+    const widthClass = isStoryOnlyFormat ? 'w-[260px] md:w-72 lg:w-80' : 'w-[300px] md:w-96 lg:w-[420px]'
 
     const direction = cardIndex % 2 === 0 ? 1 : -1
 
