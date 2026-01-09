@@ -1,18 +1,16 @@
 /**
- * ServicesView Component - Phase 31: Kinetic Typography
- * Uses Zustand store for global state
- * Clean hover animations without floating previews
+ * ServicesView Component - SIMPLIFIED FOR PERFORMANCE
+ * Removed: text-shadow glow, 01/02 numbers, decorative symbols
+ * Kept: Side slide animation, color change
  */
 
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
-import { useServiceStore } from '../../stores/serviceStore'
 
 const services = [
     {
         id: 1,
-        number: '01',
         titleKey: 'services.socialMedia.title',
         descKey: 'services.socialMedia.description',
         tags: ['Instagram Grid', 'Story Sets', 'Campaigns'],
@@ -20,7 +18,6 @@ const services = [
     },
     {
         id: 2,
-        number: '02',
         titleKey: 'services.motionDesign.title',
         descKey: 'services.motionDesign.description',
         tags: ['2D Animation', 'Logo Reveal', 'Kinetic Typo'],
@@ -28,7 +25,6 @@ const services = [
     },
     {
         id: 3,
-        number: '03',
         titleKey: 'services.brandIdentity.title',
         descKey: 'services.brandIdentity.description',
         tags: ['Logo Design', 'Style Guide', 'Business Cards'],
@@ -36,7 +32,6 @@ const services = [
     },
     {
         id: 4,
-        number: '04',
         titleKey: 'services.videoEditing.title',
         descKey: 'services.videoEditing.description',
         tags: ['Reels & TikTok', 'Color Grading', 'Sound Design'],
@@ -46,45 +41,18 @@ const services = [
 
 export default function ServicesView() {
     const { t } = useTranslation()
-    const { activeServiceIndex, delayedActiveServiceIndex, setActiveService, clearActiveService } = useServiceStore()
+    const [hoveredIndex, setHoveredIndex] = useState(null)
+    const [isDesktop, setIsDesktop] = useState(false)
 
-    // Scroll listener: Close active service when scrolling on mobile
     useEffect(() => {
-        const handleScroll = () => {
-            if (activeServiceIndex !== null && window.innerWidth < 1024) {
-                clearActiveService()
-            }
-        }
-        window.addEventListener('scroll', handleScroll, { passive: true })
-        return () => window.removeEventListener('scroll', handleScroll)
-    }, [activeServiceIndex, clearActiveService])
-
-    // Use activeServiceIndex for text color/movement (instant)
-    const hoveredIndex = activeServiceIndex
+        const checkDesktop = () => setIsDesktop(window.innerWidth >= 768)
+        checkDesktop()
+        window.addEventListener('resize', checkDesktop)
+        return () => window.removeEventListener('resize', checkDesktop)
+    }, [])
 
     return (
         <section className="relative py-10 md:py-24 overflow-hidden">
-            {/* CSS for Kinetic Typography */}
-            <style>{`
-                .service-title {
-                    letter-spacing: -0.03em;
-                    transition: letter-spacing 0.5s cubic-bezier(0.4, 0, 0.2, 1), 
-                                color 0.3s ease,
-                                text-shadow 0.3s ease;
-                }
-                @media (min-width: 768px) {
-                    .service-title.active {
-                        letter-spacing: 0.05em;
-                        text-shadow: 0 0 40px currentColor;
-                    }
-                }
-                @media (max-width: 767px) {
-                    .service-title.active {
-                        letter-spacing: 0em; /* Less dramatic on mobile */
-                    }
-                }
-            `}</style>
-
             {/* Content */}
             <div className="relative z-10 max-w-6xl mx-auto px-6">
                 {/* Section Header - CENTERED */}
@@ -97,9 +65,7 @@ export default function ServicesView() {
                 >
                     <div className="flex items-center justify-center gap-6">
                         <div style={{ width: 60, height: 1, background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.3))' }} />
-                        <h2
-                            className="text-3xl md:text-5xl font-bold tracking-tight text-[#F2F2F2]"
-                        >
+                        <h2 className="text-3xl md:text-5xl font-bold tracking-tight text-[#F2F2F2]">
                             {t('services.title', 'Services')}
                         </h2>
                         <div style={{ width: 60, height: 1, background: 'linear-gradient(90deg, rgba(255,255,255,0.3), transparent)' }} />
@@ -115,8 +81,8 @@ export default function ServicesView() {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ delay: index * 0.1, duration: 0.5 }}
-                            onMouseEnter={() => setActiveService(index)}
-                            onMouseLeave={clearActiveService}
+                            onMouseEnter={() => setHoveredIndex(index)}
+                            onMouseLeave={() => setHoveredIndex(null)}
                             style={{
                                 borderBottom: '1px solid rgba(255,255,255,0.08)',
                                 cursor: 'pointer',
@@ -126,35 +92,24 @@ export default function ServicesView() {
                             <motion.div
                                 animate={{
                                     opacity: hoveredIndex === null || hoveredIndex === index ? 1 : 0.3,
-                                    x: hoveredIndex === index ? (window.innerWidth >= 768 ? 20 : 0) : 0
+                                    x: hoveredIndex === index && isDesktop ? 20 : 0
                                 }}
                                 transition={{ duration: 0.3, ease: 'easeOut' }}
                                 className="py-6 md:py-10"
                             >
                                 {/* Row Content - Grid Layout */}
                                 <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-4 lg:gap-10 items-start lg:items-center">
-                                    {/* Left: Number + Title (Kinetic Typography) */}
-                                    <div className="flex items-center gap-0 md:gap-5">
-                                        <span
-                                            className="hidden md:block" // Hidden on Mobile
-                                            style={{
-                                                fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace',
-                                                fontSize: 12,
-                                                color: hoveredIndex === index ? service.color : 'rgba(255,255,255,0.3)',
-                                                transition: 'color 0.3s ease, opacity 0.3s ease',
-                                                minWidth: 20,
-                                                opacity: delayedActiveServiceIndex === index ? 1 : 0 // Only show after 1 sec
-                                            }}
-                                        >
-                                            {service.number}
-                                        </span>
+                                    {/* Left: Title Only (No number) */}
+                                    <div className="flex items-center">
                                         <h3
-                                            className={`service-title ${hoveredIndex === index ? 'active' : ''} whitespace-normal lg:whitespace-nowrap`}
+                                            className="whitespace-normal lg:whitespace-nowrap"
                                             style={{
                                                 fontSize: 'clamp(24px, 5vw, 48px)',
                                                 fontWeight: 700,
                                                 color: hoveredIndex === index ? service.color : '#F2F2F2',
-                                                lineHeight: 1.1
+                                                lineHeight: 1.1,
+                                                letterSpacing: '-0.02em',
+                                                transition: 'color 0.3s ease'
                                             }}
                                         >
                                             {t(service.titleKey)}
@@ -163,64 +118,42 @@ export default function ServicesView() {
 
                                     {/* Right: Description + Tags */}
                                     <div className="w-full lg:w-[340px] flex-shrink-0">
-                                        <div style={{ display: 'flex', alignItems: 'flex-start', gap: 10 }}>
-                                            {/* Abstract Decorative Symbol - Left Column - HIDDEN ON MOBILE */}
-                                            <span
-                                                className="hidden md:block"
+                                        <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                                            <p
                                                 style={{
+                                                    color: 'rgba(255,255,255,0.5)',
                                                     fontSize: 14,
-                                                    color: service.color,
-                                                    opacity: 0.8,
-                                                    marginTop: 3,
-                                                    width: 16,
-                                                    textAlign: 'center',
-                                                    flexShrink: 0
+                                                    lineHeight: 1.6,
+                                                    textAlign: 'left',
+                                                    margin: 0
                                                 }}
                                             >
-                                                {index === 0 && '▶'}
-                                                {index === 1 && '◆'}
-                                                {index === 2 && '★'}
-                                                {index === 3 && '●'}
-                                            </span>
+                                                {t(service.descKey)}
+                                            </p>
 
-                                            {/* Right Column: Text + Tags */}
-                                            <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-                                                <p
-                                                    style={{
-                                                        color: 'rgba(255,255,255,0.5)',
-                                                        fontSize: 14,
-                                                        lineHeight: 1.6,
-                                                        textAlign: 'left',
-                                                        margin: 0
-                                                    }}
-                                                >
-                                                    {t(service.descKey)}
-                                                </p>
-
-                                                {/* Glass Pill Tags - Aligned with text - Show after 1 sec delay */}
-                                                <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-                                                    {service.tags.map((tag) => (
-                                                        <span
-                                                            key={tag}
-                                                            style={{
-                                                                fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace',
-                                                                fontSize: 10,
-                                                                fontWeight: 500,
-                                                                letterSpacing: '0.08em',
-                                                                textTransform: 'uppercase',
-                                                                color: delayedActiveServiceIndex === index ? 'rgba(255,255,255,0.9)' : 'rgba(255,255,255,0.4)',
-                                                                padding: '6px 12px',
-                                                                background: delayedActiveServiceIndex === index ? `${service.color}15` : 'rgba(255,255,255,0.03)',
-                                                                border: `1px solid ${delayedActiveServiceIndex === index ? `${service.color}50` : 'rgba(255,255,255,0.08)'}`,
-                                                                borderRadius: 50,
-                                                                transition: 'all 0.3s ease',
-                                                                whiteSpace: 'nowrap'
-                                                            }}
-                                                        >
-                                                            {tag}
-                                                        </span>
-                                                    ))}
-                                                </div>
+                                            {/* Simple Tags */}
+                                            <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                                                {service.tags.map((tag) => (
+                                                    <span
+                                                        key={tag}
+                                                        style={{
+                                                            fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace',
+                                                            fontSize: 10,
+                                                            fontWeight: 500,
+                                                            letterSpacing: '0.08em',
+                                                            textTransform: 'uppercase',
+                                                            color: hoveredIndex === index ? 'rgba(255,255,255,0.9)' : 'rgba(255,255,255,0.4)',
+                                                            padding: '6px 12px',
+                                                            background: hoveredIndex === index ? `${service.color}15` : 'rgba(255,255,255,0.03)',
+                                                            border: `1px solid ${hoveredIndex === index ? `${service.color}50` : 'rgba(255,255,255,0.08)'}`,
+                                                            borderRadius: 50,
+                                                            transition: 'all 0.3s ease',
+                                                            whiteSpace: 'nowrap'
+                                                        }}
+                                                    >
+                                                        {tag}
+                                                    </span>
+                                                ))}
                                             </div>
                                         </div>
                                     </div>
