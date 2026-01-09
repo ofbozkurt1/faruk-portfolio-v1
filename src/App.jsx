@@ -99,8 +99,8 @@ function App() {
 
                 <section id="portfolio" className="relative w-full pt-0 pb-10 md:py-32 container-padding">
                     {/* Portfolio Header - Clean Single Line */}
-                    <div className="text-center mb-4 md:mb-24">
-                        <div className="flex items-center justify-center gap-3 md:gap-6 mb-4 md:mb-8">
+                    <div className="text-center mb-1 md:mb-24">
+                        <div className="flex items-center justify-center gap-3 md:gap-6 mb-1 md:mb-8">
                             <div style={{ width: 60, height: 1, background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.3))' }} />
                             <h2
                                 style={{
@@ -115,7 +115,7 @@ function App() {
                             <div style={{ width: 60, height: 1, background: 'linear-gradient(90deg, rgba(255,255,255,0.3), transparent)' }} />
                         </div>
                     </div>
-                    <StackView onProjectClick={setSelectedProject} />
+                    <StackView onProjectClick={setSelectedProject} className="-mt-6" />
                 </section>
 
                 <GridView

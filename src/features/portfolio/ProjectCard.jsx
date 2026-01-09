@@ -19,7 +19,9 @@ const iconMap = {
 
 export default function ProjectCard({ project, onClick, isReversed, cardIndex = 0, className }) {
     const { t } = useTranslation()
-    const { id, title, category, year, description, techStack = [], postCount = 5, storyCount = 0, stackFormat = 'post', brandColor = '#9333EA' } = project
+    const { id, title, category, year, description, techStack = [], postCount = 5, storyCount = 0, stackFormat: originalStackFormat = 'post', brandColor = '#9333EA' } = project
+    // FORCE 'hybrid' for Adana Napoli to match Hacı Hakkı Usta exactly
+    const stackFormat = (title === 'Adana Napoli' || title === 'Hacı Hakkı Usta') ? 'hybrid' : originalStackFormat
     const stackImages = getStackImages(id, postCount, storyCount, stackFormat)
     const [activeIndex, setActiveIndex] = useState(0)
     const [isHovered, setIsHovered] = useState(false)
@@ -39,19 +41,26 @@ export default function ProjectCard({ project, onClick, isReversed, cardIndex = 
     }, [])
 
     const isStoryOnlyFormat = stackFormat === 'story'
-    const aspectClass = isStoryOnlyFormat ? 'aspect-[9/16]' : 'aspect-[4/5]'
-    // Mobile widths reduced significantly: w-64 -> w-52, w-80 -> w-60
-    const widthClass = isStoryOnlyFormat ? 'w-[260px] md:w-72 lg:w-80' : 'w-[300px] md:w-96 lg:w-[420px]'
+
+    // RESPONSIVE SIZING STRATEGY:
+    // Mobile: UNIFIED (All cards are 4:5 aspect, 300px width)
+    // Desktop: ORIGINAL (Stories are 9:16, Posts are 4:5, varying widths)
+    const aspectClass = isStoryOnlyFormat ? 'aspect-[4/5] md:aspect-[9/16]' : 'aspect-[4/5]'
+
+    const widthClass = isStoryOnlyFormat
+        ? 'w-[300px] md:w-72 lg:w-80'
+        : 'w-[300px] md:w-96 lg:w-[420px]'
 
     const direction = cardIndex % 2 === 0 ? 1 : -1
 
     useEffect(() => {
         if (!isInView) return
+        const intervalTime = isMobile ? 2000 : 4000 // Fast for mobile, standard for desktop
         const interval = setInterval(() => {
             setActiveIndex((prev) => (prev + 1) % stackImages.length)
-        }, 4000)
+        }, intervalTime)
         return () => clearInterval(interval)
-    }, [isInView, stackImages.length])
+    }, [isInView, stackImages.length, isMobile])
 
     const getImageOrder = (originalIndex) => {
         return (originalIndex - activeIndex + stackImages.length) % stackImages.length
@@ -135,7 +144,13 @@ export default function ProjectCard({ project, onClick, isReversed, cardIndex = 
                                 <img
                                     src={src}
                                     alt={`${title} - ${originalIndex + 1}`}
-                                    className="w-full h-full object-cover select-none pointer-events-none md:pointer-events-auto" // Added select-none and pointer-events-none (mobile only)
+                                    className={cn(
+                                        "w-full h-full select-none pointer-events-none md:pointer-events-auto",
+                                        // Image-Level Logic: If this specific image is a Story (regardless of project type),
+                                        // FIT it into the container on Mobile (!object-contain).
+                                        // Desktop always fills the area (cover).
+                                        (isStory) ? "!object-contain md:!object-cover bg-zinc-900 md:bg-transparent" : "object-cover"
+                                    )}
                                     loading="lazy"
                                     draggable={false} // Prevent native drag
                                     onDragStart={(e) => e.preventDefault()}
@@ -165,9 +180,10 @@ export default function ProjectCard({ project, onClick, isReversed, cardIndex = 
                                 <div className="relative z-10 px-4 pb-1">
                                     <div className="flex flex-nowrap justify-between items-end w-full gap-4">
                                         <div className="flex flex-col gap-1 flex-1 min-w-0 pr-4">
-                                            <span className="text-[10px] tracking-[0.15em] font-medium text-white/50 uppercase font-mono">
+                                            <span className="text-[10px] tracking-[0.15em] font-medium text-white/50 uppercase font-mono whitespace-nowrap">
                                                 {category} — {year}
                                             </span>
+                                            {/* Reverted to text-2xl since width is back to 300px */}
                                             <h3 className="text-2xl font-bold text-white leading-tight">
                                                 {title}
                                             </h3>
@@ -179,12 +195,14 @@ export default function ProjectCard({ project, onClick, isReversed, cardIndex = 
                                                         photoshop: 'Photoshop',
                                                         illustrator: 'Illustrator',
                                                         aftereffects: 'After Effects',
-                                                        premiere: 'Premiere'
+                                                        premiere: 'Premiere',
+                                                        indesign: 'InDesign',
+                                                        figma: 'Figma'
                                                     }
                                                     return (
                                                         <div
                                                             key={tech}
-                                                            className="flex items-center gap-1.5 px-2.5 py-1 bg-white/10 rounded-full border border-white/10"
+                                                            className={cn("flex items-center gap-1.5 bg-white/10 rounded-full border border-white/10", isStoryOnlyFormat ? "px-2 py-0.5" : "px-2.5 py-1")}
                                                         >
                                                             <img src={iconData.value} alt={tech} className="w-3 h-3 object-contain opacity-80" />
                                                             <span className="text-[9px] font-medium text-white/70">
