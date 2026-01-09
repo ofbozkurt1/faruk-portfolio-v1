@@ -8,6 +8,7 @@ export default function StackView({ onProjectClick, className }) {
     const [isMobile, setIsMobile] = useState(false)
     const scrollContainerRef = useRef(null)
     const isTouchingRef = useRef(false)
+    const touchStartX = useRef(0)
 
     // Check mobile state
     useEffect(() => {
@@ -16,6 +17,25 @@ export default function StackView({ onProjectClick, className }) {
         window.addEventListener('resize', checkMobile)
         return () => window.removeEventListener('resize', checkMobile)
     }, [])
+
+    // Handle touch for loop detection
+    const handleTouchStart = (e) => {
+        touchStartX.current = e.touches[0].clientX
+        isTouchingRef.current = true
+    }
+
+    const handleTouchEnd = (e) => {
+        isTouchingRef.current = false
+        const touchEndX = e.changedTouches[0].clientX
+        const swipeDistance = touchStartX.current - touchEndX // Positive = swipe left (forward)
+
+        // If on last project and swiped left (trying to go forward), loop to start
+        if (activeIndex >= PROJECTS.length - 1 && swipeDistance > 50) {
+            setTimeout(() => {
+                scrollContainerRef.current?.scrollTo({ left: 0, behavior: 'smooth' })
+            }, 100)
+        }
+    }
 
     // Simple Scroll Listener - Just track active index for dots
     useEffect(() => {
@@ -69,8 +89,8 @@ export default function StackView({ onProjectClick, className }) {
         <div className={cn("relative w-full", className)}>
             <div
                 ref={scrollContainerRef}
-                onTouchStart={() => { isTouchingRef.current = true }}
-                onTouchEnd={() => { isTouchingRef.current = false }}
+                onTouchStart={handleTouchStart}
+                onTouchEnd={handleTouchEnd}
                 className={cn(
                     // Mobile: Simple Horizontal Scroll
                     "flex overflow-x-auto overflow-y-hidden snap-x snap-mandatory scrollbar-hide pb-32",
