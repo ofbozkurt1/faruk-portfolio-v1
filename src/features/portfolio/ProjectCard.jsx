@@ -113,8 +113,9 @@ export default function ProjectCard({ project, onClick, isReversed, cardIndex = 
                         return (
                             <div
                                 key={src}
-                                className="absolute rounded-lg overflow-hidden shadow-xl"
+                                className="absolute rounded-lg overflow-hidden shadow-xl select-none" // Added select-none
                                 style={{
+                                    // ... existing styles ...
                                     aspectRatio: stackFormat === 'hybrid' ? cardAspect : undefined,
                                     inset: stackFormat === 'hybrid' ? 'auto' : 0,
                                     top: stackFormat === 'hybrid' ? 0 : undefined,
@@ -134,8 +135,10 @@ export default function ProjectCard({ project, onClick, isReversed, cardIndex = 
                                 <img
                                     src={src}
                                     alt={`${title} - ${originalIndex + 1}`}
-                                    className="w-full h-full object-cover"
+                                    className="w-full h-full object-cover select-none pointer-events-none md:pointer-events-auto" // Added select-none and pointer-events-none (mobile only)
                                     loading="lazy"
+                                    draggable={false} // Prevent native drag
+                                    onDragStart={(e) => e.preventDefault()}
                                 />
                                 {orderIndex > 0 && (
                                     <div
