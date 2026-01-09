@@ -124,6 +124,7 @@ export default function StackView({ onProjectClick, className }) {
                                 cardIndex={realIndex} // Use real index for direction/colors
                                 isReversed={realIndex % 2 === 1}
                                 onInteraction={(isActive) => { isTouchingRef.current = isActive }}
+                                priority={index === 0 || project.isClone}
                             />
                         </div>
                     )

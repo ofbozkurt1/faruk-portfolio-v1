@@ -17,7 +17,7 @@ const iconMap = {
     premiere: { type: 'image', value: '/gorseller/iconlar/premiere-pro.svg' }
 }
 
-export default function ProjectCard({ project, onClick, isReversed, cardIndex = 0, className, onInteraction }) {
+export default function ProjectCard({ project, onClick, isReversed, cardIndex = 0, className, onInteraction, priority = false }) {
     const { t } = useTranslation()
     const { id, title, category, year, description, techStack = [], postCount = 5, storyCount = 0, stackFormat: originalStackFormat = 'post', brandColor = '#9333EA' } = project
     // FORCE 'hybrid' for Adana Napoli to match Hacı Hakkı Usta exactly
@@ -132,11 +132,15 @@ export default function ProjectCard({ project, onClick, isReversed, cardIndex = 
                         const baseY = baseYValues[orderIndex] || 50
                         const hoverY = hoverYValues[orderIndex] || -50
 
+                        const isVisibleMobile = isMobile ? orderIndex === 0 : true // Mobile optimization: Only rendering top card improves FPS massively
+
                         return (
                             <div
                                 key={src}
                                 className="absolute rounded-lg overflow-hidden shadow-xl select-none" // Added select-none
                                 style={{
+                                    // Mobile Perf: Hide background cards completely
+                                    display: isVisibleMobile ? 'block' : 'none',
                                     // ... existing styles ...
                                     aspectRatio: stackFormat === 'hybrid' ? cardAspect : undefined,
                                     inset: stackFormat === 'hybrid' ? 'auto' : 0,
@@ -164,7 +168,8 @@ export default function ProjectCard({ project, onClick, isReversed, cardIndex = 
                                         // Desktop always fills the area (cover).
                                         (isStory) ? "!object-contain md:!object-cover bg-zinc-900 md:bg-transparent" : "object-cover"
                                     )}
-                                    loading="lazy"
+                                    loading={priority && orderIndex === 0 ? "eager" : "lazy"}
+                                    decoding={priority ? "sync" : "async"}
                                     draggable={false} // Prevent native drag
                                     onDragStart={(e) => e.preventDefault()}
                                 />
