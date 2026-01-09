@@ -18,6 +18,16 @@ function App() {
     const [selectedProject, setSelectedProject] = useState(null)
     const [lenis, setLenis] = useState(null)
 
+    // PHASE 45: Conditional rendering based on screen size
+    const [isDesktop, setIsDesktop] = useState(false)
+
+    useEffect(() => {
+        const checkDesktop = () => setIsDesktop(window.innerWidth >= 768)
+        checkDesktop()
+        window.addEventListener('resize', checkDesktop)
+        return () => window.removeEventListener('resize', checkDesktop)
+    }, [])
+
     // Scroll to top on page load
     useEffect(() => {
         window.scrollTo(0, 0)
@@ -71,9 +81,9 @@ function App() {
             <ServiceBackgroundLayer />
             <PortfolioBackgroundLayer />
             <CustomCursor />
-            <div className="hidden md:block">
-                <SideNav />
-            </div>
+
+            {/* PHASE 45: TRUE Conditional Render - SideNav NOT in DOM on mobile */}
+            {isDesktop && <SideNav />}
 
             <div className="relative min-h-screen w-full overflow-x-hidden">
                 <Header />
@@ -84,18 +94,24 @@ function App() {
                     <SkillsView />
                 </section>
 
-                <div className="container-padding hidden md:block">
-                    <div className="luxury-divider" />
-                </div>
+                {/* PHASE 45: Divider removed from DOM on mobile */}
+                {isDesktop && (
+                    <div className="container-padding">
+                        <div className="luxury-divider" />
+                    </div>
+                )}
 
                 {/* Services Section */}
                 <section id="services" className="container-padding">
                     <ServicesView />
                 </section>
 
-                <div className="container-padding hidden md:block">
-                    <div className="luxury-divider" />
-                </div>
+                {/* PHASE 45: Divider removed from DOM on mobile */}
+                {isDesktop && (
+                    <div className="container-padding">
+                        <div className="luxury-divider" />
+                    </div>
+                )}
 
                 <section id="portfolio" className="relative w-full pt-0 pb-10 md:py-32 container-padding">
                     {/* Portfolio Header - Clean Single Line */}
