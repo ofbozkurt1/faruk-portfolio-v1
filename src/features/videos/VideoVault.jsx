@@ -95,7 +95,7 @@ const VideoCard = memo(function VideoCard({ video, index }) {
             whileInView={{ opacity: 1, y: 0, scale: 1 }}
             viewport={{ once: true, margin: '-50px' }}
             transition={{ duration: 0.6, delay: index * 0.15 }}
-            whileHover={{ scale: 1.02 }}
+            // No hover animation
             style={{
                 position: 'relative',
                 aspectRatio: '9/16',

@@ -33,12 +33,24 @@ export default function WipeTransition() {
 
     useEffect(() => {
         if (isTransitioning && pendingLanguage) {
+            // MOBILE FIX: Save current scroll position
+            const savedScrollY = window.scrollY
+
             const switchTimer = setTimeout(() => {
                 i18n.changeLanguage(pendingLanguage)
+
+                // Restore scroll position after language change
+                requestAnimationFrame(() => {
+                    window.scrollTo(0, savedScrollY)
+                })
             }, 350)
 
             const endTimer = setTimeout(() => {
                 endTransition()
+                // Double-check scroll position after transition ends
+                requestAnimationFrame(() => {
+                    window.scrollTo(0, savedScrollY)
+                })
             }, 600)
 
             return () => {

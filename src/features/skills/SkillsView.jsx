@@ -4,7 +4,7 @@
  * React.memo for list items
  */
 
-import React, { useState, memo } from 'react'
+import React, { useState, memo, useRef } from 'react'
 import { motion } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
 import TiltCard from '../../components/ui/TiltCard'
@@ -191,16 +191,29 @@ const SkillBentoCard = memo(function SkillBentoCard({ skill }) {
     const isLarge = skill.size === 'large'
     const isTall = skill.size === 'tall'
     const [isHovered, setIsHovered] = useState(false)
+    const hoverTimeoutRef = useRef(null)
     const MicroTool = MicroTools[skill.id]
 
-    // Mobile-specific classes helper
-    // We use 'aspect-square' or fixed height for mobile to prevent squashiness
+    // Hover with 1 second delay
+    const handleMouseEnter = () => {
+        hoverTimeoutRef.current = setTimeout(() => {
+            setIsHovered(true)
+        }, 1000) // 1 second delay
+    }
+
+    const handleMouseLeave = () => {
+        if (hoverTimeoutRef.current) {
+            clearTimeout(hoverTimeoutRef.current)
+            hoverTimeoutRef.current = null
+        }
+        setIsHovered(false)
+    }
 
     return (
         <motion.div
             variants={cardVariants}
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
             // Remove inline gridArea, use class for desktop styling
             className={`h-full area-${skill.gridArea}`}
         >

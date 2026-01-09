@@ -29,8 +29,10 @@ i18n
             escapeValue: false // React already escapes
         },
         detection: {
-            order: ['localStorage', 'navigator'],
-            caches: ['localStorage']
+            // FIXED: Only use localStorage to prevent navigator from overriding user choice
+            order: ['localStorage'],
+            caches: ['localStorage'],
+            lookupLocalStorage: 'i18nextLng'
         }
     })
 

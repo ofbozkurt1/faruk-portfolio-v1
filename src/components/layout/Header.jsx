@@ -132,11 +132,21 @@ export default function Header() {
 
     // Language Toggle Component (Reusable with Mobile Variation)
     const LanguageToggle = ({ isMobile = false }) => {
+        // Mobile: Close menu and change language
+        const handleMobileLanguageChange = (lang) => {
+            if (i18n.language !== lang) {
+                setIsMenuOpen(false) // Close menu first
+                setTimeout(() => {
+                    startTransition(lang) // Then start transition
+                }, 100)
+            }
+        }
+
         if (isMobile) {
             return (
                 <div className="flex items-center bg-black/40 border border-white/20 rounded-full p-1">
                     <button
-                        onClick={() => i18n.language !== 'tr' && startTransition('tr')}
+                        onClick={() => handleMobileLanguageChange('tr')}
                         className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all duration-300 ${i18n.language === 'tr'
                             ? 'bg-[#F2F2F2] text-black shadow-lg'
                             : 'text-[#F2F2F2]/60 hover:text-[#F2F2F2]'
@@ -145,7 +155,7 @@ export default function Header() {
                         TR
                     </button>
                     <button
-                        onClick={() => i18n.language !== 'en' && startTransition('en')}
+                        onClick={() => handleMobileLanguageChange('en')}
                         className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all duration-300 ${i18n.language === 'en'
                             ? 'bg-[#F2F2F2] text-black shadow-lg'
                             : 'text-[#F2F2F2]/60 hover:text-[#F2F2F2]'

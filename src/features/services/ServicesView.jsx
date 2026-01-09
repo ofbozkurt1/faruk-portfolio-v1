@@ -46,7 +46,7 @@ const services = [
 
 export default function ServicesView() {
     const { t } = useTranslation()
-    const { activeServiceIndex, pendingServiceIndex, setActiveService, clearActiveService } = useServiceStore()
+    const { activeServiceIndex, delayedActiveServiceIndex, setActiveService, clearActiveService } = useServiceStore()
 
     // Scroll listener: Close active service when scrolling on mobile
     useEffect(() => {
@@ -59,8 +59,8 @@ export default function ServicesView() {
         return () => window.removeEventListener('scroll', handleScroll)
     }, [activeServiceIndex, clearActiveService])
 
-    // Use pendingServiceIndex for immediate local UI feedback
-    const hoveredIndex = pendingServiceIndex
+    // Use activeServiceIndex for text color/movement (instant)
+    const hoveredIndex = activeServiceIndex
 
     return (
         <section className="relative py-10 md:py-24 overflow-hidden">
@@ -141,8 +141,9 @@ export default function ServicesView() {
                                                 fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace',
                                                 fontSize: 12,
                                                 color: hoveredIndex === index ? service.color : 'rgba(255,255,255,0.3)',
-                                                transition: 'color 0.3s ease',
-                                                minWidth: 20
+                                                transition: 'color 0.3s ease, opacity 0.3s ease',
+                                                minWidth: 20,
+                                                opacity: delayedActiveServiceIndex === index ? 1 : 0 // Only show after 1 sec
                                             }}
                                         >
                                             {service.number}
@@ -196,7 +197,7 @@ export default function ServicesView() {
                                                     {t(service.descKey)}
                                                 </p>
 
-                                                {/* Glass Pill Tags - Aligned with text */}
+                                                {/* Glass Pill Tags - Aligned with text - Show after 1 sec delay */}
                                                 <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
                                                     {service.tags.map((tag) => (
                                                         <span
@@ -207,10 +208,10 @@ export default function ServicesView() {
                                                                 fontWeight: 500,
                                                                 letterSpacing: '0.08em',
                                                                 textTransform: 'uppercase',
-                                                                color: activeServiceIndex === index ? 'rgba(255,255,255,0.9)' : 'rgba(255,255,255,0.4)',
+                                                                color: delayedActiveServiceIndex === index ? 'rgba(255,255,255,0.9)' : 'rgba(255,255,255,0.4)',
                                                                 padding: '6px 12px',
-                                                                background: activeServiceIndex === index ? `${service.color}15` : 'rgba(255,255,255,0.03)',
-                                                                border: `1px solid ${activeServiceIndex === index ? `${service.color}50` : 'rgba(255,255,255,0.08)'}`,
+                                                                background: delayedActiveServiceIndex === index ? `${service.color}15` : 'rgba(255,255,255,0.03)',
+                                                                border: `1px solid ${delayedActiveServiceIndex === index ? `${service.color}50` : 'rgba(255,255,255,0.08)'}`,
                                                                 borderRadius: 50,
                                                                 transition: 'all 0.3s ease',
                                                                 whiteSpace: 'nowrap'

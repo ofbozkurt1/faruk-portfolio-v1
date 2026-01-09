@@ -1,34 +1,45 @@
 /**
  * Service Store - Zustand
  * Global state for active service hover
- * With 3 second delay before showing background animation
+ * activeServiceIndex = INSTANT (text color, movement)
+ * delayedActiveServiceIndex = 1 SEC DELAY (01 number, icons)
  */
 
 import { create } from 'zustand'
 
-let hoverTimeout = null
+let delayTimeout = null
 
 export const useServiceStore = create((set) => ({
-    activeServiceIndex: null,
+    activeServiceIndex: null,        // Instant: text color, movement
+    delayedActiveServiceIndex: null, // 1 sec delay: 01 number, icons
     pendingServiceIndex: null,
 
-    // Set active service IMMEDIATELY (no delay)
+    // Set active service - instant for color, delayed for details
     setActiveService: (index) => {
-        // Clear any existing timeout (legacy)
-        if (hoverTimeout) {
-            clearTimeout(hoverTimeout)
+        // Clear any existing timeout
+        if (delayTimeout) {
+            clearTimeout(delayTimeout)
         }
 
-        // Set both pending and active immediately
+        // Set active immediately (for text color/movement)
         set({ pendingServiceIndex: index, activeServiceIndex: index })
+
+        // Set delayed after 1 second (for 01 number and icons)
+        delayTimeout = setTimeout(() => {
+            set({ delayedActiveServiceIndex: index })
+        }, 1000)
     },
 
-    // Clear active service immediately
+    // Clear all states immediately
     clearActiveService: () => {
-        if (hoverTimeout) {
-            clearTimeout(hoverTimeout)
-            hoverTimeout = null
+        if (delayTimeout) {
+            clearTimeout(delayTimeout)
+            delayTimeout = null
         }
-        set({ activeServiceIndex: null, pendingServiceIndex: null })
+        set({
+            activeServiceIndex: null,
+            delayedActiveServiceIndex: null,
+            pendingServiceIndex: null
+        })
     }
 }))

@@ -1,9 +1,28 @@
 /**
  * Projects Data - The "No-CMS" Local Database
  * Single source of truth for all project data
+ * 
+ * AUTO IMAGE DETECTION:
+ * - postCount, longPostCount, storyCount are now AUTO-DETECTED from files
+ * - Just add images to /public/gorseller/{projectId}/ folder
+ * - Files: pst1.webp, pst2.webp... (posts), pstlng1.webp... (long posts), str1.webp... (stories)
  */
 
-export const PROJECTS = [
+import { getAutoImageCounts } from '../utils/autoImageDetect'
+
+// Helper to merge auto-detected counts with project data
+function withAutoCounts(project) {
+    const autoCounts = getAutoImageCounts(project.id)
+    return {
+        ...project,
+        // Auto-detected counts (can be overridden by explicit values)
+        postCount: project.postCount ?? autoCounts.postCount,
+        longPostCount: project.longPostCount ?? autoCounts.longPostCount,
+        storyCount: project.storyCount ?? autoCounts.storyCount
+    }
+}
+
+const PROJECT_DATA = [
     {
         id: "novastra",
         title: "Novastra",
@@ -12,9 +31,7 @@ export const PROJECTS = [
         year: "2024",
         role: "Visual Design",
         deliverables: "Logo, Brand Kit",
-        postCount: 7,
-        longPostCount: 0,
-        storyCount: 11,
+        // postCount, longPostCount, storyCount are now auto-detected!
         description: "Premium brand identity design with a focus on minimalist luxury aesthetics. Complete visual system including logo, typography, and brand guidelines.",
         credits: "Art Direction: Faruk",
         techStack: ["illustrator", "photoshop"],
@@ -39,9 +56,7 @@ export const PROJECTS = [
         year: "2024",
         role: "Content Design",
         deliverables: "Posts, Templates",
-        postCount: 14,
-        longPostCount: 0,
-        storyCount: 0,
+        // Counts auto-detected from files
         description: "Social media campaign design for Google reviews engagement. Dynamic motion graphics and eye-catching visual content optimized for multiple platforms.",
         credits: "Design & Motion: Faruk",
         techStack: ["photoshop", "illustrator"],
@@ -65,10 +80,8 @@ export const PROJECTS = [
         year: "2024",
         role: "Social Design",
         deliverables: "Posts, Stories",
-        postCount: 2,
-        longPostCount: 1,
-        storyCount: 5,
         stackFormat: 'story',
+        // Counts auto-detected from files
         description: "Social media content design for Adana Napoli restaurant. Eye-catching posts and engaging story content for Instagram presence.",
         credits: "Design: Faruk",
         techStack: ["photoshop", "illustrator"],
@@ -93,10 +106,8 @@ export const PROJECTS = [
         year: "2024",
         role: "Social Design",
         deliverables: "Posts, Stories",
-        postCount: 2,
-        longPostCount: 0,
-        storyCount: 2,
         stackFormat: 'hybrid',
+        // Counts auto-detected from files
         description: "Traditional Turkish restaurant social media presence. Authentic food photography and engaging content design.",
         credits: "Design: Faruk",
         techStack: ["photoshop", "illustrator"],
@@ -121,10 +132,7 @@ export const PROJECTS = [
         year: "2024",
         role: "Visual Design",
         deliverables: "Posts, Banners",
-        postCount: 15,
-        longPostCount: 2,
-        storyCount: 0,
-        // Custom display order for GridView: pstlng1, pst1-3, pstlng2, pst4-6, then remaining
+        // Custom display order for GridView (counts auto-detected)
         customOrder: [
             { type: 'longPost', index: 1 },
             { type: 'post', index: 1 },
@@ -168,9 +176,7 @@ export const PROJECTS = [
         year: "2024",
         role: "Social Design",
         deliverables: "Posts",
-        postCount: 3,
-        longPostCount: 0,
-        storyCount: 0,
+        // Counts auto-detected from files
         description: "Social media content design for Tırnak Trend nail salon. Modern and elegant visuals for Instagram presence.",
         credits: "Design: Faruk",
         techStack: ["photoshop", "illustrator"],
@@ -194,9 +200,7 @@ export const PROJECTS = [
         year: "2024",
         role: "Social Design",
         deliverables: "Posts",
-        postCount: 2,
-        longPostCount: 0,
-        storyCount: 0,
+        // Counts auto-detected from files
         description: "Social media design for BBS Transfer transportation company. Professional and trustworthy visual identity.",
         credits: "Design: Faruk",
         techStack: ["photoshop", "illustrator"],
@@ -220,9 +224,7 @@ export const PROJECTS = [
         year: "2024",
         role: "Social Design",
         deliverables: "Posts",
-        postCount: 3,
-        longPostCount: 0,
-        storyCount: 0,
+        // Counts auto-detected from files
         description: "Social media content design for Kumrualtı restaurant. Appetizing food photography and engaging visual content.",
         credits: "Design: Faruk",
         techStack: ["photoshop", "illustrator"],
@@ -239,6 +241,9 @@ export const PROJECTS = [
         }
     }
 ]
+
+// Apply auto-detected image counts to all projects
+export const PROJECTS = PROJECT_DATA.map(withAutoCounts)
 
 /**
  * Get a single project by ID

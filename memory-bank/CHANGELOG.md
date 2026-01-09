@@ -2,7 +2,42 @@
 
 All notable changes to the **Ömer Faruk Bozkurt Portfolio** project will be documented in this file.
 
-## [Unreleased] - 2026-01-07
+## [Unreleased] - 2026-01-09
+
+### 🔧 Phase 42: Mobil UX & Kritik Bug Düzeltmeleri
+
+#### Scroll Düzeltmeleri
+- **Proje Detay Paneli:** Lenis smooth scroll bypass eklendi (`data-lenis-prevent`, `stopPropagation`)
+- **Mobil ve masaüstünde scroll** artık düzgün çalışıyor
+
+#### Hizmetler Hover Gecikmesi
+- **Yeni State:** `delayedActiveServiceIndex` eklendi (serviceStore.js)
+- **Anında:** Yazı rengi değişimi, satır kayma efekti
+- **1 Saniye Gecikme:** Büyük "01" numarası, tool iconları, pill tag'ler
+- **ServiceBackgroundLayer:** `delayedActiveServiceIndex` kullanıyor
+
+#### Mobil Dil Değişimi Bug Düzeltmeleri
+- **i18n.js:** `navigator` detection kaldırıldı, sadece `localStorage`
+- **WipeTransition.jsx:** Scroll pozisyonu kaydedilip geri yükleniyor
+- **Header.jsx:** Dil değişince önce menü kapanıyor, sonra transition
+
+#### Otomatik Görsel Algılama Sistemi
+- **Yeni Dosya:** `autoImageDetect.js` - Vite `import.meta.glob` kullanıyor
+- **projects.js:** `withAutoCounts()` wrapper eklendi
+- **Artık manuel `postCount` yazmaya gerek yok** - dosya ekleyince otomatik sayılıyor
+
+#### Video Vault İyileştirmeleri
+- **Mobil Carousel:** Instagram tarzı horizontal swipe carousel
+- **Hover Animasyonu Kaldırıldı:** `whileHover={{ scale }}` efekti kaldırıldı
+- **Scrollbar Hide:** `scrollbar-hide` CSS class eklendi (index.css)
+
+#### ProjectCard Mobil Güncelleme
+- **Explore Button:** "PROJEYİ · İNCELE" formatı
+- **Ok İşareti:** SVG ArrowUpRight ile düzgün ortalanmış
+
+---
+
+## [1.4.0] - 2026-01-07
 
 ### 💎 Phase 39: Mobile UI Polish & Layout Refinement (Layout Geliştirmeleri)
 **Hedef:** Küçük ekranlarda (Mobil) profesyonel hizalama, okuma kolaylığı ve görsel bütünlük.

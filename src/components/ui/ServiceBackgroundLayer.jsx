@@ -27,6 +27,7 @@ const serviceIcons = [
 
 export default function ServiceBackgroundLayer() {
     const activeServiceIndex = useServiceStore((state) => state.activeServiceIndex)
+    const delayedActiveServiceIndex = useServiceStore((state) => state.delayedActiveServiceIndex)
 
     return (
         <div
@@ -58,11 +59,11 @@ export default function ServiceBackgroundLayer() {
                 )}
             </AnimatePresence>
 
-            {/* Only render active number & icons - DESKTOP ONLY */}
+            {/* Only render active number & icons - DESKTOP ONLY - 1 SEC DELAY */}
             <AnimatePresence mode="wait">
-                {activeServiceIndex !== null && (
+                {delayedActiveServiceIndex !== null && (
                     <motion.div
-                        key={`num-${activeServiceIndex}`}
+                        key={`num-${delayedActiveServiceIndex}`}
                         initial={{ opacity: 0, scale: 0.8 }}
                         animate={{ opacity: 1, scale: 1 }}
                         exit={{ opacity: 0, scale: 0.8 }}
@@ -83,18 +84,18 @@ export default function ServiceBackgroundLayer() {
                             style={{
                                 fontSize: 'clamp(150px, 25vw, 300px)',
                                 fontWeight: 900,
-                                color: serviceColors[activeServiceIndex],
+                                color: serviceColors[delayedActiveServiceIndex],
                                 opacity: 0.9,
                                 fontFamily: 'system-ui, -apple-system, sans-serif',
                                 lineHeight: 1
                             }}
                         >
-                            {serviceNumbers[activeServiceIndex]}
+                            {serviceNumbers[delayedActiveServiceIndex]}
                         </span>
 
                         {/* Tool Icons */}
                         <div style={{ display: 'flex', gap: 16 }}>
-                            {serviceIcons[activeServiceIndex].map((icon, iconIdx) => (
+                            {serviceIcons[delayedActiveServiceIndex].map((icon, iconIdx) => (
                                 <motion.img
                                     key={iconIdx}
                                     src={icon}

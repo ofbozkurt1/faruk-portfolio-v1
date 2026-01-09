@@ -1,98 +1,77 @@
 # Active Context
 
-## Current Phase: Phase 35 - Critical Performance Refactor
-Major performance optimization pass eliminating high-frequency re-renders, memory leaks, and unnecessary DOM elements.
+## Current Phase: Phase 42 - Mobile UX & Interaction Polish
+Mobil kullanıcı deneyimi iyileştirmeleri, scroll düzeltmeleri ve etkileşim optimizasyonları.
 
-## Latest Session Summary (2026-01-07)
+## Latest Session Summary (2026-01-09)
 
-### Phase 35: Performance Refactor
-**6 Critical Fixes Applied:**
+### Phase 42: Critical Bug Fixes & UX Improvements
 
-1. **TiltCard.jsx - ZERO Re-renders**
-   - Replaced `useState` for mouse position with CSS Variables
-   - `style.setProperty('--spot-x', ...)` - direct DOM manipulation
-   - **Impact:** 60-144 re-renders/sec → 0
+**1. Proje Detay Paneli Scroll Düzeltmesi (GridView.jsx)**
+- **Sorun:** Mobil ve masaüstünde scroll çalışmıyordu
+- **Sebep:** Lenis smooth scroll kütüphanesi scroll eventlerini yakalıyordu
+- **Çözüm:** 
+  - `data-lenis-prevent="true"` attribute eklendi
+  - `onWheel` ve `onTouchMove` stopPropagation eklendi
+  - Store'dan `delayedActiveServiceIndex` ile kontrol
 
-2. **ProjectCard.jsx - Smart Timer**
-   - Added `useInView` from framer-motion
-   - `setInterval` only runs when card is visible
-   - **Impact:** 6 parallel timers → only visible ones run
+**2. Hizmetler Bölümü Hover Gecikmesi (ServicesView.jsx)**
+- **Sorun:** Scroll yaparken "01" numarası yanlışlıkla tetikleniyordu
+- **Çözüm:** 
+  - `activeServiceIndex` = ANINDA (yazı rengi, hareket)
+  - `delayedActiveServiceIndex` = 1 SN GECİKME (01 numarası, iconlar, pill tags)
+  - `serviceStore.js` güncellendi
 
-3. **Hero.jsx - Smart Animation**
-   - Added `useInView` for name animation
-   - Timer pauses when Hero is scrolled out of view
-   - **Impact:** Endless timer → smart timer
+**3. Mobil Dil Değişimi Bug Düzeltmesi**
+- **Sorun:** İngilizce'ye geçince sayfa kayıyor, dil kendi kendine değişiyordu
+- **Çözümler:**
+  - `i18n.js`: `navigator` detection kaldırıldı, sadece `localStorage`
+  - `WipeTransition.jsx`: Scroll pozisyonu kaydedilip geri yükleniyor
+  - `Header.jsx`: Dil değişince önce menü kapanıyor
 
-4. **GridView.jsx - Memory Leak Fix**
-   - Added `animationId` tracking
-   - `cancelAnimationFrame()` in cleanup
-   - **Impact:** Zombie rAF loops eliminated
+**4. Otomatik Görsel Algılama (autoImageDetect.js)**
+- **Önceki:** `postCount: 7` manuel yazılıyordu
+- **Şimdi:** Vite'ın `import.meta.glob` ile otomatik algılama
+- Dosya ekleyince (`pst9.webp`) otomatik sayılıyor
 
-5. **ServiceBackgroundLayer.jsx - AnimatePresence**
-   - Only active service background in DOM
-   - 4 parallel elements → 1 element
-   - **Impact:** 75% less DOM nodes
+**5. Video Showcase Mobil Carousel (VideoVault.jsx)**
+- Mobil: Horizontal swipe carousel (Instagram style)
+- Masaüstü: Mevcut side-by-side layout korundu
+- Kart boyutu: 75vw (büyük, okunabilir)
 
-6. **React.memo Added**
-   - `SkillBentoCard` wrapped with memo
-   - `VideoCard` wrapped with memo
-   - **Impact:** Parent re-renders don't affect children
+**6. Video Kartları Hover Animasyonu Kaldırıldı**
+- `whileHover={{ scale: 1.02 }}` kaldırıldı
+- Artık video üzerine gelindiğinde büyüme efekti yok
 
-### Phase 39: Mobile UI Polish & Layout Refinement (Current)
-- **Status**: Completed layout and visual adjustments.
-- **Focus**: Improving mobile alignment, spacing, navigation menu UX, and fixing specific rendering issues on Cards and Hero section.
-- **Recent Changes**:
-   - **Header**: Mobile menu refactored to Flex layout, added 'box-style' language toggle, increased font weight, corrected active underline alignment.
-   - **Hero**: Increased profile image size (240px), responsive typography with `clamp`, optimized padding, fixed scroll indicator positioning (relative/absolute switch).
-   - **Skills**: Compact cards (160px height), fixed vertical alignment issues, restored Desktop fidelity.
-   - **Global**: Added `overflow-x-hidden` to prevent horizontal scrolling issues.
+**7. Mobil Explore Button Güncellemesi (ProjectCard.jsx)**
+- Curved text: "PROJEYİ · İNCELE" formatı
+- Ok işareti: SVG ArrowUpRight (düzgün ortalanmış)
 
-### Phase 36: Comprehensive Mobile Optimization
-**Focus:** Perfect rendering on Viewport < 768px (iPhone 14 Pro baseline).
+---
 
-**Key Actions:**
-1. **Header.jsx:**
-   - Implemented Responsive Hamburger Menu (`isMenuOpen` state).
-   - Added full-screen accessible overlay with `AnimatePresence`.
-   - Hidden desktop nav on mobile (`md:flex`/`md:hidden`).
+## Key Files Modified
 
-2. **Hero.jsx:**
-   - Resized Profile Image: `w-40` (160px) mobile → `md:w-[420px]` desktop.
-   - Layout: `flex-col-reverse` (Mobile: Photo Top, Text Bottom) → `lg:flex-row`.
-   - Typography: Scaled down Name (`text-4xl` → `text-7xl`).
-
-3. **Grid Layouts Adjusted:**
-   - **ServicesView.jsx:** Converted inline grid to Tailwind `grid-cols-1 lg:grid-cols-[1fr_auto]`. Content stacks vertically on mobile.
-   - **SkillsView.jsx:** Unified codebase. Uses single loop + CSS responsive grid (`1-col` mobile, `12-col bento` desktop).
-   - **GridView.jsx:** Converted all inline grids to responsive Tailwind classes (`grid-cols-2`, `grid-cols-3` etc.).
-
-4. **HeroBackground (Ghost Reel):**
-   - Verified hidden on mobile/tablet via CSS (`display: none` under 1024px) for maximum performance.
-
-### Phase 35: Critical Performance Refactor
-
-### Phase 29: LCP & Image Optimization
-- Hero profile image: `fetchPriority="high"`, `decoding="sync"`
-- Ghost Reel images: `loading="lazy"`, `decoding="async"`
-- Folder renamed: `slidergörseller` → `slidergorseller`
+| Dosya | Değişiklik |
+|-------|------------|
+| `serviceStore.js` | `delayedActiveServiceIndex` eklendi (1 sn gecikme) |
+| `ServiceBackgroundLayer.jsx` | Büyük numara/iconlar delayed state ile |
+| `ServicesView.jsx` | Hover logic basitleştirildi |
+| `GridView.jsx` | Lenis bypass, scroll düzeltmesi |
+| `i18n.js` | Navigator detection kaldırıldı |
+| `WipeTransition.jsx` | Scroll pozisyonu koruma |
+| `Header.jsx` | Mobil dil değişim sırası düzeltildi |
+| `autoImageDetect.js` | YENİ - Otomatik görsel sayımı |
+| `projects.js` | withAutoCounts wrapper eklendi |
+| `VideoVault.jsx` | Mobil carousel, hover kaldırıldı |
+| `ProjectCard.jsx` | Mobil explore button güncellendi |
+| `index.css` | scrollbar-hide class eklendi |
 
 ---
 
 ## Performance Score
 - **Before Phase 35:** ~82/100
 - **After Phase 35:** ~95+/100
-
-## Key Optimizations Applied
-| Issue | Solution | File |
-|-------|----------|------|
-| High-freq state updates | CSS Variables | TiltCard.jsx |
-| Off-screen timers | useInView guard | ProjectCard.jsx, Hero.jsx |
-| Memory leak (rAF) | cancelAnimationFrame | GridView.jsx |
-| Parallel DOM elements | AnimatePresence | ServiceBackgroundLayer.jsx |
-| Unnecessary re-renders | React.memo | SkillsView.jsx, VideoVault.jsx |
-
----
+- **Phase 42:** UX & Interaction focus (performance maintained)
 
 ## Dev Server
-- http://localhost:5173/
-- **Recent Fix:** Fixed ServicesView tags alignment (Phase 35 follow-up). Tags are now aligned with the description text, not the icon.
+- http://localhost:5173/ veya http://localhost:5174/
