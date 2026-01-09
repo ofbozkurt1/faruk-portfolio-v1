@@ -226,10 +226,10 @@ const SkillBentoCard = memo(function SkillBentoCard({ skill }) {
                 <div
                     className={cn(
                         "relative h-full flex flex-col justify-between overflow-hidden",
-                        "p-5 md:p-6", // Reduced desktop padding to p-6 (24px) for better alignment
-                        // MOBILE: Fixed height of 160px
-                        // DESKTOP: Dynamic height based on bento size (Must be h-full to fill grid cell)
-                        "h-[160px] md:h-full",
+                        "p-3 md:p-6", // Smaller padding on mobile
+                        // MOBILE: Fixed height for 2x2 grid
+                        // DESKTOP: Dynamic height based on bento size
+                        "h-[140px] md:h-full",
                         isLarge ? "md:min-h-[280px]" : isTall ? "md:min-h-[320px]" : "md:min-h-[200px]"
                     )}
                 >
@@ -257,8 +257,8 @@ const SkillBentoCard = memo(function SkillBentoCard({ skill }) {
                     <div className="relative z-10 flex justify-between items-start">
                         <div
                             className={cn(
-                                "rounded-xl overflow-hidden",
-                                "w-10 h-10 md:w-12 md:h-12 lg:w-[64px] lg:h-[64px]"
+                                "rounded-lg md:rounded-xl overflow-hidden",
+                                "w-8 h-8 md:w-12 md:h-12 lg:w-[64px] lg:h-[64px]"
                             )}
                             style={{ transform: 'translateZ(30px)' }}
                         >
@@ -280,15 +280,16 @@ const SkillBentoCard = memo(function SkillBentoCard({ skill }) {
 
                             {/* Years Badge */}
                             <span
+                                className="text-[9px] md:text-[11px]"
                                 style={{
-                                    fontSize: 11,
                                     fontWeight: 500,
-                                    letterSpacing: '0.05em',
+                                    letterSpacing: '0.03em',
                                     color: 'rgba(255,255,255,0.4)',
-                                    padding: '4px 10px',
+                                    padding: '3px 6px',
                                     borderRadius: 20,
                                     background: 'rgba(255,255,255,0.05)',
-                                    border: '1px solid rgba(255,255,255,0.08)'
+                                    border: '1px solid rgba(255,255,255,0.08)',
+                                    whiteSpace: 'nowrap'
                                 }}
                             >
                                 {skill.years}
@@ -298,25 +299,25 @@ const SkillBentoCard = memo(function SkillBentoCard({ skill }) {
 
                     {/* Bottom: Name & Level */}
                     <div
-                        className="relative z-10 flex items-end justify-between mt-auto"
+                        className="relative z-10 flex flex-col md:flex-row md:items-end md:justify-between mt-auto gap-0.5 md:gap-0"
                         style={{ transform: 'translateZ(25px)' }}
                     >
                         <h3
                             className={cn(
                                 "font-bold tracking-tight text-[#F2F2F2] m-0",
-                                // Sligtly reduced large text size for better balance
-                                isLarge ? "text-2xl md:text-[26px]" : "text-lg md:text-[22px]"
+                                // Smaller on mobile for 2x2 grid
+                                "text-sm md:text-lg",
+                                isLarge ? "md:text-[26px]" : "md:text-[22px]"
                             )}
                         >
                             {skill.name}
                         </h3>
 
                         <span
-                            className="font-mono font-semibold tracking-widest uppercase"
+                            className="font-mono font-semibold tracking-wider uppercase text-[7px] md:text-[10px]"
                             style={{
                                 color: skill.color,
-                                fontSize: isLarge ? (window.innerWidth < 768 ? '10px' : '12px') : '10px',
-                                letterSpacing: '0.15em'
+                                letterSpacing: '0.08em'
                             }}
                         >
                             {skill.level}
@@ -365,8 +366,8 @@ export default function SkillsView({ className }) {
             <style>{`
                 .bento-grid {
                     display: grid;
-                    grid-template-columns: 1fr;
-                    gap: 24px;
+                    grid-template-columns: 1fr 1fr;
+                    gap: 12px;
                 }
                 
                 @media (min-width: 768px) {

@@ -116,26 +116,28 @@ export default function Hero({ className }) {
                     variants={containerVariants}
                     initial="hidden"
                     animate="visible"
-                    className="flex-shrink-0 lg:max-w-lg text-center lg:text-left"
+                    className="flex-shrink-0 lg:max-w-lg text-left lg:text-left"
                 >
-                    {/* Name with dynamic letter animation */}
+                    {/* Name with dynamic letter animation - Single line on mobile */}
                     <motion.h1
                         variants={itemVariants}
-                        className="text-[clamp(32px,8vw,80px)] md:text-7xl font-extrabold tracking-[-0.03em] leading-[1.1] text-[#F2F2F2] min-h-[84px] md:min-h-[150px] w-full px-4 lg:px-0 break-words"
+                        className="text-[clamp(28px,7vw,80px)] md:text-7xl font-extrabold tracking-[-0.03em] leading-[1.1] text-[#F2F2F2] min-h-[40px] md:min-h-[150px] w-full whitespace-nowrap"
                     >
                         {renderAnimatedText(firstName)}
-                        <br />
+                        {/* Space between names on mobile, break on desktop */}
+                        <span className="md:hidden"> </span>
+                        <br className="hidden md:block" />
                         {renderAnimatedText(lastName, firstName.length)}
                     </motion.h1>
 
-                    {/* Title below name - More prominent */}
+                    {/* Title below name */}
                     <motion.p
                         variants={itemVariants}
-                        className="mt-6 mb-6"
+                        className="mt-3 md:mt-6 mb-2 md:mb-6"
                         style={{
-                            fontSize: '14px',
+                            fontSize: '12px',
                             fontWeight: 500,
-                            letterSpacing: '0.25em',
+                            letterSpacing: '0.2em',
                             textTransform: 'uppercase',
                             background: 'linear-gradient(90deg, #888, #fff, #888)',
                             backgroundSize: '200% 100%',
@@ -148,15 +150,21 @@ export default function Hero({ className }) {
                         {t('hero.role', 'Motion & Graphic Designer')}
                     </motion.p>
 
+                    {/* Separator line - Mobile only for visual hierarchy */}
+                    <motion.div
+                        variants={itemVariants}
+                        className="w-12 h-[1px] bg-gradient-to-r from-white/30 to-transparent mb-3 md:hidden"
+                    />
+
                     <motion.p
                         variants={itemVariants}
-                        className="text-dimGray max-w-md text-base leading-relaxed mx-auto lg:mx-0"
+                        className="text-dimGray max-w-md text-sm md:text-base leading-relaxed"
                     >
                         {t('hero.description', 'Creating immersive visual experiences through motion and design.')}
                     </motion.p>
 
                     {/* Download CV Button + Social Icons */}
-                    <motion.div variants={itemVariants} className="mt-8 flex items-center justify-center lg:justify-start gap-6">
+                    <motion.div variants={itemVariants} className="mt-5 md:mt-8 flex items-center justify-start gap-4 md:gap-6">
                         <a href="/cv.pdf" download className="download-btn">
                             <div className="btn-wrapper">
                                 <div className="btn-text">{t('hero.downloadCV', 'Download CV')}</div>
