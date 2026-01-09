@@ -85,8 +85,8 @@ export default function ProjectCard({ project, onClick, isReversed, cardIndex = 
                 setIsPaused(false)
                 onInteraction?.(false)
             }}
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
+            onMouseEnter={() => !isMobile && setIsHovered(true)}
+            onMouseLeave={() => !isMobile && setIsHovered(false)}
         >
             <div
                 className="relative cursor-pointer group flex-shrink-0"

@@ -32,9 +32,12 @@ export default function StackView({ onProjectClick, className }) {
         const handleScroll = () => {
             const scrollLeft = container.scrollLeft
             const width = container.offsetWidth
+            const gap = 64 // gap-16 (4rem)
+            const stride = width + gap
+
             if (width === 0) return
 
-            const rawIndex = Math.round(scrollLeft / width)
+            const rawIndex = Math.round(scrollLeft / stride)
 
             // Adjust active dot index
             setActiveIndex(rawIndex % PROJECTS.length)
@@ -43,7 +46,7 @@ export default function StackView({ onProjectClick, className }) {
             // Only reset if:
             // 1. We actally reached the Clone position (precise pixel check)
             // 2. User is NOT touching (don't interrupt swipe)
-            const clonePosition = width * PROJECTS.length
+            const clonePosition = stride * PROJECTS.length
             const isAtClone = Math.abs(scrollLeft - clonePosition) < 10
 
             if (isAtClone && !isTouchingRef.current) {
@@ -67,8 +70,9 @@ export default function StackView({ onProjectClick, className }) {
         if (!scrollContainerRef.current) return
         const container = scrollContainerRef.current
         const width = container.offsetWidth
+        const gap = 64 // gap-16
 
-        container.scrollBy({ left: width, behavior: 'smooth' })
+        container.scrollBy({ left: width + gap, behavior: 'smooth' })
     }
 
     // Auto Play (Mobile Only)
