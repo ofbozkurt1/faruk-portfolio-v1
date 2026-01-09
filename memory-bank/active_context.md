@@ -1,40 +1,31 @@
 # Active Context
 
-## Current Phase: Phase 42 - Mobile UX & Interaction Polish
-Mobil kullanıcı deneyimi iyileştirmeleri, scroll düzeltmeleri ve etkileşim optimizasyonları.
+## Current Phase: Phase 43 - Mobile Portfolio Carousel (Swipe View)
+Mobil cihazlarda Portfolio listesinin dikey uzunluğunu azaltmak ve deneyimi iyileştirmek için Grid/Stack görünümü yatay kaydırılabilir (horizontal swipe) bir Carousel yapısına dönüştürüldü.
 
 ## Latest Session Summary (2026-01-09)
 
-### Phase 42: Mobil Layout & Styling Tweaks
+### Phase 43: Portfolio Layout Refactor
 
-**1. Hero Bölümü (Mobil Revizyon)**
-- **Layout:** `min-h-screen` yerine `min-h-[85vh]` + `justify-start` + `pt-24`
-- **Hizalama:** Yazılar ortaya hizalandı (user request), gap'ler azaltıldı
-- **İsim:** Tek satır yapıldı, font küçültüldü
-- **Butonlar:** "CV İNDİR" ve "HAKKIMDA" butonları 136px fix genişlik ile yan yana
-- **Scroll Oku:** Büyütüldü (48px)
-- **Sosyal Medya:** Mobilde en alta taşındı, WhatsApp eklendi
+**1. Main Portfolio List (`StackView.jsx`)**
+- **Mobile:**
+  - Layout: `Vertical Stack` -> `Horizontal Carousel` (Flex + Overflow-x).
+  - Interaction: `snap-x` (Snap Scroll) ile kartlar merkeze hizalanır.
+  - Container: `min-w-[85vw]` wrapper ile her kart ekranda odak noktası olur.
+  - Indicator: Alt kısımda "Dots" (Nokta) indikatörleri eklendi, aktif öğeyi gösterir.
+  - Scrollbar: Gizlendi (`scrollbar-hide`).
+- **Desktop:**
+  - Layout: `Vertical Stack` -> `Grid System` (`md:grid-cols-2`, `lg:grid-cols-3`).
+  - Dikey liste yerine grid yapısına geçildi (User Request: "Desktop: Keep the existing Grid layout").
 
-**2. Skills Bölümü (Mobil 2x2 Grid)**
-- **Layout:** Mobilde 2 sütun (2x2 grid) düzenine geçildi
-- **Kartlar:** Yükseklik 160px, padding azaltıldı, icon küçültüldü
-- **İçerik:** İsim ve Level tag dikey olarak hizalandı (taşmayı önlemek için)
-
-**3. Portfolio Bölümü (Mobil Stack)**
-- **Kart Boyutu:** `px-6` padding ile kenarlardan boşluk artırıldı (kartlar küçüldü)
-- **Ayırıcı:** Projeler arasına hafif opaklıkta divider çizgisi eklendi
-- **Gap:** Boşluklar artırıldı
-
-**4. Önceki Düzeltmeler**
-- `lenis` scroll fix
-- `delayedActiveServiceIndex` (Services hover fix)
-- `i18n` mobile bug fix
-- `autoImageDetect.js`
+**2. ProjectCard Adjustments (`ProjectCard.jsx`)**
+- **Mobile Width:** Karta özel fixed genişlik tanımları (`w-[260px]` / `w-[300px]`) ayarlandı.
+- **Content:** Mobil içerik stili (`-bottom-16` taşmalı layout) korundu ama kart boyutları optimize edildi.
 
 ## Key Files Modified
-- `src/features/hero/Hero.jsx`
-- `src/features/skills/SkillsView.jsx`
-- `src/features/portfolio/StackView.jsx`
+- `src/features/portfolio/StackView.jsx` (Major Refactor)
+- `src/features/portfolio/ProjectCard.jsx` (Responsive Tuning)
 
 ## Next Steps
-- Kullanıcı onayı ve ince ayarlar
+- Kullanıcı grid yapısını masaüstünde dikey stack olarak geri isteyebilir, kontrol et.
+- Dots indikatör stilini veya animasyonunu iyileştir.

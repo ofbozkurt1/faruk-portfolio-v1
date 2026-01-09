@@ -30,9 +30,12 @@ export default function ProjectCard({ project, onClick, isReversed, cardIndex = 
 
     const { setActiveProject, clearActiveProject } = usePortfolioStore()
 
-    // Check mobile once on mount
+    // Check mobile with resize listener to prevent stale state
     useEffect(() => {
-        setIsMobile(window.innerWidth < 768)
+        const checkMobile = () => setIsMobile(window.innerWidth < 768)
+        checkMobile()
+        window.addEventListener('resize', checkMobile)
+        return () => window.removeEventListener('resize', checkMobile)
     }, [])
 
     const isStoryOnlyFormat = stackFormat === 'story'
@@ -147,68 +150,73 @@ export default function ProjectCard({ project, onClick, isReversed, cardIndex = 
                         )
                     })}
 
-                    {/* MOBILE OVERLAY - Gradient extends to sides */}
-                    <div className="absolute -bottom-20 -left-32 -right-32 h-80 bg-gradient-to-t from-black via-black/60 to-transparent pointer-events-none md:hidden z-10" />
+                    {/* MOBILE CONTENT - CONDITIONAL RENDERING FOR PERFORMANCE */}
+                    {isMobile && (
+                        <>
+                            {/* MOBILE OVERLAY - Gradient extends to sides */}
+                            <div className="absolute -bottom-20 -left-32 -right-32 h-80 bg-gradient-to-t from-black via-black/60 to-transparent pointer-events-none z-10" />
 
-                    {/* MOBILE CONTENT - Extended beyond image bounds */}
-                    <div className="absolute -bottom-16 -left-4 -right-4 md:hidden z-20">
-                        {/* Content */}
-                        <div className="relative z-10 px-4 pb-1">
-                            <div className="flex flex-nowrap justify-between items-end w-full gap-4">
-                                <div className="flex flex-col gap-1 flex-1 min-w-0 pr-4">
-                                    <span className="text-[10px] tracking-[0.15em] font-medium text-white/50 uppercase font-mono">
-                                        {category} — {year}
-                                    </span>
-                                    <h3 className="text-2xl font-bold text-white leading-tight">
-                                        {title}
-                                    </h3>
-                                    <div className="flex flex-nowrap gap-2 mt-1 overflow-hidden">
-                                        {techStack.map((tech) => {
-                                            const iconData = iconMap[tech]
-                                            if (!iconData) return null
-                                            const toolNames = {
-                                                photoshop: 'Photoshop',
-                                                illustrator: 'Illustrator',
-                                                aftereffects: 'After Effects',
-                                                premiere: 'Premiere'
-                                            }
-                                            return (
-                                                <div
-                                                    key={tech}
-                                                    className="flex items-center gap-1.5 px-2.5 py-1 bg-white/10 rounded-full border border-white/10"
-                                                >
-                                                    <img src={iconData.value} alt={tech} className="w-3 h-3 object-contain opacity-80" />
-                                                    <span className="text-[9px] font-medium text-white/70">
-                                                        {toolNames[tech] || tech}
-                                                    </span>
-                                                </div>
-                                            )
-                                        })}
-                                    </div>
-                                </div>
+                            {/* MOBILE CONTENT - Extended beyond image bounds */}
+                            <div className="absolute -bottom-16 -left-4 -right-4 z-20">
+                                {/* Content */}
+                                <div className="relative z-10 px-4 pb-1">
+                                    <div className="flex flex-nowrap justify-between items-end w-full gap-4">
+                                        <div className="flex flex-col gap-1 flex-1 min-w-0 pr-4">
+                                            <span className="text-[10px] tracking-[0.15em] font-medium text-white/50 uppercase font-mono">
+                                                {category} — {year}
+                                            </span>
+                                            <h3 className="text-2xl font-bold text-white leading-tight">
+                                                {title}
+                                            </h3>
+                                            <div className="flex flex-nowrap gap-2 mt-1 overflow-hidden">
+                                                {techStack.map((tech) => {
+                                                    const iconData = iconMap[tech]
+                                                    if (!iconData) return null
+                                                    const toolNames = {
+                                                        photoshop: 'Photoshop',
+                                                        illustrator: 'Illustrator',
+                                                        aftereffects: 'After Effects',
+                                                        premiere: 'Premiere'
+                                                    }
+                                                    return (
+                                                        <div
+                                                            key={tech}
+                                                            className="flex items-center gap-1.5 px-2.5 py-1 bg-white/10 rounded-full border border-white/10"
+                                                        >
+                                                            <img src={iconData.value} alt={tech} className="w-3 h-3 object-contain opacity-80" />
+                                                            <span className="text-[9px] font-medium text-white/70">
+                                                                {toolNames[tech] || tech}
+                                                            </span>
+                                                        </div>
+                                                    )
+                                                })}
+                                            </div>
+                                        </div>
 
-                                {/* Mobile Explore Button with Curved Text */}
-                                <div className="flex-shrink-0 relative w-14 h-14 flex items-center justify-center">
-                                    <svg className="absolute inset-0 w-14 h-14 animate-[spin_8s_linear_infinite]" viewBox="0 0 100 100">
-                                        <defs>
-                                            <path id="circlePath" d="M 50,50 m -40,0 a 40,40 0 1,1 80,0 a 40,40 0 1,1 -80,0" fill="none" />
-                                        </defs>
-                                        <text className="fill-white/50" style={{ fontSize: '9px', letterSpacing: '0.12em', fontWeight: 500 }}>
-                                            <textPath href="#circlePath">
-                                                PROJEYİ · İNCELE · PROJEYİ · İNCELE ·
-                                            </textPath>
-                                        </text>
-                                    </svg>
-                                    <div className="w-9 h-9 flex items-center justify-center rounded-full bg-white/10 border border-white/20 text-white">
-                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                            <path d="M7 17L17 7" />
-                                            <path d="M7 7h10v10" />
-                                        </svg>
+                                        {/* Mobile Explore Button with Curved Text */}
+                                        <div className="flex-shrink-0 relative w-14 h-14 flex items-center justify-center">
+                                            <svg className="absolute inset-0 w-14 h-14 animate-[spin_8s_linear_infinite]" viewBox="0 0 100 100">
+                                                <defs>
+                                                    <path id="circlePath" d="M 50,50 m -40,0 a 40,40 0 1,1 80,0 a 40,40 0 1,1 -80,0" fill="none" />
+                                                </defs>
+                                                <text className="fill-white/50" style={{ fontSize: '9px', letterSpacing: '0.12em', fontWeight: 500 }}>
+                                                    <textPath href="#circlePath">
+                                                        PROJEYİ · İNCELE · PROJEYİ · İNCELE ·
+                                                    </textPath>
+                                                </text>
+                                            </svg>
+                                            <div className="w-9 h-9 flex items-center justify-center rounded-full bg-white/10 border border-white/20 text-white">
+                                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                                    <path d="M7 17L17 7" />
+                                                    <path d="M7 7h10v10" />
+                                                </svg>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
+                        </>
+                    )}
                 </div>
 
                 {/* DESKTOP EXPLORE BUTTON */}
