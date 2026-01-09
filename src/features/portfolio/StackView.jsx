@@ -8,6 +8,7 @@ export default function StackView({ onProjectClick, className }) {
     const [isMobile, setIsMobile] = useState(false)
     const scrollContainerRef = useRef(null)
     const timeoutRef = useRef(null)
+    const isTouchingRef = useRef(false)
 
     // Check mobile state
     useEffect(() => {
@@ -35,16 +36,22 @@ export default function StackView({ onProjectClick, className }) {
 
             const rawIndex = Math.round(scrollLeft / width)
 
-            // Adjust active dot index (Modulo to keep dots correct)
+            // Adjust active dot index
             setActiveIndex(rawIndex % PROJECTS.length)
 
-            // INFINITE LOOP: If we reached the clone (last item), reset to start
-            if (rawIndex === PROJECTS.length) {
+            // INFINITE LOOP RESET LOGIC
+            // Only reset if:
+            // 1. We actally reached the Clone position (precise pixel check)
+            // 2. User is NOT touching (don't interrupt swipe)
+            const clonePosition = width * PROJECTS.length
+            const isAtClone = Math.abs(scrollLeft - clonePosition) < 10
+
+            if (isAtClone && !isTouchingRef.current) {
                 if (timeoutRef.current) clearTimeout(timeoutRef.current)
                 timeoutRef.current = setTimeout(() => {
                     // Instantly, silently jump to real first item (index 0)
                     container.scrollTo({ left: 0, behavior: 'auto' })
-                }, 150) // Wait for snap animation to finish
+                }, 50)
             }
         }
 
@@ -55,14 +62,12 @@ export default function StackView({ onProjectClick, className }) {
         }
     }, [isMobile])
 
-    // Manual Slide / Auto Slide Logic
+    // Manual / Auto Slide Logic
     const handleNextSlide = () => {
         if (!scrollContainerRef.current) return
         const container = scrollContainerRef.current
         const width = container.offsetWidth
 
-        // Always scroll to next slide (right)
-        // Even if at last real slide, we go to Clone.
         container.scrollBy({ left: width, behavior: 'smooth' })
     }
 
@@ -70,8 +75,11 @@ export default function StackView({ onProjectClick, className }) {
     useEffect(() => {
         if (!isMobile) return
         const interval = setInterval(() => {
-            handleNextSlide()
-        }, 2500) // Fast loop speed for cards
+            // Only auto-scroll if user is not touching
+            if (!isTouchingRef.current) {
+                handleNextSlide()
+            }
+        }, 2500)
         return () => clearInterval(interval)
     }, [isMobile, activeIndex])
 
@@ -79,6 +87,8 @@ export default function StackView({ onProjectClick, className }) {
         <div className={cn("relative w-full", className)}>
             <div
                 ref={scrollContainerRef}
+                onTouchStart={() => { isTouchingRef.current = true }}
+                onTouchEnd={() => { isTouchingRef.current = false }}
                 className={cn(
                     // Mobile: Snap Scroll
                     "flex overflow-x-auto overflow-y-hidden snap-x snap-mandatory scrollbar-hide pb-32",
@@ -109,6 +119,7 @@ export default function StackView({ onProjectClick, className }) {
                                 onClick={onProjectClick}
                                 cardIndex={realIndex} // Use real index for direction/colors
                                 isReversed={realIndex % 2 === 1}
+                                onInteraction={(isActive) => { isTouchingRef.current = isActive }}
                             />
                         </div>
                     )

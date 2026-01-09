@@ -17,7 +17,7 @@ const iconMap = {
     premiere: { type: 'image', value: '/gorseller/iconlar/premiere-pro.svg' }
 }
 
-export default function ProjectCard({ project, onClick, isReversed, cardIndex = 0, className }) {
+export default function ProjectCard({ project, onClick, isReversed, cardIndex = 0, className, onInteraction }) {
     const { t } = useTranslation()
     const { id, title, category, year, description, techStack = [], postCount = 5, storyCount = 0, stackFormat: originalStackFormat = 'post', brandColor = '#9333EA' } = project
     // FORCE 'hybrid' for Adana Napoli to match Hacı Hakkı Usta exactly
@@ -77,8 +77,16 @@ export default function ProjectCard({ project, onClick, isReversed, cardIndex = 
                 className
             )}
             // Pause slideshow on interaction
-            onTouchStart={() => setIsPaused(true)}
-            onTouchEnd={() => setIsPaused(false)}
+            onTouchStart={() => {
+                setIsPaused(true)
+                onInteraction?.(true)
+            }}
+            onTouchEnd={() => {
+                setIsPaused(false)
+                onInteraction?.(false)
+            }}
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
         >
             <div
                 className="relative cursor-pointer group flex-shrink-0"
