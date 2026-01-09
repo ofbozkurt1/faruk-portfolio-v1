@@ -109,19 +109,19 @@ export default function Hero({ className }) {
             {/* Ghost Reel Background - Desktop Only */}
             <HeroBackground />
 
-            <div className="flex flex-col-reverse lg:flex-row gap-12 lg:gap-28 w-full items-center justify-center relative z-10">
+            <div className="flex flex-col-reverse lg:flex-row gap-6 lg:gap-28 w-full items-center justify-center relative z-10">
 
                 {/* Text Content */}
                 <motion.div
                     variants={containerVariants}
                     initial="hidden"
                     animate="visible"
-                    className="flex-shrink-0 lg:max-w-lg text-left lg:text-left"
+                    className="flex-shrink-0 lg:max-w-lg text-center lg:text-left items-center lg:items-start flex flex-col"
                 >
                     {/* Name with dynamic letter animation - Single line on mobile */}
                     <motion.h1
                         variants={itemVariants}
-                        className="text-[clamp(28px,7vw,80px)] md:text-7xl font-extrabold tracking-[-0.03em] leading-[1.1] text-[#F2F2F2] min-h-[40px] md:min-h-[150px] w-full whitespace-nowrap"
+                        className="text-[clamp(26px,6.5vw,80px)] md:text-7xl font-extrabold tracking-[-0.03em] leading-[1.1] text-[#F2F2F2] whitespace-nowrap"
                     >
                         {renderAnimatedText(firstName)}
                         {/* Space between names on mobile, break on desktop */}
@@ -133,11 +133,11 @@ export default function Hero({ className }) {
                     {/* Title below name */}
                     <motion.p
                         variants={itemVariants}
-                        className="mt-3 md:mt-6 mb-2 md:mb-6"
+                        className="mt-2 md:mt-6 mb-2 md:mb-6"
                         style={{
-                            fontSize: '12px',
+                            fontSize: '11px',
                             fontWeight: 500,
-                            letterSpacing: '0.2em',
+                            letterSpacing: '0.18em',
                             textTransform: 'uppercase',
                             background: 'linear-gradient(90deg, #888, #fff, #888)',
                             backgroundSize: '200% 100%',
@@ -153,18 +153,18 @@ export default function Hero({ className }) {
                     {/* Separator line - Mobile only for visual hierarchy */}
                     <motion.div
                         variants={itemVariants}
-                        className="w-12 h-[1px] bg-gradient-to-r from-white/30 to-transparent mb-3 md:hidden"
+                        className="w-10 h-[1px] bg-gradient-to-r from-transparent via-white/40 to-transparent mb-2 md:hidden"
                     />
 
                     <motion.p
                         variants={itemVariants}
-                        className="text-dimGray max-w-md text-sm md:text-base leading-relaxed"
+                        className="text-dimGray max-w-xs md:max-w-md text-sm md:text-base leading-relaxed"
                     >
                         {t('hero.description', 'Creating immersive visual experiences through motion and design.')}
                     </motion.p>
 
                     {/* Download CV Button + Social Icons */}
-                    <motion.div variants={itemVariants} className="mt-5 md:mt-8 flex items-center justify-start gap-4 md:gap-6">
+                    <motion.div variants={itemVariants} className="mt-4 md:mt-8 flex items-center justify-center lg:justify-start gap-3 md:gap-6">
                         <a href="/cv.pdf" download className="download-btn">
                             <div className="btn-wrapper">
                                 <div className="btn-text">{t('hero.downloadCV', 'Download CV')}</div>
@@ -351,7 +351,7 @@ export default function Hero({ className }) {
 
                     {/* Floating Photo Container - Pure CSS Animation */}
                     <div
-                        className="w-60 h-60 md:w-[420px] md:h-[420px] rounded-full overflow-hidden relative"
+                        className="w-[280px] h-[280px] md:w-[420px] md:h-[420px] rounded-full overflow-hidden relative"
                         style={{
                             animation: 'float-photo 4s ease-in-out infinite',
                             transform: isPhotoHovered ? 'scale(1.03)' : 'scale(1)',
