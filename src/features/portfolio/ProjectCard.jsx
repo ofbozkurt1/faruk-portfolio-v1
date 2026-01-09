@@ -17,7 +17,7 @@ const iconMap = {
     premiere: { type: 'image', value: '/gorseller/iconlar/premiere-pro.svg' }
 }
 
-export default function ProjectCard({ project, onClick, isReversed, cardIndex = 0, className, onInteraction, priority = false }) {
+export default function ProjectCard({ project, onClick, isReversed, cardIndex = 0, className, onInteraction, priority = false, disableSlide = false }) {
     const { t } = useTranslation()
     const { id, title, category, year, description, techStack = [], postCount = 5, storyCount = 0, stackFormat: originalStackFormat = 'post', brandColor = '#9333EA' } = project
     // FORCE 'hybrid' for Adana Napoli to match Hacı Hakkı Usta exactly
@@ -56,7 +56,7 @@ export default function ProjectCard({ project, onClick, isReversed, cardIndex = 
     const direction = cardIndex % 2 === 0 ? 1 : -1
 
     useEffect(() => {
-        if (!isInView || isPaused) return // Pause if not in view or user is touching
+        if (!isInView || isPaused || disableSlide) return // Pause if not in view, user is touching, or slides are disabled
         const intervalTime = isMobile ? 2000 : 4000 // Fast for mobile, standard for desktop
         const interval = setInterval(() => {
             setActiveIndex((prev) => (prev + 1) % stackImages.length)
