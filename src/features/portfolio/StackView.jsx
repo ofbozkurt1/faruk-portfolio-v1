@@ -49,9 +49,8 @@ export default function StackView({ onProjectClick, className }) {
                         key={project.id}
                         className={cn(
                             // MOBILE STYLES
-                            // Removed padding to allow card to center naturally in 100vw
-                            // Card width (~300px) < Screen width (~390px) leaves ~45px margins automatically
-                            "min-w-[100vw] flex-shrink-0 snap-center flex justify-center pt-4 px-0",
+                            // Added items-start and h-full to Lock Vertical Position (prevent jumping on swipe)
+                            "min-w-[100vw] flex-shrink-0 snap-center flex justify-center items-start h-full pt-4 px-0",
 
                             // DESKTOP RESET STYLES
                             // Removed divider, added bottom margin for spacing instead
