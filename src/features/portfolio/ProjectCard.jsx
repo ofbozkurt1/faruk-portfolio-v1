@@ -132,7 +132,7 @@ export default function ProjectCard({ project, onClick, isReversed, cardIndex = 
                         const baseY = baseYValues[orderIndex] || 50
                         const hoverY = hoverYValues[orderIndex] || -50
 
-                        const isVisibleMobile = isMobile ? orderIndex === 0 : true // Mobile optimization: Only rendering top card improves FPS massively
+                        const isVisibleMobile = isMobile ? orderIndex < 2 : true // Mobile: Render top 2 for smooth animation, hide others for perf
 
                         return (
                             <div
