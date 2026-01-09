@@ -128,11 +128,11 @@ export default function StackView({ onProjectClick, className }) {
             <div
                 className={cn(
                     "absolute left-1/2 -translate-x-1/2 md:hidden z-20 flex flex-row items-center gap-3",
-                    "bottom-1"
+                    "bottom-0"
                 )}
             >
                 {/* Dots */}
-                <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-zinc-900 border border-white/10 shadow-lg">
+                <div className="flex items-center gap-2 px-4 h-9 rounded-full bg-zinc-900 border border-white/10 shadow-lg">
                     {PROJECTS.map((_, index) => (
                         <div
                             key={index}
@@ -149,7 +149,7 @@ export default function StackView({ onProjectClick, className }) {
                 {/* Next Button */}
                 <button
                     onClick={handleNextSlide}
-                    className="flex items-center gap-1.5 px-4 py-2 rounded-full bg-zinc-900 active:scale-95 transition-transform border border-white/10 shadow-lg"
+                    className="flex items-center gap-1.5 px-4 h-9 rounded-full bg-zinc-900 active:scale-95 transition-transform border border-white/10 shadow-lg"
                 >
                     <span className="text-[10px] font-medium text-white/80 tracking-widest uppercase">KAYDIR</span>
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-white/80">
