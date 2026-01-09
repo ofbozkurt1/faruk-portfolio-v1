@@ -229,7 +229,7 @@ const SkillBentoCard = memo(function SkillBentoCard({ skill }) {
                         "p-3 md:p-6", // Smaller padding on mobile
                         // MOBILE: Fixed height for 2x2 grid
                         // DESKTOP: Dynamic height based on bento size
-                        "h-[140px] md:h-full",
+                        "h-[160px] md:h-full",
                         isLarge ? "md:min-h-[280px]" : isTall ? "md:min-h-[320px]" : "md:min-h-[200px]"
                     )}
                 >
@@ -342,7 +342,7 @@ export default function SkillsView({ className }) {
             viewport={{ once: true, margin: "-100px" }}
         >
             {/* Header - Clean Single Line */}
-            <motion.div variants={cardVariants} className="text-center mb-10 md:mb-16">
+            <motion.div variants={cardVariants} className="text-center mb-6 md:mb-16">
                 <div className="flex items-center justify-center gap-6">
                     <div style={{ width: 50, height: 1, background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.3))' }} />
                     <h2
