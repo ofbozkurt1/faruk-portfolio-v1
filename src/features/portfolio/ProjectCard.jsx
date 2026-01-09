@@ -76,17 +76,12 @@ export default function ProjectCard({ project, onClick, isReversed, cardIndex = 
                 isReversed && "lg:flex-row-reverse",
                 className
             )}
-            // Pause slideshow on interaction
-            onTouchStart={() => {
-                setIsPaused(true)
-                onInteraction?.(true)
-            }}
-            onTouchEnd={() => {
-                setIsPaused(false)
-                onInteraction?.(false)
-            }}
-            onMouseEnter={() => !isMobile && setIsHovered(true)}
-            onMouseLeave={() => !isMobile && setIsHovered(false)}
+            // Mobile: Only signal StackView to pause auto-play, but keep image slideshow running
+            onTouchStart={() => onInteraction?.(true)}
+            onTouchEnd={() => onInteraction?.(false)}
+            // Desktop: Original behavior (no changes)
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
         >
             <div
                 className="relative cursor-pointer group flex-shrink-0"
