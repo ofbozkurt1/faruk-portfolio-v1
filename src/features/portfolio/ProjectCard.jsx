@@ -27,6 +27,8 @@ export default function ProjectCard({ project, onClick, isReversed, cardIndex = 
     const [isHovered, setIsHovered] = useState(false)
     const [isMobile, setIsMobile] = useState(false)
 
+    const [isPaused, setIsPaused] = useState(false)
+
     const cardRef = useRef(null)
     const isInView = useInView(cardRef, { amount: 0.3 })
 
@@ -54,26 +56,29 @@ export default function ProjectCard({ project, onClick, isReversed, cardIndex = 
     const direction = cardIndex % 2 === 0 ? 1 : -1
 
     useEffect(() => {
-        if (!isInView) return
+        if (!isInView || isPaused) return // Pause if not in view or user is touching
         const intervalTime = isMobile ? 2000 : 4000 // Fast for mobile, standard for desktop
         const interval = setInterval(() => {
             setActiveIndex((prev) => (prev + 1) % stackImages.length)
         }, intervalTime)
         return () => clearInterval(interval)
-    }, [isInView, stackImages.length, isMobile])
+    }, [isInView, stackImages.length, isMobile, isPaused])
 
     const getImageOrder = (originalIndex) => {
         return (originalIndex - activeIndex + stackImages.length) % stackImages.length
     }
 
     return (
-        <article
+        <div
             ref={cardRef}
             className={cn(
                 "flex flex-col lg:flex-row items-center gap-12 lg:gap-28",
                 isReversed && "lg:flex-row-reverse",
                 className
             )}
+            // Pause slideshow on interaction
+            onTouchStart={() => setIsPaused(true)}
+            onTouchEnd={() => setIsPaused(false)}
         >
             <div
                 className="relative cursor-pointer group flex-shrink-0"
@@ -469,6 +474,6 @@ export default function ProjectCard({ project, onClick, isReversed, cardIndex = 
                     })}
                 </div>
             </div>
-        </article>
+        </div>
     )
 }

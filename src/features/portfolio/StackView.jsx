@@ -5,111 +5,124 @@ import { cn } from '../../utils/cn'
 
 export default function StackView({ onProjectClick, className }) {
     const [activeIndex, setActiveIndex] = useState(0)
+    const [isMobile, setIsMobile] = useState(false)
     const scrollContainerRef = useRef(null)
+    const timeoutRef = useRef(null)
 
-    // Scroll Listener for Active Dot
+    // Check mobile state
+    useEffect(() => {
+        const checkMobile = () => setIsMobile(window.innerWidth < 768)
+        checkMobile()
+        window.addEventListener('resize', checkMobile)
+        return () => window.removeEventListener('resize', checkMobile)
+    }, [])
+
+    // Prepare list for Infinite Scroll (Mobile Only)
+    // Add Clone of First Project to the end
+    const displayProjects = isMobile
+        ? [...PROJECTS, { ...PROJECTS[0], id: `clone-${PROJECTS[0].id}`, isClone: true }]
+        : PROJECTS
+
+    // Scroll Listener Logic
     useEffect(() => {
         const container = scrollContainerRef.current
-        if (!container) return
+        if (!container || !isMobile) return
 
         const handleScroll = () => {
             const scrollLeft = container.scrollLeft
             const width = container.offsetWidth
-            const index = Math.round(scrollLeft / width)
-            setActiveIndex(index)
+            if (width === 0) return
+
+            const rawIndex = Math.round(scrollLeft / width)
+
+            // Adjust active dot index (Modulo to keep dots correct)
+            setActiveIndex(rawIndex % PROJECTS.length)
+
+            // INFINITE LOOP: If we reached the clone (last item), reset to start
+            if (rawIndex === PROJECTS.length) {
+                if (timeoutRef.current) clearTimeout(timeoutRef.current)
+                timeoutRef.current = setTimeout(() => {
+                    // Instantly, silently jump to real first item (index 0)
+                    container.scrollTo({ left: 0, behavior: 'auto' })
+                }, 150) // Wait for snap animation to finish
+            }
         }
 
         container.addEventListener('scroll', handleScroll, { passive: true })
-        return () => container.removeEventListener('scroll', handleScroll)
-    }, [])
-
-    // Function to handle manual slide via button with LOOP support
-    const handleNextSlide = () => {
-        if (scrollContainerRef.current) {
-            const container = scrollContainerRef.current
-            const width = container.offsetWidth
-
-            // Check if activeIndex is last item (Loop Logic)
-            if (activeIndex === PROJECTS.length - 1) {
-                container.scrollTo({ left: 0, behavior: 'smooth' })
-            } else {
-                // Scroll one slide width
-                container.scrollBy({ left: width, behavior: 'smooth' })
-            }
+        return () => {
+            container.removeEventListener('scroll', handleScroll)
+            if (timeoutRef.current) clearTimeout(timeoutRef.current)
         }
+    }, [isMobile])
+
+    // Manual Slide / Auto Slide Logic
+    const handleNextSlide = () => {
+        if (!scrollContainerRef.current) return
+        const container = scrollContainerRef.current
+        const width = container.offsetWidth
+
+        // Always scroll to next slide (right)
+        // Even if at last real slide, we go to Clone.
+        container.scrollBy({ left: width, behavior: 'smooth' })
     }
 
-    // Auto Play - 3 seconds Loop
+    // Auto Play (Mobile Only)
     useEffect(() => {
-        // Only run on mobile (detected by scroll capability or resizing logic, but here simple interval)
-        // If user interacts, timer resets automatically due to dependency changes
+        if (!isMobile) return
         const interval = setInterval(() => {
-            // We need to check if we should auto-scroll (e.g. not hovering)
-            // But for simple request: just loop.
-            // Check if window is mobile width to avoid desktop scroll
-            if (window.innerWidth < 768) {
-                handleNextSlide()
-            }
-        }, 3000)
+            handleNextSlide()
+        }, 2500) // Fast loop speed for cards
         return () => clearInterval(interval)
-    }, [activeIndex]) // Re-run effect when index changes (resets timer)
+    }, [isMobile, activeIndex])
 
     return (
         <div className={cn("relative w-full", className)}>
-            {/* CAROUSEL (Mobile) / STACK (Desktop) CONTAINER */}
             <div
                 ref={scrollContainerRef}
                 className={cn(
-                    // BASE (Mobile): Horizontal Scroll Layout
+                    // Mobile: Snap Scroll
                     "flex overflow-x-auto overflow-y-hidden snap-x snap-mandatory scrollbar-hide pb-32",
-                    "gap-16 px-4 -mx-4", // Increased gap significantly to prevent next slide from overlapping floating buttons
+                    "gap-16 px-4 -mx-4",
 
-                    // DESKTOP OVERRIDE: Reset EVERYTHING to vertical stack and center content
+                    // Desktop: Reset to Vertical Stack
                     "md:flex-col md:overflow-visible md:pb-0 md:gap-40 md:block",
-                    // Restore original Desktop container constraints
                     "md:max-w-6xl md:mx-auto md:px-4 lg:px-0"
                 )}
             >
-                {/* 
-                   IMPORTANT: Desktop styles must completely override mobile styles to prevent layout shifts.
-                   Mobile: Slide Wrapper (100vw, Snap)
-                   Desktop: Standard Block (No width constraints)
-                */}
-                {PROJECTS.map((project, index) => (
-                    <div
-                        key={project.id}
-                        className={cn(
-                            // MOBILE STYLES
-                            // Removed h-full to stop vertical bounce, kept items-start for top alignment
-                            "min-w-[100vw] flex-shrink-0 snap-center flex justify-center items-start pt-0 px-0",
+                {displayProjects.map((project, index) => {
+                    // Correct index for props (handle clone)
+                    const realIndex = index % PROJECTS.length
 
-                            // DESKTOP RESET STYLES
-                            // Removed divider, added bottom margin for spacing instead
-                            "md:min-w-0 md:w-auto md:flex-shrink-1 md:snap-align-none md:block md:p-0 md:mb-40"
-                        )}
-                        // Remove margin from last item on desktop
-                        style={{ marginBottom: index === PROJECTS.length - 1 ? 0 : undefined }}
-                    >
-                        <ProjectCard
-                            project={project}
-                            onClick={onProjectClick}
-                            cardIndex={index}
-                            isReversed={index % 2 === 1}
-                        />
-
-                        {/* Divider removed as requested */}
-                    </div>
-                ))}
+                    return (
+                        <div
+                            key={project.id}
+                            className={cn(
+                                // Mobile Wrapper
+                                "min-w-[100vw] flex-shrink-0 snap-center flex justify-center items-start pt-0 px-0",
+                                // Desktop Wrapper
+                                "md:min-w-0 md:w-auto md:flex-shrink-1 md:snap-align-none md:block md:p-0 md:mb-40"
+                            )}
+                            style={{ marginBottom: (!isMobile && index === PROJECTS.length - 1) ? 0 : undefined }}
+                        >
+                            <ProjectCard
+                                project={project}
+                                onClick={onProjectClick}
+                                cardIndex={realIndex} // Use real index for direction/colors
+                                isReversed={realIndex % 2 === 1}
+                            />
+                        </div>
+                    )
+                })}
             </div>
 
-            {/* MOBILE ONLY: Modern Navigation Indicator */}
-            {/* Fixed Positioning: Placed at bottom-8 to sit below the card content */}
+            {/* Mobile Navigation Indicator */}
             <div
                 className={cn(
                     "absolute left-1/2 -translate-x-1/2 md:hidden z-20 flex flex-row items-center gap-3 transition-all duration-500 ease-in-out",
                     "bottom-1"
                 )}
             >
+                {/* Dots */}
                 <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-zinc-900 border border-white/10 shadow-lg">
                     {PROJECTS.map((_, index) => (
                         <div
@@ -123,7 +136,8 @@ export default function StackView({ onProjectClick, className }) {
                         />
                     ))}
                 </div>
-                {/* Explicit Swipe Button */}
+
+                {/* Swipe Button */}
                 <button
                     onClick={handleNextSlide}
                     className="group flex items-center gap-1.5 px-4 py-2 rounded-full bg-zinc-900 hover:bg-zinc-800 active:scale-95 transition-all border border-white/10 shadow-lg"
@@ -144,8 +158,6 @@ export default function StackView({ onProjectClick, className }) {
                     </svg>
                 </button>
             </div>
-
-            {/* Floating Arrow Removed */}
         </div>
     )
 }
