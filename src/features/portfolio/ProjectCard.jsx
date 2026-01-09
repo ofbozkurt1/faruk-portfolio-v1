@@ -79,9 +79,9 @@ export default function ProjectCard({ project, onClick, isReversed, cardIndex = 
             // Mobile: Only signal StackView to pause auto-play, but keep image slideshow running
             onTouchStart={() => onInteraction?.(true)}
             onTouchEnd={() => onInteraction?.(false)}
-            // Desktop: Original behavior (no changes)
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
+            // Desktop only: Hover effects (isMobile check prevents touch devices from triggering)
+            onMouseEnter={() => !isMobile && setIsHovered(true)}
+            onMouseLeave={() => !isMobile && setIsHovered(false)}
         >
             <div
                 className="relative cursor-pointer group flex-shrink-0"
