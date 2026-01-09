@@ -201,7 +201,7 @@ export default function StackView({ onProjectClick, className }) {
                                 cardIndex={realIndex}
                                 isReversed={realIndex % 2 === 1}
                                 onInteraction={(isActive) => { isTouchingRef.current = isActive }}
-                                priority={isJunctionCard} // Eager load all junction cards
+                                priority={isMobile || index === 0 || project.isClone}
                                 disableSlide={isJunctionCard} // Disable slide for stability
                             />
                         </div>

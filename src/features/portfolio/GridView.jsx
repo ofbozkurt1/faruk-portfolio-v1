@@ -154,7 +154,7 @@ function ImageCard({ src, alt, index, type = 'post' }) {
             <img
                 src={src}
                 alt={alt}
-                loading="lazy"
+                loading={index < 4 ? "eager" : "lazy"}
                 style={{
                     width: '100%',
                     height: 'auto',
