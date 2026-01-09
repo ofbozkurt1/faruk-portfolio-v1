@@ -30,7 +30,7 @@ export default function StackView({ onProjectClick, className }) {
                 ref={scrollContainerRef}
                 className={cn(
                     // BASE (Mobile): Horizontal Scroll Layout
-                    "flex overflow-x-auto overflow-y-hidden snap-x snap-mandatory scrollbar-hide pb-12",
+                    "flex overflow-x-auto overflow-y-hidden snap-x snap-mandatory scrollbar-hide pb-32",
                     "gap-16 px-4 -mx-4", // Increased gap significantly to prevent next slide from overlapping floating buttons
 
                     // DESKTOP OVERRIDE: Reset EVERYTHING to vertical stack and center content
@@ -50,7 +50,7 @@ export default function StackView({ onProjectClick, className }) {
                         className={cn(
                             // MOBILE STYLES
                             // Removed h-full to stop vertical bounce, kept items-start for top alignment
-                            "min-w-[100vw] flex-shrink-0 snap-center flex justify-center items-start pt-4 px-0",
+                            "min-w-[100vw] flex-shrink-0 snap-center flex justify-center items-start pt-0 px-0",
 
                             // DESKTOP RESET STYLES
                             // Removed divider, added bottom margin for spacing instead
