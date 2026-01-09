@@ -2,9 +2,49 @@
 
 All notable changes to the **Ömer Faruk Bozkurt Portfolio** project will be documented in this file.
 
-## [Unreleased] - 2026-01-09
+## [Unreleased] - 2026-01-10
 
-### 🔧 Phase 42: Mobil UX & Kritik Bug Düzeltmeleri
+### 🚀 Phase 46: Cold Start Optimization (Asset Loading Strategy)
+
+#### Lazy Loading Uygulaması
+- **SkillsView Icons**: `loading="lazy"` ve `decoding="async"` eklendi
+- **VideoVault**: `poster` attribute eklendi (video yerine hafif resim gösterilir)
+- **HeroBackground**: Tüm arka plan resimleri lazy loading ile yükleniyor
+- **ProjectCard**: İlk görünür resim eager, geri kalanlar lazy
+
+#### Eager Loading (Hero)
+- Profil resmi: `fetchpriority="high"`, `decoding="sync"` (öncelikli)
+
+---
+
+### 📉 Phase 45: Low-End Hardware Optimization (Patates Testi)
+
+#### Devre Dışı Bırakılan Ağır Bileşenler
+- **PortfolioBackgroundLayer**: Hover'da görünen radial gradient'ler kaldırıldı
+- **ServiceBackgroundLayer**: 01/02 sayıları, tool iconları, glow efektleri kaldırıldı
+
+#### ServicesView Sadeleştirmesi
+- Büyük numaralar (01, 02, 03, 04) kaldırıldı
+- Dekoratif semboller (▶, ◆, ★, ●) kaldırıldı
+- text-shadow glow efekti kaldırıldı
+- serviceStore bağımlılığı kaldırıldı
+- **Kalan efektler**: Yazının yana kayması, renk değişimi
+
+#### App.jsx Conditional Rendering
+- `isDesktop` state eklendi
+- SideNav mobilde DOM'dan tamamen kaldırıldı (true conditional render)
+- Luxury divider'lar mobilde render edilmiyor
+
+#### Performans Kazanımları
+| Metrik | Önce | Sonra |
+|--------|------|-------|
+| GPU Layers | ~15+ | ~6 |
+| Background Efektleri | 6 aktif | 1 aktif |
+| Hover Animasyonları | Ağır | Hafif |
+
+---
+
+### 🔧 Phase 44: Mobil Carousel İyileştirmeleri
 
 #### Scroll Düzeltmeleri
 - **Proje Detay Paneli:** Lenis smooth scroll bypass eklendi (`data-lenis-prevent`, `stopPropagation`)

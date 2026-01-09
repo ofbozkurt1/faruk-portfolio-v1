@@ -249,6 +249,8 @@ const SkillBentoCard = memo(function SkillBentoCard({ skill }) {
                         <img
                             src={skill.icon}
                             alt=""
+                            loading="lazy"
+                            decoding="async"
                             className="w-full h-full object-contain"
                         />
                     </div>
@@ -265,6 +267,8 @@ const SkillBentoCard = memo(function SkillBentoCard({ skill }) {
                             <img
                                 src={skill.icon}
                                 alt={skill.name}
+                                loading="lazy"
+                                decoding="async"
                                 className="w-full h-full object-contain"
                             />
                         </div>

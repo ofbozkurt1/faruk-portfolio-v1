@@ -1,31 +1,61 @@
 # Active Context
 
-## Current Phase: Phase 43 - Mobile Portfolio Carousel (Swipe View)
-Mobil cihazlarda Portfolio listesinin dikey uzunluğunu azaltmak ve deneyimi iyileştirmek için Grid/Stack görünümü yatay kaydırılabilir (horizontal swipe) bir Carousel yapısına dönüştürüldü.
+## Current Phase: Phase 45-46 - Performans Optimizasyonu
+Düşük donanımlı cihazlarda bile 60 FPS hedefleyerek tüm ağır efektler kaldırıldı veya optimize edildi.
 
-## Latest Session Summary (2026-01-09)
+## Latest Session Summary (2026-01-10)
 
-### Phase 43: Portfolio Layout Refactor
+### Phase 45: Low-End Hardware Optimization
+**Hedef:** "Patates Testi" - Zayıf cihazlarda bile akıcı deneyim.
 
-**1. Main Portfolio List (`StackView.jsx`)**
-- **Mobile:**
-  - Layout: `Vertical Stack` -> `Horizontal Carousel` (Flex + Overflow-x).
-  - Interaction: `snap-x` (Snap Scroll) ile kartlar merkeze hizalanır.
-  - Container: `min-w-[85vw]` wrapper ile her kart ekranda odak noktası olur.
-  - Indicator: Alt kısımda "Dots" (Nokta) indikatörleri eklendi, aktif öğeyi gösterir.
-  - Scrollbar: Gizlendi (`scrollbar-hide`).
-- **Desktop:**
-  - Layout: `Vertical Stack` -> `Grid System` (`md:grid-cols-2`, `lg:grid-cols-3`).
-  - Dikey liste yerine grid yapısına geçildi (User Request: "Desktop: Keep the existing Grid layout").
+**1. Devre Dışı Bırakılan Bileşenler:**
+- `PortfolioBackgroundLayer.jsx` → `return null` (Gradient animasyonları kaldırıldı)
+- `ServiceBackgroundLayer.jsx` → `return null` (01/02 sayıları, iconlar, glow kaldırıldı)
+- `CustomCursor.jsx` → Zaten disabled
 
-**2. ProjectCard Adjustments (`ProjectCard.jsx`)**
-- **Mobile Width:** Karta özel fixed genişlik tanımları (`w-[260px]` / `w-[300px]`) ayarlandı.
-- **Content:** Mobil içerik stili (`-bottom-16` taşmalı layout) korundu ama kart boyutları optimize edildi.
+**2. ServicesView Sadeleştirmesi:**
+- 01, 02, 03, 04 numaraları kaldırıldı
+- Dekoratif semboller (▶, ◆, ★, ●) kaldırıldı
+- text-shadow glow efekti kaldırıldı
+- serviceStore bağımlılığı kaldırıldı
+- **Kalan:** Yazının yana kayması (x: 20), renk değişimi
+
+**3. App.jsx Conditional Render:**
+- `isDesktop` state eklendi
+- SideNav mobilde DOM'dan tamamen kaldırıldı
+- Luxury divider'lar mobilde render edilmiyor
+
+### Phase 46: Cold Start Optimization
+**Hedef:** İlk yüklemede kasma/takılma önleme.
+
+**1. SkillsView Icons:**
+- `loading="lazy"` ve `decoding="async"` eklendi
+
+**2. VideoVault:**
+- `poster` attribute eklendi (video yerine hafif resim gösterilir)
+- `preload="none"` zaten mevcuttu
+
+**3. Zaten Optimize Olanlar:**
+- Hero profil resmi: `fetchpriority="high"`, `decoding="sync"` ✅
+- HeroBackground: Tüm resimler `loading="lazy"` ✅
+- ProjectCard: İlk görünür eager, geri kalan lazy ✅
 
 ## Key Files Modified
-- `src/features/portfolio/StackView.jsx` (Major Refactor)
-- `src/features/portfolio/ProjectCard.jsx` (Responsive Tuning)
+- `src/components/ui/PortfolioBackgroundLayer.jsx` (Disabled)
+- `src/components/ui/ServiceBackgroundLayer.jsx` (Disabled)
+- `src/features/services/ServicesView.jsx` (Simplified)
+- `src/features/skills/SkillsView.jsx` (Lazy loading)
+- `src/features/videos/VideoVault.jsx` (Poster added)
+- `src/App.jsx` (Conditional render)
+
+## Performance Impact
+| Metrik | Önce | Sonra |
+|--------|------|-------|
+| GPU Layers | ~15+ | ~6 |
+| Background Efektleri | 6 aktif | 1 aktif |
+| Hover Efektleri | Ağır | Hafif |
+| DOM Node'lar | Yüksek | Düşük |
 
 ## Next Steps
-- Kullanıcı grid yapısını masaüstünde dikey stack olarak geri isteyebilir, kontrol et.
-- Dots indikatör stilini veya animasyonunu iyileştir.
+- AtmosphericBackground hala aktif, gerekirse devre dışı bırakılabilir
+- HeroBackground resim sayısı azaltılabilir (64 → 32)
