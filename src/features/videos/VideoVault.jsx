@@ -384,8 +384,13 @@ function MobileVideoCarousel() {
         })
     }
 
-    // Tab click - go to category's first video
+    // Tab click - go to category's first video with pause
     const handleTabClick = (categoryIdx) => {
+        // Clear and reset interval to prevent overlap
+        if (autoPlayRef.current) {
+            clearInterval(autoPlayRef.current)
+        }
+
         isPausedRef.current = true
         isProgrammaticScrollRef.current = true // Lock scroll updates
 
@@ -393,11 +398,11 @@ function MobileVideoCarousel() {
         setActiveIndex(startIdx)
         scrollToIndex(startIdx)
 
-        // Unlock after scroll animation roughly completes
+        // Unlock after 8 seconds (same as arrows)
         setTimeout(() => {
             isPausedRef.current = false
             isProgrammaticScrollRef.current = false
-        }, 800)
+        }, 8000)
     }
 
     // Auto-advance every 7 seconds - with Scroll Lock
@@ -576,17 +581,13 @@ function MobileVideoCarousel() {
                 </div>
             </div>
 
-            {/* Dots Navigation - Portfolio Style */}
+            {/* Dots Navigation - Disabled (Visual Only) */}
             <div className="flex justify-center mt-6">
                 <div className="flex items-center gap-2 px-4 h-9 rounded-full bg-zinc-900 border border-white/10 shadow-lg backdrop-blur-md">
                     {allVideos.map((_, idx) => (
-                        <button
+                        <div
                             key={idx}
-                            onClick={() => {
-                                setActiveIndex(idx)
-                                scrollToIndex(idx)
-                            }}
-                            className={`h-1.5 rounded-full transition-all duration-300 ${activeIndex === idx ? 'w-6 bg-white' : 'w-1.5 bg-white/30'
+                            className={`h-1.5 rounded-full transition-all duration-300 cursor-default ${activeIndex === idx ? 'w-6 bg-white' : 'w-1.5 bg-white/30'
                                 }`}
                         />
                     ))}
