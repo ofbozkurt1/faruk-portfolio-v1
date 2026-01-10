@@ -124,7 +124,11 @@ const VideoCard = memo(function VideoCard({ video, index }) {
                     left: 0,
                     right: 0,
                     padding: '60px 20px 20px',
-                    background: 'linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 100%)'
+                    background: 'linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 100%)',
+                    display: 'flex',
+                    alignItems: 'flex-end',
+                    justifyContent: 'space-between',
+                    gap: '12px'
                 }}
             >
                 <span
@@ -138,6 +142,25 @@ const VideoCard = memo(function VideoCard({ video, index }) {
                 >
                     {video.title}
                 </span>
+
+                {/* Rotating Circular Button */}
+                <div className="flex-shrink-0 relative w-14 h-14 flex items-center justify-center">
+                    <svg className="absolute inset-0 w-14 h-14 animate-[spin_8s_linear_infinite]" viewBox="0 0 100 100">
+                        <defs>
+                            <path id="videoCirclePath" d="M 50,50 m -40,0 a 40,40 0 1,1 80,0 a 40,40 0 1,1 -80,0" fill="none" />
+                        </defs>
+                        <text className="fill-white/50" style={{ fontSize: '9px', letterSpacing: '0.12em', fontWeight: 500 }}>
+                            <textPath href="#videoCirclePath">
+                                BASILI TUT · TAM İZLE · BASILI TUT ·
+                            </textPath>
+                        </text>
+                    </svg>
+                    <div className="w-9 h-9 flex items-center justify-center rounded-full bg-white/10 border border-white/20 text-white">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M8 5v14l11-7z" />
+                        </svg>
+                    </div>
+                </div>
             </div>
             {/* Play indicator when not in view */}
             <motion.div
@@ -400,7 +423,7 @@ function MobileVideoCarousel() {
 
                 return next
             })
-        }, 4000)
+        }, 7000)
 
         return () => clearInterval(autoPlayRef.current)
     }, [allVideos.length])
@@ -437,20 +460,36 @@ function MobileVideoCarousel() {
     }
     const handleTouchEnd = () => {
         isUserInteractingRef.current = false
-        // Resume auto-play after a short delay
-        setTimeout(() => { isPausedRef.current = false }, 3000)
+        // Resume auto-play after 8 seconds
+        setTimeout(() => { isPausedRef.current = false }, 8000)
     }
 
-    // Arrow navigation
+    // Arrow navigation - with auto-scroll pause
     const goToPrev = () => {
+        // Pause auto-scroll when user manually navigates
+        isPausedRef.current = true
+
         const prev = activeIndex > 0 ? activeIndex - 1 : allVideos.length - 1
         setActiveIndex(prev)
         scrollToIndex(prev)
+
+        // Resume auto-scroll after 8 seconds
+        setTimeout(() => {
+            isPausedRef.current = false
+        }, 8000)
     }
     const goToNext = () => {
+        // Pause auto-scroll when user manually navigates
+        isPausedRef.current = true
+
         const next = (activeIndex + 1) % allVideos.length
         setActiveIndex(next)
         scrollToIndex(next)
+
+        // Resume auto-scroll after 8 seconds
+        setTimeout(() => {
+            isPausedRef.current = false
+        }, 8000)
     }
 
     return (
