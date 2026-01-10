@@ -9,6 +9,7 @@ import { FiChevronDown } from 'react-icons/fi'
 import { useTranslation } from 'react-i18next'
 import { cn } from '../../utils/cn'
 import HeroBackground from './HeroBackground'
+import ResponsiveImage from '../../components/ui/ResponsiveImage'
 
 // Detect mobile for LCP optimization
 const isMobile = () => typeof window !== 'undefined' && window.innerWidth < 768
@@ -431,11 +432,12 @@ export default function Hero({ className }) {
                             willChange: 'transform'
                         }}
                     >
-                        <img
+                        <ResponsiveImage
                             src="/gorseller/profil/ben.webp"
+                            mobileSrc="/gorseller/mobilgorseller/mobilprofil/ben.webp"
                             alt="Ömer Faruk Bozkurt"
-                            fetchpriority="high"
-                            decoding="sync"
+                            sizes="(max-width: 768px) 280px, 420px"
+                            priority={true}
                             className="w-full h-full object-cover transition-transform duration-400"
                             style={{
                                 transform: isPhotoHovered ? 'scale(1.1)' : 'scale(1)'
