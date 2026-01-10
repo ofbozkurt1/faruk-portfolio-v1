@@ -22,8 +22,8 @@ const groups = [
             { name: 'After Effects', icon: '/gorseller/iconlar/after-effects.svg' }
         ],
         videos: [
-            { id: 1, src: '/videolar/vd1.mp4', title: 'Summer Vibes' },
-            { id: 2, src: '/videolar/vd2.mp4', title: 'Night Life' }
+            { id: 1, src: '/video/vd1.mp4', title: 'Summer Vibes' },
+            { id: 2, src: '/video/vd2.mp4', title: 'Night Life' }
         ]
     },
     {
@@ -39,8 +39,8 @@ const groups = [
             { name: 'Photoshop', icon: '/gorseller/iconlar/photoshop.svg' }
         ],
         videos: [
-            { id: 3, src: '/videolar/vd3.mp4', title: 'Brand Story' },
-            { id: 4, src: '/videolar/vd4.mp4', title: 'Product Launch' }
+            { id: 3, src: '/video/vd3.mp4', title: 'Brand Story' },
+            { id: 4, src: '/video/vd4.mp4', title: 'Product Launch' }
         ]
     },
     {
@@ -55,8 +55,8 @@ const groups = [
             { name: 'After Effects', icon: '/gorseller/iconlar/after-effects.svg' }
         ],
         videos: [
-            { id: 5, src: '/videolar/vd5.mp4', title: 'Reels Edit' },
-            { id: 6, src: '/videolar/vd6.mp4', title: 'TikTok Style' }
+            { id: 5, src: '/video/vd5.mp4', title: 'Reels Edit' },
+            { id: 6, src: '/video/vd6.mp4', title: 'TikTok Style' }
         ]
     },
     {
@@ -71,8 +71,8 @@ const groups = [
             { name: 'After Effects', icon: '/gorseller/iconlar/after-effects.svg' }
         ],
         videos: [
-            { id: 7, src: '/videolar/drn1.mp4', title: 'City Flyover' },
-            { id: 8, src: '/videolar/drn2.mp4', title: 'Nature Shot' }
+            { id: 7, src: '/video/drn1.mp4', title: 'City Flyover' },
+            { id: 8, src: '/video/drn2.mp4', title: 'Nature Shot' }
         ]
     }
 ]
