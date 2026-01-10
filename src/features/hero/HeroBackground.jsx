@@ -7,6 +7,8 @@
  * Images from optimized slider directory
  */
 
+import ResponsiveImage from '../../components/ui/ResponsiveImage'
+
 const HeroBackground = () => {
     // POST images - Left Side
     const postImagesLeft = [
@@ -182,23 +184,21 @@ const HeroBackground = () => {
                     <div className="ghost-column ghost-column-post scroll-up">
                         <div className="ghost-column-inner">
                             {postImagesLeft.map((src, idx) => (
-                                <img
+                                <ResponsiveImage
                                     key={`lp-${idx}`}
                                     src={src}
                                     alt=""
                                     className="ghost-image ghost-image-post"
-                                    loading="lazy"
-                                    decoding="async"
+                                    priority={idx < 2} // First 2 images for LCP
                                 />
                             ))}
                             {postImagesLeft.map((src, idx) => (
-                                <img
+                                <ResponsiveImage
                                     key={`lp-dup-${idx}`}
                                     src={src}
                                     alt=""
                                     className="ghost-image ghost-image-post"
-                                    loading="lazy"
-                                    decoding="async"
+                                    priority={false}
                                 />
                             ))}
                         </div>
@@ -208,23 +208,21 @@ const HeroBackground = () => {
                     <div className="ghost-column ghost-column-story scroll-down">
                         <div className="ghost-column-inner">
                             {storyImagesLeft.map((src, idx) => (
-                                <img
+                                <ResponsiveImage
                                     key={`ls-${idx}`}
                                     src={src}
                                     alt=""
                                     className="ghost-image ghost-image-story"
-                                    loading="lazy"
-                                    decoding="async"
+                                    priority={false}
                                 />
                             ))}
                             {storyImagesLeft.map((src, idx) => (
-                                <img
+                                <ResponsiveImage
                                     key={`ls-dup-${idx}`}
                                     src={src}
                                     alt=""
                                     className="ghost-image ghost-image-story"
-                                    loading="lazy"
-                                    decoding="async"
+                                    priority={false}
                                 />
                             ))}
                         </div>
@@ -239,23 +237,21 @@ const HeroBackground = () => {
                     <div className="ghost-column ghost-column-post scroll-up">
                         <div className="ghost-column-inner">
                             {postImagesRight.map((src, idx) => (
-                                <img
+                                <ResponsiveImage
                                     key={`rp-${idx}`}
                                     src={src}
                                     alt=""
                                     className="ghost-image ghost-image-post"
-                                    loading="lazy"
-                                    decoding="async"
+                                    priority={idx < 2}
                                 />
                             ))}
                             {postImagesRight.map((src, idx) => (
-                                <img
+                                <ResponsiveImage
                                     key={`rp-dup-${idx}`}
                                     src={src}
                                     alt=""
                                     className="ghost-image ghost-image-post"
-                                    loading="lazy"
-                                    decoding="async"
+                                    priority={false}
                                 />
                             ))}
                         </div>
@@ -265,23 +261,21 @@ const HeroBackground = () => {
                     <div className="ghost-column ghost-column-story scroll-down">
                         <div className="ghost-column-inner">
                             {storyImagesRight.map((src, idx) => (
-                                <img
+                                <ResponsiveImage
                                     key={`rs-${idx}`}
                                     src={src}
                                     alt=""
                                     className="ghost-image ghost-image-story"
-                                    loading="lazy"
-                                    decoding="async"
+                                    priority={false}
                                 />
                             ))}
                             {storyImagesRight.map((src, idx) => (
-                                <img
+                                <ResponsiveImage
                                     key={`rs-dup-${idx}`}
                                     src={src}
                                     alt=""
                                     className="ghost-image ghost-image-story"
-                                    loading="lazy"
-                                    decoding="async"
+                                    priority={false}
                                 />
                             ))}
                         </div>

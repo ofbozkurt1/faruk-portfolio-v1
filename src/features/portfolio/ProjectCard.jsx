@@ -9,6 +9,7 @@ import { useTranslation } from 'react-i18next'
 import { getStackImages } from '../../utils/imagePath'
 import { cn } from '../../utils/cn'
 import { usePortfolioStore } from '../../stores/portfolioStore'
+import ResponsiveImage from '../../components/ui/ResponsiveImage'
 
 const iconMap = {
     illustrator: { type: 'image', value: '/gorseller/iconlar/illustrator.svg' },
@@ -151,7 +152,7 @@ export default function ProjectCard({ project, onClick, isReversed, cardIndex = 
                                         : 'transform 1.5s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 1.5s ease-out'
                                 }}
                             >
-                                <img
+                                <ResponsiveImage
                                     src={src}
                                     alt={`${title} - ${originalIndex + 1}`}
                                     className={cn(
@@ -161,8 +162,7 @@ export default function ProjectCard({ project, onClick, isReversed, cardIndex = 
                                         // Desktop always fills the area (cover).
                                         (isStory) ? "!object-contain md:!object-cover bg-zinc-900 md:bg-transparent" : "object-cover"
                                     )}
-                                    loading={priority && orderIndex === 0 ? "eager" : "lazy"}
-                                    decoding={priority ? "sync" : "async"}
+                                    priority={priority && orderIndex === 0}
                                     draggable={false} // Prevent native drag
                                     onDragStart={(e) => e.preventDefault()}
                                 />
