@@ -401,7 +401,7 @@ function MobileVideoCarousel() {
 
                 return next
             })
-        }, 3000)
+        }, 4000)
 
         return () => clearInterval(autoPlayRef.current)
     }, [allVideos.length])
