@@ -177,7 +177,8 @@ export default function Hero({ className }) {
                             WebkitBackgroundClip: 'text',
                             WebkitTextFillColor: 'transparent',
                             backgroundClip: 'text',
-                            animation: 'title-shine 4s ease-in-out infinite'
+                            animation: 'title-shine 4s ease-in-out infinite',
+                            opacity: 1 // Ensure instant visibility on mobile
                         }}
                     >
                         {t('hero.role', 'Motion & Graphic Designer')}
@@ -191,7 +192,7 @@ export default function Hero({ className }) {
 
                     <motion.p
                         variants={activeItemVariants}
-                        className="text-dimGray max-w-xs md:max-w-md text-sm md:text-base leading-relaxed"
+                        className="text-dimGray max-w-xs md:max-w-md text-sm md:text-base leading-relaxed opacity-100 md:opacity-0"
                     >
                         {t('hero.description', 'Creating immersive visual experiences through motion and design.')}
                     </motion.p>
@@ -444,6 +445,8 @@ export default function Hero({ className }) {
                             mobileSrc="/gorseller/mobilgorseller/mobilprofil/ben.webp"
                             alt="Ömer Faruk Bozkurt"
                             sizes="(max-width: 768px) 280px, 420px"
+                            width="420"
+                            height="420"
                             priority={true}
                             className="w-full h-full object-cover transition-transform duration-400"
                             style={{
