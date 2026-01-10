@@ -12,6 +12,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { X } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { getPostImages, getLongPostImages, getStoryImages, getProjectImagePath } from '../../utils/imagePath'
+import ResponsiveImage from '../../components/ui/ResponsiveImage'
 
 // Tool icon mapping
 const toolIcons = {
@@ -151,10 +152,10 @@ function ImageCard({ src, alt, index, type = 'post' }) {
                 gridColumn: isLong ? '1 / -1' : 'auto'
             }}
         >
-            <img
+            <ResponsiveImage
                 src={src}
                 alt={alt}
-                loading={index < 4 ? "eager" : "lazy"}
+                priority={index < 4}
                 style={{
                     width: '100%',
                     height: 'auto',
