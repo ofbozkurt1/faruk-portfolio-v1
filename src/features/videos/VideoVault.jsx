@@ -77,7 +77,7 @@ const groups = [
     }
 ]
 
-// Simple Video Card - Memoized
+// Simple Video Card - Memoized & Optimized
 const VideoCard = memo(function VideoCard({ video, index }) {
     const ref = useRef(null)
     const videoRef = useRef(null)
@@ -93,12 +93,8 @@ const VideoCard = memo(function VideoCard({ video, index }) {
     }, [isInView])
 
     return (
-        <motion.div
+        <div
             ref={ref}
-            initial={{ opacity: 0, y: 40, scale: 0.95 }}
-            whileInView={{ opacity: 1, y: 0, scale: 1 }}
-            viewport={{ once: true, margin: '-50px' }}
-            transition={{ duration: 0.6, delay: index * 0.15 }}
             style={{
                 position: 'relative',
                 aspectRatio: '9/16',
@@ -106,7 +102,9 @@ const VideoCard = memo(function VideoCard({ video, index }) {
                 overflow: 'hidden',
                 border: '1px solid rgba(255,255,255,0.1)',
                 background: 'rgba(0,0,0,0.3)',
-                cursor: 'pointer'
+                cursor: 'pointer',
+                willChange: 'transform', // GPU optimization
+                transform: 'translateZ(0)' // Force GPU layer
             }}
         >
             <video
@@ -177,7 +175,7 @@ const VideoCard = memo(function VideoCard({ video, index }) {
                     />
                 </div>
             </motion.div>
-        </motion.div>
+        </div>
     )
 })
 
@@ -333,6 +331,7 @@ function MobileVideoCarousel() {
     const isPausedRef = useRef(false)
     const isProgrammaticScrollRef = useRef(false)
     const isUserInteractingRef = useRef(false)
+    const scrollTimeoutRef = useRef(null) // For throttling scroll handler
 
     // Flatten all videos with category info
     const allVideos = groups.flatMap((group, groupIdx) =>
@@ -406,21 +405,29 @@ function MobileVideoCarousel() {
         return () => clearInterval(autoPlayRef.current)
     }, [allVideos.length])
 
-    // Detect manual scroll and update active index
+    // Detect manual scroll and update active index - THROTTLED for performance
     const handleScroll = () => {
         if (!scrollRef.current) return
 
         // Skip update if we are programmatically scrolling (Auto or Tab)
         if (isProgrammaticScrollRef.current) return
 
-        const container = scrollRef.current
-        const videoWidth = container.offsetWidth
-        const scrollLeft = container.scrollLeft
-        const newIndex = Math.round(scrollLeft / videoWidth)
+        // Throttle: Only update every 150ms to reduce re-renders
+        if (scrollTimeoutRef.current) return
 
-        if (newIndex !== activeIndex && newIndex >= 0 && newIndex < allVideos.length) {
-            setActiveIndex(newIndex)
-        }
+        scrollTimeoutRef.current = setTimeout(() => {
+            scrollTimeoutRef.current = null
+
+            if (!scrollRef.current) return
+            const container = scrollRef.current
+            const videoWidth = container.offsetWidth
+            const scrollLeft = container.scrollLeft
+            const newIndex = Math.round(scrollLeft / videoWidth)
+
+            if (newIndex !== activeIndex && newIndex >= 0 && newIndex < allVideos.length) {
+                setActiveIndex(newIndex)
+            }
+        }, 150)
     }
 
     // Touch handlers - pause when touching
@@ -477,7 +484,7 @@ function MobileVideoCarousel() {
                 {/* Left Arrow - Overlay, Subtle */}
                 <button
                     onClick={goToPrev}
-                    className="absolute left-4 top-1/2 -translate-y-1/2 z-20 w-12 h-12 flex items-center justify-start opacity-50 active:scale-90 transition-transform"
+                    className="absolute -left-6 top-1/2 -translate-y-1/2 z-20 w-12 h-12 flex items-center justify-start opacity-50 active:scale-90 transition-transform"
                 >
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                         <path d="M15 18l-6-6 6-6" />
@@ -487,7 +494,7 @@ function MobileVideoCarousel() {
                 {/* Right Arrow - Overlay, Subtle */}
                 <button
                     onClick={goToNext}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 z-20 w-12 h-12 flex items-center justify-end opacity-50 active:scale-90 transition-transform"
+                    className="absolute -right-6 top-1/2 -translate-y-1/2 z-20 w-12 h-12 flex items-center justify-end opacity-50 active:scale-90 transition-transform"
                 >
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                         <path d="M9 18l6-6-6-6" />
