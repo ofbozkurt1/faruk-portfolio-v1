@@ -463,7 +463,7 @@ function GridViewContent({ project, onClose }) {
 
                         {/* Custom Order Gallery */}
                         {orderedImages && orderedImages.length > 0 ? (
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                            <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
                                 {orderedImages.map((img, idx) => (
                                     <ImageCard
                                         key={img.src}
@@ -520,7 +520,7 @@ function GridViewContent({ project, onClose }) {
                                         >
                                             {t('caseStudy.posts', 'Posts')}
                                         </h4>
-                                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                                        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
                                             {postImages.map((src, idx) => (
                                                 <ImageCard
                                                     key={src}
@@ -548,7 +548,7 @@ function GridViewContent({ project, onClose }) {
                                         >
                                             {t('caseStudy.stories', 'Stories')}
                                         </h4>
-                                        <div className="grid grid-cols-2 md:grid-cols-4 gap-7">
+                                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-7">
                                             {storyImages.map((src, idx) => (
                                                 <ImageCard
                                                     key={src}
