@@ -355,6 +355,7 @@ function MobileVideoCarousel() {
     const isProgrammaticScrollRef = useRef(false)
     const isUserInteractingRef = useRef(false)
     const scrollTimeoutRef = useRef(null) // For throttling scroll handler
+    const pauseTimeoutRef = useRef(null) // For tracking resume timeout
 
     // Flatten all videos with category info
     const allVideos = groups.flatMap((group, groupIdx) =>
@@ -386,9 +387,9 @@ function MobileVideoCarousel() {
 
     // Tab click - go to category's first video with pause
     const handleTabClick = (categoryIdx) => {
-        // Clear and reset interval to prevent overlap
-        if (autoPlayRef.current) {
-            clearInterval(autoPlayRef.current)
+        // Clear any existing pause timeout
+        if (pauseTimeoutRef.current) {
+            clearTimeout(pauseTimeoutRef.current)
         }
 
         isPausedRef.current = true
@@ -398,10 +399,11 @@ function MobileVideoCarousel() {
         setActiveIndex(startIdx)
         scrollToIndex(startIdx)
 
-        // Unlock after 8 seconds (same as arrows)
-        setTimeout(() => {
+        // Resume after exactly 8 seconds
+        pauseTimeoutRef.current = setTimeout(() => {
             isPausedRef.current = false
             isProgrammaticScrollRef.current = false
+            pauseTimeoutRef.current = null
         }, 8000)
     }
 
@@ -468,45 +470,54 @@ function MobileVideoCarousel() {
     }
     const handleTouchEnd = () => {
         isUserInteractingRef.current = false
-        // Resume auto-play after 8 seconds
-        setTimeout(() => { isPausedRef.current = false }, 8000)
-    }
 
-    // Arrow navigation - with auto-scroll pause and interval reset
-    const goToPrev = () => {
-        // Clear and reset interval to prevent overlap
-        if (autoPlayRef.current) {
-            clearInterval(autoPlayRef.current)
+        // Clear any existing pause timeout
+        if (pauseTimeoutRef.current) {
+            clearTimeout(pauseTimeoutRef.current)
         }
 
-        // Pause auto-scroll when user manually navigates
+        // Resume after exactly 8 seconds
+        pauseTimeoutRef.current = setTimeout(() => {
+            isPausedRef.current = false
+            pauseTimeoutRef.current = null
+        }, 8000)
+    }
+
+    // Arrow navigation - with auto-scroll pause
+    const goToPrev = () => {
+        // Clear any existing pause timeout
+        if (pauseTimeoutRef.current) {
+            clearTimeout(pauseTimeoutRef.current)
+        }
+
         isPausedRef.current = true
 
         const prev = activeIndex > 0 ? activeIndex - 1 : allVideos.length - 1
         setActiveIndex(prev)
         scrollToIndex(prev)
 
-        // Resume auto-scroll after 8 seconds
-        setTimeout(() => {
+        // Resume after exactly 8 seconds
+        pauseTimeoutRef.current = setTimeout(() => {
             isPausedRef.current = false
+            pauseTimeoutRef.current = null
         }, 8000)
     }
     const goToNext = () => {
-        // Clear and reset interval to prevent overlap
-        if (autoPlayRef.current) {
-            clearInterval(autoPlayRef.current)
+        // Clear any existing pause timeout
+        if (pauseTimeoutRef.current) {
+            clearTimeout(pauseTimeoutRef.current)
         }
 
-        // Pause auto-scroll when user manually navigates
         isPausedRef.current = true
 
         const next = (activeIndex + 1) % allVideos.length
         setActiveIndex(next)
         scrollToIndex(next)
 
-        // Resume auto-scroll after 8 seconds
-        setTimeout(() => {
+        // Resume after exactly 8 seconds
+        pauseTimeoutRef.current = setTimeout(() => {
             isPausedRef.current = false
+            pauseTimeoutRef.current = null
         }, 8000)
     }
 
