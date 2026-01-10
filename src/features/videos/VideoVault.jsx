@@ -400,23 +400,26 @@ function MobileVideoCarousel() {
         }, 800)
     }
 
-    // Auto-advance every 3 seconds - with Scroll Lock
+    // Auto-advance every 7 seconds - with Scroll Lock
     useEffect(() => {
         autoPlayRef.current = setInterval(() => {
             // 1. Don't move if user is touching/hovering
             if (isUserInteractingRef.current) return
 
-            // 2. Don't move if we are already animating and locked
+            // 2. Don't move if manually paused
+            if (isPausedRef.current) return
+
+            // 3. Don't move if we are already animating and locked
             if (isProgrammaticScrollRef.current) return
 
-            // 3. LOCK THE SCROLL LISTENER (The Anti-Jitter Fix)
+            // 4. LOCK THE SCROLL LISTENER (The Anti-Jitter Fix)
             isProgrammaticScrollRef.current = true
 
             setActiveIndex(prev => {
                 const next = (prev + 1) % allVideos.length
                 scrollToIndex(next)
 
-                // 4. Unlock after animation
+                // 5. Unlock after animation
                 setTimeout(() => {
                     isProgrammaticScrollRef.current = false
                 }, 800)
@@ -464,8 +467,13 @@ function MobileVideoCarousel() {
         setTimeout(() => { isPausedRef.current = false }, 8000)
     }
 
-    // Arrow navigation - with auto-scroll pause
+    // Arrow navigation - with auto-scroll pause and interval reset
     const goToPrev = () => {
+        // Clear and reset interval to prevent overlap
+        if (autoPlayRef.current) {
+            clearInterval(autoPlayRef.current)
+        }
+
         // Pause auto-scroll when user manually navigates
         isPausedRef.current = true
 
@@ -479,6 +487,11 @@ function MobileVideoCarousel() {
         }, 8000)
     }
     const goToNext = () => {
+        // Clear and reset interval to prevent overlap
+        if (autoPlayRef.current) {
+            clearInterval(autoPlayRef.current)
+        }
+
         // Pause auto-scroll when user manually navigates
         isPausedRef.current = true
 
