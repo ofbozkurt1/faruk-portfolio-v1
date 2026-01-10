@@ -21,6 +21,15 @@ const iconMap = {
 export default function ProjectCard({ project, onClick, isReversed, cardIndex = 0, className, onInteraction, priority = false, disableSlide = false }) {
     const { t } = useTranslation()
     const { id, title, category, year, description, techStack = [], postCount = 5, storyCount = 0, stackFormat: originalStackFormat = 'post', brandColor = '#9333EA' } = project
+
+    // Dynamic Localization
+    const projectKey = `projects.${id}`
+    const translatedTitle = t(`${projectKey}.title`, title)
+    const translatedCategory = t(`${projectKey}.category`, category)
+    const translatedRole = t(`${projectKey}.role`, project.role)
+    const translatedDeliverables = t(`${projectKey}.deliverables`, project.deliverables)
+    const translatedDescription = t(`${projectKey}.description`, description)
+    const translatedYear = t(`${projectKey}.year`, year)
     // FORCE 'hybrid' for Adana Napoli to match Hacı Hakkı Usta exactly
     const stackFormat = (title === 'Adana Napoli' || title === 'Hacı Hakkı Usta') ? 'hybrid' : originalStackFormat
     const stackImages = getStackImages(id, postCount, storyCount, stackFormat)
@@ -154,7 +163,7 @@ export default function ProjectCard({ project, onClick, isReversed, cardIndex = 
                             >
                                 <ResponsiveImage
                                     src={src}
-                                    alt={`${title} - ${originalIndex + 1}`}
+                                    alt={`${translatedTitle} - ${originalIndex + 1}`}
                                     className={cn(
                                         "w-full h-full select-none pointer-events-none md:pointer-events-auto",
                                         // Image-Level Logic: If this specific image is a Story (regardless of project type),
@@ -192,11 +201,11 @@ export default function ProjectCard({ project, onClick, isReversed, cardIndex = 
                                     <div className="flex flex-nowrap justify-between items-end w-full gap-4">
                                         <div className="flex flex-col gap-1 flex-1 min-w-0 pr-4">
                                             <span className="text-[10px] tracking-[0.15em] font-medium text-white/50 uppercase font-mono whitespace-nowrap">
-                                                {category} — {year}
+                                                {translatedCategory} — {translatedYear}
                                             </span>
                                             {/* Reverted to text-2xl since width is back to 300px */}
                                             <h3 className="text-2xl font-bold text-white leading-tight">
-                                                {title}
+                                                {translatedTitle}
                                             </h3>
                                             <div className="flex flex-nowrap gap-2 mt-1 overflow-hidden">
                                                 {techStack.map((tech) => {
@@ -233,7 +242,7 @@ export default function ProjectCard({ project, onClick, isReversed, cardIndex = 
                                                 </defs>
                                                 <text className="fill-white/50" style={{ fontSize: '9px', letterSpacing: '0.12em', fontWeight: 500 }}>
                                                     <textPath href="#circlePath">
-                                                        PROJEYİ · İNCELE · PROJEYİ · İNCELE ·
+                                                        {t('portfolio.exploreSpin', 'PROJEYİ · İNCELE · PROJEYİ · İNCELE ·')}
                                                     </textPath>
                                                 </text>
                                             </svg>
@@ -333,7 +342,7 @@ export default function ProjectCard({ project, onClick, isReversed, cardIndex = 
                     }}
                     className="mb-3 md:mb-5"
                 >
-                    {category} — {year}
+                    {translatedCategory} — {translatedYear}
                 </p>
 
                 <h3
@@ -346,7 +355,7 @@ export default function ProjectCard({ project, onClick, isReversed, cardIndex = 
                         transition: 'color 0.4s ease'
                     }}
                 >
-                    {title}
+                    {translatedTitle}
                 </h3>
 
                 <div
@@ -381,10 +390,10 @@ export default function ProjectCard({ project, onClick, isReversed, cardIndex = 
                             display: 'block',
                             marginBottom: 6
                         }}>
-                            Role
+                            {t('caseStudy.role', 'Role')}
                         </span>
                         <span style={{ fontSize: 15, color: 'rgba(255,255,255,0.7)' }}>
-                            {project.role || 'Design'}
+                            {translatedRole || 'Visual Design'}
                         </span>
                     </div>
                     <div style={{ width: 1, background: 'rgba(255,255,255,0.1)', alignSelf: 'stretch' }} />
@@ -399,10 +408,10 @@ export default function ProjectCard({ project, onClick, isReversed, cardIndex = 
                             display: 'block',
                             marginBottom: 6
                         }}>
-                            Deliverables
+                            {t('caseStudy.deliverables', 'Deliverables')}
                         </span>
                         <span style={{ fontSize: 15, color: 'rgba(255,255,255,0.7)' }}>
-                            {project.deliverables || 'Visual Content'}
+                            {translatedDeliverables || 'Visual Content'}
                         </span>
                     </div>
                 </div>
@@ -416,7 +425,7 @@ export default function ProjectCard({ project, onClick, isReversed, cardIndex = 
                         marginBottom: 28
                     }}
                 >
-                    {description}
+                    {translatedDescription}
                 </p>
 
                 <div className={cn("flex items-center gap-3 flex-wrap mt-4 md:mt-0", isReversed && "lg:justify-end")}>

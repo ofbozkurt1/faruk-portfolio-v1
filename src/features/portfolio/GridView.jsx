@@ -176,6 +176,15 @@ function GridViewContent({ project, onClose }) {
         techStack = [], identity, brandColor
     } = project
 
+    // Dynamic Localization
+    const projectKey = `projects.${id}`
+    const translatedTitle = t(`${projectKey}.title`, title)
+    const translatedCategory = t(`${projectKey}.category`, category)
+    const translatedRole = t(`${projectKey}.role`, role)
+    const translatedDeliverables = t(`${projectKey}.deliverables`, deliverables)
+    const translatedDescription = t(`${projectKey}.description`, description)
+    const translatedYear = t(`${projectKey}.year`, year)
+
     const longPostImages = getLongPostImages(id, longPostCount)
     const postImages = getPostImages(id, postCount)
     const storyImages = getStoryImages(id, storyCount)
@@ -300,7 +309,7 @@ function GridViewContent({ project, onClose }) {
                                     marginBottom: 32
                                 }}
                             >
-                                {category}
+                                {translatedCategory}
                             </motion.span>
 
                             {/* Animated Title with Gradient */}
@@ -322,7 +331,7 @@ function GridViewContent({ project, onClose }) {
                                     animation: 'titleShine 5s ease-in-out infinite'
                                 }}
                             >
-                                {title}
+                                {translatedTitle}
                             </motion.h1>
 
                             {/* Description */}
@@ -339,7 +348,7 @@ function GridViewContent({ project, onClose }) {
                                         margin: '0 auto'
                                     }}
                                 >
-                                    {description}
+                                    {translatedDescription}
                                 </motion.p>
                             )}
                         </div>
@@ -388,9 +397,9 @@ function GridViewContent({ project, onClose }) {
                             }}
                         />
 
-                        <MetaItem label={t('caseStudy.client', 'Client')} value={client || title} delay={0.6} brandColor={brandColor} />
-                        <MetaItem label={t('caseStudy.services', 'Services')} value={role || 'Design'} delay={0.7} brandColor={brandColor} />
-                        <MetaItem label={t('caseStudy.year', 'Year')} value={year} delay={0.8} brandColor={brandColor} />
+                        <MetaItem label={t('caseStudy.client', 'Client')} value={client || translatedTitle} delay={0.6} brandColor={brandColor} />
+                        <MetaItem label={t('caseStudy.services', 'Services')} value={translatedRole || 'Design'} delay={0.7} brandColor={brandColor} />
+                        <MetaItem label={t('caseStudy.year', 'Year')} value={translatedYear} delay={0.8} brandColor={brandColor} />
 
                         {/* Toolkit */}
                         <motion.div
@@ -468,7 +477,7 @@ function GridViewContent({ project, onClose }) {
                                     <ImageCard
                                         key={img.src}
                                         src={img.src}
-                                        alt={`${title} ${idx + 1}`}
+                                        alt={`${translatedTitle} ${idx + 1}`}
                                         index={idx}
                                         type={img.type}
                                     />
@@ -496,7 +505,7 @@ function GridViewContent({ project, onClose }) {
                                                 <ImageCard
                                                     key={src}
                                                     src={src}
-                                                    alt={`${title} Long ${idx + 1}`}
+                                                    alt={`${translatedTitle} Long ${idx + 1}`}
                                                     index={idx}
                                                     type="longPost"
                                                 />
@@ -525,7 +534,7 @@ function GridViewContent({ project, onClose }) {
                                                 <ImageCard
                                                     key={src}
                                                     src={src}
-                                                    alt={`${title} ${idx + 1}`}
+                                                    alt={`${translatedTitle} ${idx + 1}`}
                                                     index={idx}
                                                 />
                                             ))}
@@ -553,7 +562,7 @@ function GridViewContent({ project, onClose }) {
                                                 <ImageCard
                                                     key={src}
                                                     src={src}
-                                                    alt={`${title} Story ${idx + 1}`}
+                                                    alt={`${translatedTitle} Story ${idx + 1}`}
                                                     index={postImages.length + idx}
                                                 />
                                             ))}

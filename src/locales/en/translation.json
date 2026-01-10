@@ -15,7 +15,8 @@
     },
     "portfolio": {
         "title": "Selected Work",
-        "explore": "VIEW PROJECT"
+        "explore": "VIEW PROJECT",
+        "exploreSpin": "VIEW · PROJECT · VIEW · PROJECT ·"
     },
     "skills": {
         "title": "Skills",
@@ -69,6 +70,8 @@
         "client": "Client",
         "services": "Services",
         "year": "Year",
+        "role": "Role",
+        "deliverables": "Deliverables",
         "toolkit": "Toolkit",
         "visualIdentity": "Visual Identity",
         "brandMark": "Brand Mark",
@@ -78,5 +81,71 @@
         "featured": "Featured",
         "posts": "Posts",
         "stories": "Stories"
+    },
+    "projects": {
+        "novastra": {
+            "title": "Novastra",
+            "year": "2024",
+            "category": "Brand Identity",
+            "role": "Visual Design",
+            "deliverables": "Logo, Brand Kit",
+            "description": "Premium brand identity design with a focus on minimalist luxury aesthetics. Complete visual system including logo, typography, and brand guidelines."
+        },
+        "googleyorumlar": {
+            "title": "Google Yorumlar",
+            "year": "2024",
+            "category": "Social Media",
+            "role": "Content Design",
+            "deliverables": "Posts, Templates",
+            "description": "Social media campaign design for Google reviews engagement. Dynamic motion graphics and eye-catching visual content optimized for multiple platforms."
+        },
+        "adananapoli": {
+            "title": "Adana Napoli",
+            "year": "2024",
+            "category": "Social Media",
+            "role": "Social Design",
+            "deliverables": "Posts, Stories",
+            "description": "Social media content design for Adana Napoli restaurant. Eye-catching posts and engaging story content for Instagram presence."
+        },
+        "hacıhakkıusta": {
+            "title": "Hacı Hakkı Usta",
+            "year": "2024",
+            "category": "Social Media",
+            "role": "Social Design",
+            "deliverables": "Posts, Stories",
+            "description": "Traditional Turkish restaurant social media presence. Authentic food photography and engaging content design."
+        },
+        "akdenizetkinlik": {
+            "title": "Akdeniz Etkinlik",
+            "year": "2024",
+            "category": "Event Design",
+            "role": "Visual Design",
+            "deliverables": "Posts, Banners",
+            "description": "Event branding and promotional design for Akdeniz Etkinlik. Eye-catching visuals for concerts, festivals, and special events."
+        },
+        "tırnaktrend": {
+            "title": "Tırnak Trend",
+            "year": "2024",
+            "category": "Social Media",
+            "role": "Social Design",
+            "deliverables": "Posts",
+            "description": "Social media content design for Tırnak Trend nail salon. Modern and elegant visuals for Instagram presence."
+        },
+        "bbstransfer": {
+            "title": "BBS Transfer",
+            "year": "2024",
+            "category": "Social Media",
+            "role": "Social Design",
+            "deliverables": "Posts",
+            "description": "Social media design for BBS Transfer transportation company. Professional and trustworthy visual identity."
+        },
+        "kumrualtı": {
+            "title": "Kumrualtı",
+            "year": "2024",
+            "category": "Social Media",
+            "role": "Social Design",
+            "deliverables": "Posts",
+            "description": "Social media content design for Kumrualtı restaurant. Appetizing food photography and engaging visual content."
+        }
     }
 }

@@ -14,8 +14,7 @@ const getNavLinks = (t) => [
     { label: t('nav.about', 'About'), href: '#about' },
     { label: t('nav.skills', 'Skills'), href: '#skills' },
     { label: t('nav.services', 'Services'), href: '#services' },
-    { label: t('nav.work', 'Portfolio'), href: '#portfolio' },
-    { label: t('nav.contact', 'Contact'), href: '#contact' }
+    { label: t('nav.work', 'Portfolio'), href: '#portfolio' }
 ]
 
 // Throttle utility - limits function execution frequency

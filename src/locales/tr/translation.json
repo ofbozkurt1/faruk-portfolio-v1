@@ -5,7 +5,7 @@
         "skills": "Yetenekler",
         "services": "Hizmetler",
         "contact": "İletişim",
-        "letsTalk": "Hadi Konuşalım"
+        "letsTalk": "Birlikte Çalışalım"
     },
     "hero": {
         "role": "MOTION & GRAPHIC DESIGNER",
@@ -15,7 +15,8 @@
     },
     "portfolio": {
         "title": "Portfolyo",
-        "explore": "PROJEYİ İNCELE"
+        "explore": "PROJEYİ İNCELE",
+        "exploreSpin": "PROJEYİ · İNCELE · PROJEYİ · İNCELE ·"
     },
     "skills": {
         "title": "Yetenekler",
@@ -53,7 +54,7 @@
     },
     "contact": {
         "title": "İletişim",
-        "subtitle": "Bir proje mi var aklında?",
+        "subtitle": "Aklında bir proje mi var?",
         "headline": "HAYDİ BİRLİKTE TASARLAYALIM",
         "email": "E-posta",
         "phone": "Telefon",
@@ -63,12 +64,14 @@
     "footer": {
         "rights": "Tüm hakları saklıdır.",
         "designed": "Tasarım",
-        "copyright": "© 2026 Ömer Faruk Bozkurt. Motion ile hazırlandı."
+        "copyright": "© 2026 Ömer Faruk Bozkurt. Tüm hakları saklıdır."
     },
     "caseStudy": {
         "client": "Müşteri",
         "services": "Hizmetler",
         "year": "Yıl",
+        "role": "Rol",
+        "deliverables": "Teslim Edilenler",
         "toolkit": "Araçlar",
         "visualIdentity": "Görsel Kimlik",
         "brandMark": "Marka İşareti",
@@ -78,5 +81,71 @@
         "featured": "Öne Çıkan",
         "posts": "Gönderiler",
         "stories": "Hikayeler"
+    },
+    "projects": {
+        "novastra": {
+            "title": "Novastra Media",
+            "year": "2025",
+            "category": "Sosyal Medya - Marka Kimliği",
+            "role": "Görsel İçerik Tasarım",
+            "deliverables": "Logo, Sosyal Medya Tasarımları",
+            "description": "Markanın dijital dünyadaki sesini güçlendiren stratejik görsel kimlik inşası. Hedef kitleyle etkileşimi artıran profesyonel sosyal medya tasarımıları"
+        },
+        "googleyorumlar": {
+            "title": "Google Yorumlar",
+            "year": "2025",
+            "category": "Sosyal Medya",
+            "role": "Görsel İçerik Tasarımı",
+            "deliverables": "Sosyal Medya Tasarımları",
+            "description": "Google Yorumlar hizmeti için etkileşim odaklı profesyonel sosyal medya kampanyası. Sosyal medya dinamiklerine uygun, hedef kitleyi harekete geçiren görsel içerik tasarımı."
+        },
+        "adananapoli": {
+            "title": "Adana Napoli",
+            "year": "2025",
+            "category": "Sosyal Medya - Marka Kimliği",
+            "role": "Görsel İçerik Tasarımı",
+            "deliverables": "Logo, Sosyal Medya Tasarımları",
+            "description": "Restoranın lezzet deneyimini dijitale taşıyan bütünsel marka kimliği inşası. Hedef kitleyi acıktıran, etkileşim odaklı sosyal medya tasarımları ve Instagram'daki marka görünürlüğünü artıran dinamik içerik kurguları."
+        },
+        "hacıhakkıusta": {
+            "title": "Hacı Hakkı Usta",
+            "year": "2025",
+            "category": "Sosyal Medya",
+            "role": "Görsel İçerik Tasarımı",
+            "deliverables": "Sosyal Medya Tasarımları",
+            "description": "Geleneksel tatlı kültürünü dijital estetikle buluşturan görsel konsept. Baklava ve şerbetli tatlıların lezzet algısını güçlendiren, iştah kabartıcı ve profesyonel sosyal medya tasarımları."
+        },
+        "akdenizetkinlik": {
+            "title": "Akdeniz Etkinlik",
+            "year": "2025",
+            "category": "Sosyal Medya - Marka Kimliği",
+            "role": "Görsel İçerik Tasarım",
+            "deliverables": "Logo, Sosyal Medya Tasarımları",
+            "description": "Eğlence dünyasının ritmini yakalayan bütünsel marka kimliği çalışması. Konserlerden partilere kadar her etkinlik konseptine özel uyarlanmış, canlı ve etkileyici sosyal medya tasarımları."
+        },
+        "tırnaktrend": {
+            "title": "Tırnak Trend",
+            "year": "2024",
+            "category": "Sosyal Medya",
+            "role": "Sosyal Tasarım",
+            "deliverables": "Gönderiler",
+            "description": "Tırnak Trend güzellik salonu için sosyal medya içerik tasarımı. Instagram varlığı için modern ve zarif görseller."
+        },
+        "bbstransfer": {
+            "title": "BBS Transfer",
+            "year": "2024",
+            "category": "Sosyal Medya",
+            "role": "Sosyal Tasarım",
+            "deliverables": "Gönderiler",
+            "description": "BBS Transfer ulaşım şirketi için sosyal medya tasarımı. Profesyonel ve güvenilir görsel kimlik."
+        },
+        "kumrualtı": {
+            "title": "Kumrualtı",
+            "year": "2024",
+            "category": "Sosyal Medya",
+            "role": "Sosyal Tasarım",
+            "deliverables": "Gönderiler",
+            "description": "Kumrualtı restoranı için sosyal medya içerik tasarımı. İştah açıcı yemek fotoğrafçılığı ve etkileyici görsel içerik."
+        }
     }
 }
