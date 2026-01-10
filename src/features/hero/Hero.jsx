@@ -15,6 +15,12 @@ import ResponsiveImage from '../../components/ui/ResponsiveImage'
 const isMobile = () => typeof window !== 'undefined' && window.innerWidth < 768
 
 
+// Mobile: No container animation for instant LCP
+const containerVariantsMobile = {
+    hidden: { opacity: 1 },
+    visible: { opacity: 1 }
+}
+
 const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -85,6 +91,7 @@ export default function Hero({ className }) {
     }, [])
 
     // Active variants based on device
+    const activeContainerVariants = mobile ? containerVariantsMobile : containerVariants
     const activeItemVariants = mobile ? itemVariantsMobile : itemVariants
     const activeLetterVariants = mobile ? letterVariantsMobile : letterVariants
 
@@ -139,7 +146,7 @@ export default function Hero({ className }) {
 
                 {/* Text Content */}
                 <motion.div
-                    variants={containerVariants}
+                    variants={activeContainerVariants}
                     initial="hidden"
                     animate="visible"
                     className="flex-shrink-0 lg:max-w-lg text-center lg:text-left items-center lg:items-start flex flex-col"

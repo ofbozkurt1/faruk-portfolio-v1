@@ -110,7 +110,6 @@ const VideoCard = memo(function VideoCard({ video, index }) {
             <video
                 ref={videoRef}
                 src={video.src}
-                poster={video.src.replace('.mp4', '-poster.webp')}
                 muted
                 loop
                 playsInline
