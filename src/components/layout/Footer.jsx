@@ -36,17 +36,15 @@ export default function Footer() {
     return (
         <footer
             id="contact"
-            style={{
-                padding: '120px 5vw 60px',
-                borderTop: '1px solid rgba(255,255,255,0.05)'
-            }}
+            className="pt-10 pb-16 px-[5vw] md:pt-[120px] md:pb-[60px] border-t border-white/5"
         >
             <motion.div
                 variants={containerVariants}
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true, margin: "-50px" }}
-                style={{ maxWidth: 900, margin: '0 auto', textAlign: 'center' }}
+                style={{ margin: '0 auto', textAlign: 'center' }}
+                className="max-w-[900px] md:max-w-4xl lg:max-w-6xl"
             >
                 {/* Main Headline */}
                 <motion.h2
@@ -58,6 +56,7 @@ export default function Footer() {
                         color: '#F2F2F2',
                         marginBottom: 24
                     }}
+                    className="whitespace-normal md:whitespace-nowrap"
                 >
                     {t('contact.headline', "LET'S CREATE TOGETHER")}
                 </motion.h2>

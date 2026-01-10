@@ -143,7 +143,7 @@ const VideoCard = memo(function VideoCard({ video, index }) {
                 </span>
 
                 {/* Rotating Circular Button */}
-                <div className="flex-shrink-0 relative w-14 h-14 flex items-center justify-center">
+                <div className="flex-shrink-0 relative w-14 h-14 flex items-center justify-center md:hidden">
                     <svg className="absolute inset-0 w-14 h-14 animate-[spin_8s_linear_infinite]" viewBox="0 0 100 100">
                         <defs>
                             <path id="videoCirclePath" d="M 50,50 m -40,0 a 40,40 0 1,1 80,0 a 40,40 0 1,1 -80,0" fill="none" />
@@ -661,7 +661,7 @@ export default function VideoVault() {
     const { t } = useTranslation()
 
     return (
-        <section className="pt-0 pb-16 md:py-32 overflow-hidden">
+        <section className="pt-0 pb-10 md:py-32 overflow-hidden">
             <div className="max-w-7xl mx-auto px-4 md:px-6">
                 {/* Section Header */}
                 <motion.div
