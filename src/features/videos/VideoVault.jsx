@@ -500,13 +500,16 @@ function MobileVideoCarousel() {
                     onScroll={handleScroll}
                     onTouchStart={handleTouchStart}
                     onTouchEnd={handleTouchEnd}
-                    className="flex gap-0 overflow-x-auto snap-x snap-mandatory scrollbar-hide"
-                    style={{ WebkitOverflowScrolling: 'touch' }}
+                    className="flex gap-4 overflow-x-auto snap-x snap-mandatory scrollbar-hide"
+                    style={{
+                        WebkitOverflowScrolling: 'touch',
+                        touchAction: 'pan-x' // Lock vertical scroll, allow only horizontal
+                    }}
                 >
                     {allVideos.map((video, idx) => (
                         <div
                             key={video.id}
-                            className="flex-shrink-0 snap-center w-full"
+                            className="flex-shrink-0 snap-center w-full px-2"
                         >
                             <VideoCard video={video} index={idx} />
                         </div>
