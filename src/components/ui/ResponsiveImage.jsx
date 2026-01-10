@@ -6,6 +6,7 @@
  * @param {string} mobileSrc - Optional mobile-optimized image path
  * @param {string} alt - Image alt text
  * @param {string} className - Tailwind classes
+ * @param {string} sizes - Sizes attribute for responsive images
  * @param {boolean} priority - If true, uses eager loading (for Hero/LCP)
  * @param {object} style - Inline styles
  */
@@ -15,6 +16,7 @@ export default function ResponsiveImage({
     mobileSrc,
     alt = '',
     className = '',
+    sizes = "(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw",
     priority = false,
     style = {},
     ...props
@@ -27,14 +29,6 @@ export default function ResponsiveImage({
     const loading = priority ? 'eager' : 'lazy'
     const decoding = priority ? 'sync' : 'async'
     const fetchPriority = priority ? 'high' : 'auto'
-
-    // Debug log (remove in production)
-    if (generatedMobileSrc) {
-        console.log('📱 Mobile path generated:', {
-            desktop: src,
-            mobile: generatedMobileSrc
-        })
-    }
 
     return (
         <picture>
@@ -52,6 +46,7 @@ export default function ResponsiveImage({
                 alt={alt}
                 className={className}
                 style={style}
+                sizes={sizes}
                 loading={loading}
                 decoding={decoding}
                 fetchpriority={fetchPriority}

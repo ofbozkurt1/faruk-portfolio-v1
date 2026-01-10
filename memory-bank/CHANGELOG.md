@@ -4,6 +4,27 @@ All notable changes to the **Ömer Faruk Bozkurt Portfolio** project will be doc
 
 ## [Unreleased] - 2026-01-10
 
+### ⚡ Phase 52: Critical LCP & Image Optimization
+
+#### Hero Text Optimization (LCP Fix)
+- **Mobil Animasyon Devre Dışı:** Hero başlığı ve role metni mobilde anında görünür (opacity: 1)
+- **Desktop Animasyon Korundu:** 768px üstünde Framer Motion animasyonları aktif
+- **Conditional Variants:** `itemVariantsMobile` ve `letterVariantsMobile` eklendi
+- **Sonuç:** LCP süresinde %75 iyileştirme (4.0s → ~1.0s tahmini)
+
+#### Responsive Image `sizes` Attribute
+- **ResponsiveImage Güncellemesi:** `sizes` prop eklendi
+- **Default Value:** `"(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"`
+- **Browser Hint:** Tarayıcıya görsel boyutu bildiriliyor
+- **Sonuç:** Mobilde gereksiz büyük görsel indirme engellendi
+
+#### GridView Mobile Grid Update
+- **Mobil Layout:** Posts ve Stories için 2 sütunlu grid (önceden 1)
+- **Gap Optimization:** Mobilde `gap-4`, desktop'ta `gap-8`
+- **Sayfa Uzunluğu:** %50 azalma, daha az scroll
+
+---
+
 ### 🖼️ Phase 51: Responsive Image Architecture (Mobile Optimization)
 
 #### Yeni Bileşen

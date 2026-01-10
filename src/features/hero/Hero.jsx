@@ -10,6 +10,9 @@ import { useTranslation } from 'react-i18next'
 import { cn } from '../../utils/cn'
 import HeroBackground from './HeroBackground'
 
+// Detect mobile for LCP optimization
+const isMobile = () => typeof window !== 'undefined' && window.innerWidth < 768
+
 
 const containerVariants = {
     hidden: { opacity: 0 },
@@ -19,6 +22,12 @@ const containerVariants = {
     }
 }
 
+// Mobile: No animations for instant LCP
+const itemVariantsMobile = {
+    hidden: { opacity: 1, y: 0 },
+    visible: { opacity: 1, y: 0 }
+}
+
 const itemVariants = {
     hidden: { opacity: 0, y: 30 },
     visible: {
@@ -26,6 +35,12 @@ const itemVariants = {
         y: 0,
         transition: { type: "spring", stiffness: 100, damping: 20 }
     }
+}
+
+// Mobile: No letter animation
+const letterVariantsMobile = {
+    hidden: { opacity: 1, y: 0 },
+    visible: { opacity: 1, y: 0 }
 }
 
 // Letter animation variants - NO BLUR for performance
@@ -61,6 +76,16 @@ export default function Hero({ className }) {
     const { t } = useTranslation()
     const [animationKey, setAnimationKey] = useState(0)
     const [isPhotoHovered, setIsPhotoHovered] = useState(false)
+    const [mobile, setMobile] = useState(false)
+
+    // Detect mobile on mount
+    useEffect(() => {
+        setMobile(isMobile())
+    }, [])
+
+    // Active variants based on device
+    const activeItemVariants = mobile ? itemVariantsMobile : itemVariants
+    const activeLetterVariants = mobile ? letterVariantsMobile : letterVariants
 
     // Visibility tracking for smart animation
     const heroRef = useRef(null)
@@ -82,7 +107,7 @@ export default function Hero({ className }) {
                 <motion.span
                     key={`${animationKey}-${i}`}
                     custom={i + offset}
-                    variants={letterVariants}
+                    variants={activeLetterVariants}
                     initial="hidden"
                     animate="visible"
                     style={{
@@ -132,7 +157,7 @@ export default function Hero({ className }) {
 
                     {/* Title below name */}
                     <motion.p
-                        variants={itemVariants}
+                        variants={activeItemVariants}
                         className="mt-2 md:mt-6 mb-2 md:mb-6"
                         style={{
                             fontSize: '11px',
@@ -152,19 +177,19 @@ export default function Hero({ className }) {
 
                     {/* Separator line - Mobile only for visual hierarchy */}
                     <motion.div
-                        variants={itemVariants}
+                        variants={activeItemVariants}
                         className="w-10 h-[1px] bg-gradient-to-r from-transparent via-white/40 to-transparent mb-2 md:hidden"
                     />
 
                     <motion.p
-                        variants={itemVariants}
+                        variants={activeItemVariants}
                         className="text-dimGray max-w-xs md:max-w-md text-sm md:text-base leading-relaxed"
                     >
                         {t('hero.description', 'Creating immersive visual experiences through motion and design.')}
                     </motion.p>
 
                     {/* Action Buttons - CV + About (Mobile: side by side) */}
-                    <motion.div variants={itemVariants} className="mt-4 md:mt-8 flex items-center justify-center lg:justify-start gap-3 md:gap-4">
+                    <motion.div variants={activeItemVariants} className="mt-4 md:mt-8 flex items-center justify-center lg:justify-start gap-3 md:gap-4">
                         <a href="/cv.pdf" download className="download-btn">
                             <div className="btn-wrapper">
                                 <div className="btn-text">{t('hero.downloadCV', 'Download CV')}</div>
