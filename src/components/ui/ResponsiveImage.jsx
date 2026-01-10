@@ -11,6 +11,8 @@
  * @param {object} style - Inline styles
  */
 
+import { useState } from 'react'
+
 export default function ResponsiveImage({
     src,
     mobileSrc,
@@ -21,10 +23,15 @@ export default function ResponsiveImage({
     style = {},
     ...props
 }) {
+    const [mobileError, setMobileError] = useState(false)
+
     // Auto-generate mobile src if not provided
     // Converts: /gorseller/novastra/pst1.webp
     // To: /gorseller/mobilgorseller/mobilnovastra/pst1.webp
     const generatedMobileSrc = mobileSrc || generateMobilePath(src)
+
+    // Use desktop src if mobile failed to load
+    const finalMobileSrc = mobileError ? null : generatedMobileSrc
 
     const loading = priority ? 'eager' : 'lazy'
     const decoding = priority ? 'sync' : 'async'
@@ -33,10 +40,10 @@ export default function ResponsiveImage({
     return (
         <picture>
             {/* Mobile: Serve optimized images for screens <= 768px */}
-            {generatedMobileSrc && (
+            {finalMobileSrc && (
                 <source
                     media="(max-width: 768px)"
-                    srcSet={generatedMobileSrc}
+                    srcSet={finalMobileSrc}
                 />
             )}
 
@@ -50,6 +57,12 @@ export default function ResponsiveImage({
                 loading={loading}
                 decoding={decoding}
                 fetchpriority={fetchPriority}
+                onError={(e) => {
+                    // If mobile image fails, mark error (will use desktop)
+                    if (finalMobileSrc) {
+                        setMobileError(true)
+                    }
+                }}
                 {...props}
             />
         </picture>
