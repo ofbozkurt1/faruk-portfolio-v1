@@ -4,6 +4,21 @@ All notable changes to the **Ömer Faruk Bozkurt Portfolio** project will be doc
 
 ## [Unreleased] - 2026-01-10
 
+### 🎥 Phase 48-49: Mobile Video Vault Perfection
+
+#### Mobil Arayüz (UI)
+- **Sliding Pill Navigasyon:** Kategori sekmeleri için Framer Motion destekli "kayan beyaz kutu" animasyonu eklendi.
+- **Video Yerleşimi:** Videolar büyütüldü (`px-4`), oklar videonun üzerine (`overlay`) alındı ve silikleştirildi.
+- **Dot Navigation:** Portfolyo stilleriyle uyumlu, blur efektli koyu kapsayıcı içine alındı.
+- **Header:** Başlık tek satıra indirildi, alt başlık kaldırıldı, boşluklar optimize edildi.
+
+#### Bug Fixes & Optimizasyon (UX)
+- **Anti-Jitter (Titreme Önleyici):** Otomatik kaydırma sırasında oluşan "titreme" ve "geri atma" sorunu, `isProgrammaticScrollRef` kilidi ile çözüldü.
+- **Akıllı Etkileşim:** Kullanıcı ekrana dokunduğunda (`onTouch`) otomatik kaydırma anında durur, parmak çekilince devam eder.
+- **Performance:** `layoutId` animasyonu optimize edildi (Spring bounce: 0.2).
+
+---
+
 ### 🎬 Phase 47: Cinematic Preloader (Counter + Curtain Reveal)
 
 #### Tasarım
