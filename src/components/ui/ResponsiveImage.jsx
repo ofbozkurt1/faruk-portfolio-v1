@@ -20,13 +20,21 @@ export default function ResponsiveImage({
     ...props
 }) {
     // Auto-generate mobile src if not provided
-    // Converts: /gorseller/projects/novastra/pst1.webp
+    // Converts: /gorseller/novastra/pst1.webp
     // To: /gorseller/mobilgorseller/mobilnovastra/pst1.webp
     const generatedMobileSrc = mobileSrc || generateMobilePath(src)
 
     const loading = priority ? 'eager' : 'lazy'
     const decoding = priority ? 'sync' : 'async'
     const fetchPriority = priority ? 'high' : 'auto'
+
+    // Debug log (remove in production)
+    if (generatedMobileSrc) {
+        console.log('📱 Mobile path generated:', {
+            desktop: src,
+            mobile: generatedMobileSrc
+        })
+    }
 
     return (
         <picture>
@@ -55,20 +63,25 @@ export default function ResponsiveImage({
 
 /**
  * Generates mobile image path from desktop path
- * Example: /gorseller/projects/novastra/pst1.webp
+ * Example: /gorseller/novastra/pst1.webp
  * Output: /gorseller/mobilgorseller/mobilnovastra/pst1.webp
  */
 function generateMobilePath(desktopPath) {
     if (!desktopPath || typeof desktopPath !== 'string') return null
 
     // Extract project name from path
-    // Pattern: /gorseller/projects/{projectName}/{imageName}
-    const match = desktopPath.match(/\/projects\/([^\/]+)\//)
+    // Pattern: /gorseller/{projectName}/{imageName}
+    const match = desktopPath.match(/\/gorseller\/([^\/]+)\//)
 
     if (!match) return null
 
     const projectName = match[1]
     const imageName = desktopPath.split('/').pop()
+
+    // Skip if already a mobile path or slider image
+    if (projectName.startsWith('mobil') || projectName === 'slidergorseller') {
+        return null
+    }
 
     // Construct mobile path
     return `/gorseller/mobilgorseller/mobil${projectName}/${imageName}`
