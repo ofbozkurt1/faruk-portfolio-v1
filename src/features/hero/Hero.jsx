@@ -153,8 +153,8 @@ export default function Hero({ className }) {
                 >
                     {/* Name with dynamic letter animation - Single line on mobile */}
                     <motion.h1
-                        variants={itemVariants}
-                        className="text-[clamp(26px,6.5vw,80px)] md:text-7xl font-extrabold tracking-[-0.03em] leading-[1.1] text-[#F2F2F2] whitespace-nowrap"
+                        variants={activeItemVariants}
+                        className="text-[clamp(26px,6.5vw,80px)] md:text-7xl font-extrabold tracking-[-0.03em] leading-[1.1] text-[#F2F2F2] whitespace-nowrap opacity-100 md:opacity-0"
                     >
                         {renderAnimatedText(firstName)}
                         {/* Space between names on mobile, break on desktop */}

@@ -269,6 +269,7 @@ export default function Header() {
                 {/* Mobile: Hamburger Menu Button */}
                 <button
                     onClick={() => setIsMenuOpen(!isMenuOpen)}
+                    aria-label={isMenuOpen ? "Menüyü Kapat" : "Men üyü Aç"}
                     className="md:hidden relative z-50 p-2 text-[#F2F2F2]"
                 >
                     <div className="flex flex-col gap-[6px] items-end">

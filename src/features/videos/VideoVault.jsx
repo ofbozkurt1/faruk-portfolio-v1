@@ -551,6 +551,7 @@ function MobileVideoCarousel() {
                 {/* Left Arrow - Overlay, Subtle */}
                 <button
                     onClick={goToPrev}
+                    aria-label="Önceki Video"
                     className="absolute -left-6 top-1/2 -translate-y-1/2 z-20 w-12 h-12 flex items-center justify-start opacity-50 active:scale-90 transition-transform"
                 >
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -561,6 +562,7 @@ function MobileVideoCarousel() {
                 {/* Right Arrow - Overlay, Subtle */}
                 <button
                     onClick={goToNext}
+                    aria-label="Sonraki Video"
                     className="absolute -right-6 top-1/2 -translate-y-1/2 z-20 w-12 h-12 flex items-center justify-end opacity-50 active:scale-90 transition-transform"
                 >
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
