@@ -13,28 +13,28 @@ const services = [
         id: 1,
         titleKey: 'services.socialMedia.title',
         descKey: 'services.socialMedia.description',
-        tags: ['Instagram Grid', 'Story Sets', 'Campaigns'],
+        tags: ['instagramGrid', 'storySets', 'campaigns'],
         color: '#9333EA'
     },
     {
         id: 2,
         titleKey: 'services.motionDesign.title',
         descKey: 'services.motionDesign.description',
-        tags: ['2D Animation', 'Logo Reveal', 'Kinetic Typo'],
+        tags: ['2dAnimation', 'logoReveal', 'kineticTypo'],
         color: '#3B82F6'
     },
     {
         id: 3,
         titleKey: 'services.brandIdentity.title',
         descKey: 'services.brandIdentity.description',
-        tags: ['Logo Design', 'Style Guide', 'Business Cards'],
+        tags: ['logoDesign', 'styleGuide', 'businessCards'],
         color: '#F97316'
     },
     {
         id: 4,
         titleKey: 'services.videoEditing.title',
         descKey: 'services.videoEditing.description',
-        tags: ['Reels & TikTok', 'Color Grading', 'Sound Design'],
+        tags: ['reelsTikTok', 'colorGrading', 'soundDesign'],
         color: '#EC4899'
     }
 ]
@@ -117,7 +117,7 @@ export default function ServicesView() {
                                     </div>
 
                                     {/* Right: Description + Tags */}
-                                    <div className="w-full lg:w-[340px] flex-shrink-0">
+                                    <div className="w-full lg:w-[380px] flex-shrink-0">
                                         <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
                                             <p
                                                 style={{
@@ -132,18 +132,18 @@ export default function ServicesView() {
                                             </p>
 
                                             {/* Simple Tags */}
-                                            <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                                            <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap' }}>
                                                 {service.tags.map((tag) => (
                                                     <span
                                                         key={tag}
                                                         style={{
                                                             fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace',
-                                                            fontSize: 10,
+                                                            fontSize: 9,
                                                             fontWeight: 500,
                                                             letterSpacing: '0.08em',
                                                             textTransform: 'uppercase',
                                                             color: hoveredIndex === index ? 'rgba(255,255,255,0.9)' : 'rgba(255,255,255,0.4)',
-                                                            padding: '6px 12px',
+                                                            padding: '4px 8px',
                                                             background: hoveredIndex === index ? `${service.color}15` : 'rgba(255,255,255,0.03)',
                                                             border: `1px solid ${hoveredIndex === index ? `${service.color}50` : 'rgba(255,255,255,0.08)'}`,
                                                             borderRadius: 50,
@@ -151,7 +151,7 @@ export default function ServicesView() {
                                                             whiteSpace: 'nowrap'
                                                         }}
                                                     >
-                                                        {tag}
+                                                        {t(`services.tags.${tag}`)}
                                                     </span>
                                                 ))}
                                             </div>

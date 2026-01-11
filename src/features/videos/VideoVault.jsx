@@ -4,79 +4,12 @@
  * Desktop: ORIGINAL layout with icons, client, year, tools
  */
 
-import React, { useRef, useEffect, memo, useState } from 'react'
+import React, { useRef, useEffect, memo, useState, useMemo } from 'react'
 import { motion, useInView } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
 
-// Video data - 4 groups with full details for desktop
-const groups = [
-    {
-        id: 'hype',
-        tabLabel: 'HYPE',
-        title: 'HYPE & EVENTS',
-        desc: 'Capturing the raw energy of the moment.',
-        client: 'Various Clients',
-        year: '2024',
-        tools: [
-            { name: 'Premiere Pro', icon: '/gorseller/iconlar/premiere-pro.svg' },
-            { name: 'After Effects', icon: '/gorseller/iconlar/after-effects.svg' }
-        ],
-        videos: [
-            { id: 1, src: '/video/vd1.mp4', title: 'Summer Vibes' },
-            { id: 2, src: '/video/vd2.mp4', title: 'Night Life' }
-        ]
-    },
-    {
-        id: 'commercial',
-        tabLabel: 'TİCARİ',
-        title: 'COMMERCIAL',
-        desc: 'Brand storytelling and product showcase.',
-        client: 'Brand Partners',
-        year: '2024',
-        tools: [
-            { name: 'Premiere Pro', icon: '/gorseller/iconlar/premiere-pro.svg' },
-            { name: 'After Effects', icon: '/gorseller/iconlar/after-effects.svg' },
-            { name: 'Photoshop', icon: '/gorseller/iconlar/photoshop.svg' }
-        ],
-        videos: [
-            { id: 3, src: '/video/vd3.mp4', title: 'Brand Story' },
-            { id: 4, src: '/video/vd4.mp4', title: 'Product Launch' }
-        ]
-    },
-    {
-        id: 'social',
-        tabLabel: 'SOCIAL',
-        title: 'SOCIAL EDITS',
-        desc: 'Short-form content designed to engage.',
-        client: 'Social Media',
-        year: '2024',
-        tools: [
-            { name: 'Premiere Pro', icon: '/gorseller/iconlar/premiere-pro.svg' },
-            { name: 'After Effects', icon: '/gorseller/iconlar/after-effects.svg' }
-        ],
-        videos: [
-            { id: 5, src: '/video/vd5.mp4', title: 'Reels Edit' },
-            { id: 6, src: '/video/vd6.mp4', title: 'TikTok Style' }
-        ]
-    },
-    {
-        id: 'aerial',
-        tabLabel: 'DRONE',
-        title: 'AERIAL & DRONE',
-        desc: 'Cinematic perspectives from the sky.',
-        client: 'Aerial Projects',
-        year: '2024',
-        tools: [
-            { name: 'Premiere Pro', icon: '/gorseller/iconlar/premiere-pro.svg' },
-            { name: 'After Effects', icon: '/gorseller/iconlar/after-effects.svg' }
-        ],
-        videos: [
-            { id: 7, src: '/video/drn1.mp4', title: 'City Flyover' },
-            { id: 8, src: '/video/drn2.mp4', title: 'Nature Shot' }
-        ]
-    }
-]
 
+// Simple Video Card - Video data moved inside component for localization
 // Simple Video Card - Memoized & Optimized
 const VideoCard = memo(function VideoCard({ video, index }) {
     const ref = useRef(null)
@@ -203,6 +136,7 @@ const VideoCard = memo(function VideoCard({ video, index }) {
 
 // ============ DESKTOP INFO PANEL (ORIGINAL) ============
 function DesktopInfoPanel({ group, isReversed }) {
+    const { t } = useTranslation()
     return (
         <motion.div
             initial={{ opacity: 0, x: isReversed ? 30 : -30 }}
@@ -228,7 +162,7 @@ function DesktopInfoPanel({ group, isReversed }) {
                         color: 'rgba(255,255,255,0.4)'
                     }}
                 >
-                    Video Work — {group.year}
+                    {t('videoShowcase.workLabel', 'Video Work')} — {group.year}
                 </span>
             </div>
 
@@ -240,7 +174,8 @@ function DesktopInfoPanel({ group, isReversed }) {
                     letterSpacing: '-0.03em',
                     color: '#F2F2F2',
                     marginBottom: 16,
-                    lineHeight: 1.1
+                    lineHeight: 1.1,
+                    whiteSpace: 'nowrap'
                 }}
             >
                 {group.title}
@@ -253,7 +188,7 @@ function DesktopInfoPanel({ group, isReversed }) {
                     lineHeight: 1.7,
                     color: 'rgba(255,255,255,0.5)',
                     marginBottom: 32,
-                    maxWidth: 380,
+                    maxWidth: 600,
                     marginLeft: isReversed ? 'auto' : 0,
                     marginRight: isReversed ? 0 : 'auto'
                 }}
@@ -275,7 +210,7 @@ function DesktopInfoPanel({ group, isReversed }) {
                             marginBottom: 6
                         }}
                     >
-                        Client
+                        {t('caseStudy.client', 'Client')}
                     </span>
                     <span style={{ fontSize: 14, color: '#F2F2F2' }}>{group.client}</span>
                 </div>
@@ -291,7 +226,7 @@ function DesktopInfoPanel({ group, isReversed }) {
                             marginBottom: 6
                         }}
                     >
-                        Year
+                        {t('caseStudy.year', 'Year')}
                     </span>
                     <span style={{ fontSize: 14, color: '#F2F2F2' }}>{group.year}</span>
                 </div>
@@ -310,7 +245,7 @@ function DesktopInfoPanel({ group, isReversed }) {
                         marginBottom: 12
                     }}
                 >
-                    Toolkit
+                    {t('caseStudy.toolkit', 'Toolkit')}
                 </span>
                 <div style={{ display: 'flex', gap: 10, justifyContent: isReversed ? 'flex-end' : 'flex-start' }}>
                     {group.tools.map((tool, idx) => (
@@ -346,7 +281,7 @@ function DesktopInfoPanel({ group, isReversed }) {
 }
 
 // ============ MOBILE UNIFIED CAROUSEL ============
-function MobileVideoCarousel() {
+function MobileVideoCarousel({ groups }) {
     const scrollRef = useRef(null)
     const [activeIndex, setActiveIndex] = useState(0)
     const autoPlayRef = useRef(null)
@@ -610,7 +545,7 @@ function MobileVideoCarousel() {
 }
 
 // ============ DESKTOP VIEW (ORIGINAL LAYOUT) ============
-function DesktopVideoGroups() {
+function DesktopVideoGroups({ groups }) {
     return (
         <div className="hidden md:block space-y-32">
             {groups.map((group, index) => {
@@ -660,6 +595,74 @@ function DesktopVideoGroups() {
 export default function VideoVault() {
     const { t } = useTranslation()
 
+    const groups = useMemo(() => [
+        {
+            id: 'hype',
+            tabLabel: t('videoShowcase.categories.hype.tab', 'HYPE'),
+            title: t('videoShowcase.categories.hype.title', 'HYPE & EVENTS'),
+            desc: t('videoShowcase.categories.hype.desc', 'Capturing the raw energy of the moment.'),
+            client: t('videoShowcase.categories.hype.client', 'Various Clients'),
+            year: t('videoShowcase.categories.hype.year', '2024'),
+            tools: [
+                { name: 'Premiere Pro', icon: '/gorseller/iconlar/premiere-pro.svg' },
+                { name: 'After Effects', icon: '/gorseller/iconlar/after-effects.svg' }
+            ],
+            videos: [
+                { id: 1, src: '/video/vd1.mp4', title: t('videoShowcase.categories.hype.videos.v1', 'Summer Vibes') },
+                { id: 2, src: '/video/vd2.mp4', title: t('videoShowcase.categories.hype.videos.v2', 'Night Life') }
+            ]
+        },
+        {
+            id: 'commercial',
+            tabLabel: t('videoShowcase.categories.commercial.tab', 'TİCARİ'),
+            title: t('videoShowcase.categories.commercial.title', 'COMMERCIAL'),
+            desc: t('videoShowcase.categories.commercial.desc', 'Brand storytelling and product showcase.'),
+            client: t('videoShowcase.categories.commercial.client', 'Brand Partners'),
+            year: t('videoShowcase.categories.commercial.year', '2024'),
+            tools: [
+                { name: 'Premiere Pro', icon: '/gorseller/iconlar/premiere-pro.svg' },
+                { name: 'After Effects', icon: '/gorseller/iconlar/after-effects.svg' },
+                { name: 'Photoshop', icon: '/gorseller/iconlar/photoshop.svg' }
+            ],
+            videos: [
+                { id: 3, src: '/video/vd3.mp4', title: t('videoShowcase.categories.commercial.videos.v1', 'Brand Story') },
+                { id: 4, src: '/video/vd4.mp4', title: t('videoShowcase.categories.commercial.videos.v2', 'Product Launch') }
+            ]
+        },
+        {
+            id: 'social',
+            tabLabel: t('videoShowcase.categories.social.tab', 'SOCIAL'),
+            title: t('videoShowcase.categories.social.title', 'SOCIAL EDITS'),
+            desc: t('videoShowcase.categories.social.desc', 'Short-form content designed to engage.'),
+            client: t('videoShowcase.categories.social.client', 'Social Media'),
+            year: t('videoShowcase.categories.social.year', '2024'),
+            tools: [
+                { name: 'Premiere Pro', icon: '/gorseller/iconlar/premiere-pro.svg' },
+                { name: 'After Effects', icon: '/gorseller/iconlar/after-effects.svg' }
+            ],
+            videos: [
+                { id: 5, src: '/video/vd5.mp4', title: t('videoShowcase.categories.social.videos.v1', 'Reels Edit') },
+                { id: 6, src: '/video/vd6.mp4', title: t('videoShowcase.categories.social.videos.v2', 'TikTok Style') }
+            ]
+        },
+        {
+            id: 'aerial',
+            tabLabel: t('videoShowcase.categories.aerial.tab', 'DRONE'),
+            title: t('videoShowcase.categories.aerial.title', 'AERIAL & DRONE'),
+            desc: t('videoShowcase.categories.aerial.desc', 'Cinematic perspectives from the sky.'),
+            client: t('videoShowcase.categories.aerial.client', 'Aerial Projects'),
+            year: t('videoShowcase.categories.aerial.year', '2024'),
+            tools: [
+                { name: 'Premiere Pro', icon: '/gorseller/iconlar/premiere-pro.svg' },
+                { name: 'After Effects', icon: '/gorseller/iconlar/after-effects.svg' }
+            ],
+            videos: [
+                { id: 7, src: '/video/drn1.mp4', title: t('videoShowcase.categories.aerial.videos.v1', 'City Flyover') },
+                { id: 8, src: '/video/drn2.mp4', title: t('videoShowcase.categories.aerial.videos.v2', 'Nature Shot') }
+            ]
+        }
+    ], [t])
+
     return (
         <section className="pt-0 pb-10 md:py-32 overflow-hidden">
             <div className="max-w-7xl mx-auto px-4 md:px-6">
@@ -693,10 +696,10 @@ export default function VideoVault() {
                 </motion.div>
 
                 {/* Mobile: Tabbed Interface */}
-                <MobileVideoCarousel />
+                <MobileVideoCarousel groups={groups} />
 
                 {/* Desktop: Original Stacked Layout */}
-                <DesktopVideoGroups />
+                <DesktopVideoGroups groups={groups} />
             </div>
         </section>
     )

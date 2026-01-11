@@ -110,12 +110,7 @@ function App() {
                     <ServicesView />
                 </section>
 
-                {/* PHASE 45: Divider removed from DOM on mobile */}
-                {isDesktop && (
-                    <div className="container-padding">
-                        <div className="luxury-divider" />
-                    </div>
-                )}
+
 
                 <section id="portfolio" className="relative w-full pt-0 pb-10 md:py-32 container-padding">
                     {/* Portfolio Header - Clean Single Line */}

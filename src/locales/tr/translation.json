@@ -40,26 +40,78 @@
         "brandIdentity": {
             "title": "Marka Kimliği",
             "description": "Markanın DNA'sını oluşturan logo, renk paleti ve kurumsal öğeleri, hem baskı hem de dijital dünyada tutarlı duracak şekilde tasarlıyorum."
+        },
+        "tags": {
+            "instagramGrid": "Post Tasarımları",
+            "storySets": "Hikaye Setleri",
+            "campaigns": "Reklam Tasarımları",
+            "2dAnimation": "Hareketli Tasarımlar",
+            "logoReveal": "Logo Animasyon",
+            "kineticTypo": "Kinetik Tipografi",
+            "logoDesign": "Logo Tasarımı",
+            "styleGuide": "Kurumsal Kimlik",
+            "businessCards": "Marka Rehberi",
+            "reelsTikTok": "Video Kurgu",
+            "colorGrading": "Renk Düzenleme",
+            "soundDesign": "Ses Tasarımı"
         }
     },
     "videoShowcase": {
         "title": "Video Vitrini",
         "subtitle": "Etkileyici dikey hikayeler",
+        "workLabel": "Video Projesi",
         "categories": {
-            "hype": "HYPE & ETKİNLİKLER",
-            "commercial": "TİCARİ",
-            "social": "SOSYAL EDİTLER",
-            "aerial": "HAVA & DRONE"
+            "hype": {
+                "tab": "HYPE",
+                "title": "KONSER & ETKİNLİKLER",
+                "desc": "Atmosferin ritmini ekrana taşıyan yüksek enerjili kurgu.",
+                "client": "Akdeniz Etkinlik",
+                "year": "2025",
+                "videos": {
+                    "v1": "Konser",
+                    "v2": "Gece Hayatı"
+                }
+            },
+            "commercial": {
+                "tab": "TİCARİ",
+                "title": "TANITIM FİLMLERİ",
+                "desc": "Markanın ruhunu ve sunduğu deneyimi öne çıkaran, video prodüksiyonları.",
+                "client": "Kumrualtı & Jupp Takı",
+                "year": "2025",
+                "videos": {
+                    "v1": "Marka Hikayesi",
+                    "v2": "Açılış Lansmanı"
+                }
+            },
+            "social": {
+                "tab": "SOSYAL",
+                "title": "DİNAMİK VİDEOLAR",
+                "desc": "Dijital akışta dikkat çeken, trendlere uygun dinamik video içerikleri. ",
+                "client": "Novastra Media",
+                "year": "2025",
+                "videos": {
+                    "v1": "Reels Kurgusu",
+                    "v2": "TikTok Tarzı"
+                }
+            },
+            "aerial": {
+                "tab": "DRONE",
+                "title": "DRONE & ADRES",
+                "desc": "Ulaşımı görsel bir deneyime dönüştüren yaratıcı konum videoları. ",
+                "client": "Jupp Takı & Kumrualtı",
+                "year": "2025",
+                "videos": {
+                    "v1": "Şehir Uçuşu",
+                    "v2": "Doğa Çekimi"
+                }
+            }
         }
     },
     "contact": {
-        "title": "İletişim",
+        "title": "HAYDİ BİRLİKTE TASARLAYALIM",
         "subtitle": "Aklında bir proje mi var?",
-        "headline": "HAYDİ BİRLİKTE TASARLAYALIM",
-        "email": "E-posta",
-        "phone": "Telefon",
-        "location": "Konum",
-        "sendMessage": "Mesaj Gönder"
+        "email": "hello@ofarukbozkurt.com",
+        "copyright": "© 2026 Ömer Faruk Bozkurt. Tüm hakları saklıdır."
     },
     "footer": {
         "rights": "Tüm hakları saklıdır.",
@@ -125,27 +177,27 @@
         },
         "tırnaktrend": {
             "title": "Tırnak Trend",
-            "year": "2024",
+            "year": "2025",
             "category": "Sosyal Medya",
-            "role": "Sosyal Tasarım",
-            "deliverables": "Gönderiler",
-            "description": "Tırnak Trend güzellik salonu için sosyal medya içerik tasarımı. Instagram varlığı için modern ve zarif görseller."
+            "role": "Görsel İçerik Tasarımı",
+            "deliverables": "Sosyal Medya Tasarımları",
+            "description": "Güzellik sektöründe fark yaratan, müşteri kazanımı odaklı kampanya görselleri. Nail art hizmetlerini ve fırsatları öne çıkaran, dönüşüm sağlayan sosyal medya reklam tasarımları."
         },
         "bbstransfer": {
             "title": "BBS Transfer",
-            "year": "2024",
+            "year": "2025",
             "category": "Sosyal Medya",
-            "role": "Sosyal Tasarım",
-            "deliverables": "Gönderiler",
-            "description": "BBS Transfer ulaşım şirketi için sosyal medya tasarımı. Profesyonel ve güvenilir görsel kimlik."
+            "role": "Görsel İçerik Tasarımı",
+            "deliverables": "Sosyal Medya Tasarımları",
+            "description": "BBS Transfer'in sunduğu lüks ulaşım deneyimini dijital vitrine taşıyan estetik kurgu. Yolcu konforunu ve güvenliğini ön plana çıkaran, hedef kitle odaklı sosyal medya tasarımları."
         },
         "kumrualtı": {
             "title": "Kumrualtı",
-            "year": "2024",
+            "year": "2025",
             "category": "Sosyal Medya",
-            "role": "Sosyal Tasarım",
-            "deliverables": "Gönderiler",
-            "description": "Kumrualtı restoranı için sosyal medya içerik tasarımı. İştah açıcı yemek fotoğrafçılığı ve etkileyici görsel içerik."
+            "role": "Görsel İçerik Tasarım",
+            "deliverables": "Sosyal Medya Tasarımları",
+            "description": "Kumrualtı'nın sunduğu eşsiz sokak lezzetlerini dijital vitrine taşıyan iştah kabartıcı içerik kurgusu. Hedef kitleyi acıktıran, samimi ve dikkat çekici sosyal medya tasarımları."
         }
     }
 }

@@ -40,31 +40,78 @@
         "brandIdentity": {
             "title": "Brand Identity",
             "description": "Building memorable visual systems that stand the test of time. Creating logos, typography, and guidelines that work across print and digital."
+        },
+        "tags": {
+            "instagramGrid": "Instagram Grid",
+            "storySets": "Story Sets",
+            "campaigns": "Campaigns",
+            "2dAnimation": "2D Animation",
+            "logoReveal": "Logo Reveal",
+            "kineticTypo": "Kinetic Typography",
+            "logoDesign": "Logo Design",
+            "styleGuide": "Style Guide",
+            "businessCards": "Business Cards",
+            "reelsTikTok": "Reels & TikTok",
+            "colorGrading": "Color Grading",
+            "soundDesign": "Sound Design"
         }
     },
     "videoShowcase": {
         "title": "Video Showcase",
         "subtitle": "Vertical stories that captivate",
+        "workLabel": "Video Work",
         "categories": {
-            "hype": "HYPE & EVENTS",
-            "commercial": "COMMERCIAL",
-            "social": "SOCIAL EDITS",
-            "aerial": "AERIAL & DRONE"
+            "hype": {
+                "tab": "HYPE",
+                "title": "HYPE & EVENTS",
+                "desc": "Capturing the raw energy of the moment.",
+                "client": "Various Clients",
+                "year": "2024",
+                "videos": {
+                    "v1": "Summer Vibes",
+                    "v2": "Night Life"
+                }
+            },
+            "commercial": {
+                "tab": "COMMERCIAL",
+                "title": "COMMERCIAL",
+                "desc": "Brand storytelling and product showcase.",
+                "client": "Brand Partners",
+                "year": "2024",
+                "videos": {
+                    "v1": "Brand Story",
+                    "v2": "Product Launch"
+                }
+            },
+            "social": {
+                "tab": "SOCIAL",
+                "title": "SOCIAL EDITS",
+                "desc": "Short-form content designed to engage.",
+                "client": "Social Media",
+                "year": "2024",
+                "videos": {
+                    "v1": "Reels Edit",
+                    "v2": "TikTok Style"
+                }
+            },
+            "aerial": {
+                "tab": "DRONE",
+                "title": "AERIAL & DRONE",
+                "desc": "Cinematic perspectives from the sky.",
+                "client": "Aerial Projects",
+                "year": "2024",
+                "videos": {
+                    "v1": "City Flyover",
+                    "v2": "Nature Shot"
+                }
+            }
         }
     },
     "contact": {
-        "title": "Contact",
-        "subtitle": "Have a project in mind? Let's bring your vision to life with motion and design.",
-        "headline": "LET'S CREATE TOGETHER",
-        "email": "Email",
-        "phone": "Phone",
-        "location": "Location",
-        "sendMessage": "Send Message"
-    },
-    "footer": {
-        "rights": "All rights reserved.",
-        "designed": "Designed by",
-        "copyright": "© 2026 Ömer Faruk Bozkurt. Crafted with motion."
+        "title": "LET'S DESIGN TOGETHER",
+        "subtitle": "Have a project in mind?",
+        "email": "hello@ofarukbozkurt.com",
+        "copyright": "© 2026 Ömer Faruk Bozkurt. All rights reserved."
     },
     "caseStudy": {
         "client": "Client",

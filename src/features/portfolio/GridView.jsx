@@ -457,18 +457,7 @@ function GridViewContent({ project, onClose }) {
                         whileInView={{ opacity: 1 }}
                         viewport={{ once: true }}
                     >
-                        <h3
-                            style={{
-                                fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace',
-                                fontSize: 11,
-                                letterSpacing: '0.25em',
-                                textTransform: 'uppercase',
-                                color: 'rgba(255,255,255,0.4)',
-                                marginBottom: 40
-                            }}
-                        >
-                            {t('caseStudy.gallery', 'Gallery')}
-                        </h3>
+
 
                         {/* Custom Order Gallery */}
                         {orderedImages && orderedImages.length > 0 ? (
@@ -520,10 +509,11 @@ function GridViewContent({ project, onClose }) {
                                         <h4
                                             style={{
                                                 fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace',
-                                                fontSize: 10,
-                                                letterSpacing: '0.2em',
+                                                fontSize: 14,
+                                                fontWeight: 600,
+                                                letterSpacing: '0.15em',
                                                 textTransform: 'uppercase',
-                                                color: 'rgba(255,255,255,0.3)',
+                                                color: 'rgba(255,255,255,0.8)',
                                                 marginBottom: 24
                                             }}
                                         >
@@ -548,10 +538,11 @@ function GridViewContent({ project, onClose }) {
                                         <h4
                                             style={{
                                                 fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace',
-                                                fontSize: 10,
-                                                letterSpacing: '0.2em',
+                                                fontSize: 14,
+                                                fontWeight: 600,
+                                                letterSpacing: '0.15em',
                                                 textTransform: 'uppercase',
-                                                color: 'rgba(255,255,255,0.3)',
+                                                color: 'rgba(255,255,255,0.8)',
                                                 marginBottom: 24
                                             }}
                                         >
