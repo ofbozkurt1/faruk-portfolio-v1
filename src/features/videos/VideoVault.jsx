@@ -678,15 +678,7 @@ export default function VideoVault() {
                         {/* Gradient Line Left */}
                         <div className="w-12 md:w-[60px] h-[1px] bg-gradient-to-r from-transparent to-white/30" />
 
-                        <h2
-                            className="whitespace-nowrap"
-                            style={{
-                                fontSize: 'clamp(28px, 5vw, 52px)',
-                                fontWeight: 700,
-                                letterSpacing: '-0.02em',
-                                color: '#F2F2F2'
-                            }}
-                        >
+                        <h2 className="text-3xl md:text-6xl font-bold tracking-tight text-[#F2F2F2]">
                             {t('videoShowcase.title', 'Video Showcase')}
                         </h2>
 

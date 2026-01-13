@@ -65,7 +65,7 @@ export default function ServicesView() {
                 >
                     <div className="flex items-center justify-center gap-6">
                         <div style={{ width: 60, height: 1, background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.3))' }} />
-                        <h2 className="text-3xl md:text-5xl font-bold tracking-tight text-[#F2F2F2]">
+                        <h2 className="text-3xl md:text-6xl font-bold tracking-tight text-[#F2F2F2]">
                             {t('services.title', 'Services')}
                         </h2>
                         <div style={{ width: 60, height: 1, background: 'linear-gradient(90deg, rgba(255,255,255,0.3), transparent)' }} />

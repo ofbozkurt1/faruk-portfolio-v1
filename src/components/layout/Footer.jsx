@@ -20,15 +20,15 @@ export default function Footer() {
                 <div className="w-[600px] h-[600px] bg-purple-900/10 blur-[150px] rounded-full" />
             </div>
 
-            <div className="relative z-10 w-full max-w-5xl px-6 flex flex-col items-center">
+            <div className="relative z-10 w-full max-w-full px-6 flex flex-col items-center">
 
                 {/* Main Headline - Responsive wrapping for mobile */}
-                <h2 className="text-3xl md:text-6xl lg:text-7xl font-bold text-[#F2F2F2] mb-3 tracking-tight leading-tight whitespace-normal md:whitespace-nowrap max-w-xs md:max-w-none mx-auto">
+                <h2 className="text-3xl md:text-6xl lg:text-7xl font-bold text-[#F2F2F2] mb-3 tracking-tight leading-tight text-center mx-auto whitespace-normal md:whitespace-nowrap">
                     {t('contact.title', 'HAYDİ BİRLİKTE TASARLAYALIM')}
                 </h2>
 
                 {/* Subtitle */}
-                <p className="text-white/40 text-lg md:text-xl font-medium mb-8">
+                <p className="text-white/40 text-lg md:text-xl font-medium mb-8 text-center mx-auto">
                     {t('contact.subtitle', 'Aklında bir proje mi var?')}
                 </p>
 
@@ -37,7 +37,7 @@ export default function Footer() {
                     href="https://wa.me/905076267821"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="download-btn mb-8"
+                    className="download-btn mb-8 mx-auto"
                 >
                     <div className="btn-wrapper">
                         <div className="btn-text normal-case tracking-normal text-sm md:text-base">

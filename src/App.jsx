@@ -117,14 +117,7 @@ function App() {
                     <div className="text-center mb-1 md:mb-24">
                         <div className="flex items-center justify-center gap-3 md:gap-6 mb-1 md:mb-8">
                             <div style={{ width: 60, height: 1, background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.3))' }} />
-                            <h2
-                                style={{
-                                    fontSize: 'clamp(36px, 5vw, 56px)',
-                                    fontWeight: 700,
-                                    letterSpacing: '-0.02em',
-                                    color: '#F2F2F2'
-                                }}
-                            >
+                            <h2 className="text-3xl md:text-6xl font-bold tracking-tight text-[#F2F2F2]">
                                 {t('portfolio.title', 'Portfolio')}
                             </h2>
                             <div style={{ width: 60, height: 1, background: 'linear-gradient(90deg, rgba(255,255,255,0.3), transparent)' }} />

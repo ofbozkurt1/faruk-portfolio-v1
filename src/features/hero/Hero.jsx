@@ -324,8 +324,8 @@ export default function Hero({ className }) {
                             width: 180px; 
                             height: 48px; 
                             background: transparent;
-                            border: 1px solid rgba(255,255,255,0.25);
-                            border-radius: 50px;
+                            border: 1px solid #F2F2F2;
+                            border-radius: 9999px;
                             color: #F2F2F2;
                             font-size: 11px;
                             font-weight: 500;
@@ -333,11 +333,40 @@ export default function Hero({ className }) {
                             text-transform: uppercase;
                             text-decoration: none;
                             transition: all 0.3s ease;
+                            position: relative;
+                            overflow: hidden;
+                            z-index: 1;
+                        }
+
+                        .hero-about-btn::before {
+                            content: "";
+                            position: absolute;
+                            width: 0;
+                            height: 0;
+                            background-color: #F2F2F2;
+                            border-radius: 50%;
+                            left: 50%;
+                            bottom: 0;
+                            transform: translate(-50%, 50%);
+                            transition: all 0.5s ease;
+                            z-index: -1;
                         }
 
                         .hero-about-btn:hover {
                             border-color: #F2F2F2;
-                            background: rgba(255,255,255,0.05);
+                            color: #0A0A0A;
+                        }
+                        
+                        /* Force span color change */
+                        .hero-about-btn:hover span {
+                            color: #0A0A0A;
+                            position: relative;
+                            z-index: 2;
+                        }
+
+                        .hero-about-btn:hover::before {
+                            width: 300px;
+                            height: 300px;
                         }
 
                         /* Mobile Adjustments */
