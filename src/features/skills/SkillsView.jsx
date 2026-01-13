@@ -16,8 +16,8 @@ const skills = [
         id: 'photoshop',
         name: 'Photoshop',
         icon: '/gorseller/iconlar/photoshop.svg',
-        level: 'MASTERY',
-        years: '8+ Years',
+        levelKey: 'expert',
+        yearsCount: '8+',
         color: '#005AFF',
         glowColor: 'rgba(0, 90, 255, 0.35)',
         gridArea: 'ps',
@@ -27,8 +27,8 @@ const skills = [
         id: 'aftereffects',
         name: 'After Effects',
         icon: '/gorseller/iconlar/after-effects.svg',
-        level: 'EXPERT',
-        years: '6+ Years',
+        levelKey: 'expert',
+        yearsCount: '7+',
         color: '#1200FF',
         glowColor: 'rgba(18, 0, 255, 0.35)',
         gridArea: 'ae',
@@ -38,8 +38,8 @@ const skills = [
         id: 'illustrator',
         name: 'Illustrator',
         icon: '/gorseller/iconlar/illustrator.svg',
-        level: 'ADVANCED',
-        years: '5+ Years',
+        levelKey: 'advanced',
+        yearsCount: '5+',
         color: '#FF6B00',
         glowColor: 'rgba(255, 107, 0, 0.35)',
         gridArea: 'ai',
@@ -49,8 +49,8 @@ const skills = [
         id: 'premiere',
         name: 'Premiere Pro',
         icon: '/gorseller/iconlar/premiere-pro.svg',
-        level: 'PRO',
-        years: '5+ Years',
+        levelKey: 'pro',
+        yearsCount: '5+',
         color: '#FF0080',
         glowColor: 'rgba(255, 0, 128, 0.35)',
         gridArea: 'pr',
@@ -188,6 +188,7 @@ const MicroTools = {
 
 // Memoized to prevent re-renders from parent
 const SkillBentoCard = memo(function SkillBentoCard({ skill }) {
+    const { t } = useTranslation()
     const isLarge = skill.size === 'large'
     const isTall = skill.size === 'tall'
     const [isHovered, setIsHovered] = useState(false)
@@ -296,7 +297,7 @@ const SkillBentoCard = memo(function SkillBentoCard({ skill }) {
                                     whiteSpace: 'nowrap'
                                 }}
                             >
-                                {skill.years}
+                                {skill.yearsCount} {t('skills.yearUnit')}
                             </span>
                         </div>
                     </div>
@@ -324,7 +325,7 @@ const SkillBentoCard = memo(function SkillBentoCard({ skill }) {
                                 letterSpacing: '0.08em'
                             }}
                         >
-                            {skill.level}
+                            {t(`skills.levels.${skill.levelKey}`)}
                         </span>
                     </div>
                 </div>

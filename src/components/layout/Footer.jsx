@@ -15,10 +15,7 @@ export default function Footer() {
     return (
         <footer id="contact" className="relative w-full py-12 md:py-20 overflow-hidden flex flex-col items-center justify-center text-center">
 
-            {/* Background Glow */}
-            <div className="absolute inset-0 pointer-events-none flex items-center justify-center translate-y-20">
-                <div className="w-[600px] h-[600px] bg-purple-900/10 blur-[150px] rounded-full" />
-            </div>
+
 
             <div className="relative z-10 w-full max-w-full px-6 flex flex-col items-center">
 

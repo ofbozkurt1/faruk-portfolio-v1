@@ -1,22 +1,23 @@
 {
     "nav": {
-        "work": "Work",
+        "work": "Portfolio",
         "about": "About",
         "skills": "Skills",
         "services": "Services",
         "contact": "Contact",
-        "letsTalk": "Let's Talk"
+        "letsTalk": "Let's Work Together"
     },
     "hero": {
         "role": "MOTION & GRAPHIC DESIGNER",
-        "description": "Creating immersive visual experiences through motion and design.",
+        "description": "Crafting memorable visual experiences for brands.",
         "cta": "View Work",
         "downloadCV": "Download CV",
         "whoAmI": "Who Am I?",
         "modal": {
             "title": "Who Am I?",
-            "p1": "Hello, I'm Ömer Faruk. While studying Marketing at Akdeniz University, I have been producing professional work in the design world, which I have been passionately attached to since my high school years.",
-            "p2": "Currently, at Novastra Media, I craft visual stories for brands; blending Motion Design, Video Editing, and Graphic Design disciplines with marketing strategies.",
+            "p1": "I am Ömer Faruk Bozkurt. A Motion & Graphic Designer merging marketing discipline with creative execution.",
+            "p2": "Whether you have a product or a brand, I ensure you stand out in the crowded feed of social media.",
+            "p3": "I create visual content essential for strengthening your digital presence. My sole goal is to turn your message into fluid, engaging content that people actually enjoy watching.",
             "toolsTitle": "Tools I Use",
             "contactTitle": "Contact & Social Media",
             "emailBtn": "Let's Work Together"
@@ -29,38 +30,45 @@
     },
     "skills": {
         "title": "Skills",
-        "subtitle": "Areas of expertise"
+        "subtitle": "Areas of expertise",
+        "levels": {
+            "mastery": "MASTERY",
+            "expert": "EXPERT",
+            "advanced": "ADVANCED",
+            "pro": "PRO"
+        },
+        "yearUnit": "Years"
     },
     "services": {
         "title": "Services",
         "subtitle": "What I offer",
         "socialMedia": {
             "title": "Social Media Design",
-            "description": "Curating your digital storefront with engagement-focused visual series. Designing identities, not just posts."
+            "description": "Curating your digital voice with engagement-focused, aesthetic visual series. Designing identities, not just posts."
         },
         "motionDesign": {
             "title": "Motion Design",
-            "description": "Breathing life into static visuals through fluid dynamics and storytelling to capture attention in seconds."
+            "description": "Animating static visuals with fluid dynamics and storytelling to capture the viewer's attention in seconds."
         },
         "videoEditing": {
             "title": "Video Editing",
-            "description": "Transforming raw footage into binge-worthy narratives with rhythmic cuts, sound design, and cinematic grading."
+            "description": "Transforming raw footage into 'binge-worthy' narratives with rhythmic editing, sound design, and cinematic touches."
         },
         "brandIdentity": {
             "title": "Brand Identity",
-            "description": "Building memorable visual systems that stand the test of time. Creating logos, typography, and guidelines that work across print and digital."
+            "description": "Designing the logo, color palette, and corporate elements that form the brand's DNA, ensuring consistency across both print and digital worlds."
         },
         "tags": {
             "instagramGrid": "Instagram Grid",
             "storySets": "Story Sets",
-            "campaigns": "Campaigns",
-            "2dAnimation": "2D Animation",
-            "logoReveal": "Logo Reveal",
+            "campaigns": "Ad Creatives",
+            "2dAnimation": "Motion Graphics",
+            "logoReveal": "Logo Animation",
             "kineticTypo": "Kinetic Typography",
             "logoDesign": "Logo Design",
-            "styleGuide": "Style Guide",
-            "businessCards": "Business Cards",
-            "reelsTikTok": "Reels & TikTok",
+            "styleGuide": "Brand Identity",
+            "businessCards": "Brand Guide",
+            "reelsTikTok": "Video Editing",
             "colorGrading": "Color Grading",
             "soundDesign": "Sound Design"
         }
@@ -68,47 +76,47 @@
     "videoShowcase": {
         "title": "Video Showcase",
         "subtitle": "Vertical stories that captivate",
-        "workLabel": "Video Work",
+        "workLabel": "Video Project",
         "categories": {
             "hype": {
-                "tab": "HYPE",
-                "title": "HYPE & EVENTS",
-                "desc": "Capturing the raw energy of the moment.",
-                "client": "Various Clients",
-                "year": "2024",
+                "tab": "Hype",
+                "title": "CONCERTS & EVENTS",
+                "desc": "High-energy edits that bring the rhythm of the atmosphere to the screen.",
+                "client": "Akdeniz Events",
+                "year": "2025",
                 "videos": {
-                    "v1": "Summer Vibes",
+                    "v1": "Concert",
                     "v2": "Night Life"
                 }
             },
             "commercial": {
-                "tab": "COMMERCIAL",
-                "title": "COMMERCIAL",
-                "desc": "Brand storytelling and product showcase.",
-                "client": "Brand Partners",
-                "year": "2024",
+                "tab": "Commercial",
+                "title": "PROMOTIONAL FILMS",
+                "desc": "Video productions highlighting the brand's soul and the experience offered.",
+                "client": "Kumrualtı & Jupp Jewelry",
+                "year": "2025",
                 "videos": {
                     "v1": "Brand Story",
-                    "v2": "Product Launch"
+                    "v2": "Grand Opening"
                 }
             },
             "social": {
-                "tab": "SOCIAL",
-                "title": "SOCIAL EDITS",
-                "desc": "Short-form content designed to engage.",
-                "client": "Social Media",
-                "year": "2024",
+                "tab": "Dynamic",
+                "title": "DYNAMIC VIDEOS",
+                "desc": "Trend-compliant, dynamic video content designed to stand out in the digital feed.",
+                "client": "Novastra Media",
+                "year": "2025",
                 "videos": {
-                    "v1": "Reels Edit",
-                    "v2": "TikTok Style"
+                    "v1": "Dynamic Edit",
+                    "v2": "Dynamic Edit"
                 }
             },
             "aerial": {
-                "tab": "DRONE",
-                "title": "AERIAL & DRONE",
-                "desc": "Cinematic perspectives from the sky.",
-                "client": "Aerial Projects",
-                "year": "2024",
+                "tab": "Drone",
+                "title": "DRONE & LOCATION",
+                "desc": "Creative location videos transforming transportation into a visual experience.",
+                "client": "Jupp Jewelry & Kumrualtı",
+                "year": "2025",
                 "videos": {
                     "v1": "City Flyover",
                     "v2": "Nature Shot"
@@ -120,6 +128,11 @@
         "title": "LET'S DESIGN TOGETHER",
         "subtitle": "Have a project in mind?",
         "email": "hello@ofarukbozkurt.com",
+        "copyright": "© 2026 Ömer Faruk Bozkurt. All rights reserved."
+    },
+    "footer": {
+        "rights": "All rights reserved.",
+        "designed": "Design",
         "copyright": "© 2026 Ömer Faruk Bozkurt. All rights reserved."
     },
     "caseStudy": {
@@ -140,68 +153,68 @@
     },
     "projects": {
         "novastra": {
-            "title": "Novastra",
-            "year": "2024",
-            "category": "Brand Identity",
-            "role": "Visual Design",
-            "deliverables": "Logo, Brand Kit",
-            "description": "Premium brand identity design with a focus on minimalist luxury aesthetics. Complete visual system including logo, typography, and brand guidelines."
+            "title": "Novastra Media",
+            "year": "2025",
+            "category": "Social Media - Brand Identity",
+            "role": "Visual Content Design",
+            "deliverables": "Logo, Social Media Designs",
+            "description": "Strategic visual identity construction strengthening the brand's voice in the digital world. Professional social media designs that increase engagement with the target audience."
         },
         "googleyorumlar": {
-            "title": "Google Yorumlar",
-            "year": "2024",
+            "title": "Google Reviews",
+            "year": "2025",
             "category": "Social Media",
-            "role": "Content Design",
-            "deliverables": "Posts, Templates",
-            "description": "Social media campaign design for Google reviews engagement. Dynamic motion graphics and eye-catching visual content optimized for multiple platforms."
+            "role": "Visual Content Design",
+            "deliverables": "Social Media Designs",
+            "description": "Engagement-focused professional social media campaign for Google Reviews service. Visual content design tailored to social media dynamics, driving target audience action."
         },
         "adananapoli": {
             "title": "Adana Napoli",
-            "year": "2024",
-            "category": "Social Media",
-            "role": "Social Design",
-            "deliverables": "Posts, Stories",
-            "description": "Social media content design for Adana Napoli restaurant. Eye-catching posts and engaging story content for Instagram presence."
+            "year": "2025",
+            "category": "Social Media - Brand Identity",
+            "role": "Visual Content Design",
+            "deliverables": "Logo, Social Media Designs",
+            "description": "Holistic brand identity construction bringing the culinary experience to the digital realm. Engagement-focused designs that stimulate appetite and dynamic content edits increasing brand visibility on Instagram."
         },
         "hacıhakkıusta": {
             "title": "Hacı Hakkı Usta",
-            "year": "2024",
+            "year": "2025",
             "category": "Social Media",
-            "role": "Social Design",
-            "deliverables": "Posts, Stories",
-            "description": "Traditional Turkish restaurant social media presence. Authentic food photography and engaging content design."
+            "role": "Visual Content Design",
+            "deliverables": "Social Media Designs",
+            "description": "A visual concept blending traditional dessert culture with digital aesthetics. Appetizing and professional social media designs strengthening the flavor perception of baklava and syrup desserts."
         },
         "akdenizetkinlik": {
-            "title": "Akdeniz Etkinlik",
-            "year": "2024",
-            "category": "Event Design",
-            "role": "Visual Design",
-            "deliverables": "Posts, Banners",
-            "description": "Event branding and promotional design for Akdeniz Etkinlik. Eye-catching visuals for concerts, festivals, and special events."
+            "title": "Akdeniz Events",
+            "year": "2025",
+            "category": "Social Media - Brand Identity",
+            "role": "Visual Content Design",
+            "deliverables": "Logo, Social Media Designs",
+            "description": "Holistic brand identity work capturing the rhythm of the entertainment world. Vibrant and impressive social media designs tailored to every event concept from concerts to parties."
         },
         "tırnaktrend": {
             "title": "Tırnak Trend",
-            "year": "2024",
+            "year": "2025",
             "category": "Social Media",
-            "role": "Social Design",
-            "deliverables": "Posts",
-            "description": "Social media content design for Tırnak Trend nail salon. Modern and elegant visuals for Instagram presence."
+            "role": "Visual Content Design",
+            "deliverables": "Social Media Designs",
+            "description": "Campaign visuals making a difference in the beauty sector, focused on customer acquisition. Conversion-oriented social media ad designs highlighting nail art services and offers."
         },
         "bbstransfer": {
             "title": "BBS Transfer",
-            "year": "2024",
+            "year": "2025",
             "category": "Social Media",
-            "role": "Social Design",
-            "deliverables": "Posts",
-            "description": "Social media design for BBS Transfer transportation company. Professional and trustworthy visual identity."
+            "role": "Visual Content Design",
+            "deliverables": "Social Media Designs",
+            "description": "Aesthetic editing carrying the luxury transport experience offered by BBS Transfer to the digital showcase. Target audience-focused social media designs prioritizing passenger comfort and safety."
         },
         "kumrualtı": {
             "title": "Kumrualtı",
-            "year": "2024",
+            "year": "2025",
             "category": "Social Media",
-            "role": "Social Design",
-            "deliverables": "Posts",
-            "description": "Social media content design for Kumrualtı restaurant. Appetizing food photography and engaging visual content."
+            "role": "Visual Content Design",
+            "deliverables": "Social Media Designs",
+            "description": "Appetizing content creation carrying Kumrualtı's unique street flavors to the digital showcase. Sincere and eye-catching social media designs that make the target audience hungry."
         }
     }
 }

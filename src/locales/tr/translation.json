@@ -15,8 +15,9 @@
         "whoAmI": "Ben Kimim?",
         "modal": {
             "title": "Ben Kimim?",
-            "p1": "Merhaba, ben Ömer Faruk. Akdeniz Üniversitesi Pazarlama bölümünde eğitim alırken, lise yıllarımdan beri tutkuyla bağlı olduğum tasarım dünyasında profesyonel işler üretiyorum.",
-            "p2": "Şu anda Novastra Media bünyesinde markaların görsel hikayelerini kurguluyor; Motion Design, Video Kurgu ve Grafik Tasarım disiplinlerini pazarlama stratejileriyle birleştiriyorum.",
+            "p1": "Ben Ömer Faruk Bozkurt. Pazarlama disiplinini yaratıcı tasarımla birleştiren bir Motion & Graphic Designer'ım",
+            "p2": "İster bir ürününüz olsun, ister bir markanız; sosyal medyanın o hızlı dünyasında fark edilmenizi sağlıyorum.",
+            "p3": "Markanızın dijital dünyadaki duruşunu güçlendirecek görsel kurguları hazırlıyorum. Hedefim; anlatmak istediklerinizi izleyicinin sıkılmadan tüketeceği, akıcı ve etkileyici içeriklere dönüştürmek.",
             "toolsTitle": "Kullandığım Araçlar",
             "contactTitle": "İletişim & Sosyal Medya",
             "emailBtn": "Birlikte Çalışalım"
@@ -29,7 +30,14 @@
     },
     "skills": {
         "title": "Yetenekler",
-        "subtitle": "Uzmanlık alanlarım"
+        "subtitle": "Uzmanlık alanlarım",
+        "levels": {
+            "mastery": "USTALIK",
+            "expert": "UZMAN",
+            "advanced": "İLERİ DÜZEY",
+            "pro": "PROFESYONEL"
+        },
+        "yearUnit": "Yıl"
     },
     "services": {
         "title": "Hizmetler",
@@ -71,7 +79,7 @@
         "workLabel": "Video Projesi",
         "categories": {
             "hype": {
-                "tab": "HYPE",
+                "tab": "Eğlence",
                 "title": "KONSER & ETKİNLİKLER",
                 "desc": "Atmosferin ritmini ekrana taşıyan yüksek enerjili kurgu.",
                 "client": "Akdeniz Etkinlik",
@@ -82,7 +90,7 @@
                 }
             },
             "commercial": {
-                "tab": "TİCARİ",
+                "tab": "Ticari",
                 "title": "TANITIM FİLMLERİ",
                 "desc": "Markanın ruhunu ve sunduğu deneyimi öne çıkaran, video prodüksiyonları.",
                 "client": "Kumrualtı & Jupp Takı",
@@ -93,25 +101,25 @@
                 }
             },
             "social": {
-                "tab": "SOSYAL",
+                "tab": "Dinamik",
                 "title": "DİNAMİK VİDEOLAR",
                 "desc": "Dijital akışta dikkat çeken, trendlere uygun dinamik video içerikleri. ",
                 "client": "Novastra Media",
                 "year": "2025",
                 "videos": {
-                    "v1": "Reels Kurgusu",
-                    "v2": "TikTok Tarzı"
+                    "v1": "Dinamik Kurgu",
+                    "v2": "Dinamik Kurgu"
                 }
             },
             "aerial": {
-                "tab": "DRONE",
+                "tab": "Drone",
                 "title": "DRONE & ADRES",
                 "desc": "Ulaşımı görsel bir deneyime dönüştüren yaratıcı konum videoları. ",
                 "client": "Jupp Takı & Kumrualtı",
                 "year": "2025",
                 "videos": {
                     "v1": "Şehir Uçuşu",
-                    "v2": "Doğa Çekimi"
+                    "v2": "Şehir Uçusu"
                 }
             }
         }

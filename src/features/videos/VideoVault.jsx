@@ -614,7 +614,7 @@ export default function VideoVault() {
         },
         {
             id: 'commercial',
-            tabLabel: t('videoShowcase.categories.commercial.tab', 'TİCARİ'),
+            tabLabel: t('videoShowcase.categories.commercial.tab', 'COMMERCIAL'),
             title: t('videoShowcase.categories.commercial.title', 'COMMERCIAL'),
             desc: t('videoShowcase.categories.commercial.desc', 'Brand storytelling and product showcase.'),
             client: t('videoShowcase.categories.commercial.client', 'Brand Partners'),

@@ -169,9 +169,11 @@ export default function Hero({ className }) {
                     className="flex-shrink-0 lg:max-w-lg text-center lg:text-left items-center lg:items-start flex flex-col"
                 >
                     {/* Name with dynamic letter animation - Single line on mobile */}
+                    {/* Name with dynamic letter animation - Single line on mobile */}
+                    {/* Name with dynamic letter animation - Single line on mobile */}
                     <motion.h1
                         variants={activeItemVariants}
-                        className="text-[clamp(26px,6.5vw,80px)] md:text-7xl font-extrabold tracking-[-0.03em] leading-[1.1] text-[#F2F2F2] whitespace-nowrap opacity-100 md:opacity-0"
+                        className="text-[clamp(26px,6.5vw,80px)] md:text-7xl font-extrabold tracking-[-0.03em] leading-[1.1] text-[#F2F2F2] whitespace-nowrap opacity-100 md:opacity-0 mb-1 md:mb-0"
                     >
                         {renderAnimatedText(firstName)}
                         {/* Space between names on mobile, break on desktop */}
@@ -180,15 +182,11 @@ export default function Hero({ className }) {
                         {renderAnimatedText(lastName, firstName.length)}
                     </motion.h1>
 
-                    {/* Title below name */}
+                    {/* Title below name - Matched width via spacing */}
                     <motion.p
                         variants={activeItemVariants}
-                        className="mt-2 md:mt-6 mb-2 md:mb-6"
+                        className="mt-1 mb-2 md:mt-6 md:mb-6 text-[13px] md:text-xl font-semibold tracking-[0.4em] md:tracking-[0.25em] uppercase text-center lg:text-left w-full"
                         style={{
-                            fontSize: '11px',
-                            fontWeight: 500,
-                            letterSpacing: '0.18em',
-                            textTransform: 'uppercase',
                             background: 'linear-gradient(90deg, #888, #fff, #888)',
                             backgroundSize: '200% 100%',
                             WebkitBackgroundClip: 'text',
@@ -204,12 +202,12 @@ export default function Hero({ className }) {
                     {/* Separator line - Mobile only for visual hierarchy */}
                     <motion.div
                         variants={activeItemVariants}
-                        className="w-10 h-[1px] bg-gradient-to-r from-transparent via-white/40 to-transparent mb-2 md:hidden"
+                        className="w-16 h-[1px] bg-gradient-to-r from-transparent via-white/40 to-transparent my-3 md:hidden"
                     />
 
                     <motion.p
                         variants={activeItemVariants}
-                        className="text-dimGray max-w-xs md:max-w-md text-sm md:text-base leading-relaxed opacity-100 md:opacity-0"
+                        className="text-gray-300 font-medium max-w-[85vw] md:max-w-none md:whitespace-nowrap text-sm md:text-lg leading-relaxed opacity-100 md:opacity-0 text-center lg:text-left"
                     >
                         {t('hero.description', 'Creating immersive visual experiences through motion and design.')}
                     </motion.p>
@@ -478,6 +476,9 @@ export default function Hero({ className }) {
                                 </p>
                                 <p className="text-gray-300 text-lg leading-relaxed font-light">
                                     {t('hero.modal.p2')}
+                                </p>
+                                <p className="text-gray-300 text-lg leading-relaxed font-light">
+                                    {t('hero.modal.p3')}
                                 </p>
                             </div>
 
