@@ -101,6 +101,21 @@ export default function Hero({ className }) {
     const heroRef = useRef(null)
     const isInView = useInView(heroRef, { amount: 0.3 })
 
+    // Body Scroll Lock specifically for Modal
+    useEffect(() => {
+        if (isModalOpen) {
+            document.body.style.overflow = 'hidden'
+            document.documentElement.style.overflow = 'hidden' // For mobile Safari
+        } else {
+            document.body.style.overflow = ''
+            document.documentElement.style.overflow = ''
+        }
+        return () => {
+            document.body.style.overflow = ''
+            document.documentElement.style.overflow = ''
+        }
+    }, [isModalOpen])
+
     // Replay animation only when VISIBLE
     useEffect(() => {
         if (!isInView) return // Don't run timer when off-screen
@@ -401,14 +416,17 @@ export default function Hero({ className }) {
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         onClick={() => setIsModalOpen(false)}
-                        className="fixed inset-0 z-[2000] flex items-center justify-center bg-black/80 backdrop-blur-md p-4"
+                        onTouchMove={(e) => e.preventDefault()}
+                        data-lenis-prevent="true"
+                        className="fixed inset-0 z-[2000] flex items-center justify-center bg-black/80 backdrop-blur-md p-4 touch-none overscroll-none"
                     >
                         <motion.div
                             initial={{ scale: 0.95, opacity: 0, y: 20 }}
                             animate={{ scale: 1, opacity: 1, y: 0 }}
                             exit={{ scale: 0.95, opacity: 0, y: 20 }}
                             onClick={(e) => e.stopPropagation()}
-                            className="bg-[#0A0A0A] border border-white/10 p-6 md:p-10 rounded-3xl max-w-2xl w-full relative shadow-[0_0_50px_rgba(0,0,0,0.5)] max-h-[85vh] overflow-y-auto"
+                            onTouchMove={(e) => e.stopPropagation()}
+                            className="bg-[#0A0A0A] border border-white/10 p-6 md:p-10 rounded-3xl max-w-2xl w-full relative shadow-[0_0_50px_rgba(0,0,0,0.5)] max-h-[85vh] overflow-y-auto overscroll-contain"
                         >
                             {/* Header */}
                             <div className="mb-8 relative flex items-center justify-between">
@@ -418,7 +436,7 @@ export default function Hero({ className }) {
                                 </div>
                                 <button
                                     onClick={() => setIsModalOpen(false)}
-                                    className="text-white/40 hover:text-white transition-colors bg-white/5 hover:bg-white/10 p-2 rounded-full"
+                                    className="text-white/40 hover:text-white transition-colors bg-white/5 hover:bg-white/10 p-2 rounded-full cursor-pointer"
                                 >
                                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 6L6 18M6 6l12 12" /></svg>
                                 </button>

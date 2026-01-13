@@ -134,11 +134,12 @@ function TypographyDisplay({ fontFamily, fontStyle }) {
 }
 
 // Image Card Component
-function ImageCard({ src, alt, index, type = 'post' }) {
+function ImageCard({ src, alt, index, type = 'post', className }) {
     const isLong = type === 'longPost'
 
     return (
         <motion.div
+            className={className}
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-50px' }}
@@ -149,7 +150,7 @@ function ImageCard({ src, alt, index, type = 'post' }) {
                 overflow: 'hidden',
                 background: 'rgba(255,255,255,0.02)',
                 border: '1px solid rgba(255,255,255,0.05)',
-                gridColumn: isLong ? '1 / -1' : 'auto'
+                width: isLong ? '100%' : undefined // Ensure full width for long posts
             }}
         >
             <ResponsiveImage
@@ -239,13 +240,13 @@ function GridViewContent({ project, onClose }) {
                 animate={{ opacity: 1, scale: 1 }}
                 whileHover={{ scale: 1.1 }}
                 onClick={onClose}
-                className="fixed top-6 right-6 z-[10000] w-12 h-12 rounded-full bg-white/10 border border-white/10 cursor-pointer text-white flex items-center justify-center hover:bg-white/20 transition-colors"
+                className="fixed top-8 right-4 md:top-6 md:right-6 z-[10000] w-8 h-8 md:w-12 md:h-12 rounded-full bg-white/10 border border-white/10 cursor-pointer text-white flex items-center justify-center hover:bg-white/20 transition-colors"
             >
-                <X size={20} />
+                <X size={16} className="md:w-5 md:h-5" />
             </motion.button>
 
             {/* SCROLL CONTENT WRAPPER - py-24 ensures content is taller than viewport */}
-            <div className="min-h-full w-full px-6 md:px-[5%] py-14 md:py-24">
+            <div className="min-h-full w-full px-6 md:px-[5%] py-8 md:py-12">
 
                 {/* CONTENT CARD */}
                 <div className="relative z-10 w-full max-w-[1400px] mx-auto">
@@ -255,11 +256,9 @@ function GridViewContent({ project, onClose }) {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{ duration: 0.8 }}
-                        className="text-left md:text-center"
+                        className="text-left md:text-center relative pt-0 pb-8 md:pt-10 md:pb-8 mb-0 md:mb-6"
                         style={{
                             position: 'relative',
-                            padding: '20px 0 40px', // Reduced mobile padding
-                            marginBottom: 20
                         }}
                     >
                         {/* Static Gradient Background - No animation for performance */}
@@ -295,18 +294,18 @@ function GridViewContent({ project, onClose }) {
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: 0.2 }}
+                                className="px-4 py-2 md:px-8 md:py-3 mb-4 md:mb-8 inline-block text-[10px] md:text-[12px]"
                                 style={{
-                                    display: 'inline-block',
-                                    padding: '10px 24px',
+                                    // Padding handled by class
                                     background: `linear-gradient(135deg, ${brandColor}20 0%, rgba(255,255,255,0.05) 100%)`,
                                     border: `1px solid ${brandColor}50`,
                                     borderRadius: 50,
                                     fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace',
-                                    fontSize: 11,
+                                    // fontSize handled by class
                                     letterSpacing: '0.2em',
                                     color: brandColor,
                                     textTransform: 'uppercase',
-                                    marginBottom: 32
+                                    // Margin handled by class
                                 }}
                             >
                                 {translatedCategory}
@@ -327,9 +326,10 @@ function GridViewContent({ project, onClose }) {
                                     WebkitTextFillColor: 'transparent',
                                     backgroundClip: 'text',
                                     margin: 0,
-                                    marginBottom: 28,
+                                    // Margin bottom handled by class
                                     animation: 'titleShine 5s ease-in-out infinite'
                                 }}
+                                className="mb-6 md:mb-10"
                             >
                                 {translatedTitle}
                             </motion.h1>
@@ -344,12 +344,10 @@ function GridViewContent({ project, onClose }) {
                                         fontSize: 18,
                                         lineHeight: 1.8,
                                         color: 'rgba(255,255,255,0.55)',
-                                        maxWidth: 650,
                                         color: 'rgba(255,255,255,0.55)',
-                                        maxWidth: 650,
-                                        margin: '0', // Left aligned on mobile
+                                        // maxWidth handled by class
                                     }}
-                                    className="md:mx-auto" // Center on desktop
+                                    className="mx-0 md:mx-auto md:text-center block max-w-[650px] md:max-w-[1000px]"
                                 >
                                     {translatedDescription}
                                 </motion.p>
@@ -370,7 +368,7 @@ function GridViewContent({ project, onClose }) {
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.6 }}
-                        className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 p-6 md:p-[40px] mb-10 md:mb-20 relative overflow-hidden rounded-[20px]"
+                        className="grid grid-cols-2 md:grid-cols-4 gap-5 md:gap-8 p-5 md:p-[40px] mb-8 md:mb-20 relative overflow-hidden rounded-[20px]"
                         style={{
                             background: `linear-gradient(135deg, rgba(20,20,25,0.9) 0%, rgba(20,20,25,0.95) 100%)`,
                             border: `1px solid ${brandColor}25`
@@ -464,7 +462,7 @@ function GridViewContent({ project, onClose }) {
 
                         {/* Custom Order Gallery */}
                         {orderedImages && orderedImages.length > 0 ? (
-                            <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
+                            <div className="flex flex-wrap justify-center gap-4 md:gap-8">
                                 {orderedImages.map((img, idx) => (
                                     <ImageCard
                                         key={img.src}
@@ -472,6 +470,13 @@ function GridViewContent({ project, onClose }) {
                                         alt={`${translatedTitle} ${idx + 1}`}
                                         index={idx}
                                         type={img.type}
+                                        className={
+                                            img.type === 'longPost'
+                                                ? "w-full"
+                                                : img.type === 'story'
+                                                    ? "w-[calc(50%-8px)] md:w-[calc(25%-21px)]" // Story sizing
+                                                    : "w-[calc(50%-8px)] md:w-[calc(50%-16px)] lg:w-[calc(33.333%-22px)]" // Post sizing
+                                        }
                                     />
                                 ))}
                             </div>
@@ -522,13 +527,14 @@ function GridViewContent({ project, onClose }) {
                                         >
                                             {t('caseStudy.posts', 'Posts')}
                                         </h4>
-                                        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
+                                        <div className="flex flex-wrap justify-center gap-4 md:gap-8">
                                             {postImages.map((src, idx) => (
                                                 <ImageCard
                                                     key={src}
                                                     src={src}
                                                     alt={`${translatedTitle} ${idx + 1}`}
                                                     index={idx}
+                                                    className="w-[calc(50%-8px)] md:w-[calc(50%-16px)] lg:w-[calc(33.333%-22px)]"
                                                 />
                                             ))}
                                         </div>
@@ -551,13 +557,14 @@ function GridViewContent({ project, onClose }) {
                                         >
                                             {t('caseStudy.stories', 'Stories')}
                                         </h4>
-                                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-7">
+                                        <div className="flex flex-wrap justify-center gap-4 md:gap-7">
                                             {storyImages.map((src, idx) => (
                                                 <ImageCard
                                                     key={src}
                                                     src={src}
                                                     alt={`${translatedTitle} Story ${idx + 1}`}
                                                     index={postImages.length + idx}
+                                                    className="w-[calc(50%-8px)] md:w-[calc(25%-21px)]"
                                                 />
                                             ))}
                                         </div>
