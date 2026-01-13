@@ -11,7 +11,16 @@
         "role": "MOTION & GRAPHIC DESIGNER",
         "description": "Creating immersive visual experiences through motion and design.",
         "cta": "View Work",
-        "downloadCV": "Download CV"
+        "downloadCV": "Download CV",
+        "whoAmI": "Who Am I?",
+        "modal": {
+            "title": "Who Am I?",
+            "p1": "Hello, I'm Ömer Faruk. While studying Marketing at Akdeniz University, I have been producing professional work in the design world, which I have been passionately attached to since my high school years.",
+            "p2": "Currently, at Novastra Media, I craft visual stories for brands; blending Motion Design, Video Editing, and Graphic Design disciplines with marketing strategies.",
+            "toolsTitle": "Tools I Use",
+            "contactTitle": "Contact & Social Media",
+            "emailBtn": "Let's Work Together"
+        }
     },
     "portfolio": {
         "title": "Selected Work",

@@ -11,7 +11,16 @@
         "role": "MOTION & GRAPHIC DESIGNER",
         "description": "Markalar için akılda kalıcı görsel deneyimler tasarlıyorum.",
         "cta": "Portfolyo",
-        "downloadCV": "CV'mi İndir"
+        "downloadCV": "CV'mi İndir",
+        "whoAmI": "Ben Kimim?",
+        "modal": {
+            "title": "Ben Kimim?",
+            "p1": "Merhaba, ben Ömer Faruk. Akdeniz Üniversitesi Pazarlama bölümünde eğitim alırken, lise yıllarımdan beri tutkuyla bağlı olduğum tasarım dünyasında profesyonel işler üretiyorum.",
+            "p2": "Şu anda Novastra Media bünyesinde markaların görsel hikayelerini kurguluyor; Motion Design, Video Kurgu ve Grafik Tasarım disiplinlerini pazarlama stratejileriyle birleştiriyorum.",
+            "toolsTitle": "Kullandığım Araçlar",
+            "contactTitle": "İletişim & Sosyal Medya",
+            "emailBtn": "Birlikte Çalışalım"
+        }
     },
     "portfolio": {
         "title": "Portfolyo",

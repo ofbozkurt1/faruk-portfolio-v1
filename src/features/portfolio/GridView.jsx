@@ -245,7 +245,7 @@ function GridViewContent({ project, onClose }) {
             </motion.button>
 
             {/* SCROLL CONTENT WRAPPER - py-24 ensures content is taller than viewport */}
-            <div className="min-h-full w-full px-[5%] py-24">
+            <div className="min-h-full w-full px-6 md:px-[5%] py-14 md:py-24">
 
                 {/* CONTENT CARD */}
                 <div className="relative z-10 w-full max-w-[1400px] mx-auto">
@@ -255,11 +255,11 @@ function GridViewContent({ project, onClose }) {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{ duration: 0.8 }}
+                        className="text-left md:text-center"
                         style={{
                             position: 'relative',
-                            padding: '40px 0 60px',
-                            marginBottom: 40,
-                            textAlign: 'center'
+                            padding: '20px 0 40px', // Reduced mobile padding
+                            marginBottom: 20
                         }}
                     >
                         {/* Static Gradient Background - No animation for performance */}
@@ -318,7 +318,7 @@ function GridViewContent({ project, onClose }) {
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: 0.3, type: 'spring', stiffness: 100 }}
                                 style={{
-                                    fontSize: 'clamp(52px, 9vw, 88px)',
+                                    fontSize: 'clamp(32px, 9vw, 88px)',
                                     fontWeight: 800,
                                     letterSpacing: '-0.04em',
                                     background: `linear-gradient(135deg, ${brandColor} 0%, #F2F2F2 50%, ${brandColor} 100%)`,
@@ -345,8 +345,11 @@ function GridViewContent({ project, onClose }) {
                                         lineHeight: 1.8,
                                         color: 'rgba(255,255,255,0.55)',
                                         maxWidth: 650,
-                                        margin: '0 auto'
+                                        color: 'rgba(255,255,255,0.55)',
+                                        maxWidth: 650,
+                                        margin: '0', // Left aligned on mobile
                                     }}
+                                    className="md:mx-auto" // Center on desktop
                                 >
                                     {translatedDescription}
                                 </motion.p>
@@ -367,7 +370,7 @@ function GridViewContent({ project, onClose }) {
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.6 }}
-                        className="grid grid-cols-2 md:grid-cols-4 gap-8 p-[30px] md:p-[40px] mb-20 relative overflow-hidden rounded-[20px]"
+                        className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 p-6 md:p-[40px] mb-10 md:mb-20 relative overflow-hidden rounded-[20px]"
                         style={{
                             background: `linear-gradient(135deg, rgba(20,20,25,0.9) 0%, rgba(20,20,25,0.95) 100%)`,
                             border: `1px solid ${brandColor}25`

@@ -14,7 +14,8 @@ const getNavLinks = (t) => [
     { label: t('nav.about', 'About'), href: '#about' },
     { label: t('nav.skills', 'Skills'), href: '#skills' },
     { label: t('nav.services', 'Services'), href: '#services' },
-    { label: t('nav.work', 'Portfolio'), href: '#portfolio' }
+    { label: t('nav.work', 'Portfolio'), href: '#portfolio' },
+    { label: t('nav.contact', 'Contact'), href: '#contact' }
 ]
 
 // Throttle utility - limits function execution frequency
@@ -260,7 +261,7 @@ export default function Header() {
                 {/* Desktop: Right side */}
                 <div className="hidden md:flex items-center gap-6">
                     <LanguageToggle />
-                    <a href="#contact" onClick={(e) => handleClick(e, '#contact')} className="lets-talk-btn">
+                    <a href="https://wa.me/905076267821" target="_blank" rel="noopener noreferrer" className="lets-talk-btn">
                         {t('nav.letsTalk', "Let's Talk")}
                     </a>
                 </div>
@@ -338,8 +339,9 @@ export default function Header() {
                             initial={{ opacity: 0, scale: 0.9 }}
                             animate={{ opacity: 1, scale: 1 }}
                             transition={{ delay: 0.4 }}
-                            href="#contact"
-                            onClick={(e) => handleClick(e, '#contact')}
+                            href="https://wa.me/905076267821"
+                            target="_blank"
+                            rel="noopener noreferrer"
                             className="lets-talk-btn mt-10 !px-8 !py-3 !text-sm flex-shrink-0"
                         >
                             {t('nav.letsTalk', "Let's Talk")}

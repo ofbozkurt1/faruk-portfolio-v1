@@ -6,14 +6,14 @@ export default function Footer() {
     const { t } = useTranslation()
 
     const socialLinks = [
-        { icon: FaBehance, href: 'https://behance.net', label: 'Behance' },
-        { icon: FaLinkedinIn, href: 'https://linkedin.com/in/omerfarukbozkurt', label: 'LinkedIn' },
-        { icon: FaInstagram, href: 'https://instagram.com/ofbozkurt1', label: 'Instagram' },
-        { icon: FaWhatsapp, href: 'https://wa.me/905xxxxxxxxx', label: 'WhatsApp' }
+        { icon: FaInstagram, href: 'https://www.instagram.com/of.bozkurt/', label: 'Instagram' },
+        { icon: FaLinkedinIn, href: 'https://www.linkedin.com/in/ömer-faruk-bozkurt-45299530b', label: 'LinkedIn' },
+        { icon: FaBehance, href: 'https://www.behance.net/ofbozkurt', label: 'Behance' },
+        { icon: FaWhatsapp, href: 'https://wa.me/905076267821', label: 'WhatsApp' }
     ]
 
     return (
-        <footer className="relative w-full py-12 md:py-20 overflow-hidden flex flex-col items-center justify-center text-center">
+        <footer id="contact" className="relative w-full py-12 md:py-20 overflow-hidden flex flex-col items-center justify-center text-center">
 
             {/* Background Glow */}
             <div className="absolute inset-0 pointer-events-none flex items-center justify-center translate-y-20">
@@ -22,8 +22,8 @@ export default function Footer() {
 
             <div className="relative z-10 w-full max-w-5xl px-6 flex flex-col items-center">
 
-                {/* Main Headline - Single Line */}
-                <h2 className="text-4xl md:text-6xl lg:text-7xl font-bold text-[#F2F2F2] mb-3 tracking-tight leading-tight whitespace-nowrap">
+                {/* Main Headline - Responsive wrapping for mobile */}
+                <h2 className="text-3xl md:text-6xl lg:text-7xl font-bold text-[#F2F2F2] mb-3 tracking-tight leading-tight whitespace-normal md:whitespace-nowrap max-w-xs md:max-w-none mx-auto">
                     {t('contact.title', 'HAYDİ BİRLİKTE TASARLAYALIM')}
                 </h2>
 
@@ -34,7 +34,9 @@ export default function Footer() {
 
                 {/* Email Button - Hero Style */}
                 <a
-                    href={`mailto:${t('contact.email', 'hello@ofarukbozkurt.com')}`}
+                    href="https://wa.me/905076267821"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="download-btn mb-8"
                 >
                     <div className="btn-wrapper">

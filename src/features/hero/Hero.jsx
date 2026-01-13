@@ -5,7 +5,8 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence, useInView } from 'framer-motion'
-import { FiChevronDown } from 'react-icons/fi'
+import { FiChevronDown, FiMail } from 'react-icons/fi'
+import { FaBehance, FaLinkedinIn, FaInstagram, FaWhatsapp } from 'react-icons/fa'
 import { useTranslation } from 'react-i18next'
 import { cn } from '../../utils/cn'
 import HeroBackground from './HeroBackground'
@@ -84,6 +85,7 @@ export default function Hero({ className }) {
     const [animationKey, setAnimationKey] = useState(0)
     const [isPhotoHovered, setIsPhotoHovered] = useState(false)
     const [mobile, setMobile] = useState(false)
+    const [isModalOpen, setIsModalOpen] = useState(false)
 
     // Detect mobile on mount
     useEffect(() => {
@@ -197,11 +199,11 @@ export default function Hero({ className }) {
                         {t('hero.description', 'Creating immersive visual experiences through motion and design.')}
                     </motion.p>
 
-                    {/* Action Buttons - CV + About (Mobile: side by side) */}
-                    <motion.div variants={activeItemVariants} className="mt-4 md:mt-8 flex items-center justify-center lg:justify-start gap-3 md:gap-4">
-                        <a href="/cv.pdf" download className="download-btn">
+                    {/* Action Buttons - CV + Who Am I */}
+                    <motion.div variants={activeItemVariants} className="mt-6 md:mt-8 flex flex-row items-center justify-center lg:justify-start gap-3 md:gap-4 w-full md:w-auto">
+                        <a href="/cv.pdf" download className="hero-download-btn">
                             <div className="btn-wrapper">
-                                <div className="btn-text">{t('hero.downloadCV', 'Download CV')}</div>
+                                <div className="btn-text">{t('hero.downloadCV', 'CV\'mi İndir')}</div>
                                 <span className="btn-icon">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                         <path d="M12 15V3m0 12l-4-4m4 4l4-4M2 17l.621 2.485A2 2 0 0 0 4.561 21h14.878a2 2 0 0 0 1.94-1.515L22 17" />
@@ -210,32 +212,10 @@ export default function Hero({ className }) {
                             </div>
                         </a>
 
-                        {/* About Button - Mobile only */}
-                        <a href="#about" className="about-btn md:hidden">
-                            <span>{t('hero.about', 'Hakkımda')}</span>
-                        </a>
-                    </motion.div>
-
-                    {/* Social Icons - Desktop: inline, Mobile: bottom centered */}
-                    <motion.div
-                        variants={itemVariants}
-                        className="hidden md:flex items-center gap-4 mt-4"
-                    >
-                        <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="social-icon" aria-label="Instagram">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
-                            </svg>
-                        </a>
-                        <a href="https://behance.net" target="_blank" rel="noopener noreferrer" className="social-icon" aria-label="Behance">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M22 7h-7v-2h7v2zm1.726 10c-.442 1.297-2.029 3-5.101 3-3.074 0-5.564-1.729-5.564-5.675 0-3.91 2.325-5.92 5.466-5.92 3.082 0 4.964 1.782 5.375 4.426.078.506.109 1.188.095 2.14h-8.027c.13 3.211 3.483 3.312 4.588 2.029h3.168zm-7.686-4h4.965c-.105-1.547-1.136-2.219-2.477-2.219-1.466 0-2.277.768-2.488 2.219zm-9.574 6.988h-6.466v-14.967h6.953c5.476.081 5.58 5.444 2.72 6.906 3.461 1.26 3.577 8.061-3.207 8.061zm-3.466-8.988h3.584c2.508 0 2.906-3-.312-3h-3.272v3zm3.391 3h-3.391v3.016h3.341c3.055 0 2.868-3.016.05-3.016z" />
-                            </svg>
-                        </a>
-                        <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="social-icon" aria-label="LinkedIn">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 448 512" fill="currentColor">
-                                <path d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z" />
-                            </svg>
-                        </a>
+                        {/* Who Am I Button */}
+                        <button onClick={() => setIsModalOpen(true)} className="hero-about-btn">
+                            <span>{t('hero.whoAmI', 'Ben Kimim?')}</span>
+                        </button>
                     </motion.div>
 
                     {/* Button Styles - Outline Dark Theme */}
@@ -250,22 +230,7 @@ export default function Hero({ className }) {
                             100% { background-position: -200% 0; }
                         }
                         
-                        .download-btn {
-                            --width: 150px;
-                            --height: 44px;
-                            width: var(--width);
-                            height: var(--height);
-                            background: transparent;
-                            border: 1px solid rgba(255,255,255,0.25);
-                            position: relative;
-                            text-align: center;
-                            border-radius: 50px;
-                            transition: all 0.4s ease;
-                            display: block;
-                            text-decoration: none;
-                            overflow: hidden;
-                        }
-
+                        /* --- SHARED BUTTON STYLES --- */
                         .btn-wrapper, .btn-text, .btn-icon {
                             overflow: hidden;
                             position: absolute;
@@ -273,6 +238,7 @@ export default function Hero({ className }) {
                             height: 100%;
                             left: 0;
                             color: #F2F2F2;
+                            pointer-events: none;
                         }
 
                         .btn-text {
@@ -285,9 +251,6 @@ export default function Hero({ className }) {
                             font-weight: 500;
                             letter-spacing: 0.1em;
                             text-transform: uppercase;
-                        }
-
-                        .btn-text, .btn-icon {
                             transition: top 0.4s ease;
                         }
 
@@ -297,9 +260,28 @@ export default function Hero({ className }) {
                             display: flex;
                             align-items: center;
                             justify-content: center;
+                            transition: top 0.4s ease;
                         }
 
-                        .download-btn::before {
+                        /* --- HERO DOWNLOAD BTN --- */
+                        .hero-download-btn {
+                            --width: 180px; /* Further Reduced for Desktop */
+                            --height: 48px;
+                            width: var(--width);
+                            height: var(--height);
+                            background: transparent;
+                            border: 1px solid rgba(255,255,255,0.25);
+                            position: relative;
+                            text-align: center;
+                            border-radius: 50px;
+                            transition: all 0.4s ease;
+                            display: block;
+                            text-decoration: none;
+                            overflow: hidden;
+                            cursor: pointer;
+                        }
+
+                        .hero-download-btn::before {
                             content: "";
                             position: absolute;
                             width: 0;
@@ -309,81 +291,23 @@ export default function Hero({ className }) {
                             left: 50%;
                             bottom: 0;
                             transform: translate(-50%, 50%);
-                            transition: all 0.4s ease;
+                            transition: all 0.5s ease;
                             z-index: -1;
                         }
 
-                        .download-btn:hover {
-                            border-color: #F2F2F2;
-                        }
+                        .hero-download-btn:hover { border-color: #F2F2F2; }
+                        .hero-download-btn:hover::before { width: 300px; height: 300px; }
+                        .hero-download-btn:hover .btn-text { top: -100%; }
+                        .hero-download-btn:hover .btn-icon { top: 0; }
+                        .hero-download-btn:active { transform: scale(0.98); }
 
-                        .download-btn:hover::before {
-                            width: 200px;
-                            height: 200px;
-                        }
-
-                        .download-btn:hover .btn-text {
-                            top: -100%;
-                        }
-
-                        .download-btn:hover .btn-icon {
-                            top: 0;
-                        }
-                        
-                        .download-btn:active {
-                            transform: scale(0.98);
-                        }
-                        
-                        .social-icon {
+                        /* About Button */
+                        .hero-about-btn {
                             display: flex;
                             align-items: center;
                             justify-content: center;
-                            width: 46px;
-                            height: 46px;
-                            border-radius: 50%;
-                            background: rgba(255,255,255,0.05);
-                            border: 1px solid rgba(255,255,255,0.1);
-                            color: #F2F2F2;
-                            transition: all 0.3s ease;
-                        }
-                        
-                        .social-icon svg {
-                            width: 18px;
-                            height: 18px;
-                        }
-                        
-                        .social-icon:hover {
-                            transform: translateY(-3px);
-                            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-                        }
-                        
-                        .social-icon[aria-label="LinkedIn"]:hover {
-                            background: #0A66C2;
-                            border-color: #0A66C2;
-                        }
-                        
-                        .social-icon[aria-label="Behance"]:hover {
-                            background: #1769FF;
-                            border-color: #1769FF;
-                        }
-                        
-                        .social-icon[aria-label="Instagram"]:hover {
-                            background: linear-gradient(135deg, #833AB4, #C13584, #E1306C, #FD1D1D);
-                            border-color: #C13584;
-                        }
-
-                        .whatsapp-icon:hover {
-                            background: #25D366;
-                            border-color: #25D366;
-                        }
-
-                        /* About Button - matches download-btn style */
-                        .about-btn {
-                            display: flex;
-                            align-items: center;
-                            justify-content: center;
-                            width: 150px; /* Default desktop width */
-                            height: 44px; /* Match download-btn height */
+                            width: 180px; 
+                            height: 48px; 
                             background: transparent;
                             border: 1px solid rgba(255,255,255,0.25);
                             border-radius: 50px;
@@ -396,18 +320,18 @@ export default function Hero({ className }) {
                             transition: all 0.3s ease;
                         }
 
-                        .about-btn:hover {
+                        .hero-about-btn:hover {
                             border-color: #F2F2F2;
                             background: rgba(255,255,255,0.05);
                         }
 
                         /* Mobile Adjustments */
                         @media (max-width: 768px) {
-                            .download-btn {
-                                --width: 136px;
+                            .hero-download-btn {
+                                --width: 140px;
                             }
-                            .about-btn {
-                                width: 136px;
+                            .hero-about-btn {
+                                width: 140px;
                             }
                         }
                     `}</style>
@@ -457,35 +381,6 @@ export default function Hero({ className }) {
                 </motion.div>
             </div>
 
-            {/* Mobile Social Icons - Bottom Centered with WhatsApp */}
-            <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.8 }}
-                className="flex md:hidden items-center justify-center gap-4 mt-6"
-            >
-                <a href="https://wa.me/905551234567" target="_blank" rel="noopener noreferrer" className="social-icon whatsapp-icon" aria-label="WhatsApp">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
-                    </svg>
-                </a>
-                <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="social-icon" aria-label="Instagram">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
-                    </svg>
-                </a>
-                <a href="https://behance.net" target="_blank" rel="noopener noreferrer" className="social-icon" aria-label="Behance">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M22 7h-7v-2h7v2zm1.726 10c-.442 1.297-2.029 3-5.101 3-3.074 0-5.564-1.729-5.564-5.675 0-3.91 2.325-5.92 5.466-5.92 3.082 0 4.964 1.782 5.375 4.426.078.506.109 1.188.095 2.14h-8.027c.13 3.211 3.483 3.312 4.588 2.029h3.168zm-7.686-4h4.965c-.105-1.547-1.136-2.219-2.477-2.219-1.466 0-2.277.768-2.488 2.219zm-9.574 6.988h-6.466v-14.967h6.953c5.476.081 5.58 5.444 2.72 6.906 3.461 1.26 3.577 8.061-3.207 8.061zm-3.466-8.988h3.584c2.508 0 2.906-3-.312-3h-3.272v3zm3.391 3h-3.391v3.016h3.341c3.055 0 2.868-3.016.05-3.016z" />
-                    </svg>
-                </a>
-                <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="social-icon" aria-label="LinkedIn">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 448 512" fill="currentColor">
-                        <path d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z" />
-                    </svg>
-                </a>
-            </motion.div>
-
             {/* Scroll Indicator - Larger on mobile */}
             <motion.div
                 initial={{ opacity: 0 }}
@@ -497,6 +392,72 @@ export default function Hero({ className }) {
                     <FiChevronDown className="w-12 h-12 md:w-9 md:h-9" color="#666" />
                 </motion.div>
             </motion.div>
+
+            {/* Who Am I Modal */}
+            <AnimatePresence>
+                {isModalOpen && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        onClick={() => setIsModalOpen(false)}
+                        className="fixed inset-0 z-[2000] flex items-center justify-center bg-black/80 backdrop-blur-md p-4"
+                    >
+                        <motion.div
+                            initial={{ scale: 0.95, opacity: 0, y: 20 }}
+                            animate={{ scale: 1, opacity: 1, y: 0 }}
+                            exit={{ scale: 0.95, opacity: 0, y: 20 }}
+                            onClick={(e) => e.stopPropagation()}
+                            className="bg-[#0A0A0A] border border-white/10 p-6 md:p-10 rounded-3xl max-w-2xl w-full relative shadow-[0_0_50px_rgba(0,0,0,0.5)] max-h-[85vh] overflow-y-auto"
+                        >
+                            {/* Header */}
+                            <div className="mb-8 relative flex items-center justify-between">
+                                <div className="flex flex-col gap-2">
+                                    <h3 className="text-3xl font-bold text-white tracking-tight">{t('hero.modal.title')}</h3>
+                                    <div className="h-[2px] w-12 bg-white/20"></div>
+                                </div>
+                                <button
+                                    onClick={() => setIsModalOpen(false)}
+                                    className="text-white/40 hover:text-white transition-colors bg-white/5 hover:bg-white/10 p-2 rounded-full"
+                                >
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 6L6 18M6 6l12 12" /></svg>
+                                </button>
+                            </div>
+
+                            {/* Bio */}
+                            <div className="space-y-6 mb-10">
+                                <p className="text-gray-300 text-lg leading-relaxed font-light">
+                                    {t('hero.modal.p1')}
+                                </p>
+                                <p className="text-gray-300 text-lg leading-relaxed font-light">
+                                    {t('hero.modal.p2')}
+                                </p>
+                            </div>
+
+                            {/* Footer (Contact) - ONLY SOCIALS + WhatsApp */}
+                            <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-6">
+                                <div className="flex flex-col gap-3 items-center md:items-start w-full">
+                                    <h4 className="text-xs font-medium text-white/40 uppercase tracking-widest">{t('hero.modal.contactTitle')}</h4>
+                                    <div className="flex items-center gap-3">
+                                        <a href="https://www.instagram.com/of.bozkurt/" target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full bg-white/5 hover:bg-white/20 flex items-center justify-center text-white/60 hover:text-white transition-all border border-white/5 hover:border-white/20 hover:scale-110">
+                                            <FaInstagram size={20} />
+                                        </a>
+                                        <a href="https://www.linkedin.com/in/ömer-faruk-bozkurt-45299530b" target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full bg-white/5 hover:bg-white/20 flex items-center justify-center text-white/60 hover:text-white transition-all border border-white/5 hover:border-white/20 hover:scale-110">
+                                            <FaLinkedinIn size={20} />
+                                        </a>
+                                        <a href="https://www.behance.net/ofbozkurt" target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full bg-white/5 hover:bg-white/20 flex items-center justify-center text-white/60 hover:text-white transition-all border border-white/5 hover:border-white/20 hover:scale-110">
+                                            <FaBehance size={20} />
+                                        </a>
+                                        <a href="https://wa.me/905076267821" target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full bg-white/5 hover:bg-white/20 flex items-center justify-center text-white/60 hover:text-white transition-all border border-white/5 hover:border-white/20 hover:scale-110">
+                                            <FaWhatsapp size={20} />
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </motion.div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </section>
     )
 }
