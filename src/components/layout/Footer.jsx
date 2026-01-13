@@ -31,14 +31,14 @@ export default function Footer() {
 
                 {/* Email Button - Hero Style */}
                 <a
-                    href="https://wa.me/905076267821"
+                    href="mailto:work@ofbozkurt.com"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="download-btn mb-8 mx-auto"
                 >
                     <div className="btn-wrapper">
-                        <div className="btn-text normal-case tracking-normal text-sm md:text-base">
-                            {t('contact.email', 'hello@ofarukbozkurt.com')}
+                        <div className="btn-text !lowercase tracking-wide" style={{ textTransform: 'lowercase', fontSize: 'clamp(16px, 5vw, 11px)', fontWeight: 500 }}>
+                            {t('contact.email', 'work@ofbozkurt.com')}
                         </div>
                         <span className="btn-icon">
                             {/* Mail Icon */}
@@ -109,53 +109,53 @@ export default function Footer() {
                     font-weight: 500;
                 }
 
-                .btn-text, .btn-icon {
-                    transition: top 0.4s ease;
+            .btn-text, .btn-icon {
+                transition: top 0.4s ease;
                 }
 
-                .btn-icon {
-                    color: #050505;
-                    top: 100%;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
+            .btn-icon {
+                color: #050505;
+            top: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
                 }
 
-                .download-btn::before {
-                    content: "";
-                    position: absolute;
-                    width: 0;
-                    height: 0;
-                    background-color: #F2F2F2;
-                    border-radius: 50%;
-                    left: 50%;
-                    bottom: 0;
-                    transform: translate(-50%, 50%);
-                    transition: all 0.4s ease;
-                    z-index: -1;
+            .download-btn::before {
+                content: "";
+            position: absolute;
+            width: 0;
+            height: 0;
+            background-color: #F2F2F2;
+            border-radius: 50%;
+            left: 50%;
+            bottom: 0;
+            transform: translate(-50%, 50%);
+            transition: all 0.4s ease;
+            z-index: -1;
                 }
 
-                .download-btn:hover {
-                    border-color: #F2F2F2;
+            .download-btn:hover {
+                border - color: #F2F2F2;
                 }
 
-                .download-btn:hover::before {
-                    width: 350px;
-                    height: 350px;
+            .download-btn:hover::before {
+                width: 350px;
+            height: 350px;
                 }
 
-                .download-btn:hover .btn-text {
-                    top: -100%;
+            .download-btn:hover .btn-text {
+                top: -100%;
                 }
 
-                .download-btn:hover .btn-icon {
-                    top: 0;
+            .download-btn:hover .btn-icon {
+                top: 0;
                 }
-                
-                .download-btn:active {
-                    transform: scale(0.98);
+
+            .download-btn:active {
+                transform: scale(0.98);
                 }
             `}</style>
-        </footer>
+        </footer >
     )
 }
