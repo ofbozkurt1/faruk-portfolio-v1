@@ -398,7 +398,7 @@ export default function Hero({ className }) {
 
                     {/* Floating Photo Container - Pure CSS Animation */}
                     <div
-                        className="w-[280px] h-[280px] md:w-[420px] md:h-[420px] rounded-full overflow-hidden relative"
+                        className="w-[280px] h-[280px] md:w-[420px] md:h-[420px] rounded-full overflow-hidden relative border border-black"
                         style={{
                             animation: 'float-photo 4s ease-in-out infinite',
                             transform: isPhotoHovered ? 'scale(1.03)' : 'scale(1)',
@@ -407,8 +407,8 @@ export default function Hero({ className }) {
                         }}
                     >
                         <ResponsiveImage
-                            src="/gorseller/profil/ben.webp"
-                            mobileSrc="/gorseller/mobilgorseller/mobilprofil/ben.webp"
+                            src="/gorseller/profil/ben1.webp"
+                            mobileSrc="/gorseller/profil/ben1.webp"
                             alt="Ömer Faruk Bozkurt"
                             sizes="(max-width: 768px) 280px, 420px"
                             width="420"
@@ -416,7 +416,7 @@ export default function Hero({ className }) {
                             priority={true}
                             className="w-full h-full object-cover transition-transform duration-400"
                             style={{
-                                transform: isPhotoHovered ? 'scale(1.1)' : 'scale(1)'
+                                transform: isPhotoHovered ? 'scale(1.1) scaleX(-1)' : 'scale(1) scaleX(-1)'
                             }}
                         />
                     </div>
