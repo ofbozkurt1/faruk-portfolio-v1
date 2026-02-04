@@ -407,8 +407,8 @@ export default function Hero({ className }) {
                         }}
                     >
                         <ResponsiveImage
-                            src="/gorseller/profil/ben1.webp"
-                            mobileSrc="/gorseller/profil/ben1.webp"
+                            src="/gorseller/profil/ppwebp1.webp"
+                            mobileSrc="/gorseller/profil/ppwebp1.webp"
                             alt="Ömer Faruk Bozkurt"
                             sizes="(max-width: 768px) 280px, 420px"
                             width="420"
