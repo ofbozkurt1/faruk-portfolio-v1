@@ -23,6 +23,15 @@ export default {
                 '5vw': '5vw',
                 '20vh': '20vh',
             },
+            keyframes: {
+                marquee: {
+                    '0%': { transform: 'translateX(0)' },
+                    '100%': { transform: 'translateX(-50%)' },
+                },
+            },
+            animation: {
+                marquee: 'marquee 40s linear infinite',
+            },
             transitionTimingFunction: {
                 'spring': 'cubic-bezier(0.37, 0, 0.63, 1)',
             },

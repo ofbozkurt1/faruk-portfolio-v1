@@ -6,6 +6,7 @@ import { StackView, GridView } from './features/portfolio'
 import { SkillsView } from './features/skills'
 import { ServicesView } from './features/services'
 import { VideoVault } from './features/videos'
+import EcommerceShowcase from './features/ecommerce/EcommerceShowcase'
 import { Header, Footer } from './components/layout'
 import { AtmosphericBackground, CustomCursor } from './components/ui'
 import ServiceBackgroundLayer from './components/ui/ServiceBackgroundLayer'
@@ -131,6 +132,9 @@ function App() {
                     isOpen={!!selectedProject}
                     onClose={() => setSelectedProject(null)}
                 />
+
+                {/* ─── Phase 53: E-Commerce & Product Design Section ─── */}
+                <EcommerceShowcase />
 
                 {/* Video Showcase Section */}
                 <section id="videos" className="container-padding">
