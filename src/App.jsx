@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+﻿import { useEffect, useState } from 'react'
 import Lenis from '@studio-freight/lenis'
 import { useTranslation } from 'react-i18next'
 import { Hero } from './features/hero'
@@ -7,6 +7,8 @@ import { SkillsView } from './features/skills'
 import { ServicesView } from './features/services'
 import { VideoVault } from './features/videos'
 import EcommerceShowcase from './features/ecommerce/EcommerceShowcase'
+import MotionShowcase from './features/motion/MotionShowcase'
+import InstagramShowcase from './features/instagram/InstagramShowcase'
 import { Header, Footer } from './components/layout'
 import { AtmosphericBackground, CustomCursor } from './components/ui'
 import ServiceBackgroundLayer from './components/ui/ServiceBackgroundLayer'
@@ -133,8 +135,10 @@ function App() {
                     onClose={() => setSelectedProject(null)}
                 />
 
-                {/* ─── Phase 53: E-Commerce & Product Design Section ─── */}
+                {/* â”€â”€â”€ Phase 53: E-Commerce & Product Design Section â”€â”€â”€ */}
                 <EcommerceShowcase />
+                <MotionShowcase />
+                <InstagramShowcase />
 
                 {/* Video Showcase Section */}
                 <section id="videos" className="container-padding">
@@ -151,3 +155,6 @@ function App() {
 }
 
 export default App
+
+
+

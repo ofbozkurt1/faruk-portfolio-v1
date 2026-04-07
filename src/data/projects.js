@@ -99,6 +99,30 @@ const PROJECT_DATA = [
         }
     },
     {
+        id: "v\u0131vacar",
+        title: "Viva Rent A Car",
+        brandColor: "#0EA5E9",
+        category: "Social Media",
+        year: "2024",
+        role: "Social Design",
+        deliverables: "Posts",
+        // Counts auto-detected from files
+        description: "Social media design work for Viva Rent A Car. Premium, trustworthy and conversion-focused automotive campaign visuals.",
+        credits: "Design: Faruk",
+        techStack: ["photoshop", "illustrator"],
+        client: "Viva Rent A Car",
+        identity: {
+            colors: [
+                { code: "#0EA5E9", name: "Sky Blue" },
+                { code: "#0B1220", name: "Midnight" },
+                { code: "#F2F2F2", name: "Off White" },
+                { code: "#1E293B", name: "Slate" }
+            ],
+            fontFamily: "Inter",
+            fontStyle: "Modern Sans"
+        }
+    },
+    {
         id: "hacıhakkıusta",
         title: "Hacı Hakkı Usta",
         brandColor: "#C17F59",
