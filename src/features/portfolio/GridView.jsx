@@ -23,6 +23,77 @@ const toolIcons = {
     figma: '/gorseller/iconlar/figma.svg'
 }
 
+const NOVASTRA_CLOUD_BASE = 'https://res.cloudinary.com/dbr7bx7u5/image/upload/q_auto/f_auto/v1775630739/'
+const NOVASTRA_STORY_CLOUD_BASE = 'https://res.cloudinary.com/dbr7bx7u5/image/upload/q_auto/f_auto/v1775632273/'
+const NOVASTRA_TRIPLE_STORY_ASSET = 'https://res.cloudinary.com/dbr7bx7u5/image/upload/q_auto/f_auto/v1775650345/3str.webp'
+const GOOGLE_YORUMLAR_POST_CLOUD_BASE = 'https://res.cloudinary.com/dbr7bx7u5/image/upload/q_auto/f_auto/v1775660462/%C4%B0mage/google-yorumlar/google-pst-webp/'
+const GOOGLE_YORUMLAR_STORY_CLOUD_BASE = 'https://res.cloudinary.com/dbr7bx7u5/image/upload/q_auto/f_auto/v1775660428/%C4%B0mage/google-yorumlar/google-str-webp/'
+const ADANA_NAPOLI_POST_CLOUD_BASE = 'https://res.cloudinary.com/dbr7bx7u5/image/upload/q_auto/f_auto/v1775729245/%C4%B0mage/adana-napoli/adana-napoli-%20pst-webp/'
+const ADANA_NAPOLI_STORY_CLOUD_BASE = 'https://res.cloudinary.com/dbr7bx7u5/image/upload/q_auto/f_auto/v1775729316/%C4%B0mage/adana-napoli/adana-napoli-%20str-webp/'
+const VIVACAR_POST_CLOUD_BASE = 'https://res.cloudinary.com/dbr7bx7u5/image/upload/q_auto/f_auto/%C4%B0mage/vivacar/vivacar-pst-webp/'
+const HACI_HAKKI_USTA_POST_CLOUD_BASE = 'https://res.cloudinary.com/dbr7bx7u5/image/upload/q_auto/f_auto/%C4%B0mage/hac%C4%B1hakk%C4%B1/hac%C4%B1hakk%C4%B1-pst/'
+const HACI_HAKKI_USTA_STORY_CLOUD_BASE = 'https://res.cloudinary.com/dbr7bx7u5/image/upload/q_auto/f_auto/%C4%B0mage/hac%C4%B1hakk%C4%B1/hac%C4%B1hakk%C4%B1-str/'
+const AKDENIZ_ETKINLIK_POST_CLOUD_BASE = 'https://res.cloudinary.com/dbr7bx7u5/image/upload/q_auto/f_auto/%C4%B0mage/aktet/aktet-pst-webp/'
+const TIRNAK_TREND_POST_CLOUD_BASE = 'https://res.cloudinary.com/dbr7bx7u5/image/upload/q_auto/f_auto/%C4%B0mage/t%C4%B1rnaktrend/t%C4%B1rnaktrend-pst-webp/'
+const BBS_TRANSFER_POST_CLOUD_BASE = 'https://res.cloudinary.com/dbr7bx7u5/image/upload/q_auto/f_auto/%C4%B0mage/bbstransfer/bbstransfer-pst-webp/'
+const KUMRUALTI_POST_CLOUD_BASE = 'https://res.cloudinary.com/dbr7bx7u5/image/upload/q_auto/f_auto/%C4%B0mage/kumrualt%C4%B1/kumrualt%C4%B1-pst-webp/'
+
+const PROJECT_MEDIA_CONFIG = {
+    novastra: {
+        postBase: NOVASTRA_CLOUD_BASE,
+        storyBase: NOVASTRA_STORY_CLOUD_BASE,
+        imageOrder: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+        storyOrder: [
+            1,
+            2,
+            3,
+            { type: 'triple-seamless', combined: true, src: NOVASTRA_TRIPLE_STORY_ASSET },
+            4,
+            5,
+            6,
+            7,
+            8,
+        ],
+    },
+    googleyorumlar: {
+        postBase: GOOGLE_YORUMLAR_POST_CLOUD_BASE,
+        storyBase: GOOGLE_YORUMLAR_STORY_CLOUD_BASE,
+        imageOrder: [1, 2, 3, 4, 5, 6, 7, 8],
+        storyOrder: [1, 2, 3, 4, 5, 6, 7, 8],
+    },
+    adananapoli: {
+        postBase: ADANA_NAPOLI_POST_CLOUD_BASE,
+        storyBase: ADANA_NAPOLI_STORY_CLOUD_BASE,
+        imageOrder: ['3pst1', 1, 2],
+        storyOrder: [1, 2, 3, 4, 5],
+    },
+    vivacar: {
+        postBase: VIVACAR_POST_CLOUD_BASE,
+        imageOrder: [1, 2, 3],
+    },
+    'hacıhakkıusta': {
+        postBase: HACI_HAKKI_USTA_POST_CLOUD_BASE,
+        storyBase: HACI_HAKKI_USTA_STORY_CLOUD_BASE,
+        imageOrder: [1, 2, 3, 4, 5],
+        storyOrder: [1, 2],
+    },
+    akdenizetkinlik: {
+        postBase: AKDENIZ_ETKINLIK_POST_CLOUD_BASE,
+        imageOrder: ['3pst1', 1, 2, 3, '3pst2', 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
+    },
+    'tırnaktrend': {
+        postBase: TIRNAK_TREND_POST_CLOUD_BASE,
+        imageOrder: [1, 2, 3],
+    },
+    bbstransfer: {
+        postBase: BBS_TRANSFER_POST_CLOUD_BASE,
+        imageOrder: [1, 2],
+    },
+    'kumrualtı': {
+        postBase: KUMRUALTI_POST_CLOUD_BASE,
+        imageOrder: [1, 2, 3],
+    },
+}
 // Meta Item Component - Enhanced with brand color
 function MetaItem({ label, value, delay = 0, brandColor = '#9333EA' }) {
     return (
@@ -167,6 +238,84 @@ function ImageCard({ src, alt, index, type = 'post', className }) {
     )
 }
 
+function CombinedTriplePostCard({ src, alt, index, className }) {
+    const positions = ['left', 'center', 'right']
+
+    return (
+        <motion.div
+            className={className}
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-50px' }}
+            transition={{ duration: 0.6, delay: index * 0.05 }}
+            whileHover={{ y: -8 }}
+            style={{
+                borderRadius: 16,
+                overflow: 'hidden',
+                background: 'rgba(255,255,255,0.02)',
+                border: '1px solid rgba(255,255,255,0.05)',
+            }}
+        >
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-0">
+                {positions.map((position, sliceIndex) => (
+                    <div key={`${position}-${sliceIndex}`} className="relative aspect-[4/5] overflow-hidden">
+                        <img
+                            src={src}
+                            alt={`${alt} Slice ${sliceIndex + 1}`}
+                            loading="lazy"
+                            decoding="async"
+                            className={[
+                                'h-full w-full object-cover',
+                                position === 'left' ? 'object-left' : position === 'right' ? 'object-right' : 'object-center',
+                            ].join(' ')}
+                            style={{ display: 'block' }}
+                        />
+                    </div>
+                ))}
+            </div>
+        </motion.div>
+    )
+}
+
+function CombinedTripleStoryCard({ src, alt, index, className }) {
+    const positions = ['left', 'center', 'right']
+
+    return (
+        <motion.div
+            className={className}
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-50px' }}
+            transition={{ duration: 0.6, delay: index * 0.05 }}
+            whileHover={{ y: -8 }}
+            style={{
+                borderRadius: 16,
+                overflow: 'hidden',
+                background: 'rgba(255,255,255,0.02)',
+                border: '1px solid rgba(255,255,255,0.05)',
+            }}
+        >
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-0">
+                {positions.map((position, sliceIndex) => (
+                    <div key={`${position}-${sliceIndex}`} className="relative aspect-[9/16] overflow-hidden">
+                        <img
+                            src={src}
+                            alt={`${alt} Slice ${sliceIndex + 1}`}
+                            loading="lazy"
+                            decoding="async"
+                            className={[
+                                'h-full w-full object-cover',
+                                position === 'left' ? 'object-left' : position === 'right' ? 'object-right' : 'object-center',
+                            ].join(' ')}
+                            style={{ display: 'block' }}
+                        />
+                    </div>
+                ))}
+            </div>
+        </motion.div>
+    )
+}
+
 function GridViewContent({ project, onClose }) {
     const { t } = useTranslation()
     // scrollContainerRef removed - using native scroll on motion.div wrapper
@@ -186,13 +335,83 @@ function GridViewContent({ project, onClose }) {
     const translatedDescription = t(`${projectKey}.description`, description)
     const translatedYear = t(`${projectKey}.year`, year)
 
+    const projectMedia = PROJECT_MEDIA_CONFIG[id] || null
+    const imageOrder = projectMedia?.imageOrder || null
+    const storyOrder = projectMedia?.storyOrder || null
+    const activePostBaseUrl = projectMedia?.postBase || null
+    const activeStoryBaseUrl = projectMedia?.storyBase || null
+
     const longPostImages = getLongPostImages(id, longPostCount)
-    const postImages = getPostImages(id, postCount)
-    const storyImages = getStoryImages(id, storyCount)
+    const postItems = imageOrder && activePostBaseUrl
+        ? imageOrder.map((entry) => {
+            if (typeof entry === 'number') {
+                return {
+                    type: 'post',
+                    combined: false,
+                    postNumber: entry,
+                    src: `${activePostBaseUrl}pst${entry}.webp`,
+                }
+            }
+
+            if (typeof entry === 'string' && entry.toLowerCase().includes('3pst')) {
+                return {
+                    type: 'triple-post',
+                    combined: true,
+                    src: `${activePostBaseUrl}${entry}.webp`,
+                }
+            }
+
+            if (entry && entry.combined && entry.type === 'triple-post' && entry.src) {
+                return {
+                    type: entry.type,
+                    combined: true,
+                    src: entry.src,
+                }
+            }
+
+            return null
+        }).filter(Boolean)
+        : getPostImages(id, postCount).map((src, idx) => ({
+            type: 'post',
+            combined: false,
+            postNumber: idx + 1,
+            src,
+        }))
+
+    const storyItems = storyOrder && activeStoryBaseUrl
+        ? storyOrder.map((entry) => {
+            if (typeof entry === 'number') {
+                return {
+                    type: 'story',
+                    combined: false,
+                    storyNumber: entry,
+                    src: `${activeStoryBaseUrl}str${entry}.webp`,
+                }
+            }
+
+            if (entry && entry.combined && entry.type === 'triple-seamless' && entry.src) {
+                return {
+                    type: entry.type,
+                    combined: true,
+                    src: entry.src,
+                }
+            }
+
+            return null
+        }).filter(Boolean)
+        : getStoryImages(id, storyCount).map((src, idx) => ({
+            type: 'story',
+            combined: false,
+            storyNumber: idx + 1,
+            src,
+        }))
+
+    const singleStoryItems = storyItems.filter((item) => !item.combined)
+    const combinedStoryItems = storyItems.filter((item) => item.combined)
 
     // Custom ordered images for projects with customOrder
     const orderedImages = useMemo(() => {
-        if (!customOrder) return null
+        if (!customOrder || projectMedia?.imageOrder || projectMedia?.storyOrder) return null
 
         return customOrder.map(item => {
             if (item.type === 'longPost') {
@@ -204,9 +423,9 @@ function GridViewContent({ project, onClose }) {
             }
             return null
         }).filter(Boolean)
-    }, [id, customOrder])
+    }, [id, customOrder, projectMedia])
 
-    // ESC tuşu ile kapatma
+    // ESC key closes modal
     useEffect(() => {
         const handleEsc = (e) => { if (e.key === 'Escape') onClose() }
         window.addEventListener('keydown', handleEsc)
@@ -229,7 +448,7 @@ function GridViewContent({ project, onClose }) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="fixed inset-0 z-[9999] h-[100dvh] w-screen overflow-y-scroll overflow-x-hidden bg-[#0a0a0a] overscroll-y-none pointer-events-auto"
-            // 🛑 STOP LENIS FROM STEALING SCROLL EVENTS
+            // STOP LENIS FROM STEALING SCROLL EVENTS
             data-lenis-prevent="true"
             onWheel={(e) => e.stopPropagation()}
             onTouchMove={(e) => e.stopPropagation()}
@@ -251,7 +470,7 @@ function GridViewContent({ project, onClose }) {
                 {/* CONTENT CARD */}
                 <div className="relative z-10 w-full max-w-[1400px] mx-auto">
 
-                    {/* ═══════════════ HERO SECTION - ENHANCED ═══════════════ */}
+                    {/* HERO SECTION - ENHANCED */}
                     <motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
@@ -363,7 +582,7 @@ function GridViewContent({ project, onClose }) {
                         `}</style>
                     </motion.div>
 
-                    {/* ═══════════════ META SECTION ═══════════════ */}
+                    {/* META SECTION */}
                     <motion.div
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
@@ -452,7 +671,7 @@ function GridViewContent({ project, onClose }) {
                         </motion.div>
                     </motion.div>
 
-                    {/* ═══════════════ GALLERY SECTION ═══════════════ */}
+                    {/* GALLERY SECTION */}
                     <motion.div
                         initial={{ opacity: 0 }}
                         whileInView={{ opacity: 1 }}
@@ -512,8 +731,8 @@ function GridViewContent({ project, onClose }) {
                                 )}
 
                                 {/* Posts Grid - 3 per row */}
-                                {postImages.length > 0 && (
-                                    <div style={{ marginBottom: storyImages.length > 0 ? 60 : 0 }}>
+                                {postItems.length > 0 && (
+                                    <div style={{ marginBottom: storyItems.length > 0 ? 60 : 0 }}>
                                         <h4
                                             style={{
                                                 fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace',
@@ -528,21 +747,31 @@ function GridViewContent({ project, onClose }) {
                                             {t('caseStudy.posts', 'Posts')}
                                         </h4>
                                         <div className="flex flex-wrap justify-center gap-4 md:gap-8">
-                                            {postImages.map((src, idx) => (
-                                                <ImageCard
-                                                    key={src}
-                                                    src={src}
-                                                    alt={`${translatedTitle} ${idx + 1}`}
-                                                    index={idx}
-                                                    className="w-[calc(50%-8px)] md:w-[calc(50%-16px)] lg:w-[calc(33.333%-22px)]"
-                                                />
+                                            {postItems.map((item, idx) => (
+                                                item.combined ? (
+                                                    <CombinedTriplePostCard
+                                                        key={`${item.type}-${item.src}`}
+                                                        src={item.src}
+                                                        alt={`${translatedTitle} Combined Post`}
+                                                        index={idx}
+                                                        className="w-full"
+                                                    />
+                                                ) : (
+                                                    <ImageCard
+                                                        key={item.src}
+                                                        src={item.src}
+                                                        alt={`${translatedTitle} ${item.postNumber}`}
+                                                        index={idx}
+                                                        className="w-[calc(50%-8px)] md:w-[calc(50%-16px)] lg:w-[calc(33.333%-22px)]"
+                                                    />
+                                                )
                                             ))}
                                         </div>
                                     </div>
                                 )}
 
                                 {/* Stories Grid - 4 per row */}
-                                {storyImages.length > 0 && (
+                                {storyItems.length > 0 && (
                                     <div>
                                         <h4
                                             style={{
@@ -557,17 +786,33 @@ function GridViewContent({ project, onClose }) {
                                         >
                                             {t('caseStudy.stories', 'Stories')}
                                         </h4>
-                                        <div className="flex flex-wrap justify-center gap-4 md:gap-7">
-                                            {storyImages.map((src, idx) => (
-                                                <ImageCard
-                                                    key={src}
-                                                    src={src}
-                                                    alt={`${translatedTitle} Story ${idx + 1}`}
-                                                    index={postImages.length + idx}
-                                                    className="w-[calc(50%-8px)] md:w-[calc(25%-21px)]"
-                                                />
-                                            ))}
-                                        </div>
+                                        {singleStoryItems.length > 0 && (
+                                            <div className="flex flex-wrap justify-center gap-4 md:gap-7">
+                                                {singleStoryItems.map((item, idx) => (
+                                                    <ImageCard
+                                                        key={item.src}
+                                                        src={item.src}
+                                                        alt={`${translatedTitle} Story ${item.storyNumber}`}
+                                                        index={postItems.length + idx}
+                                                        className="w-[calc(50%-8px)] md:w-[calc(25%-21px)]"
+                                                    />
+                                                ))}
+                                            </div>
+                                        )}
+
+                                        {combinedStoryItems.length > 0 && (
+                                            <div className="mt-4 md:mt-7 flex flex-col gap-4 md:gap-7">
+                                                {combinedStoryItems.map((item, idx) => (
+                                                    <CombinedTripleStoryCard
+                                                        key={`${item.type}-${item.src}`}
+                                                        src={item.src}
+                                                        alt={`${translatedTitle} Combined Story`}
+                                                        index={postItems.length + singleStoryItems.length + idx}
+                                                        className="w-full"
+                                                    />
+                                                ))}
+                                            </div>
+                                        )}
                                     </div>
                                 )}
                             </>
@@ -589,3 +834,4 @@ export default function GridView({ project, isOpen, onClose }) {
         document.body
     )
 }
+

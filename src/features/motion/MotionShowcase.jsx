@@ -83,12 +83,12 @@ export default function MotionShowcase() {
   }, [inView, loaded])
 
   return (
-    <section id="motion-showcase" className="relative w-full py-32">
+    <section id="motion-showcase" className="relative w-full pt-14 pb-32">
       <div className="mx-auto max-w-7xl px-8">
         <div className="mb-14 text-center">
-          <h2 className="text-6xl font-bold tracking-tight text-gray-100">Motion Design</h2>
+          <h2 className="text-6xl font-bold tracking-tight text-gray-100">{'Hareketli Tasar\u0131mlar'}</h2>
           <p className="mt-4 text-base tracking-wide text-gray-400">
-            Scroll-triggered, CDN-powered motion assets with strict lazy loading and clean cinematic pacing.
+            {'Kayd\u0131rma tetiklemeli, CDN destekli motion i\u00e7erikleri ile ak\u0131c\u0131 ve premium bir video vitrini.'}
           </p>
         </div>
 

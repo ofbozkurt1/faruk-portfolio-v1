@@ -31,7 +31,10 @@ const PROJECT_DATA = [
         year: "2024",
         role: "Visual Design",
         deliverables: "Logo, Brand Kit",
-        // postCount, longPostCount, storyCount are now auto-detected!
+        // Phase 1 CDN pilot: Novastra uses normalized Cloudinary assets pst1.webp -> pst12.webp
+        postCount: 12,
+        longPostCount: 0,
+        storyCount: 0,
         description: "Premium brand identity design with a focus on minimalist luxury aesthetics. Complete visual system including logo, typography, and brand guidelines.",
         credits: "Art Direction: Faruk",
         techStack: ["illustrator", "photoshop"],
@@ -56,7 +59,9 @@ const PROJECT_DATA = [
         year: "2024",
         role: "Content Design",
         deliverables: "Posts, Templates",
-        // Counts auto-detected from files
+        // Phase 4 CDN rollout: Google Yorumlar uses Cloudinary post/story assets
+        postCount: 8,
+        storyCount: 8,
         description: "Social media campaign design for Google reviews engagement. Dynamic motion graphics and eye-catching visual content optimized for multiple platforms.",
         credits: "Design & Motion: Faruk",
         techStack: ["photoshop", "illustrator"],
@@ -81,7 +86,9 @@ const PROJECT_DATA = [
         role: "Social Design",
         deliverables: "Posts, Stories",
         stackFormat: 'story',
-        // Counts auto-detected from files
+        // Phase 5 CDN rollout: Adana Napoli uses Cloudinary assets
+        postCount: 2,
+        storyCount: 5,
         description: "Social media content design for Adana Napoli restaurant. Eye-catching posts and engaging story content for Instagram presence.",
         credits: "Design: Faruk",
         techStack: ["photoshop", "illustrator"],
@@ -99,14 +106,16 @@ const PROJECT_DATA = [
         }
     },
     {
-        id: "v\u0131vacar",
+        id: "vivacar",
         title: "Viva Rent A Car",
         brandColor: "#0EA5E9",
         category: "Social Media",
         year: "2024",
         role: "Social Design",
         deliverables: "Posts",
-        // Counts auto-detected from files
+        // Phase 6 CDN rollout
+        postCount: 3,
+        storyCount: 0,
         description: "Social media design work for Viva Rent A Car. Premium, trustworthy and conversion-focused automotive campaign visuals.",
         credits: "Design: Faruk",
         techStack: ["photoshop", "illustrator"],
@@ -131,7 +140,9 @@ const PROJECT_DATA = [
         role: "Social Design",
         deliverables: "Posts, Stories",
         stackFormat: 'hybrid',
-        // Counts auto-detected from files
+        // Phase 6 CDN rollout
+        postCount: 5,
+        storyCount: 2,
         description: "Traditional Turkish restaurant social media presence. Authentic food photography and engaging content design.",
         credits: "Design: Faruk",
         techStack: ["photoshop", "illustrator"],
@@ -156,6 +167,10 @@ const PROJECT_DATA = [
         year: "2024",
         role: "Visual Design",
         deliverables: "Posts, Banners",
+        // Phase 6 CDN rollout
+        postCount: 15,
+        longPostCount: 0,
+        storyCount: 0,
         // Custom display order for GridView (counts auto-detected)
         customOrder: [
             { type: 'longPost', index: 1 },
@@ -200,7 +215,9 @@ const PROJECT_DATA = [
         year: "2024",
         role: "Social Design",
         deliverables: "Posts",
-        // Counts auto-detected from files
+        // Phase 6 CDN rollout
+        postCount: 3,
+        storyCount: 0,
         description: "Social media content design for Tırnak Trend nail salon. Modern and elegant visuals for Instagram presence.",
         credits: "Design: Faruk",
         techStack: ["photoshop", "illustrator"],
@@ -224,7 +241,9 @@ const PROJECT_DATA = [
         year: "2024",
         role: "Social Design",
         deliverables: "Posts",
-        // Counts auto-detected from files
+        // Phase 6 CDN rollout
+        postCount: 2,
+        storyCount: 0,
         description: "Social media design for BBS Transfer transportation company. Professional and trustworthy visual identity.",
         credits: "Design: Faruk",
         techStack: ["photoshop", "illustrator"],
@@ -248,7 +267,9 @@ const PROJECT_DATA = [
         year: "2024",
         role: "Social Design",
         deliverables: "Posts",
-        // Counts auto-detected from files
+        // Phase 6 CDN rollout
+        postCount: 3,
+        storyCount: 0,
         description: "Social media content design for Kumrualtı restaurant. Appetizing food photography and engaging visual content.",
         credits: "Design: Faruk",
         techStack: ["photoshop", "illustrator"],
@@ -290,3 +311,4 @@ export const TECH_ICONS = {
     code: "Code",
     react: "Code"
 }
+

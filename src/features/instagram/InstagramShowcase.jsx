@@ -7,9 +7,6 @@ const INSTAGRAM_POSTS = [
   '/gorseller/intagramgorseller/pst4.webp',
   '/gorseller/intagramgorseller/pst1.webp',
   '/gorseller/intagramgorseller/pst2.webp',
-  '/gorseller/intagramgorseller/pst3.webp',
-  '/gorseller/intagramgorseller/pst4.webp',
-  '/gorseller/intagramgorseller/pst1.webp',
 ]
 
 function HeartIcon() {
@@ -32,8 +29,8 @@ export default function InstagramShowcase() {
   return (
     <section id="instagram-showcase" className="relative w-full py-24 container-padding">
       <div className="mx-auto max-w-4xl">
-        <div className="flex items-start gap-8">
-          <div className="h-32 w-32 shrink-0 rounded-full border-2 border-gray-800 p-1">
+        <div className="flex items-start gap-10">
+          <div className="h-56 w-56 shrink-0 rounded-full border-2 border-gray-700 p-1.5">
             <img
               src={PROFILE_IMAGE}
               alt="graphic.faruk profile"
@@ -44,18 +41,18 @@ export default function InstagramShowcase() {
           </div>
 
           <div className="flex-1">
-            <div className="flex items-center gap-3">
-              <h2 className="text-2xl font-bold tracking-tight text-gray-100">graphic.faruk</h2>
-              <span className="inline-block h-2.5 w-2.5 rounded-full bg-sky-400" aria-hidden="true" />
+            <div className="flex items-center gap-4">
+              <h2 className="text-5xl font-bold tracking-tight text-gray-100">graphic.faruk</h2>
+              <span className="inline-block h-3 w-3 rounded-full bg-sky-400" aria-hidden="true" />
             </div>
 
-            <div className="mt-4 flex items-center gap-8 text-sm text-gray-300">
+            <div className="mt-6 flex items-center gap-10 text-base text-gray-300">
               <p><span className="font-semibold text-gray-100">148</span> Posts</p>
               <p><span className="font-semibold text-gray-100">42.8K</span> Followers</p>
               <p><span className="font-semibold text-gray-100">1,204</span> Following</p>
             </div>
 
-            <div className="mt-4 space-y-1 text-gray-400">
+            <div className="mt-5 space-y-2 text-lg text-gray-400">
               <p>Design · Branding · Marketing</p>
               <p>I design to make your brand stand out.</p>
               <p>Ready to stand out? Let&apos;s work together.</p>
@@ -63,7 +60,7 @@ export default function InstagramShowcase() {
 
             <button
               type="button"
-              className="mt-6 rounded-md bg-white px-6 py-2 font-medium text-black transition-colors duration-300 hover:bg-gray-200"
+              className="mt-7 rounded-md bg-white px-8 py-3 text-base font-medium text-black transition-colors duration-300 hover:bg-gray-200"
             >
               Takip Et
             </button>
@@ -73,7 +70,7 @@ export default function InstagramShowcase() {
         <div className="mt-12 border-t border-white/10 pt-8">
           <div className="grid grid-cols-3 gap-3">
             {INSTAGRAM_POSTS.map((src, index) => (
-              <article key={`${src}-${index}`} className="group relative aspect-square overflow-hidden rounded-md border border-white/10 bg-[#0a0a0a]">
+              <article key={`${src}-${index}`} className="group relative aspect-[4/5] overflow-hidden rounded-md border border-white/10 bg-[#0a0a0a]">
                 <img
                   src={src}
                   alt={`Instagram post ${index + 1}`}

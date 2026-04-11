@@ -8,6 +8,54 @@
  * - Stories: str1.webp, str2.webp, ...
  */
 
+const CLOUD_PROJECT_ASSETS = {
+    novastra: {
+        postBase: 'https://res.cloudinary.com/dbr7bx7u5/image/upload/q_auto/f_auto/v1775630739/',
+        storyBase: 'https://res.cloudinary.com/dbr7bx7u5/image/upload/q_auto/f_auto/v1775632273/',
+    },
+    googleyorumlar: {
+        postBase: 'https://res.cloudinary.com/dbr7bx7u5/image/upload/q_auto/f_auto/v1775660462/%C4%B0mage/google-yorumlar/google-pst-webp/',
+        storyBase: 'https://res.cloudinary.com/dbr7bx7u5/image/upload/q_auto/f_auto/v1775660428/%C4%B0mage/google-yorumlar/google-str-webp/',
+    },
+    adananapoli: {
+        postBase: 'https://res.cloudinary.com/dbr7bx7u5/image/upload/q_auto/f_auto/v1775729245/%C4%B0mage/adana-napoli/adana-napoli-%20pst-webp/',
+        storyBase: 'https://res.cloudinary.com/dbr7bx7u5/image/upload/q_auto/f_auto/v1775729316/%C4%B0mage/adana-napoli/adana-napoli-%20str-webp/',
+    },
+    vivacar: {
+        postBase: 'https://res.cloudinary.com/dbr7bx7u5/image/upload/q_auto/f_auto/%C4%B0mage/vivacar/vivacar-pst-webp/',
+    },
+    'hacıhakkıusta': {
+        postBase: 'https://res.cloudinary.com/dbr7bx7u5/image/upload/q_auto/f_auto/%C4%B0mage/hac%C4%B1hakk%C4%B1/hac%C4%B1hakk%C4%B1-pst/',
+        storyBase: 'https://res.cloudinary.com/dbr7bx7u5/image/upload/q_auto/f_auto/%C4%B0mage/hac%C4%B1hakk%C4%B1/hac%C4%B1hakk%C4%B1-str/',
+    },
+    akdenizetkinlik: {
+        postBase: 'https://res.cloudinary.com/dbr7bx7u5/image/upload/q_auto/f_auto/%C4%B0mage/aktet/aktet-pst-webp/',
+    },
+    'tırnaktrend': {
+        postBase: 'https://res.cloudinary.com/dbr7bx7u5/image/upload/q_auto/f_auto/%C4%B0mage/t%C4%B1rnaktrend/t%C4%B1rnaktrend-pst-webp/',
+    },
+    bbstransfer: {
+        postBase: 'https://res.cloudinary.com/dbr7bx7u5/image/upload/q_auto/f_auto/%C4%B0mage/bbstransfer/bbstransfer-pst-webp/',
+    },
+    'kumrualtı': {
+        postBase: 'https://res.cloudinary.com/dbr7bx7u5/image/upload/q_auto/f_auto/%C4%B0mage/kumrualt%C4%B1/kumrualt%C4%B1-pst-webp/',
+    },
+}
+function getCloudProjectConfig(projectId) {
+    return CLOUD_PROJECT_ASSETS[String(projectId).toLowerCase()] || null
+}
+
+function getCloudImagePath(projectId, type, imageNumber) {
+    const config = getCloudProjectConfig(projectId)
+    if (!config) return null
+
+    const isStory = type === 'story'
+    const baseUrl = isStory ? config.storyBase : config.postBase
+    if (!baseUrl) return null
+
+    return `${baseUrl}${isStory ? 'str' : 'pst'}${imageNumber}.webp`
+}
+
 /**
  * Get a single post image path
  * @param {string} projectId - The project folder name
@@ -15,6 +63,8 @@
  * @returns {string} Image path
  */
 export function getPostImage(projectId, imageNumber) {
+    const cloudPostPath = getCloudImagePath(projectId, 'post', imageNumber)
+    if (cloudPostPath) return cloudPostPath
     return `/gorseller/${projectId}/pst${imageNumber}.webp`
 }
 
@@ -35,6 +85,8 @@ export function getLongPostImage(projectId, imageNumber) {
  * @returns {string} Image path
  */
 export function getStoryImage(projectId, imageNumber) {
+    const cloudStoryPath = getCloudImagePath(projectId, 'story', imageNumber)
+    if (cloudStoryPath) return cloudStoryPath
     return `/gorseller/${projectId}/str${imageNumber}.webp`
 }
 
@@ -50,10 +102,10 @@ export function getProjectImagePath(projectId, type, imageNumber) {
         case 'longPost':
             return `/gorseller/${projectId}/pstlng${imageNumber}.webp`
         case 'story':
-            return `/gorseller/${projectId}/str${imageNumber}.webp`
+            return getStoryImage(projectId, imageNumber)
         case 'post':
         default:
-            return `/gorseller/${projectId}/pst${imageNumber}.webp`
+            return getPostImage(projectId, imageNumber)
     }
 }
 
@@ -113,9 +165,7 @@ export function getStackImages(projectId, postCount = 5, storyCount = 0, stackFo
  */
 export function getPostImages(projectId, postCount) {
     if (!postCount || postCount <= 0) return []
-    return Array.from({ length: postCount }, (_, index) =>
-        `/gorseller/${projectId}/pst${index + 1}.webp`
-    )
+    return Array.from({ length: postCount }, (_, index) => getPostImage(projectId, index + 1))
 }
 
 /**
@@ -139,9 +189,7 @@ export function getLongPostImages(projectId, longPostCount) {
  */
 export function getStoryImages(projectId, storyCount) {
     if (!storyCount || storyCount <= 0) return []
-    return Array.from({ length: storyCount }, (_, index) =>
-        `/gorseller/${projectId}/str${index + 1}.webp`
-    )
+    return Array.from({ length: storyCount }, (_, index) => getStoryImage(projectId, index + 1))
 }
 
 /**
@@ -159,3 +207,4 @@ export function getAllProjectImages(projectId, postCount, longPostCount, storyCo
         stories: getStoryImages(projectId, storyCount)
     }
 }
+
