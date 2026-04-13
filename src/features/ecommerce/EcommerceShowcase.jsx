@@ -124,12 +124,12 @@ const HeroImageCard = memo(function HeroImageCard({ item, index, duplicateKey })
 
 const MobileHeroCard = memo(function MobileHeroCard({ item, index }) {
     return (
-        <article className="w-[82vw] max-w-sm shrink-0 snap-center overflow-hidden rounded-xl border border-white/10 bg-[#080808] shadow-[0_20px_45px_rgba(0,0,0,0.35)]">
+        <article className="aspect-[4/5] w-[82vw] max-w-sm shrink-0 snap-center overflow-hidden rounded-xl border border-white/10 bg-[#080808] shadow-[0_20px_45px_rgba(0,0,0,0.35)]">
             <DeferredImage
                 src={item.src}
                 alt={`${BRAND_LABELS[item.brand]} - Mobil ${index + 1}`}
                 priority={index < 2}
-                className="h-auto w-full object-cover"
+                className="h-full w-full object-cover"
             />
         </article>
     )
@@ -139,7 +139,7 @@ const ExpandedImageCard = memo(function ExpandedImageCard({ brand, fileName, onE
     const src = buildSrc(brand, fileName)
 
     return (
-        <div className="overflow-hidden rounded-xl border border-white/10 bg-black/30">
+        <div className="aspect-[4/5] overflow-hidden rounded-xl border border-white/10 bg-black/30">
             <DeferredImage
                 src={src}
                 alt={`${BRAND_LABELS[brand]} ${fileName}`}
