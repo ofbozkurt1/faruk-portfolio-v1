@@ -28,9 +28,9 @@ export default function ResponsiveImage({
     const [activeSrc, setActiveSrc] = useState(src)
     const finalMobileSrc = mobileSrc || null
 
-    const loading = 'lazy'
+    const loading = priority ? 'eager' : 'lazy'
     const decoding = 'async'
-    const fetchPriority = priority ? 'high' : 'low'
+    const fetchPriority = priority ? 'high' : 'auto'
 
     useEffect(() => {
         setActiveSrc(src)

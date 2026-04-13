@@ -14,6 +14,25 @@ import { AtmosphericBackground } from './components/ui'
 import SideNav from './components/ui/SideNav'
 import WipeTransition from './components/ui/WipeTransition'
 import Preloader from './components/ui/Preloader'
+import { getAdaptiveRootMargin, useNearViewport } from './hooks'
+
+function DeferredSectionMount({ children, isMobileViewport }) {
+    const { ref, isNearViewport } = useNearViewport({
+        enabled: isMobileViewport,
+        initialInView: !isMobileViewport,
+        once: true,
+        rootMargin: getAdaptiveRootMargin('200px 0px', '300px 0px'),
+        threshold: 0.01,
+    })
+
+    const shouldRender = !isMobileViewport || isNearViewport
+
+    return (
+        <div ref={ref} className="w-full">
+            {shouldRender ? children : <div className="h-px w-full" aria-hidden="true" />}
+        </div>
+    )
+}
 
 function App() {
     const { t } = useTranslation()
@@ -165,13 +184,23 @@ function App() {
                 />
 
                 {/* â”€â”€â”€ Phase 53: E-Commerce & Product Design Section â”€â”€â”€ */}
-                <EcommerceShowcase />
-                <MotionShowcase />
-                <InstagramShowcase />
+                <DeferredSectionMount isMobileViewport={isMobileViewport}>
+                    <EcommerceShowcase />
+                </DeferredSectionMount>
+
+                <DeferredSectionMount isMobileViewport={isMobileViewport}>
+                    <MotionShowcase />
+                </DeferredSectionMount>
+
+                <DeferredSectionMount isMobileViewport={isMobileViewport}>
+                    <InstagramShowcase />
+                </DeferredSectionMount>
 
                 {/* Video Showcase Section */}
                 <section id="videos" className="container-padding">
-                    <VideoVault />
+                    <DeferredSectionMount isMobileViewport={isMobileViewport}>
+                        <VideoVault />
+                    </DeferredSectionMount>
                 </section>
 
                 {/* Contact Section - wraps Footer */}
@@ -184,6 +213,4 @@ function App() {
 }
 
 export default App
-
-
 
