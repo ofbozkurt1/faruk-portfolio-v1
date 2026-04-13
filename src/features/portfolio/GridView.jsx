@@ -6,13 +6,14 @@
  * - Enhanced image gallery with animations
  */
 
-import { useEffect, useRef, useMemo } from 'react'
+import { memo, useCallback, useEffect, useMemo } from 'react'
 import { createPortal } from 'react-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { getPostImages, getLongPostImages, getStoryImages, getProjectImagePath } from '../../utils/imagePath'
 import ResponsiveImage from '../../components/ui/ResponsiveImage'
+import { getAdaptiveRootMargin, useNearViewport } from '../../hooks'
 
 // Tool icon mapping
 const toolIcons = {
@@ -37,6 +38,7 @@ const AKDENIZ_ETKINLIK_POST_CLOUD_BASE = 'https://res.cloudinary.com/dbr7bx7u5/i
 const TIRNAK_TREND_POST_CLOUD_BASE = 'https://res.cloudinary.com/dbr7bx7u5/image/upload/q_auto/f_auto/%C4%B0mage/t%C4%B1rnaktrend/t%C4%B1rnaktrend-pst-webp/'
 const BBS_TRANSFER_POST_CLOUD_BASE = 'https://res.cloudinary.com/dbr7bx7u5/image/upload/q_auto/f_auto/%C4%B0mage/bbstransfer/bbstransfer-pst-webp/'
 const KUMRUALTI_POST_CLOUD_BASE = 'https://res.cloudinary.com/dbr7bx7u5/image/upload/q_auto/f_auto/%C4%B0mage/kumrualt%C4%B1/kumrualt%C4%B1-pst-webp/'
+const BLANK_IMAGE_SRC = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=='
 
 const PROJECT_MEDIA_CONFIG = {
     novastra: {
@@ -95,7 +97,7 @@ const PROJECT_MEDIA_CONFIG = {
     },
 }
 // Meta Item Component - Enhanced with brand color
-function MetaItem({ label, value, delay = 0, brandColor = '#9333EA' }) {
+const MetaItem = memo(function MetaItem({ label, value, delay = 0, brandColor = '#9333EA' }) {
     return (
         <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -125,87 +127,35 @@ function MetaItem({ label, value, delay = 0, brandColor = '#9333EA' }) {
             }}>{value}</span>
         </motion.div>
     )
-}
+})
 
-// Color Swatch Component
-function ColorSwatch({ color, index }) {
+const DeferredResponsiveImage = memo(function DeferredResponsiveImage({
+    src,
+    alt,
+    priority = false,
+    style,
+}) {
+    const { ref, isNearViewport } = useNearViewport({
+        rootMargin: getAdaptiveRootMargin('200px 0px', '300px 0px'),
+        threshold: 0.01,
+        once: true,
+        initialInView: priority,
+    })
+
     return (
-        <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.3 + index * 0.1 }}
-            whileHover={{ scale: 1.1, y: -4 }}
-            style={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                gap: 8,
-                cursor: 'pointer'
-            }}
-        >
-            <div
-                style={{
-                    width: 56,
-                    height: 56,
-                    borderRadius: '50%',
-                    background: color.code,
-                    border: color.code === '#FFFFFF' ? '1px solid rgba(255,255,255,0.2)' : 'none'
-                }}
+        <div ref={ref} style={{ width: '100%', height: '100%' }}>
+            <ResponsiveImage
+                src={isNearViewport ? src : BLANK_IMAGE_SRC}
+                alt={alt}
+                priority={priority}
+                style={style}
             />
-            <span
-                style={{
-                    fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace',
-                    fontSize: 9,
-                    letterSpacing: '0.1em',
-                    color: 'rgba(255,255,255,0.5)'
-                }}
-            >
-                {color.code}
-            </span>
-            <span style={{ fontSize: 10, color: 'rgba(255,255,255,0.3)' }}>
-                {color.name}
-            </span>
-        </motion.div>
+        </div>
     )
-}
-
-// Typography Display Component
-function TypographyDisplay({ fontFamily, fontStyle }) {
-    return (
-        <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.5 }}
-            style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: 20
-            }}
-        >
-            <span
-                style={{
-                    fontSize: 80,
-                    fontWeight: 700,
-                    color: '#F2F2F2',
-                    lineHeight: 1
-                }}
-            >
-                Aa
-            </span>
-            <div>
-                <span style={{ fontSize: 22, color: '#F2F2F2', display: 'block', fontWeight: 600 }}>
-                    {fontFamily}
-                </span>
-                <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.4)', marginTop: 4, display: 'block' }}>
-                    {fontStyle}
-                </span>
-            </div>
-        </motion.div>
-    )
-}
+})
 
 // Image Card Component
-function ImageCard({ src, alt, index, type = 'post', className }) {
+const ImageCard = memo(function ImageCard({ src, alt, index, type = 'post', className }) {
     const isLong = type === 'longPost'
 
     return (
@@ -213,40 +163,48 @@ function ImageCard({ src, alt, index, type = 'post', className }) {
             className={className}
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-50px' }}
+            viewport={{ once: true, margin: '0px' }}
             transition={{ duration: 0.6, delay: index * 0.05 }}
             whileHover={{ y: -8 }}
+            whileTap={{ y: -8 }}
             style={{
                 borderRadius: 16,
                 overflow: 'hidden',
                 background: 'rgba(255,255,255,0.02)',
                 border: '1px solid rgba(255,255,255,0.05)',
-                width: isLong ? '100%' : undefined // Ensure full width for long posts
+                width: isLong ? '100%' : undefined, // Ensure full width for long posts
             }}
         >
-            <ResponsiveImage
+            <DeferredResponsiveImage
                 src={src}
                 alt={alt}
                 priority={index < 4}
                 style={{
                     width: '100%',
                     height: 'auto',
-                    display: 'block'
+                    display: 'block',
                 }}
             />
         </motion.div>
     )
-}
+})
 
-function CombinedTriplePostCard({ src, alt, index, className }) {
+const CombinedTriplePostCard = memo(function CombinedTriplePostCard({ src, alt, index, className }) {
     const positions = ['left', 'center', 'right']
+    const { ref, isNearViewport } = useNearViewport({
+        rootMargin: getAdaptiveRootMargin('200px 0px', '300px 0px'),
+        threshold: 0.01,
+        once: true,
+        initialInView: index < 2,
+    })
 
     return (
         <motion.div
+            ref={ref}
             className={className}
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-50px' }}
+            viewport={{ once: true, margin: '0px' }}
             transition={{ duration: 0.6, delay: index * 0.05 }}
             whileHover={{ y: -8 }}
             style={{
@@ -260,10 +218,13 @@ function CombinedTriplePostCard({ src, alt, index, className }) {
                 {positions.map((position, sliceIndex) => (
                     <div key={`${position}-${sliceIndex}`} className="relative aspect-[4/5] overflow-hidden">
                         <img
-                            src={src}
+                            src={isNearViewport ? src : BLANK_IMAGE_SRC}
                             alt={`${alt} Slice ${sliceIndex + 1}`}
                             loading="lazy"
                             decoding="async"
+                            fetchPriority={index < 2 ? 'high' : 'low'}
+                            width={1080}
+                            height={1350}
                             className={[
                                 'h-full w-full object-cover',
                                 position === 'left' ? 'object-left' : position === 'right' ? 'object-right' : 'object-center',
@@ -275,17 +236,24 @@ function CombinedTriplePostCard({ src, alt, index, className }) {
             </div>
         </motion.div>
     )
-}
+})
 
-function CombinedTripleStoryCard({ src, alt, index, className }) {
+const CombinedTripleStoryCard = memo(function CombinedTripleStoryCard({ src, alt, index, className }) {
     const positions = ['left', 'center', 'right']
+    const { ref, isNearViewport } = useNearViewport({
+        rootMargin: getAdaptiveRootMargin('200px 0px', '300px 0px'),
+        threshold: 0.01,
+        once: true,
+        initialInView: index < 2,
+    })
 
     return (
         <motion.div
+            ref={ref}
             className={className}
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-50px' }}
+            viewport={{ once: true, margin: '0px' }}
             transition={{ duration: 0.6, delay: index * 0.05 }}
             whileHover={{ y: -8 }}
             style={{
@@ -299,10 +267,13 @@ function CombinedTripleStoryCard({ src, alt, index, className }) {
                 {positions.map((position, sliceIndex) => (
                     <div key={`${position}-${sliceIndex}`} className="relative aspect-[9/16] overflow-hidden">
                         <img
-                            src={src}
+                            src={isNearViewport ? src : BLANK_IMAGE_SRC}
                             alt={`${alt} Slice ${sliceIndex + 1}`}
                             loading="lazy"
                             decoding="async"
+                            fetchPriority={index < 2 ? 'high' : 'low'}
+                            width={1080}
+                            height={1920}
                             className={[
                                 'h-full w-full object-cover',
                                 position === 'left' ? 'object-left' : position === 'right' ? 'object-right' : 'object-center',
@@ -314,7 +285,7 @@ function CombinedTripleStoryCard({ src, alt, index, className }) {
             </div>
         </motion.div>
     )
-}
+})
 
 function GridViewContent({ project, onClose }) {
     const { t } = useTranslation()
@@ -322,8 +293,8 @@ function GridViewContent({ project, onClose }) {
     const {
         id, title, category, year, description,
         postCount = 0, longPostCount = 0, storyCount = 0,
-        customOrder, client, role, deliverables,
-        techStack = [], identity, brandColor
+        customOrder, client, role,
+        techStack = [], brandColor
     } = project
 
     // Dynamic Localization
@@ -331,7 +302,6 @@ function GridViewContent({ project, onClose }) {
     const translatedTitle = t(`${projectKey}.title`, title)
     const translatedCategory = t(`${projectKey}.category`, category)
     const translatedRole = t(`${projectKey}.role`, role)
-    const translatedDeliverables = t(`${projectKey}.deliverables`, deliverables)
     const translatedDescription = t(`${projectKey}.description`, description)
     const translatedYear = t(`${projectKey}.year`, year)
 
@@ -341,73 +311,92 @@ function GridViewContent({ project, onClose }) {
     const activePostBaseUrl = projectMedia?.postBase || null
     const activeStoryBaseUrl = projectMedia?.storyBase || null
 
-    const longPostImages = getLongPostImages(id, longPostCount)
-    const postItems = imageOrder && activePostBaseUrl
-        ? imageOrder.map((entry) => {
-            if (typeof entry === 'number') {
-                return {
-                    type: 'post',
-                    combined: false,
-                    postNumber: entry,
-                    src: `${activePostBaseUrl}pst${entry}.webp`,
-                }
-            }
+    const longPostImages = useMemo(() => getLongPostImages(id, longPostCount), [id, longPostCount])
 
-            if (typeof entry === 'string' && entry.toLowerCase().includes('3pst')) {
-                return {
-                    type: 'triple-post',
-                    combined: true,
-                    src: `${activePostBaseUrl}${entry}.webp`,
-                }
-            }
+    const postItems = useMemo(() => {
+        if (imageOrder && activePostBaseUrl) {
+            return imageOrder
+                .map((entry) => {
+                    if (typeof entry === 'number') {
+                        return {
+                            type: 'post',
+                            combined: false,
+                            postNumber: entry,
+                            src: `${activePostBaseUrl}pst${entry}.webp`,
+                        }
+                    }
 
-            if (entry && entry.combined && entry.type === 'triple-post' && entry.src) {
-                return {
-                    type: entry.type,
-                    combined: true,
-                    src: entry.src,
-                }
-            }
+                    if (typeof entry === 'string' && entry.toLowerCase().includes('3pst')) {
+                        return {
+                            type: 'triple-post',
+                            combined: true,
+                            src: `${activePostBaseUrl}${entry}.webp`,
+                        }
+                    }
 
-            return null
-        }).filter(Boolean)
-        : getPostImages(id, postCount).map((src, idx) => ({
+                    if (entry && entry.combined && entry.type === 'triple-post' && entry.src) {
+                        return {
+                            type: entry.type,
+                            combined: true,
+                            src: entry.src,
+                        }
+                    }
+
+                    return null
+                })
+                .filter(Boolean)
+        }
+
+        return getPostImages(id, postCount).map((src, idx) => ({
             type: 'post',
             combined: false,
             postNumber: idx + 1,
             src,
         }))
+    }, [activePostBaseUrl, id, imageOrder, postCount])
 
-    const storyItems = storyOrder && activeStoryBaseUrl
-        ? storyOrder.map((entry) => {
-            if (typeof entry === 'number') {
-                return {
-                    type: 'story',
-                    combined: false,
-                    storyNumber: entry,
-                    src: `${activeStoryBaseUrl}str${entry}.webp`,
-                }
-            }
+    const storyItems = useMemo(() => {
+        if (storyOrder && activeStoryBaseUrl) {
+            return storyOrder
+                .map((entry) => {
+                    if (typeof entry === 'number') {
+                        return {
+                            type: 'story',
+                            combined: false,
+                            storyNumber: entry,
+                            src: `${activeStoryBaseUrl}str${entry}.webp`,
+                        }
+                    }
 
-            if (entry && entry.combined && entry.type === 'triple-seamless' && entry.src) {
-                return {
-                    type: entry.type,
-                    combined: true,
-                    src: entry.src,
-                }
-            }
+                    if (entry && entry.combined && entry.type === 'triple-seamless' && entry.src) {
+                        return {
+                            type: entry.type,
+                            combined: true,
+                            src: entry.src,
+                        }
+                    }
 
-            return null
-        }).filter(Boolean)
-        : getStoryImages(id, storyCount).map((src, idx) => ({
+                    return null
+                })
+                .filter(Boolean)
+        }
+
+        return getStoryImages(id, storyCount).map((src, idx) => ({
             type: 'story',
             combined: false,
             storyNumber: idx + 1,
             src,
         }))
+    }, [activeStoryBaseUrl, id, storyCount, storyOrder])
 
-    const singleStoryItems = storyItems.filter((item) => !item.combined)
-    const combinedStoryItems = storyItems.filter((item) => item.combined)
+    const singleStoryItems = useMemo(
+        () => storyItems.filter((item) => !item.combined),
+        [storyItems]
+    )
+    const combinedStoryItems = useMemo(
+        () => storyItems.filter((item) => item.combined),
+        [storyItems]
+    )
 
     // Custom ordered images for projects with customOrder
     const orderedImages = useMemo(() => {
@@ -425,21 +414,16 @@ function GridViewContent({ project, onClose }) {
         }).filter(Boolean)
     }, [id, customOrder, projectMedia])
 
+    const stopLenisEventPropagation = useCallback((event) => {
+        event.stopPropagation()
+    }, [])
+
     // ESC key closes modal
     useEffect(() => {
         const handleEsc = (e) => { if (e.key === 'Escape') onClose() }
         window.addEventListener('keydown', handleEsc)
         return () => window.removeEventListener('keydown', handleEsc)
     }, [onClose])
-
-    // DISABLED FOR TESTING - Body scroll lock
-    // useEffect(() => {
-    //     const originalStyle = document.body.style.overflow
-    //     document.body.style.overflow = 'hidden'
-    //     return () => {
-    //         document.body.style.overflow = originalStyle
-    //     }
-    // }, [])
 
     return (
         // LENIS BYPASS: data-lenis-prevent stops Lenis from hijacking scroll
@@ -450,8 +434,8 @@ function GridViewContent({ project, onClose }) {
             className="fixed inset-0 z-[9999] h-[100dvh] w-screen overflow-y-scroll overflow-x-hidden bg-[#0a0a0a] overscroll-y-none pointer-events-auto"
             // STOP LENIS FROM STEALING SCROLL EVENTS
             data-lenis-prevent="true"
-            onWheel={(e) => e.stopPropagation()}
-            onTouchMove={(e) => e.stopPropagation()}
+            onWheel={stopLenisEventPropagation}
+            onTouchMove={stopLenisEventPropagation}
         >
             {/* Close Button - Fixed position, always visible */}
             <motion.button
@@ -563,7 +547,6 @@ function GridViewContent({ project, onClose }) {
                                         fontSize: 18,
                                         lineHeight: 1.8,
                                         color: 'rgba(255,255,255,0.55)',
-                                        color: 'rgba(255,255,255,0.55)',
                                         // maxWidth handled by class
                                     }}
                                     className="mx-0 md:mx-auto md:text-center block max-w-[650px] md:max-w-[1000px]"
@@ -644,7 +627,7 @@ function GridViewContent({ project, onClose }) {
                                 {t('caseStudy.toolkit', 'Toolkit')}
                             </span>
                             <div style={{ display: 'flex', gap: 10 }}>
-                                {techStack.map((tool, idx) => (
+                                {techStack.map((tool) => (
                                     <motion.div
                                         key={tool}
                                         whileHover={{ scale: 1.15, y: -3 }}
@@ -662,6 +645,9 @@ function GridViewContent({ project, onClose }) {
                                         <img
                                             src={toolIcons[tool]}
                                             alt={tool}
+                                            loading="lazy"
+                                            decoding="async"
+                                            fetchPriority="low"
                                             style={{ width: 22, height: 22 }}
                                             onError={(e) => { e.target.style.display = 'none' }}
                                         />

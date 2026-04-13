@@ -176,3 +176,8 @@ a {
   display: none;
   /* Chrome, Safari, Opera */
 }
+
+.touch-scroll-native {
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+}

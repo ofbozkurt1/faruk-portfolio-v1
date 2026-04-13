@@ -1,4 +1,3 @@
-import { motion } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
 import { FaBehance, FaLinkedinIn, FaInstagram, FaWhatsapp } from 'react-icons/fa'
 

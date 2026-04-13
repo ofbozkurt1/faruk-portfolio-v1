@@ -9,10 +9,10 @@ import { motion, AnimatePresence } from 'framer-motion'
 
 // Tool icons
 const toolIcons = [
-    '/gorseller/iconlar/photoshop.svg',
-    '/gorseller/iconlar/after-effects.svg',
-    '/gorseller/iconlar/illustrator.svg',
-    '/gorseller/iconlar/premiere-pro.svg'
+    { src: '/gorseller/iconlar/photoshop.svg', alt: 'Photoshop' },
+    { src: '/gorseller/iconlar/after-effects.svg', alt: 'After Effects' },
+    { src: '/gorseller/iconlar/illustrator.svg', alt: 'Illustrator' },
+    { src: '/gorseller/iconlar/premiere-pro.svg', alt: 'Premiere Pro' }
 ]
 
 export default function Preloader() {
@@ -95,11 +95,14 @@ export default function Preloader() {
                             transition={{ delay: 0.4 }}
                             className="mt-8 flex items-center gap-4"
                         >
-                            {toolIcons.map((icon, idx) => (
+                            {toolIcons.map((icon) => (
                                 <img
-                                    key={idx}
-                                    src={icon}
-                                    alt=""
+                                    key={icon.src}
+                                    src={icon.src}
+                                    alt={icon.alt}
+                                    loading="lazy"
+                                    decoding="async"
+                                    fetchPriority="low"
                                     className="w-7 h-7 md:w-9 md:h-9 opacity-50"
                                 />
                             ))}

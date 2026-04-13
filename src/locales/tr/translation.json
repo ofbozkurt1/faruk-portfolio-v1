@@ -100,17 +100,6 @@
                     "v2": "Açılış Lansmanı"
                 }
             },
-            "social": {
-                "tab": "Dinamik",
-                "title": "DİNAMİK VİDEOLAR",
-                "desc": "Dijital akışta dikkat çeken, trendlere uygun dinamik video içerikleri. ",
-                "client": "Novastra Media",
-                "year": "2025",
-                "videos": {
-                    "v1": "Dinamik Kurgu",
-                    "v2": "Dinamik Kurgu"
-                }
-            },
             "aerial": {
                 "tab": "Drone",
                 "title": "DRONE & ADRES",

@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, useCallback } from 'react'
 import ProjectCard from './ProjectCard'
 import { PROJECTS } from '../../data/projects'
 import { cn } from '../../utils/cn'
@@ -58,7 +58,7 @@ export default function StackView({ onProjectClick, className }) {
     }, [isMobile])
 
     // Simple Next Slide - With Loop
-    const handleNextSlide = () => {
+    const handleNextSlide = useCallback(() => {
         if (!scrollContainerRef.current) return
         const container = scrollContainerRef.current
         const width = container.offsetWidth
@@ -70,7 +70,7 @@ export default function StackView({ onProjectClick, className }) {
         } else {
             container.scrollBy({ left: width + gap, behavior: 'smooth' })
         }
-    }
+    }, [activeIndex])
 
     // Auto Play (Mobile Only) - Simple Loop
     useEffect(() => {
@@ -83,7 +83,7 @@ export default function StackView({ onProjectClick, className }) {
         }, 3000)
 
         return () => clearInterval(interval)
-    }, [isMobile, activeIndex])
+    }, [isMobile, handleNextSlide])
 
     return (
         <div className={cn("relative w-full", className)}>
@@ -93,7 +93,7 @@ export default function StackView({ onProjectClick, className }) {
                 onTouchEnd={handleTouchEnd}
                 className={cn(
                     // Mobile: Simple Horizontal Scroll
-                    "flex overflow-x-auto overflow-y-hidden snap-x snap-mandatory scrollbar-hide pb-32",
+                    "touch-scroll-native flex overflow-x-auto overflow-y-hidden snap-x snap-mandatory scrollbar-hide pb-32",
                     "gap-16 px-4 -mx-4",
 
                     // Desktop: Vertical Stack
@@ -133,9 +133,9 @@ export default function StackView({ onProjectClick, className }) {
             >
                 {/* Dots */}
                 <div className="flex items-center gap-2 px-4 h-9 rounded-full bg-zinc-900 border border-white/10 shadow-lg">
-                    {PROJECTS.map((_, index) => (
+                    {PROJECTS.map((project, index) => (
                         <div
-                            key={index}
+                            key={project.id}
                             className={cn(
                                 "h-1.5 rounded-full transition-all duration-300",
                                 activeIndex === index
@@ -149,7 +149,7 @@ export default function StackView({ onProjectClick, className }) {
                 {/* Next Button */}
                 <button
                     onClick={handleNextSlide}
-                    className="flex items-center gap-1.5 px-4 h-9 rounded-full bg-zinc-900 active:scale-95 transition-transform border border-white/10 shadow-lg"
+                    className="flex min-h-[44px] items-center gap-1.5 rounded-full border border-white/10 bg-zinc-900 px-4 py-2 shadow-lg transition-transform active:scale-95"
                 >
                     <span className="text-[10px] font-medium text-white/80 tracking-widest uppercase">KAYDIR</span>
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-white/80">

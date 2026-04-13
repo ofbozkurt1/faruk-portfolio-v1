@@ -9,7 +9,7 @@
 
 import ResponsiveImage from '../../components/ui/ResponsiveImage'
 
-const HeroBackground = () => {
+const HeroBackground = ({ isActive = true }) => {
     // POST images - Left Side
     const postImagesLeft = [
         '/gorseller/slidergorseller/pst1.webp',
@@ -150,6 +150,10 @@ const HeroBackground = () => {
                     will-change: transform;
                 }
 
+                .ghost-reel-paused .ghost-column-inner {
+                    animation-play-state: paused !important;
+                }
+
                 .ghost-image {
                     width: 100%;
                     height: auto;
@@ -178,7 +182,7 @@ const HeroBackground = () => {
             `}</style>
 
             {/* LEFT SIDE - Post column + Story column */}
-            <div className="ghost-reel-left" aria-hidden="true">
+            <div className={`ghost-reel-left ${!isActive ? 'ghost-reel-paused' : ''}`} aria-hidden="true">
                 <div className="ghost-columns-left">
                     {/* Posts - Scrolls Up */}
                     <div className="ghost-column ghost-column-post scroll-up">
@@ -231,7 +235,7 @@ const HeroBackground = () => {
             </div>
 
             {/* RIGHT SIDE - Post column + Story column */}
-            <div className="ghost-reel-right" aria-hidden="true">
+            <div className={`ghost-reel-right ${!isActive ? 'ghost-reel-paused' : ''}`} aria-hidden="true">
                 <div className="ghost-columns-right">
                     {/* Posts - Scrolls Up */}
                     <div className="ghost-column ghost-column-post scroll-up">

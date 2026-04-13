@@ -10,9 +10,7 @@ import EcommerceShowcase from './features/ecommerce/EcommerceShowcase'
 import MotionShowcase from './features/motion/MotionShowcase'
 import InstagramShowcase from './features/instagram/InstagramShowcase'
 import { Header, Footer } from './components/layout'
-import { AtmosphericBackground, CustomCursor } from './components/ui'
-import ServiceBackgroundLayer from './components/ui/ServiceBackgroundLayer'
-import PortfolioBackgroundLayer from './components/ui/PortfolioBackgroundLayer'
+import { AtmosphericBackground } from './components/ui'
 import SideNav from './components/ui/SideNav'
 import WipeTransition from './components/ui/WipeTransition'
 import Preloader from './components/ui/Preloader'
@@ -21,15 +19,38 @@ function App() {
     const { t } = useTranslation()
     const [selectedProject, setSelectedProject] = useState(null)
     const [lenis, setLenis] = useState(null)
+    const [isMobileViewport, setIsMobileViewport] = useState(() => {
+        if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') {
+            return false
+        }
+        return window.matchMedia('(max-width: 767.98px)').matches
+    })
 
     // PHASE 45: Conditional rendering based on screen size
     const [isDesktop, setIsDesktop] = useState(false)
 
     useEffect(() => {
-        const checkDesktop = () => setIsDesktop(window.innerWidth >= 768)
-        checkDesktop()
-        window.addEventListener('resize', checkDesktop)
-        return () => window.removeEventListener('resize', checkDesktop)
+        if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') {
+            setIsDesktop(true)
+            return undefined
+        }
+
+        const mediaQuery = window.matchMedia('(max-width: 767.98px)')
+        const handleViewportChange = (event) => {
+            setIsMobileViewport(event.matches)
+            setIsDesktop(!event.matches)
+        }
+
+        setIsMobileViewport(mediaQuery.matches)
+        setIsDesktop(!mediaQuery.matches)
+
+        if (typeof mediaQuery.addEventListener === 'function') {
+            mediaQuery.addEventListener('change', handleViewportChange)
+            return () => mediaQuery.removeEventListener('change', handleViewportChange)
+        }
+
+        mediaQuery.addListener(handleViewportChange)
+        return () => mediaQuery.removeListener(handleViewportChange)
     }, [])
 
     // Scroll to top on page load
@@ -38,6 +59,11 @@ function App() {
     }, [])
 
     useEffect(() => {
+        if (isMobileViewport) {
+            setLenis(null)
+            return undefined
+        }
+
         const lenisInstance = new Lenis({
             duration: 1.2,
             easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -54,26 +80,32 @@ function App() {
         lenisInstance.scrollTo(0, { immediate: true })
 
         setLenis(lenisInstance)
+        let rafId = null
 
         function raf(time) {
             lenisInstance.raf(time)
-            requestAnimationFrame(raf)
+            rafId = requestAnimationFrame(raf)
         }
-        requestAnimationFrame(raf)
+        rafId = requestAnimationFrame(raf)
 
-        return () => lenisInstance.destroy()
-    }, [])
+        return () => {
+            if (rafId !== null) {
+                cancelAnimationFrame(rafId)
+            }
+            lenisInstance.destroy()
+            setLenis(null)
+        }
+    }, [isMobileViewport])
 
     useEffect(() => {
-        if (lenis) {
-            if (selectedProject) {
-                lenis.stop()
-                document.body.style.overflow = 'hidden'
-            } else {
-                lenis.start()
-                document.body.style.overflow = ''
-            }
+        if (selectedProject) {
+            lenis?.stop()
+            document.body.style.overflow = 'hidden'
+            return
         }
+
+        lenis?.start()
+        document.body.style.overflow = ''
     }, [selectedProject, lenis])
 
     return (
@@ -85,9 +117,6 @@ function App() {
             <WipeTransition />
 
             <AtmosphericBackground />
-            <ServiceBackgroundLayer />
-            <PortfolioBackgroundLayer />
-            <CustomCursor />
 
             {/* PHASE 45: TRUE Conditional Render - SideNav NOT in DOM on mobile */}
             {isDesktop && <SideNav />}

@@ -5,7 +5,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence, useInView } from 'framer-motion'
-import { FiChevronDown, FiMail } from 'react-icons/fi'
+import { FiChevronDown } from 'react-icons/fi'
 import { FaBehance, FaLinkedinIn, FaInstagram, FaWhatsapp } from 'react-icons/fa'
 import { useTranslation } from 'react-i18next'
 import { cn } from '../../utils/cn'
@@ -157,7 +157,7 @@ export default function Hero({ className }) {
             )}
         >
             {/* Ghost Reel Background - Desktop Only */}
-            <HeroBackground />
+            <HeroBackground isActive={isInView} />
 
             <div className="flex flex-col-reverse lg:flex-row gap-4 lg:gap-28 w-full items-center justify-center relative z-10">
 

@@ -4,26 +4,53 @@
  * Desktop: ORIGINAL layout with icons, client, year, tools
  */
 
-import React, { useRef, useEffect, memo, useState, useMemo } from 'react'
+import { useRef, useEffect, memo, useState, useMemo, useCallback } from 'react'
 import { motion, useInView } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
+import { getAdaptiveRootMargin, useIsMobileViewport } from '../../hooks'
 
 
 // Simple Video Card - Video data moved inside component for localization
 // Simple Video Card - Memoized & Optimized
-const VideoCard = memo(function VideoCard({ video, index }) {
+const VideoCard = memo(function VideoCard({ isMobileViewport, video }) {
     const ref = useRef(null)
     const videoRef = useRef(null)
-    const isInView = useInView(ref, { amount: 0.6 })
+    const [shouldLoad, setShouldLoad] = useState(isMobileViewport)
+    const viewportMargin = isMobileViewport
+        ? '300px 0px'
+        : getAdaptiveRootMargin('200px 0px', '300px 0px')
+    const isInView = useInView(ref, { amount: 0.35, margin: viewportMargin })
+
+    useEffect(() => {
+        if (isMobileViewport) {
+            setShouldLoad(true)
+            return
+        }
+        if (isInView) {
+            setShouldLoad(true)
+        }
+    }, [isInView, isMobileViewport])
 
     useEffect(() => {
         if (!videoRef.current) return
+        if (isMobileViewport) {
+            if (shouldLoad) {
+                videoRef.current.play().catch(() => { })
+            }
+            return
+        }
         if (isInView) {
             videoRef.current.play().catch(() => { })
         } else {
             videoRef.current.pause()
         }
-    }, [isInView])
+    }, [isInView, isMobileViewport, shouldLoad])
+
+    useEffect(() => () => {
+        if (videoRef.current) {
+            videoRef.current.pause()
+        }
+    }, [])
 
     return (
         <div
@@ -36,17 +63,17 @@ const VideoCard = memo(function VideoCard({ video, index }) {
                 border: '1px solid rgba(255,255,255,0.1)',
                 background: 'rgba(0,0,0,0.3)',
                 cursor: 'pointer',
-                willChange: 'transform', // GPU optimization
                 transform: 'translateZ(0)' // Force GPU layer
             }}
         >
             <video
                 ref={videoRef}
-                src={video.src}
+                src={shouldLoad ? video.src : undefined}
+                autoPlay
                 muted
                 loop
                 playsInline
-                preload="none"
+                preload={shouldLoad ? 'auto' : 'none'}
                 style={{ width: '100%', height: '100%', objectFit: 'cover' }}
             />
             <div
@@ -97,7 +124,7 @@ const VideoCard = memo(function VideoCard({ video, index }) {
             {/* Play indicator when not in view */}
             <motion.div
                 initial={{ opacity: 0 }}
-                animate={{ opacity: isInView ? 0 : 1 }}
+                animate={{ opacity: isMobileViewport || isInView ? 0 : 1 }}
                 style={{
                     position: 'absolute',
                     inset: 0,
@@ -248,9 +275,9 @@ function DesktopInfoPanel({ group, isReversed }) {
                     {t('caseStudy.toolkit', 'Toolkit')}
                 </span>
                 <div style={{ display: 'flex', gap: 10, justifyContent: isReversed ? 'flex-end' : 'flex-start' }}>
-                    {group.tools.map((tool, idx) => (
+                    {group.tools.map((tool) => (
                         <motion.div
-                            key={idx}
+                            key={tool.name}
                             whileHover={{ scale: 1.1, y: -2 }}
                             style={{
                                 width: 46,
@@ -281,7 +308,7 @@ function DesktopInfoPanel({ group, isReversed }) {
 }
 
 // ============ MOBILE UNIFIED CAROUSEL ============
-function MobileVideoCarousel({ groups }) {
+function MobileVideoCarousel({ groups, isMobileViewport }) {
     const scrollRef = useRef(null)
     const [activeIndex, setActiveIndex] = useState(0)
     const autoPlayRef = useRef(null)
@@ -290,26 +317,35 @@ function MobileVideoCarousel({ groups }) {
     const isUserInteractingRef = useRef(false)
     const scrollTimeoutRef = useRef(null) // For throttling scroll handler
     const pauseTimeoutRef = useRef(null) // For tracking resume timeout
+    const lockTimeoutRef = useRef(null)
 
     // Flatten all videos with category info
-    const allVideos = groups.flatMap((group, groupIdx) =>
-        group.videos.map(video => ({ ...video, groupIdx, groupLabel: group.tabLabel }))
+    const allVideos = useMemo(
+        () =>
+            groups.flatMap((group, groupIdx) =>
+                group.videos.map((video) => ({ ...video, groupIdx, groupLabel: group.tabLabel }))
+            ),
+        [groups]
     )
 
     // Get active category based on current video
     const activeCategory = allVideos[activeIndex]?.groupIdx || 0
 
     // Find first video index of each category
-    const categoryStartIndex = groups.map((_, idx) => {
-        let count = 0
-        for (let i = 0; i < idx; i++) {
-            count += groups[i].videos.length
-        }
-        return count
-    })
+    const categoryStartIndex = useMemo(
+        () =>
+            groups.map((_, idx) => {
+                let count = 0
+                for (let i = 0; i < idx; i++) {
+                    count += groups[i].videos.length
+                }
+                return count
+            }),
+        [groups]
+    )
 
     // Scroll to specific video
-    const scrollToIndex = (index) => {
+    const scrollToIndex = useCallback((index) => {
         if (!scrollRef.current) return
         const container = scrollRef.current
         const videoWidth = container.offsetWidth // Full width now
@@ -317,10 +353,10 @@ function MobileVideoCarousel({ groups }) {
             left: index * videoWidth,
             behavior: 'smooth'
         })
-    }
+    }, [])
 
     // Tab click - go to category's first video with pause
-    const handleTabClick = (categoryIdx) => {
+    const handleTabClick = useCallback((categoryIdx) => {
         // Clear any existing pause timeout
         if (pauseTimeoutRef.current) {
             clearTimeout(pauseTimeoutRef.current)
@@ -339,7 +375,7 @@ function MobileVideoCarousel({ groups }) {
             isProgrammaticScrollRef.current = false
             pauseTimeoutRef.current = null
         }, 8000)
-    }
+    }, [categoryStartIndex, scrollToIndex])
 
     // Auto-advance every 7 seconds - with Scroll Lock
     useEffect(() => {
@@ -361,8 +397,12 @@ function MobileVideoCarousel({ groups }) {
                 scrollToIndex(next)
 
                 // 5. Unlock after animation
-                setTimeout(() => {
+                if (lockTimeoutRef.current) {
+                    clearTimeout(lockTimeoutRef.current)
+                }
+                lockTimeoutRef.current = setTimeout(() => {
                     isProgrammaticScrollRef.current = false
+                    lockTimeoutRef.current = null
                 }, 800)
 
                 return next
@@ -370,10 +410,10 @@ function MobileVideoCarousel({ groups }) {
         }, 7000)
 
         return () => clearInterval(autoPlayRef.current)
-    }, [allVideos.length])
+    }, [allVideos.length, scrollToIndex])
 
     // Detect manual scroll and update active index - THROTTLED for performance
-    const handleScroll = () => {
+    const handleScroll = useCallback(() => {
         if (!scrollRef.current) return
 
         // Skip update if we are programmatically scrolling (Auto or Tab)
@@ -395,14 +435,14 @@ function MobileVideoCarousel({ groups }) {
                 setActiveIndex(newIndex)
             }
         }, 150)
-    }
+    }, [activeIndex, allVideos.length])
 
     // Touch handlers - pause when touching
-    const handleTouchStart = () => {
+    const handleTouchStart = useCallback(() => {
         isUserInteractingRef.current = true
         isPausedRef.current = true
-    }
-    const handleTouchEnd = () => {
+    }, [])
+    const handleTouchEnd = useCallback(() => {
         isUserInteractingRef.current = false
 
         // Clear any existing pause timeout
@@ -415,10 +455,10 @@ function MobileVideoCarousel({ groups }) {
             isPausedRef.current = false
             pauseTimeoutRef.current = null
         }, 8000)
-    }
+    }, [])
 
     // Arrow navigation - with auto-scroll pause
-    const goToPrev = () => {
+    const goToPrev = useCallback(() => {
         // Clear any existing pause timeout
         if (pauseTimeoutRef.current) {
             clearTimeout(pauseTimeoutRef.current)
@@ -435,8 +475,8 @@ function MobileVideoCarousel({ groups }) {
             isPausedRef.current = false
             pauseTimeoutRef.current = null
         }, 8000)
-    }
-    const goToNext = () => {
+    }, [activeIndex, allVideos.length, scrollToIndex])
+    const goToNext = useCallback(() => {
         // Clear any existing pause timeout
         if (pauseTimeoutRef.current) {
             clearTimeout(pauseTimeoutRef.current)
@@ -453,7 +493,14 @@ function MobileVideoCarousel({ groups }) {
             isPausedRef.current = false
             pauseTimeoutRef.current = null
         }, 8000)
-    }
+    }, [activeIndex, allVideos.length, scrollToIndex])
+
+    useEffect(() => () => {
+        if (autoPlayRef.current) clearInterval(autoPlayRef.current)
+        if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current)
+        if (pauseTimeoutRef.current) clearTimeout(pauseTimeoutRef.current)
+        if (lockTimeoutRef.current) clearTimeout(lockTimeoutRef.current)
+    }, [])
 
     return (
         <div className="md:hidden">
@@ -464,7 +511,7 @@ function MobileVideoCarousel({ groups }) {
                         <button
                             key={group.id}
                             onClick={() => handleTabClick(idx)}
-                            className={`relative px-3 py-1.5 rounded-full text-[10px] font-medium whitespace-nowrap transition-colors duration-300 ${activeCategory === idx ? 'text-black' : 'text-white/60 hover:text-white'
+                            className={`relative min-h-[44px] px-3 py-1.5 rounded-full text-[10px] font-medium whitespace-nowrap transition-colors duration-300 ${activeCategory === idx ? 'text-black' : 'text-white/60 hover:text-white'
                                 }`}
                             style={{ WebkitTapHighlightColor: 'transparent' }}
                         >
@@ -487,7 +534,7 @@ function MobileVideoCarousel({ groups }) {
                 <button
                     onClick={goToPrev}
                     aria-label="Önceki Video"
-                    className="absolute -left-6 top-1/2 -translate-y-1/2 z-20 w-12 h-12 flex items-center justify-start opacity-50 active:scale-90 transition-transform"
+                    className="absolute -left-6 top-1/2 z-20 flex h-12 w-12 -translate-y-1/2 items-center justify-start opacity-50 transition-transform active:scale-90"
                 >
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                         <path d="M15 18l-6-6 6-6" />
@@ -498,7 +545,7 @@ function MobileVideoCarousel({ groups }) {
                 <button
                     onClick={goToNext}
                     aria-label="Sonraki Video"
-                    className="absolute -right-6 top-1/2 -translate-y-1/2 z-20 w-12 h-12 flex items-center justify-end opacity-50 active:scale-90 transition-transform"
+                    className="absolute -right-6 top-1/2 z-20 flex h-12 w-12 -translate-y-1/2 items-center justify-end opacity-50 transition-transform active:scale-90"
                 >
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                         <path d="M9 18l6-6-6-6" />
@@ -511,18 +558,17 @@ function MobileVideoCarousel({ groups }) {
                     onScroll={handleScroll}
                     onTouchStart={handleTouchStart}
                     onTouchEnd={handleTouchEnd}
-                    className="flex gap-4 overflow-x-auto snap-x snap-mandatory scrollbar-hide"
+                    className="touch-scroll-native flex gap-4 overflow-x-auto snap-x snap-mandatory scrollbar-hide"
                     style={{
-                        WebkitOverflowScrolling: 'touch',
                         touchAction: 'pan-x' // Lock vertical scroll, allow only horizontal
                     }}
                 >
-                    {allVideos.map((video, idx) => (
+                    {allVideos.map((video) => (
                         <div
                             key={video.id}
                             className="flex-shrink-0 snap-center w-full px-2"
                         >
-                            <VideoCard video={video} index={idx} />
+                            <VideoCard isMobileViewport={isMobileViewport} video={video} />
                         </div>
                     ))}
                 </div>
@@ -531,9 +577,9 @@ function MobileVideoCarousel({ groups }) {
             {/* Dots Navigation - Disabled (Visual Only) */}
             <div className="flex justify-center mt-6">
                 <div className="flex items-center gap-2 px-4 h-9 rounded-full bg-zinc-900 border border-white/10 shadow-lg backdrop-blur-md">
-                    {allVideos.map((_, idx) => (
+                    {allVideos.map((video, idx) => (
                         <div
-                            key={idx}
+                            key={video.id}
                             className={`h-1.5 rounded-full transition-all duration-300 cursor-default ${activeIndex === idx ? 'w-6 bg-white' : 'w-1.5 bg-white/30'
                                 }`}
                         />
@@ -545,7 +591,7 @@ function MobileVideoCarousel({ groups }) {
 }
 
 // ============ DESKTOP VIEW (ORIGINAL LAYOUT) ============
-function DesktopVideoGroups({ groups }) {
+function DesktopVideoGroups({ groups, isMobileViewport }) {
     return (
         <div className="hidden md:block space-y-32">
             {groups.map((group, index) => {
@@ -555,7 +601,7 @@ function DesktopVideoGroups({ groups }) {
                         key={group.id}
                         initial={{ opacity: 0 }}
                         whileInView={{ opacity: 1 }}
-                        viewport={{ once: true, margin: '-100px' }}
+                        viewport={{ once: true, margin: '0px' }}
                         transition={{ duration: 0.5 }}
                     >
                         <div
@@ -576,8 +622,8 @@ function DesktopVideoGroups({ groups }) {
                                     width: '45%'
                                 }}
                             >
-                                {group.videos.map((video, idx) => (
-                                    <VideoCard key={video.id} video={video} index={idx} />
+                                {group.videos.map((video) => (
+                                    <VideoCard key={video.id} isMobileViewport={isMobileViewport} video={video} />
                                 ))}
                             </div>
 
@@ -594,6 +640,7 @@ function DesktopVideoGroups({ groups }) {
 // ============ MAIN COMPONENT ============
 export default function VideoVault() {
     const { t } = useTranslation()
+    const isMobileViewport = useIsMobileViewport()
 
     const groups = useMemo(() => [
         {
@@ -608,8 +655,16 @@ export default function VideoVault() {
                 { name: 'After Effects', icon: '/gorseller/iconlar/after-effects.svg' }
             ],
             videos: [
-                { id: 1, src: '/video/vd1.mp4', title: t('videoShowcase.categories.hype.videos.v1', 'Summer Vibes') },
-                { id: 2, src: '/video/vd2.mp4', title: t('videoShowcase.categories.hype.videos.v2', 'Night Life') }
+                {
+                    id: 1,
+                    src: 'https://res.cloudinary.com/dbr7bx7u5/video/upload/q_auto/f_auto/Video/parti/vd1.mp4',
+                    title: t('videoShowcase.categories.hype.videos.v1', 'Summer Vibes')
+                },
+                {
+                    id: 2,
+                    src: 'https://res.cloudinary.com/dbr7bx7u5/video/upload/q_auto/f_auto/Video/parti/vd2.mp4',
+                    title: t('videoShowcase.categories.hype.videos.v2', 'Night Life')
+                }
             ]
         },
         {
@@ -625,24 +680,16 @@ export default function VideoVault() {
                 { name: 'Photoshop', icon: '/gorseller/iconlar/photoshop.svg' }
             ],
             videos: [
-                { id: 3, src: '/video/vd3.mp4', title: t('videoShowcase.categories.commercial.videos.v1', 'Brand Story') },
-                { id: 4, src: '/video/vd4.mp4', title: t('videoShowcase.categories.commercial.videos.v2', 'Product Launch') }
-            ]
-        },
-        {
-            id: 'social',
-            tabLabel: t('videoShowcase.categories.social.tab', 'SOCIAL'),
-            title: t('videoShowcase.categories.social.title', 'SOCIAL EDITS'),
-            desc: t('videoShowcase.categories.social.desc', 'Short-form content designed to engage.'),
-            client: t('videoShowcase.categories.social.client', 'Social Media'),
-            year: t('videoShowcase.categories.social.year', '2024'),
-            tools: [
-                { name: 'Premiere Pro', icon: '/gorseller/iconlar/premiere-pro.svg' },
-                { name: 'After Effects', icon: '/gorseller/iconlar/after-effects.svg' }
-            ],
-            videos: [
-                { id: 5, src: '/video/vd5.mp4', title: t('videoShowcase.categories.social.videos.v1', 'Reels Edit') },
-                { id: 6, src: '/video/vd6.mp4', title: t('videoShowcase.categories.social.videos.v2', 'TikTok Style') }
+                {
+                    id: 3,
+                    src: 'https://res.cloudinary.com/dbr7bx7u5/video/upload/q_auto/f_auto/Video/tan%C4%B1t%C4%B1m/vd1.mp4',
+                    title: t('videoShowcase.categories.commercial.videos.v1', 'Brand Story')
+                },
+                {
+                    id: 4,
+                    src: 'https://res.cloudinary.com/dbr7bx7u5/video/upload/q_auto/f_auto/Video/tan%C4%B1t%C4%B1m/vd2.mp4',
+                    title: t('videoShowcase.categories.commercial.videos.v2', 'Product Launch')
+                }
             ]
         },
         {
@@ -657,8 +704,16 @@ export default function VideoVault() {
                 { name: 'After Effects', icon: '/gorseller/iconlar/after-effects.svg' }
             ],
             videos: [
-                { id: 7, src: '/video/drn1.mp4', title: t('videoShowcase.categories.aerial.videos.v1', 'City Flyover') },
-                { id: 8, src: '/video/drn2.mp4', title: t('videoShowcase.categories.aerial.videos.v2', 'Nature Shot') }
+                {
+                    id: 5,
+                    src: 'https://res.cloudinary.com/dbr7bx7u5/video/upload/q_auto/f_auto/v1776009326/Video/drone/vd1.mp4',
+                    title: t('videoShowcase.categories.aerial.videos.v1', 'City Flyover')
+                },
+                {
+                    id: 6,
+                    src: 'https://res.cloudinary.com/dbr7bx7u5/video/upload/q_auto/f_auto/v1776009245/Video/drone/vd2.mp4',
+                    title: t('videoShowcase.categories.aerial.videos.v2', 'Nature Shot')
+                }
             ]
         }
     ], [t])
@@ -688,10 +743,10 @@ export default function VideoVault() {
                 </motion.div>
 
                 {/* Mobile: Tabbed Interface */}
-                <MobileVideoCarousel groups={groups} />
+                <MobileVideoCarousel groups={groups} isMobileViewport={isMobileViewport} />
 
                 {/* Desktop: Original Stacked Layout */}
-                <DesktopVideoGroups groups={groups} />
+                <DesktopVideoGroups groups={groups} isMobileViewport={isMobileViewport} />
             </div>
         </section>
     )

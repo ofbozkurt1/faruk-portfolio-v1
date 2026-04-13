@@ -4,7 +4,7 @@
  * React.memo for list items
  */
 
-import React, { useState, memo, useRef } from 'react'
+import { useState, memo, useRef } from 'react'
 import { motion } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
 import TiltCard from '../../components/ui/TiltCard'

@@ -37,8 +37,6 @@ export default function ProjectCard({ project, onClick, isReversed, cardIndex = 
     const [isHovered, setIsHovered] = useState(false)
     const [isMobile, setIsMobile] = useState(false)
 
-    const [isPaused, setIsPaused] = useState(false)
-
     const cardRef = useRef(null)
     const isInView = useInView(cardRef, { amount: 0.3 })
 
@@ -66,13 +64,13 @@ export default function ProjectCard({ project, onClick, isReversed, cardIndex = 
     const direction = cardIndex % 2 === 0 ? 1 : -1
 
     useEffect(() => {
-        if (!isInView || isPaused || disableSlide) return // Pause if not in view, user is touching, or slides are disabled
+        if (!isInView || disableSlide) return // Pause if not in view or slides are disabled
         const intervalTime = isMobile ? 2000 : 4000 // Fast for mobile, standard for desktop
         const interval = setInterval(() => {
             setActiveIndex((prev) => (prev + 1) % stackImages.length)
         }, intervalTime)
         return () => clearInterval(interval)
-    }, [isInView, stackImages.length, isMobile, isPaused])
+    }, [disableSlide, isInView, stackImages.length, isMobile])
 
     const getImageOrder = (originalIndex) => {
         return (originalIndex - activeIndex + stackImages.length) % stackImages.length
@@ -224,7 +222,14 @@ export default function ProjectCard({ project, onClick, isReversed, cardIndex = 
                                                             key={tech}
                                                             className={cn("flex items-center gap-1.5 bg-white/10 rounded-full border border-white/10", isStoryOnlyFormat ? "px-2 py-0.5" : "px-2.5 py-1")}
                                                         >
-                                                            <img src={iconData.value} alt={tech} className="w-3 h-3 object-contain opacity-80" />
+                                                            <img
+                                                                src={iconData.value}
+                                                                alt={tech}
+                                                                loading="lazy"
+                                                                decoding="async"
+                                                                fetchPriority="low"
+                                                                className="w-3 h-3 object-contain opacity-80"
+                                                            />
                                                             <span className="text-[9px] font-medium text-white/70">
                                                                 {toolNames[tech] || tech}
                                                             </span>
@@ -474,6 +479,9 @@ export default function ProjectCard({ project, onClick, isReversed, cardIndex = 
                                 <img
                                     src={iconData.value}
                                     alt={tech}
+                                    loading="lazy"
+                                    decoding="async"
+                                    fetchPriority="low"
                                     style={{ width: 18, height: 18, objectFit: 'contain' }}
                                 />
                                 <span style={{

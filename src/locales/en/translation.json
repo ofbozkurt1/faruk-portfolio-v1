@@ -100,17 +100,6 @@
                     "v2": "Grand Opening"
                 }
             },
-            "social": {
-                "tab": "Dynamic",
-                "title": "DYNAMIC VIDEOS",
-                "desc": "Trend-compliant, dynamic video content designed to stand out in the digital feed.",
-                "client": "Novastra Media",
-                "year": "2025",
-                "videos": {
-                    "v1": "Dynamic Edit",
-                    "v2": "Dynamic Edit"
-                }
-            },
             "aerial": {
                 "tab": "Drone",
                 "title": "DRONE & LOCATION",

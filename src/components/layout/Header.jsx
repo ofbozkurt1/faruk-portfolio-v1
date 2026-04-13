@@ -4,7 +4,7 @@
  * i18n support with cinematic wipe transition
  */
 
-import { useState, useEffect, useCallback, useMemo } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
 import { useLanguageTransitionStore } from '../../stores/languageTransitionStore'
@@ -45,7 +45,7 @@ export default function Header() {
     const [isMenuOpen, setIsMenuOpen] = useState(false)
 
     // Memoize navLinks based on current language
-    const navLinks = useMemo(() => getNavLinks(t), [t, i18n.language])
+    const navLinks = useMemo(() => getNavLinks(t), [t])
 
     // Lock body scroll when menu is open
     useEffect(() => {
@@ -104,7 +104,7 @@ export default function Header() {
         if (sections.length > 0) {
             setActiveSection(sections[0][0])
         }
-    }, 100), [sectionPositions]) // 100ms throttle = max 10 calls per second
+    }, 100), [navLinks, sectionPositions]) // 100ms throttle = max 10 calls per second
 
     useEffect(() => {
         // Clear cache on resize (sections may have moved)

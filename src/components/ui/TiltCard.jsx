@@ -18,6 +18,8 @@ export default function TiltCard({
     const cardRef = useRef(null)
     const [isHovered, setIsHovered] = useState(false)
     const [isMobile, setIsMobile] = useState(false)
+    const mouseX = useMotionValue(0)
+    const mouseY = useMotionValue(0)
 
     // Check for mobile device on mount & resize
     useEffect(() => {
@@ -35,11 +37,7 @@ export default function TiltCard({
         checkMobile()
         window.addEventListener('resize', checkMobile)
         return () => window.removeEventListener('resize', checkMobile)
-    }, [])
-
-    // Mouse position relative to card center
-    const mouseX = useMotionValue(0)
-    const mouseY = useMotionValue(0)
+    }, [mouseX, mouseY])
 
     // Spring physics for smooth rotation
     const rotateX = useSpring(useTransform(mouseY, [-0.5, 0.5], [intensity, -intensity]), springConfig)
