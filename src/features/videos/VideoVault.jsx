@@ -9,34 +9,46 @@ import { motion, useInView } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
 import { getAdaptiveRootMargin, useIsMobileViewport } from '../../hooks'
 
+function getOptimizedVideoSrc(src, isMobileViewport) {
+    if (!isMobileViewport || typeof src !== 'string') return src
+    return src.replace('/q_auto/f_auto/', '/q_auto:eco/f_auto/w_540/')
+}
 
 // Simple Video Card - Video data moved inside component for localization
 // Simple Video Card - Memoized & Optimized
-const VideoCard = memo(function VideoCard({ isMobileViewport, video }) {
+const VideoCard = memo(function VideoCard({
+    forceLoad = false,
+    isActive = false,
+    isMobileViewport,
+    video,
+}) {
     const ref = useRef(null)
     const videoRef = useRef(null)
-    const [shouldLoad, setShouldLoad] = useState(isMobileViewport)
+    const [shouldLoad, setShouldLoad] = useState(forceLoad)
     const viewportMargin = isMobileViewport
         ? '300px 0px'
         : getAdaptiveRootMargin('200px 0px', '300px 0px')
     const isInView = useInView(ref, { amount: 0.35, margin: viewportMargin })
+    const resolvedSrc = getOptimizedVideoSrc(video.src, isMobileViewport)
 
     useEffect(() => {
-        if (isMobileViewport) {
+        if (forceLoad) {
             setShouldLoad(true)
             return
         }
         if (isInView) {
             setShouldLoad(true)
         }
-    }, [isInView, isMobileViewport])
+    }, [forceLoad, isInView])
 
     useEffect(() => {
         if (!videoRef.current) return
         if (isMobileViewport) {
-            if (shouldLoad) {
+            if (isActive && shouldLoad) {
                 videoRef.current.play().catch(() => { })
+                return
             }
+            videoRef.current.pause()
             return
         }
         if (isInView) {
@@ -44,7 +56,7 @@ const VideoCard = memo(function VideoCard({ isMobileViewport, video }) {
         } else {
             videoRef.current.pause()
         }
-    }, [isInView, isMobileViewport, shouldLoad])
+    }, [isActive, isInView, isMobileViewport, shouldLoad])
 
     useEffect(() => () => {
         if (videoRef.current) {
@@ -68,12 +80,12 @@ const VideoCard = memo(function VideoCard({ isMobileViewport, video }) {
         >
             <video
                 ref={videoRef}
-                src={shouldLoad ? video.src : undefined}
+                src={shouldLoad ? resolvedSrc : undefined}
                 autoPlay
                 muted
                 loop
                 playsInline
-                preload={shouldLoad ? 'auto' : 'none'}
+                preload={shouldLoad ? (isMobileViewport ? 'metadata' : 'auto') : 'none'}
                 style={{ width: '100%', height: '100%', objectFit: 'cover' }}
             />
             <div
@@ -124,7 +136,7 @@ const VideoCard = memo(function VideoCard({ isMobileViewport, video }) {
             {/* Play indicator when not in view */}
             <motion.div
                 initial={{ opacity: 0 }}
-                animate={{ opacity: isMobileViewport || isInView ? 0 : 1 }}
+                animate={{ opacity: (isMobileViewport ? isActive : isInView) ? 0 : 1 }}
                 style={{
                     position: 'absolute',
                     inset: 0,
@@ -377,7 +389,12 @@ function MobileVideoCarousel({ groups, isMobileViewport }) {
         }, 8000)
     }, [categoryStartIndex, scrollToIndex])
 
-    // Auto-advance every 7 seconds - with Scroll Lock
+    // Auto-advance disabled on mobile for better scroll performance
+    useEffect(() => {
+        return undefined
+    }, [])
+
+    /*
     useEffect(() => {
         autoPlayRef.current = setInterval(() => {
             // 1. Don't move if user is touching/hovering
@@ -411,6 +428,7 @@ function MobileVideoCarousel({ groups, isMobileViewport }) {
 
         return () => clearInterval(autoPlayRef.current)
     }, [allVideos.length, scrollToIndex])
+    */
 
     // Detect manual scroll and update active index - THROTTLED for performance
     const handleScroll = useCallback(() => {
@@ -563,14 +581,26 @@ function MobileVideoCarousel({ groups, isMobileViewport }) {
                         touchAction: 'pan-x' // Lock vertical scroll, allow only horizontal
                     }}
                 >
-                    {allVideos.map((video) => (
+                    {allVideos.map((video, idx) => {
+                        const isActive = idx === activeIndex
+                        const isNeighbor = idx === activeIndex - 1 || idx === activeIndex + 1
+                        const isLoopNeighbor =
+                            (activeIndex === 0 && idx === allVideos.length - 1) ||
+                            (activeIndex === allVideos.length - 1 && idx === 0)
+
+                        return (
                         <div
                             key={video.id}
                             className="flex-shrink-0 snap-center w-full px-2"
                         >
-                            <VideoCard isMobileViewport={isMobileViewport} video={video} />
+                            <VideoCard
+                                forceLoad={isActive || isNeighbor || isLoopNeighbor}
+                                isActive={isActive}
+                                isMobileViewport={isMobileViewport}
+                                video={video}
+                            />
                         </div>
-                    ))}
+                    )})}
                 </div>
             </div>
 
@@ -623,7 +653,11 @@ function DesktopVideoGroups({ groups, isMobileViewport }) {
                                 }}
                             >
                                 {group.videos.map((video) => (
-                                    <VideoCard key={video.id} isMobileViewport={isMobileViewport} video={video} />
+                                    <VideoCard
+                                        key={video.id}
+                                        isMobileViewport={isMobileViewport}
+                                        video={video}
+                                    />
                                 ))}
                             </div>
 

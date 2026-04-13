@@ -39,6 +39,11 @@ function playVideo(videoElement) {
     }
 }
 
+function getOptimizedVideoSrc(src, isMobileViewport) {
+    if (!isMobileViewport || typeof src !== 'string') return src
+    return src.replace('/q_auto/f_auto/', '/q_auto:eco/f_auto/w_540/')
+}
+
 function useObservedVideoSet(itemCount, rootMargin, { eagerLoad = false, disableViewportPause = false } = {}) {
     const [loaded, setLoaded] = useState(() => Array.from({ length: itemCount }, () => eagerLoad))
     const [inView, setInView] = useState(() => Array.from({ length: itemCount }, () => false))
@@ -81,7 +86,7 @@ function useObservedVideoSet(itemCount, rootMargin, { eagerLoad = false, disable
                 })
             },
             {
-                threshold: 0.2,
+                threshold: 0.08,
                 rootMargin,
             }
         )
@@ -126,6 +131,7 @@ const PosterCard = memo(function PosterCard({
     forceLoad,
     hoveredIndex,
     index,
+    isMobileViewport,
     setHoveredIndex,
     video,
     videoSet,
@@ -133,6 +139,7 @@ const PosterCard = memo(function PosterCard({
     const isHovered = !disableHover && hoveredIndex === index
     const shouldDim = !disableHover && hoveredIndex !== null && hoveredIndex !== index
     const shouldLoad = forceLoad || videoSet.loaded[index]
+    const resolvedSrc = getOptimizedVideoSrc(video.src, isMobileViewport)
 
     return (
         <article
@@ -156,8 +163,8 @@ const PosterCard = memo(function PosterCard({
                 muted
                 loop
                 playsInline
-                preload={shouldLoad ? 'auto' : 'none'}
-                src={shouldLoad ? video.src : undefined}
+                preload={shouldLoad ? (isMobileViewport ? 'metadata' : 'auto') : 'none'}
+                src={shouldLoad ? resolvedSrc : undefined}
                 onLoadedData={() => {
                     playVideo(videoSet.videoRefs.current[index])
                 }}
@@ -170,8 +177,9 @@ const PosterCard = memo(function PosterCard({
     )
 })
 
-const FeaturedVideoCard = memo(function FeaturedVideoCard({ forceLoad, index, video, videoSet }) {
+const FeaturedVideoCard = memo(function FeaturedVideoCard({ forceLoad, index, isMobileViewport, video, videoSet }) {
     const shouldLoad = forceLoad || videoSet.loaded[index]
+    const resolvedSrc = getOptimizedVideoSrc(video.src, isMobileViewport)
 
     return (
         <article
@@ -189,8 +197,8 @@ const FeaturedVideoCard = memo(function FeaturedVideoCard({ forceLoad, index, vi
                 muted
                 loop
                 playsInline
-                preload={shouldLoad ? 'auto' : 'none'}
-                src={shouldLoad ? video.src : undefined}
+                preload={shouldLoad ? (isMobileViewport ? 'metadata' : 'auto') : 'none'}
+                src={shouldLoad ? resolvedSrc : undefined}
                 onLoadedData={() => {
                     playVideo(videoSet.videoRefs.current[index])
                 }}
@@ -206,14 +214,8 @@ export default function MotionShowcase() {
         ? '300px 0px'
         : getAdaptiveRootMargin('200px 0px', '300px 0px')
 
-    const posterVideoSet = useObservedVideoSet(MOTION_POSTERS.length, intersectionRootMargin, {
-        eagerLoad: isMobileViewport,
-        disableViewportPause: isMobileViewport,
-    })
-    const featuredVideoSet = useObservedVideoSet(FEATURED_MOTION_VIDEOS.length, intersectionRootMargin, {
-        eagerLoad: isMobileViewport,
-        disableViewportPause: isMobileViewport,
-    })
+    const posterVideoSet = useObservedVideoSet(MOTION_POSTERS.length, intersectionRootMargin)
+    const featuredVideoSet = useObservedVideoSet(FEATURED_MOTION_VIDEOS.length, intersectionRootMargin)
 
     const handlePosterLeave = useCallback(() => {
         setPosterHoveredIndex(null)
@@ -237,9 +239,10 @@ export default function MotionShowcase() {
                         <div key={video.src} className="w-[78vw] max-w-[340px] shrink-0 snap-center md:w-full md:max-w-none md:shrink md:snap-none">
                             <PosterCard
                                 disableHover={isMobileViewport}
-                                forceLoad={isMobileViewport}
+                                forceLoad={isMobileViewport && index === 0}
                                 hoveredIndex={posterHoveredIndex}
                                 index={index}
+                                isMobileViewport={isMobileViewport}
                                 setHoveredIndex={setPosterHoveredIndex}
                                 video={video}
                                 videoSet={posterVideoSet}
@@ -260,8 +263,9 @@ export default function MotionShowcase() {
                         {FEATURED_MOTION_VIDEOS.map((video, index) => (
                             <div key={video.src} className="w-[78vw] max-w-[340px] shrink-0 snap-center md:w-full md:max-w-none md:shrink md:snap-none">
                                 <FeaturedVideoCard
-                                    forceLoad={isMobileViewport}
+                                    forceLoad={isMobileViewport && index === 0}
                                     index={index}
+                                    isMobileViewport={isMobileViewport}
                                     video={video}
                                     videoSet={featuredVideoSet}
                                 />
