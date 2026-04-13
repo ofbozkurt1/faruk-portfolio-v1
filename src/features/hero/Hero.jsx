@@ -157,7 +157,7 @@ export default function Hero({ className }) {
             )}
         >
             {/* Ghost Reel Background - Desktop Only */}
-            <HeroBackground isActive={isInView} />
+            {!mobile && <HeroBackground isActive={isInView} />}
 
             <div className="flex flex-col-reverse lg:flex-row gap-4 lg:gap-28 w-full items-center justify-center relative z-10">
 
@@ -175,11 +175,17 @@ export default function Hero({ className }) {
                         variants={activeItemVariants}
                         className="text-[clamp(26px,6.5vw,80px)] md:text-7xl font-extrabold tracking-[-0.03em] leading-[1.1] text-[#F2F2F2] whitespace-nowrap opacity-100 md:opacity-0 mb-1 md:mb-0"
                     >
-                        {renderAnimatedText(firstName)}
-                        {/* Space between names on mobile, break on desktop */}
-                        <span className="md:hidden"> </span>
-                        <br className="hidden md:block" />
-                        {renderAnimatedText(lastName, firstName.length)}
+                        {mobile ? (
+                            `${firstName} ${lastName}`
+                        ) : (
+                            <>
+                                {renderAnimatedText(firstName)}
+                                {/* Space between names on mobile, break on desktop */}
+                                <span className="md:hidden"> </span>
+                                <br className="hidden md:block" />
+                                {renderAnimatedText(lastName, firstName.length)}
+                            </>
+                        )}
                     </motion.h1>
 
                     {/* Title below name - Matched width via spacing */}

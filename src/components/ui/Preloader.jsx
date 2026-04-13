@@ -5,14 +5,13 @@
  */
 
 import { useEffect, useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
 
-// Tool icons
 const toolIcons = [
     { src: '/gorseller/iconlar/photoshop.svg', alt: 'Photoshop' },
     { src: '/gorseller/iconlar/after-effects.svg', alt: 'After Effects' },
     { src: '/gorseller/iconlar/illustrator.svg', alt: 'Illustrator' },
-    { src: '/gorseller/iconlar/premiere-pro.svg', alt: 'Premiere Pro' }
+    { src: '/gorseller/iconlar/premiere-pro.svg', alt: 'Premiere Pro' },
 ]
 
 export default function Preloader() {
@@ -20,30 +19,41 @@ export default function Preloader() {
     const [counter, setCounter] = useState(0)
 
     useEffect(() => {
+        if (!isLoading) return undefined
+
         document.body.style.overflow = 'hidden'
 
         const interval = setInterval(() => {
-            setCounter((prev) => {
-                // ~1.3 saniyede 100'e ulaşır (6-10 arası artış, 90ms aralık)
-                const newCount = prev + Math.floor(Math.random() * 5) + 6
-                if (newCount >= 100) {
+            setCounter((previous) => {
+                const nextCount = previous + Math.floor(Math.random() * 5) + 6
+                if (nextCount >= 100) {
                     clearInterval(interval)
                     return 100
                 }
-                return newCount
+                return nextCount
             })
-        }, 90) // 90ms aralık
-
-        if (counter === 100) {
-            // 100'de 300ms bekle, perde 0.7s = ~2 sn toplam
-            setTimeout(() => {
-                setIsLoading(false)
-                document.body.style.overflow = 'auto'
-            }, 300)
-        }
+        }, 90)
 
         return () => clearInterval(interval)
-    }, [counter])
+    }, [isLoading])
+
+    useEffect(() => {
+        if (!isLoading || counter !== 100) return undefined
+
+        const closeTimer = setTimeout(() => {
+            setIsLoading(false)
+            document.body.style.overflow = 'auto'
+        }, 300)
+
+        return () => clearTimeout(closeTimer)
+    }, [counter, isLoading])
+
+    useEffect(
+        () => () => {
+            document.body.style.overflow = ''
+        },
+        []
+    )
 
     return (
         <AnimatePresence mode="wait">
@@ -62,33 +72,29 @@ export default function Preloader() {
                         transition={{ duration: 0.4 }}
                         className="flex flex-col items-center"
                     >
-                        {/* Sayaç */}
-                        <div className="text-7xl md:text-[140px] font-bold tracking-tighter flex items-start leading-none">
+                        <div className="flex items-start text-7xl leading-none font-bold tracking-tighter md:text-[140px]">
                             <span>{counter}</span>
-                            <span className="text-2xl md:text-4xl mt-2 md:mt-4">%</span>
+                            <span className="mt-2 text-2xl md:mt-4 md:text-4xl">%</span>
                         </div>
 
-                        {/* İsim */}
                         <motion.div
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             transition={{ delay: 0.2 }}
-                            className="mt-6 text-sm md:text-lg uppercase tracking-[0.3em] text-white/60 font-medium"
+                            className="mt-6 text-sm font-medium tracking-[0.3em] text-white/60 uppercase md:text-lg"
                         >
                             Ömer Faruk Bozkurt
                         </motion.div>
 
-                        {/* Alt Yazı */}
                         <motion.div
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             transition={{ delay: 0.3 }}
-                            className="mt-2 text-xs md:text-sm tracking-[0.2em] text-white/40"
+                            className="mt-2 text-xs tracking-[0.2em] text-white/40 md:text-sm"
                         >
                             MOTION & GRAPHIC DESIGNER
                         </motion.div>
 
-                        {/* Tool Icons */}
                         <motion.div
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
@@ -103,7 +109,7 @@ export default function Preloader() {
                                     loading="lazy"
                                     decoding="async"
                                     fetchPriority="low"
-                                    className="w-7 h-7 md:w-9 md:h-9 opacity-50"
+                                    className="h-7 w-7 opacity-50 md:h-9 md:w-9"
                                 />
                             ))}
                         </motion.div>

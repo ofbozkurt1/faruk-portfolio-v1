@@ -111,12 +111,12 @@ function App() {
     return (
         <>
             {/* Premium Preloader - Counter + Curtain Reveal */}
-            <Preloader />
+            {!isMobileViewport && <Preloader />}
 
             {/* Cinematic Language Transition */}
             <WipeTransition />
 
-            <AtmosphericBackground />
+            {!isMobileViewport && <AtmosphericBackground />}
 
             {/* PHASE 45: TRUE Conditional Render - SideNav NOT in DOM on mobile */}
             {isDesktop && <SideNav />}
