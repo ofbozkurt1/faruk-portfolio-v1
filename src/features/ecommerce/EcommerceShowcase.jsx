@@ -1,5 +1,5 @@
-import { memo, useCallback, useEffect, useMemo, useState } from 'react'
-import { getAdaptiveRootMargin, useNearViewport } from '../../hooks'
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { getAdaptiveRootMargin, useAutoSnapCarousel, useIsMobileViewport, useNearViewport } from '../../hooks'
 
 const BLANK_IMAGE_SRC = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=='
 
@@ -152,8 +152,11 @@ const ExpandedImageCard = memo(function ExpandedImageCard({ brand, fileName, onE
 })
 
 export default function EcommerceShowcase() {
+    const isMobileViewport = useIsMobileViewport()
     const [showExpandedGrid, setShowExpandedGrid] = useState(false)
     const [brokenImageKeys, setBrokenImageKeys] = useState(() => new Set())
+    const [mobileActiveIndex, setMobileActiveIndex] = useState(0)
+    const mobileCarouselRef = useRef(null)
     const { ref: marqueeViewportRef, isNearViewport: isMarqueeActive } = useNearViewport({
         rootMargin: getAdaptiveRootMargin('150px 0px', '300px 0px'),
         threshold: 0.01,
@@ -170,6 +173,20 @@ export default function EcommerceShowcase() {
             })),
         []
     )
+
+    const {
+        handleScroll: handleMobileCarouselScroll,
+        onUserInteractEnd: onMobileCarouselInteractEnd,
+        onUserInteractStart: onMobileCarouselInteractStart,
+    } = useAutoSnapCarousel({
+        containerRef: mobileCarouselRef,
+        activeIndex: mobileActiveIndex,
+        setActiveIndex: setMobileActiveIndex,
+        itemCount: heroImages.length,
+        enabled: isMobileViewport,
+        intervalMs: 5000,
+        pauseAfterInteractionMs: 8000,
+    })
 
     const closeExpandedGrid = useCallback(() => {
         setShowExpandedGrid(false)
@@ -266,7 +283,19 @@ export default function EcommerceShowcase() {
             </div>
 
             <div className="block md:hidden">
-                <div className="touch-scroll-native -mx-4 flex gap-4 overflow-x-auto px-4 snap-x snap-mandatory">
+                <div
+                    ref={mobileCarouselRef}
+                    className="touch-scroll-native -mx-4 flex gap-4 overflow-x-auto px-4 snap-x snap-mandatory"
+                    onScroll={handleMobileCarouselScroll}
+                    onTouchStart={onMobileCarouselInteractStart}
+                    onTouchEnd={onMobileCarouselInteractEnd}
+                    onPointerDown={onMobileCarouselInteractStart}
+                    onPointerUp={onMobileCarouselInteractEnd}
+                    onWheel={() => {
+                        onMobileCarouselInteractStart()
+                        onMobileCarouselInteractEnd()
+                    }}
+                >
                     {heroImages.map((item, index) => (
                         <MobileHeroCard key={`mobile-${item.id}`} item={item} index={index} />
                     ))}

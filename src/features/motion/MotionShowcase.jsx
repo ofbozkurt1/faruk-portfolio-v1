@@ -1,5 +1,5 @@
 import { memo, useCallback, useEffect, useRef, useState } from 'react'
-import { getAdaptiveRootMargin, useIsMobileViewport } from '../../hooks'
+import { getAdaptiveRootMargin, useAutoSnapCarousel, useIsMobileViewport } from '../../hooks'
 
 const MOTION_POSTERS = [
     {
@@ -39,9 +39,18 @@ function playVideo(videoElement) {
     }
 }
 
-function getOptimizedVideoSrc(src, isMobileViewport) {
+function getOptimizedVideoSrc(src, isMobileViewport, qualityTier = 'neighbor') {
     if (!isMobileViewport || typeof src !== 'string') return src
-    return src.replace('/q_auto/f_auto/', '/q_auto:eco/f_auto/w_540/')
+
+    if (!src.includes('/q_auto/f_auto/')) {
+        return src
+    }
+
+    if (qualityTier === 'active') {
+        return src.replace('/q_auto/f_auto/', '/q_auto:good/f_auto/dpr_auto/w_720/')
+    }
+
+    return src.replace('/q_auto/f_auto/', '/q_auto:eco/f_auto/w_480/')
 }
 
 function useObservedVideoSet(itemCount, rootMargin, { eagerLoad = false, disableViewportPause = false } = {}) {
@@ -127,9 +136,10 @@ function useObservedVideoSet(itemCount, rootMargin, { eagerLoad = false, disable
 }
 
 const PosterCard = memo(function PosterCard({
+    activeIndex,
     disableHover,
-    forceLoad,
     hoveredIndex,
+    itemCount,
     index,
     isMobileViewport,
     setHoveredIndex,
@@ -138,8 +148,14 @@ const PosterCard = memo(function PosterCard({
 }) {
     const isHovered = !disableHover && hoveredIndex === index
     const shouldDim = !disableHover && hoveredIndex !== null && hoveredIndex !== index
-    const shouldLoad = forceLoad || videoSet.loaded[index]
-    const resolvedSrc = getOptimizedVideoSrc(video.src, isMobileViewport)
+    const isActiveMobile = isMobileViewport && index === activeIndex
+    const isNeighborMobile = isMobileViewport && (
+        index === (activeIndex - 1 + itemCount) % itemCount ||
+        index === (activeIndex + 1) % itemCount
+    )
+    const mobileQualityTier = isActiveMobile ? 'active' : isNeighborMobile ? 'neighbor' : 'none'
+    const shouldLoad = isMobileViewport ? mobileQualityTier !== 'none' : videoSet.loaded[index]
+    const resolvedSrc = getOptimizedVideoSrc(video.src, isMobileViewport, mobileQualityTier)
 
     return (
         <article
@@ -163,10 +179,12 @@ const PosterCard = memo(function PosterCard({
                 muted
                 loop
                 playsInline
-                preload={shouldLoad ? (isMobileViewport ? 'metadata' : 'auto') : 'none'}
+                preload={shouldLoad ? (isActiveMobile ? 'auto' : isMobileViewport ? 'metadata' : 'auto') : 'none'}
                 src={shouldLoad ? resolvedSrc : undefined}
                 onLoadedData={() => {
-                    playVideo(videoSet.videoRefs.current[index])
+                    if (!isMobileViewport || isActiveMobile) {
+                        playVideo(videoSet.videoRefs.current[index])
+                    }
                 }}
             />
 
@@ -177,9 +195,22 @@ const PosterCard = memo(function PosterCard({
     )
 })
 
-const FeaturedVideoCard = memo(function FeaturedVideoCard({ forceLoad, index, isMobileViewport, video, videoSet }) {
-    const shouldLoad = forceLoad || videoSet.loaded[index]
-    const resolvedSrc = getOptimizedVideoSrc(video.src, isMobileViewport)
+const FeaturedVideoCard = memo(function FeaturedVideoCard({
+    activeIndex,
+    index,
+    isMobileViewport,
+    itemCount,
+    video,
+    videoSet,
+}) {
+    const isActiveMobile = isMobileViewport && index === activeIndex
+    const isNeighborMobile = isMobileViewport && (
+        index === (activeIndex - 1 + itemCount) % itemCount ||
+        index === (activeIndex + 1) % itemCount
+    )
+    const mobileQualityTier = isActiveMobile ? 'active' : isNeighborMobile ? 'neighbor' : 'none'
+    const shouldLoad = isMobileViewport ? mobileQualityTier !== 'none' : videoSet.loaded[index]
+    const resolvedSrc = getOptimizedVideoSrc(video.src, isMobileViewport, mobileQualityTier)
 
     return (
         <article
@@ -197,10 +228,12 @@ const FeaturedVideoCard = memo(function FeaturedVideoCard({ forceLoad, index, is
                 muted
                 loop
                 playsInline
-                preload={shouldLoad ? (isMobileViewport ? 'metadata' : 'auto') : 'none'}
+                preload={shouldLoad ? (isActiveMobile ? 'auto' : isMobileViewport ? 'metadata' : 'auto') : 'none'}
                 src={shouldLoad ? resolvedSrc : undefined}
                 onLoadedData={() => {
-                    playVideo(videoSet.videoRefs.current[index])
+                    if (!isMobileViewport || isActiveMobile) {
+                        playVideo(videoSet.videoRefs.current[index])
+                    }
                 }}
             />
         </article>
@@ -210,16 +243,76 @@ const FeaturedVideoCard = memo(function FeaturedVideoCard({ forceLoad, index, is
 export default function MotionShowcase() {
     const isMobileViewport = useIsMobileViewport()
     const [posterHoveredIndex, setPosterHoveredIndex] = useState(null)
+    const [posterActiveIndex, setPosterActiveIndex] = useState(0)
+    const [featuredActiveIndex, setFeaturedActiveIndex] = useState(0)
+    const posterTrackRef = useRef(null)
+    const featuredTrackRef = useRef(null)
     const intersectionRootMargin = isMobileViewport
         ? '300px 0px'
         : getAdaptiveRootMargin('200px 0px', '300px 0px')
 
-    const posterVideoSet = useObservedVideoSet(MOTION_POSTERS.length, intersectionRootMargin)
-    const featuredVideoSet = useObservedVideoSet(FEATURED_MOTION_VIDEOS.length, intersectionRootMargin)
+    const posterVideoSet = useObservedVideoSet(MOTION_POSTERS.length, intersectionRootMargin, {
+        disableViewportPause: isMobileViewport,
+    })
+    const featuredVideoSet = useObservedVideoSet(FEATURED_MOTION_VIDEOS.length, intersectionRootMargin, {
+        disableViewportPause: isMobileViewport,
+    })
+
+    const {
+        handleScroll: handlePosterTrackScroll,
+        onUserInteractEnd: onPosterTrackInteractEnd,
+        onUserInteractStart: onPosterTrackInteractStart,
+    } = useAutoSnapCarousel({
+        containerRef: posterTrackRef,
+        activeIndex: posterActiveIndex,
+        setActiveIndex: setPosterActiveIndex,
+        itemCount: MOTION_POSTERS.length,
+        enabled: isMobileViewport,
+        intervalMs: 5000,
+        pauseAfterInteractionMs: 8000,
+    })
+
+    const {
+        handleScroll: handleFeaturedTrackScroll,
+        onUserInteractEnd: onFeaturedTrackInteractEnd,
+        onUserInteractStart: onFeaturedTrackInteractStart,
+    } = useAutoSnapCarousel({
+        containerRef: featuredTrackRef,
+        activeIndex: featuredActiveIndex,
+        setActiveIndex: setFeaturedActiveIndex,
+        itemCount: FEATURED_MOTION_VIDEOS.length,
+        enabled: isMobileViewport,
+        intervalMs: 5000,
+        pauseAfterInteractionMs: 8000,
+    })
 
     const handlePosterLeave = useCallback(() => {
         setPosterHoveredIndex(null)
     }, [])
+
+    useEffect(() => {
+        if (!isMobileViewport) return
+        posterVideoSet.videoRefs.current.forEach((videoElement, index) => {
+            if (!videoElement) return
+            if (index === posterActiveIndex) {
+                playVideo(videoElement)
+                return
+            }
+            videoElement.pause()
+        })
+    }, [isMobileViewport, posterActiveIndex, posterVideoSet.loaded, posterVideoSet.videoRefs])
+
+    useEffect(() => {
+        if (!isMobileViewport) return
+        featuredVideoSet.videoRefs.current.forEach((videoElement, index) => {
+            if (!videoElement) return
+            if (index === featuredActiveIndex) {
+                playVideo(videoElement)
+                return
+            }
+            videoElement.pause()
+        })
+    }, [featuredActiveIndex, featuredVideoSet.loaded, featuredVideoSet.videoRefs, isMobileViewport])
 
     return (
         <section id="motion-showcase" className="relative w-full pb-24 pt-12 md:pb-32 md:pt-14">
@@ -232,15 +325,26 @@ export default function MotionShowcase() {
                 </div>
 
                 <div
+                    ref={posterTrackRef}
                     className="touch-scroll-native -mx-4 flex gap-4 overflow-x-auto px-4 snap-x snap-mandatory md:mx-0 md:grid md:grid-cols-3 md:gap-8 md:overflow-visible md:px-0"
                     onMouseLeave={isMobileViewport ? undefined : handlePosterLeave}
+                    onScroll={handlePosterTrackScroll}
+                    onTouchStart={onPosterTrackInteractStart}
+                    onTouchEnd={onPosterTrackInteractEnd}
+                    onPointerDown={onPosterTrackInteractStart}
+                    onPointerUp={onPosterTrackInteractEnd}
+                    onWheel={() => {
+                        onPosterTrackInteractStart()
+                        onPosterTrackInteractEnd()
+                    }}
                 >
                     {MOTION_POSTERS.map((video, index) => (
                         <div key={video.src} className="w-[78vw] max-w-[340px] shrink-0 snap-center md:w-full md:max-w-none md:shrink md:snap-none">
                             <PosterCard
+                                activeIndex={posterActiveIndex}
                                 disableHover={isMobileViewport}
-                                forceLoad={isMobileViewport && index === 0}
                                 hoveredIndex={posterHoveredIndex}
+                                itemCount={MOTION_POSTERS.length}
                                 index={index}
                                 isMobileViewport={isMobileViewport}
                                 setHoveredIndex={setPosterHoveredIndex}
@@ -259,13 +363,26 @@ export default function MotionShowcase() {
                         </p>
                     </div>
 
-                    <div className="touch-scroll-native -mx-4 flex gap-4 overflow-x-auto px-4 snap-x snap-mandatory md:mx-0 md:grid md:grid-cols-3 md:gap-6 md:overflow-visible md:px-0">
+                    <div
+                        ref={featuredTrackRef}
+                        className="touch-scroll-native -mx-4 flex gap-4 overflow-x-auto px-4 snap-x snap-mandatory md:mx-0 md:grid md:grid-cols-3 md:gap-6 md:overflow-visible md:px-0"
+                        onScroll={handleFeaturedTrackScroll}
+                        onTouchStart={onFeaturedTrackInteractStart}
+                        onTouchEnd={onFeaturedTrackInteractEnd}
+                        onPointerDown={onFeaturedTrackInteractStart}
+                        onPointerUp={onFeaturedTrackInteractEnd}
+                        onWheel={() => {
+                            onFeaturedTrackInteractStart()
+                            onFeaturedTrackInteractEnd()
+                        }}
+                    >
                         {FEATURED_MOTION_VIDEOS.map((video, index) => (
                             <div key={video.src} className="w-[78vw] max-w-[340px] shrink-0 snap-center md:w-full md:max-w-none md:shrink md:snap-none">
                                 <FeaturedVideoCard
-                                    forceLoad={isMobileViewport && index === 0}
+                                    activeIndex={featuredActiveIndex}
                                     index={index}
                                     isMobileViewport={isMobileViewport}
+                                    itemCount={FEATURED_MOTION_VIDEOS.length}
                                     video={video}
                                     videoSet={featuredVideoSet}
                                 />
