@@ -2,25 +2,8 @@
  * Projects Data - The "No-CMS" Local Database
  * Single source of truth for all project data
  * 
- * AUTO IMAGE DETECTION:
- * - postCount, longPostCount, storyCount are now AUTO-DETECTED from files
- * - Just add images to /public/gorseller/{projectId}/ folder
- * - Files: pst1.webp, pst2.webp... (posts), pstlng1.webp... (long posts), str1.webp... (stories)
+ * Image counts are maintained explicitly to keep public assets out of the build graph.
  */
-
-import { getAutoImageCounts } from '../utils/autoImageDetect'
-
-// Helper to merge auto-detected counts with project data
-function withAutoCounts(project) {
-    const autoCounts = getAutoImageCounts(project.id)
-    return {
-        ...project,
-        // Auto-detected counts (can be overridden by explicit values)
-        postCount: project.postCount ?? autoCounts.postCount,
-        longPostCount: project.longPostCount ?? autoCounts.longPostCount,
-        storyCount: project.storyCount ?? autoCounts.storyCount
-    }
-}
 
 const PROJECT_DATA = [
     {
@@ -40,7 +23,6 @@ const PROJECT_DATA = [
         techStack: ["illustrator", "photoshop"],
         client: "Novastra Media",
         identity: {
-            logo: '/gorseller/novastra/novastralogo.svg',
             colors: [
                 { code: "#9333EA", name: "Royal Purple" },
                 { code: "#1F1B24", name: "Deep Noir" },
@@ -61,6 +43,7 @@ const PROJECT_DATA = [
         deliverables: "Posts, Templates",
         // Phase 4 CDN rollout: Google Yorumlar uses Cloudinary post/story assets
         postCount: 8,
+        longPostCount: 0,
         storyCount: 8,
         description: "Social media campaign design for Google reviews engagement. Dynamic motion graphics and eye-catching visual content optimized for multiple platforms.",
         credits: "Design & Motion: Faruk",
@@ -88,13 +71,13 @@ const PROJECT_DATA = [
         stackFormat: 'story',
         // Phase 5 CDN rollout: Adana Napoli uses Cloudinary assets
         postCount: 2,
+        longPostCount: 0,
         storyCount: 5,
         description: "Social media content design for Adana Napoli restaurant. Eye-catching posts and engaging story content for Instagram presence.",
         credits: "Design: Faruk",
         techStack: ["photoshop", "illustrator"],
         client: "Adana Napoli Restaurant",
         identity: {
-            logo: '/gorseller/adananapoli/adananapolilogo.svg',
             colors: [
                 { code: "#E53935", name: "Napoli Red" },
                 { code: "#1A1A1A", name: "Carbon Black" },
@@ -115,6 +98,7 @@ const PROJECT_DATA = [
         deliverables: "Posts",
         // Phase 6 CDN rollout
         postCount: 3,
+        longPostCount: 0,
         storyCount: 0,
         description: "Social media design work for Viva Rent A Car. Premium, trustworthy and conversion-focused automotive campaign visuals.",
         credits: "Design: Faruk",
@@ -142,13 +126,13 @@ const PROJECT_DATA = [
         stackFormat: 'hybrid',
         // Phase 6 CDN rollout
         postCount: 5,
+        longPostCount: 0,
         storyCount: 2,
         description: "Traditional Turkish restaurant social media presence. Authentic food photography and engaging content design.",
         credits: "Design: Faruk",
         techStack: ["photoshop", "illustrator"],
         client: "Hacı Hakkı Usta",
         identity: {
-            logo: '/gorseller/hacıhakkıusta/hacıhakkıustalogo.svg',
             colors: [
                 { code: "#C17F59", name: "Terracotta" },
                 { code: "#2D1F1A", name: "Dark Wood" },
@@ -171,7 +155,7 @@ const PROJECT_DATA = [
         postCount: 15,
         longPostCount: 0,
         storyCount: 0,
-        // Custom display order for GridView (counts auto-detected)
+        // Custom display order for GridView
         customOrder: [
             { type: 'longPost', index: 1 },
             { type: 'post', index: 1 },
@@ -196,7 +180,6 @@ const PROJECT_DATA = [
         techStack: ["photoshop", "illustrator"],
         client: "Akdeniz Etkinlik",
         identity: {
-            logo: '/gorseller/akdenizetkinlik/akdenizetkinliklogo.svg',
             colors: [
                 { code: "#00BCD4", name: "Cyan" },
                 { code: "#FF4081", name: "Pink Accent" },
@@ -217,6 +200,7 @@ const PROJECT_DATA = [
         deliverables: "Posts",
         // Phase 6 CDN rollout
         postCount: 3,
+        longPostCount: 0,
         storyCount: 0,
         description: "Social media content design for Tırnak Trend nail salon. Modern and elegant visuals for Instagram presence.",
         credits: "Design: Faruk",
@@ -243,6 +227,7 @@ const PROJECT_DATA = [
         deliverables: "Posts",
         // Phase 6 CDN rollout
         postCount: 2,
+        longPostCount: 0,
         storyCount: 0,
         description: "Social media design for BBS Transfer transportation company. Professional and trustworthy visual identity.",
         credits: "Design: Faruk",
@@ -269,6 +254,7 @@ const PROJECT_DATA = [
         deliverables: "Posts",
         // Phase 6 CDN rollout
         postCount: 3,
+        longPostCount: 0,
         storyCount: 0,
         description: "Social media content design for Kumrualtı restaurant. Appetizing food photography and engaging visual content.",
         credits: "Design: Faruk",
@@ -287,8 +273,7 @@ const PROJECT_DATA = [
     }
 ]
 
-// Apply auto-detected image counts to all projects
-export const PROJECTS = PROJECT_DATA.map(withAutoCounts)
+export const PROJECTS = PROJECT_DATA
 
 /**
  * Get a single project by ID
@@ -297,18 +282,5 @@ export const PROJECTS = PROJECT_DATA.map(withAutoCounts)
  */
 export function getProjectById(id) {
     return PROJECTS.find(project => project.id === id)
-}
-
-/**
- * Tech stack icon mapping
- */
-export const TECH_ICONS = {
-    figma: "Figma",
-    illustrator: "PenTool",
-    photoshop: "Image",
-    aftereffects: "Video",
-    premiere: "Film",
-    code: "Code",
-    react: "Code"
 }
 

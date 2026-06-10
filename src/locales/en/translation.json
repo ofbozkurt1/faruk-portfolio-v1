@@ -1,4 +1,12 @@
 {
+    "common": {
+        "close": "Close",
+        "previous": "Previous",
+        "next": "Next",
+        "openMenu": "Open Menu",
+        "closeMenu": "Close Menu",
+        "swipe": "SWIPE"
+    },
     "nav": {
         "work": "Portfolio",
         "about": "About",
@@ -11,7 +19,7 @@
         "role": "MOTION & GRAPHIC DESIGNER",
         "description": "Crafting memorable visual experiences for brands.",
         "cta": "View Work",
-        "downloadCV": "Download CV",
+        "downloadCV": "Request CV",
         "whoAmI": "Who Am I?",
         "modal": {
             "title": "Who Am I?",
@@ -54,9 +62,9 @@
             "title": "Video Editing",
             "description": "Transforming raw footage into 'binge-worthy' narratives with rhythmic editing, sound design, and cinematic touches."
         },
-        "brandIdentity": {
-            "title": "Brand Identity",
-            "description": "Designing the logo, color palette, and corporate elements that form the brand's DNA, ensuring consistency across both print and digital worlds."
+        "adCreatives": {
+            "title": "Ad Creatives",
+            "description": "Turning campaign goals into attention-grabbing advertising visuals that communicate quickly and adapt across digital channels."
         },
         "tags": {
             "instagramGrid": "Instagram Grid",
@@ -65,18 +73,44 @@
             "2dAnimation": "Motion Graphics",
             "logoReveal": "Logo Animation",
             "kineticTypo": "Kinetic Typography",
-            "logoDesign": "Logo Design",
-            "styleGuide": "Brand Identity",
-            "businessCards": "Brand Guide",
+            "campaignVisuals": "Campaign Visuals",
+            "performanceAds": "Performance Ads",
+            "digitalBanners": "Digital Banners",
             "reelsTikTok": "Video Editing",
             "colorGrading": "Color Grading",
             "soundDesign": "Sound Design"
         }
     },
     "videoShowcase": {
+        "eyebrow": "SHOWCASE",
         "title": "Video Showcase",
+        "description": "Short-form video edits and brand content created for different industries.",
+        "previousVideo": "Previous video",
+        "nextVideo": "Next video",
         "subtitle": "Vertical stories that captivate",
         "workLabel": "Video Project",
+        "holdToWatch": "HOLD · WATCH FULL · HOLD ·",
+        "videos": {
+            "video01": "Event",
+            "video02": "Preschool",
+            "video03": "Social Media",
+            "video04": "Content",
+            "video05": "Real Estate",
+            "video06": "Motion",
+            "video07": "Venue",
+            "video08": "Video Edit",
+            "video09": "Commercial Property",
+            "video10": "Brand Promotion",
+            "video11": "Video Edit",
+            "video12": "Product",
+            "video13": "Corporate",
+            "video14": "Video Edit",
+            "video15": "Event",
+            "video16": "Video Edit",
+            "video17": "Motion",
+            "video18": "Video Edit",
+            "video19": "Real Estate"
+        },
         "categories": {
             "hype": {
                 "tab": "Hype",
@@ -112,6 +146,31 @@
                 }
             }
         }
+    },
+    "ecommerceShowcase": {
+        "title": "Ad Creatives",
+        "description": "Where aesthetic design meets conversion-focused product visualization.",
+        "browseMore": "Browse More Projects",
+        "galleryTitle": "E-Commerce Project Gallery",
+        "gallerySubtitle": "All campaign visuals grouped by brand",
+        "close": "Close popup"
+    },
+    "motionShowcase": {
+        "title": "Motion Designs",
+        "description": "Motion designs, animated social media content, and dynamic digital showcases created for different brands.",
+        "featuredTitle": "DYNAMIC VIDEOS",
+        "featuredDescription": "Optimized CDN delivery for high-bitrate motion work"
+    },
+    "instagramShowcase": {
+        "posts": "Posts",
+        "followers": "Followers",
+        "following": "Following",
+        "postAlt": "Instagram post {{number}}",
+        "bioLine1": "Design · Branding · Marketing",
+        "bioLine2": "I design to make your brand stand out.",
+        "bioLine3": "Ready to stand out? Let's work together.",
+        "follow": "Follow",
+        "profileAlt": "graphic.faruk profile"
     },
     "contact": {
         "title": "LET'S DESIGN TOGETHER",

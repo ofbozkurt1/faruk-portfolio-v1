@@ -8,6 +8,8 @@ import { useState, useEffect, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
 import { useLanguageTransitionStore } from '../../stores/languageTransitionStore'
+import { lockBodyScroll } from '../../utils/scrollLock'
+import { useActiveSection, usePrefersReducedMotion } from '../../hooks'
 
 // Navigation links - will use translation keys
 const getNavLinks = (t) => [
@@ -18,29 +20,11 @@ const getNavLinks = (t) => [
     { label: t('nav.contact', 'Contact'), href: '#contact' }
 ]
 
-// Throttle utility - limits function execution frequency
-const throttle = (fn, ms) => {
-    let lastCall = 0
-    let timeoutId = null
-    return (...args) => {
-        const now = Date.now()
-        if (now - lastCall >= ms) {
-            lastCall = now
-            fn(...args)
-        } else if (!timeoutId) {
-            timeoutId = setTimeout(() => {
-                lastCall = Date.now()
-                timeoutId = null
-                fn(...args)
-            }, ms - (now - lastCall))
-        }
-    }
-}
-
 export default function Header() {
     const { t, i18n } = useTranslation()
     const { startTransition } = useLanguageTransitionStore()
-    const [activeSection, setActiveSection] = useState('about')
+    const prefersReducedMotion = usePrefersReducedMotion()
+    const activeSection = useActiveSection()
     const [scrolled, setScrolled] = useState(false)
     const [isMenuOpen, setIsMenuOpen] = useState(false)
 
@@ -49,76 +33,19 @@ export default function Header() {
 
     // Lock body scroll when menu is open
     useEffect(() => {
-        if (isMenuOpen) {
-            document.body.style.overflow = 'hidden'
-        } else {
-            document.body.style.overflow = 'unset'
-        }
-        return () => { document.body.style.overflow = 'unset' }
+        if (!isMenuOpen) return undefined
+        return lockBodyScroll('mobile-menu')
     }, [isMenuOpen])
 
-    // Cache section positions to avoid repeated DOM queries
-    const sectionPositions = useMemo(() => {
-        // Will be populated on first scroll
-        return new Map()
-    }, [])
-
-    // Throttled scroll handler - runs max 10 times per second instead of 60
-    const handleScroll = useMemo(() => throttle(() => {
-        const scrollY = window.scrollY + 150
-        const windowHeight = window.innerHeight
-        const documentHeight = document.documentElement.scrollHeight
-
-        // Check if scrolled for opacity change
-        setScrolled(window.scrollY > 50)
-
-        // Check if at bottom of page - contact section
-        if (scrollY + windowHeight >= documentHeight - 100) {
-            setActiveSection('contact')
-            return
-        }
-
-        // Update section positions cache (only query DOM if cache is empty or stale)
-        if (sectionPositions.size === 0) {
-            navLinks.forEach(link => {
-                const el = document.querySelector(link.href)
-                if (el) {
-                    sectionPositions.set(link.href.replace('#', ''), {
-                        top: el.offsetTop,
-                        bottom: el.offsetTop + el.offsetHeight
-                    })
-                }
-            })
-        }
-
-        // Find current section using cached positions
-        const sections = Array.from(sectionPositions.entries())
-        for (let i = sections.length - 1; i >= 0; i--) {
-            const [id, pos] = sections[i]
-            if (scrollY >= pos.top) {
-                setActiveSection(id)
-                return
-            }
-        }
-
-        if (sections.length > 0) {
-            setActiveSection(sections[0][0])
-        }
-    }, 100), [navLinks, sectionPositions]) // 100ms throttle = max 10 calls per second
-
     useEffect(() => {
-        // Clear cache on resize (sections may have moved)
-        const handleResize = () => sectionPositions.clear()
-
+        const handleScroll = () => setScrolled(window.scrollY > 50)
         handleScroll()
         window.addEventListener('scroll', handleScroll, { passive: true })
-        window.addEventListener('resize', handleResize, { passive: true })
 
         return () => {
             window.removeEventListener('scroll', handleScroll)
-            window.removeEventListener('resize', handleResize)
         }
-    }, [handleScroll, sectionPositions])
+    }, [])
 
     const handleClick = (e, href) => {
         e.preventDefault()
@@ -126,7 +53,7 @@ export default function Header() {
         const section = document.querySelector(href)
         if (section) {
             const top = section.offsetTop - 80
-            window.scrollTo({ top, behavior: 'smooth' })
+            window.scrollTo({ top, behavior: prefersReducedMotion ? 'auto' : 'smooth' })
         }
     }
 
@@ -269,7 +196,7 @@ export default function Header() {
                 {/* Mobile: Hamburger Menu Button */}
                 <button
                     onClick={() => setIsMenuOpen(!isMenuOpen)}
-                    aria-label={isMenuOpen ? "Menüyü Kapat" : "Men üyü Aç"}
+                    aria-label={isMenuOpen ? t('common.closeMenu') : t('common.openMenu')}
                     className="md:hidden relative z-50 p-2 text-[#F2F2F2]"
                 >
                     <div className="flex flex-col gap-[6px] items-end">

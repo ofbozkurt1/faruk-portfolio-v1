@@ -9,6 +9,7 @@ import { motion } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
 import TiltCard from '../../components/ui/TiltCard'
 import { cn } from '../../utils/cn'
+import { useIsMobileViewport } from '../../hooks'
 
 // Skills data with hierarchy
 const skills = [
@@ -187,7 +188,7 @@ const MicroTools = {
 }
 
 // Memoized to prevent re-renders from parent
-const SkillBentoCard = memo(function SkillBentoCard({ skill }) {
+const SkillBentoCard = memo(function SkillBentoCard({ isMobileViewport, skill }) {
     const { t } = useTranslation()
     const isLarge = skill.size === 'large'
     const isTall = skill.size === 'tall'
@@ -222,6 +223,7 @@ const SkillBentoCard = memo(function SkillBentoCard({ skill }) {
                 glowColor={skill.glowColor}
                 borderColor={skill.color}
                 intensity={isLarge ? 8 : 12}
+                isMobile={isMobileViewport}
                 className="h-full"
             >
                 <div
@@ -337,6 +339,7 @@ const SkillBentoCard = memo(function SkillBentoCard({ skill }) {
 
 export default function SkillsView({ className }) {
     const { t } = useTranslation()
+    const isMobileViewport = useIsMobileViewport()
 
     return (
         <motion.div
@@ -364,7 +367,7 @@ export default function SkillsView({ className }) {
             */}
             <div className="bento-grid w-full max-w-md md:max-w-6xl mx-auto px-6 md:px-20 lg:px-0">
                 {skills.map((skill) => (
-                    <SkillBentoCard key={skill.id} skill={skill} />
+                    <SkillBentoCard key={skill.id} isMobileViewport={isMobileViewport} skill={skill} />
                 ))}
             </div>
 

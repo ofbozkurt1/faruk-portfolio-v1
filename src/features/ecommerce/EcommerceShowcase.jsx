@@ -1,5 +1,8 @@
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { getAdaptiveRootMargin, useAutoSnapCarousel, useIsMobileViewport, useNearViewport } from '../../hooks'
+import { useTranslation } from 'react-i18next'
+import { getAdaptiveRootMargin, useAutoSnapCarousel, useIsMobileViewport, useNearViewport, usePrefersReducedMotion } from '../../hooks'
+import { withCloudinaryImageTransform } from '../../utils/cloudinaryImage'
+import { lockBodyScroll } from '../../utils/scrollLock'
 
 const BLANK_IMAGE_SRC = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=='
 
@@ -36,6 +39,10 @@ const HERO_SLIDER_ORDER = [
     { brand: 'zayacanta', file: 'pst2.webp' },
 ]
 
+const MARQUEE_CARD_WIDTH = 400
+const MARQUEE_GAP = 48
+const MARQUEE_SET_WIDTH = HERO_SLIDER_ORDER.length * (MARQUEE_CARD_WIDTH + MARQUEE_GAP)
+
 const EXPANDED_GALLERY_ORDER = [
     { brand: 'roxhair', files: ['pst1.webp', 'pst2.webp', 'pst3.webp', 'pst4.webp'] },
     { brand: 'zayacanta', files: ['pst1.webp', 'pst2.webp'] },
@@ -47,22 +54,34 @@ const EXPANDED_GALLERY_ORDER = [
 
 const MARQUEE_STYLE = `
   @keyframes marqueeScroll {
-    0%   { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
+    0%   { transform: translate3d(0, 0, 0); }
+    100% { transform: translate3d(var(--ec-marquee-distance), 0, 0); }
   }
   .ec-marquee-track {
-    animation: marqueeScroll 35s linear infinite;
+    animation: marqueeScroll 42s linear infinite;
+    transform: translate3d(0, 0, 0);
+    will-change: transform;
+    backface-visibility: hidden;
   }
   .ec-marquee-track:hover {
     animation-play-state: paused;
   }
   .ec-marquee-track-paused {
     animation-play-state: paused !important;
+    will-change: auto;
   }
 `
 
+const ECOMMERCE_IMAGE_TRANSFORM = {
+    width: 640,
+    crop: 'limit',
+    quality: 'auto',
+    format: 'auto',
+    dpr: 'auto',
+}
+
 function buildSrc(brandKey, fileName) {
-    return `${BRAND_BASES[brandKey]}${fileName}`
+    return withCloudinaryImageTransform(`${BRAND_BASES[brandKey]}${fileName}`, ECOMMERCE_IMAGE_TRANSFORM)
 }
 
 const DeferredImage = memo(function DeferredImage({
@@ -102,20 +121,17 @@ const DeferredImage = memo(function DeferredImage({
 const HeroImageCard = memo(function HeroImageCard({ item, index, duplicateKey }) {
     return (
         <div
-            className="shrink-0 h-[500px] w-auto overflow-hidden rounded-lg transform-gpu"
-            style={{ alignItems: 'center', display: 'flex', justifyContent: 'center' }}
+            className="h-[500px] w-[400px] shrink-0 overflow-hidden rounded-lg"
+            style={{ alignItems: 'center', contain: 'layout paint', display: 'flex', justifyContent: 'center' }}
         >
             <DeferredImage
                 src={item.src}
                 alt={`${BRAND_LABELS[item.brand]} - Hero ${index + 1}`}
                 priority={duplicateKey === 'a' && index < 2}
-                className="transform-gpu transition-transform duration-300 hover:scale-[1.03]"
+                className="h-full w-full object-contain transition-transform duration-300 hover:scale-[1.03]"
                 style={{
                     borderRadius: '0.5rem',
                     display: 'block',
-                    height: '500px',
-                    objectFit: 'contain',
-                    width: 'auto',
                 }}
             />
         </div>
@@ -152,7 +168,9 @@ const ExpandedImageCard = memo(function ExpandedImageCard({ brand, fileName, onE
 })
 
 export default function EcommerceShowcase() {
+    const { t } = useTranslation()
     const isMobileViewport = useIsMobileViewport()
+    const prefersReducedMotion = usePrefersReducedMotion()
     const [showExpandedGrid, setShowExpandedGrid] = useState(false)
     const [brokenImageKeys, setBrokenImageKeys] = useState(() => new Set())
     const [mobileActiveIndex, setMobileActiveIndex] = useState(0)
@@ -199,11 +217,7 @@ export default function EcommerceShowcase() {
     useEffect(() => {
         if (!showExpandedGrid) return undefined
 
-        const previousBodyOverflow = document.body.style.overflow
-        const previousHtmlOverflow = document.documentElement.style.overflow
-
-        document.body.style.overflow = 'hidden'
-        document.documentElement.style.overflow = 'hidden'
+        const unlockScroll = lockBodyScroll('ecommerce-gallery')
 
         const onKeyDown = (event) => {
             if (event.key === 'Escape') {
@@ -214,8 +228,7 @@ export default function EcommerceShowcase() {
         window.addEventListener('keydown', onKeyDown)
 
         return () => {
-            document.body.style.overflow = previousBodyOverflow
-            document.documentElement.style.overflow = previousHtmlOverflow
+            unlockScroll()
             window.removeEventListener('keydown', onKeyDown)
         }
     }, [closeExpandedGrid, showExpandedGrid])
@@ -252,7 +265,7 @@ export default function EcommerceShowcase() {
                         style={{ background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.3))' }}
                     />
                     <h2 className="text-2xl font-bold tracking-tight text-gray-100 md:text-6xl" style={{ fontFamily: 'Inter, system-ui, sans-serif' }}>
-                        {'E-Ticaret G\u00f6rselleri'}
+                        {t('ecommerceShowcase.title', 'E-Ticaret Görselleri')}
                     </h2>
                     <div
                         className="h-[1px] w-10 md:w-[60px]"
@@ -260,29 +273,31 @@ export default function EcommerceShowcase() {
                     />
                 </div>
                 <p className="mx-auto mt-2 max-w-2xl text-sm tracking-wide text-gray-500 md:text-base" style={{ fontFamily: 'Inter, system-ui, sans-serif' }}>
-                    {'Estetik tasar\u0131m\u0131n, d\u00f6n\u00fc\u015f\u00fcm odakl\u0131 \u00fcr\u00fcn g\u00f6rselle\u015ftirmesiyle bulu\u015ftu\u011fu yer.'}
+                    {t('ecommerceShowcase.description', 'Estetik tasarımın, dönüşüm odaklı ürün görselleştirmesiyle buluştuğu yer.')}
                 </p>
             </div>
 
-            <div
-                ref={marqueeViewportRef}
-                className="relative hidden overflow-hidden md:block"
-                style={{
-                    WebkitMaskImage: 'linear-gradient(to right, transparent, black 12%, black 88%, transparent)',
-                    maskImage: 'linear-gradient(to right, transparent, black 12%, black 88%, transparent)',
-                }}
-            >
-                <div className={`ec-marquee-track flex w-max gap-12 ${isMarqueeActive ? '' : 'ec-marquee-track-paused'}`}>
-                    {heroImages.map((item, index) => (
-                        <HeroImageCard key={`a-${item.id}`} item={item} index={index} duplicateKey="a" />
-                    ))}
-                    {heroImages.map((item, index) => (
-                        <HeroImageCard key={`b-${item.id}`} item={item} index={index} duplicateKey="b" />
-                    ))}
+            {!isMobileViewport ? (
+                <div ref={marqueeViewportRef} className="relative overflow-hidden">
+                    <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-40 bg-gradient-to-r from-[#050505] to-transparent" />
+                    <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-40 bg-gradient-to-l from-[#050505] to-transparent" />
+                    <div
+                        className={`ec-marquee-track flex w-max ${(isMarqueeActive && !prefersReducedMotion) ? '' : 'ec-marquee-track-paused'}`}
+                        style={{ '--ec-marquee-distance': `-${MARQUEE_SET_WIDTH}px` }}
+                    >
+                        <div className="flex shrink-0 gap-12 pr-12" style={{ width: MARQUEE_SET_WIDTH }}>
+                            {heroImages.map((item, index) => (
+                                <HeroImageCard key={`a-${item.id}`} item={item} index={index} duplicateKey="a" />
+                            ))}
+                        </div>
+                        <div className="flex shrink-0 gap-12 pr-12" style={{ width: MARQUEE_SET_WIDTH }} aria-hidden="true">
+                            {heroImages.map((item, index) => (
+                                <HeroImageCard key={`b-${item.id}`} item={item} index={index} duplicateKey="b" />
+                            ))}
+                        </div>
+                    </div>
                 </div>
-            </div>
-
-            <div className="block md:hidden">
+            ) : (
                 <div
                     ref={mobileCarouselRef}
                     className="touch-scroll-native -mx-4 flex gap-4 overflow-x-auto px-4 snap-x snap-mandatory"
@@ -300,7 +315,7 @@ export default function EcommerceShowcase() {
                         <MobileHeroCard key={`mobile-${item.id}`} item={item} index={index} />
                     ))}
                 </div>
-            </div>
+            )}
 
             <div className="mt-10 flex flex-wrap items-center justify-center gap-2 px-4 md:mt-20 md:gap-3 md:px-8">
                 {Object.entries(BRAND_LABELS).map(([brandKey, brandLabel]) => (
@@ -322,7 +337,7 @@ export default function EcommerceShowcase() {
                     className="group relative inline-flex min-h-[44px] items-center gap-3 rounded-full border border-white/20 bg-gradient-to-r from-white/10 to-white/5 px-6 py-3 text-xs tracking-[0.08em] text-gray-100 uppercase transition-all duration-300 hover:from-white hover:to-white hover:border-white hover:text-black hover:shadow-[0_0_30px_rgba(255,255,255,0.25)] md:px-9 md:text-sm"
                     style={{ fontFamily: 'Inter, system-ui, sans-serif' }}
                 >
-                    {'Daha Fazla Projeye G\u00f6z At'}
+                    {t('ecommerceShowcase.browseMore', 'Daha Fazla Projeye Göz At')}
                     <span className="text-base leading-none transition-transform duration-300 group-hover:translate-x-1">{'\u2192'}</span>
                 </button>
             </div>
@@ -338,17 +353,17 @@ export default function EcommerceShowcase() {
                         <div className="sticky top-0 z-20 mb-6 flex items-center justify-between rounded-2xl border border-white/10 bg-black/75 px-4 py-4 backdrop-blur-xl md:px-5">
                             <div>
                                 <h3 className="text-base tracking-wide text-gray-100 md:text-xl" style={{ fontFamily: 'Inter, system-ui, sans-serif' }}>
-                                    {'E-Ticaret Proje Galerisi'}
+                                    {t('ecommerceShowcase.galleryTitle', 'E-Ticaret Proje Galerisi')}
                                 </h3>
                                 <p className="mt-1 text-xs text-gray-400 md:text-sm" style={{ fontFamily: 'Inter, system-ui, sans-serif' }}>
-                                    {'Marka bazl\u0131 t\u00fcm kampanya g\u00f6rselleri'}
+                                    {t('ecommerceShowcase.gallerySubtitle', 'Marka bazlı tüm kampanya görselleri')}
                                 </p>
                             </div>
                             <button
                                 type="button"
                                 onClick={closeExpandedGrid}
                                 className="h-11 w-11 rounded-full border border-white/20 text-white/80 transition-colors hover:bg-white hover:text-black"
-                                aria-label="Popup kapat"
+                                aria-label={t('ecommerceShowcase.close', 'Popup kapat')}
                             >
                                 {'\u00d7'}
                             </button>

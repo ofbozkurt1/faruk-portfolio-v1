@@ -3,13 +3,15 @@
  * Mobile overlay ON IMAGE with gradient, Desktop unchanged.
  */
 
-import { useState, useEffect, useRef } from 'react'
+import { memo, useState, useEffect, useRef } from 'react'
 import { useInView } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
 import { getStackImages } from '../../utils/imagePath'
 import { cn } from '../../utils/cn'
-import { usePortfolioStore } from '../../stores/portfolioStore'
 import ResponsiveImage from '../../components/ui/ResponsiveImage'
+import { usePrefersReducedMotion } from '../../hooks'
+
+const BLANK_IMAGE_SRC = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=='
 
 const iconMap = {
     illustrator: { type: 'image', value: '/gorseller/iconlar/illustrator.svg' },
@@ -18,8 +20,20 @@ const iconMap = {
     premiere: { type: 'image', value: '/gorseller/iconlar/premiere-pro.svg' }
 }
 
-export default function ProjectCard({ project, onClick, isReversed, cardIndex = 0, className, onInteraction, priority = false, disableSlide = false }) {
+const ProjectCard = memo(function ProjectCard({
+    project,
+    onClick,
+    isReversed,
+    cardIndex = 0,
+    className,
+    disableSlide = false,
+    isMobileViewport = false,
+    loadMedia = true,
+    onInteraction,
+    priority = false,
+}) {
     const { t } = useTranslation()
+    const prefersReducedMotion = usePrefersReducedMotion()
     const { id, title, category, year, description, techStack = [], postCount = 5, storyCount = 0, stackFormat: originalStackFormat = 'post', brandColor = '#9333EA' } = project
 
     // Dynamic Localization
@@ -35,20 +49,9 @@ export default function ProjectCard({ project, onClick, isReversed, cardIndex = 
     const stackImages = getStackImages(id, postCount, storyCount, stackFormat)
     const [activeIndex, setActiveIndex] = useState(0)
     const [isHovered, setIsHovered] = useState(false)
-    const [isMobile, setIsMobile] = useState(false)
 
     const cardRef = useRef(null)
     const isInView = useInView(cardRef, { amount: 0.3 })
-
-    const { setActiveProject, clearActiveProject } = usePortfolioStore()
-
-    // Check mobile with resize listener to prevent stale state
-    useEffect(() => {
-        const checkMobile = () => setIsMobile(window.innerWidth < 768)
-        checkMobile()
-        window.addEventListener('resize', checkMobile)
-        return () => window.removeEventListener('resize', checkMobile)
-    }, [])
 
     const isStoryOnlyFormat = stackFormat === 'story'
 
@@ -64,13 +67,13 @@ export default function ProjectCard({ project, onClick, isReversed, cardIndex = 
     const direction = cardIndex % 2 === 0 ? 1 : -1
 
     useEffect(() => {
-        if (!isInView || disableSlide) return // Pause if not in view or slides are disabled
-        const intervalTime = isMobile ? 2000 : 4000 // Fast for mobile, standard for desktop
+        if (!isInView || !loadMedia || disableSlide || prefersReducedMotion) return // Pause if not in view or slides are disabled
+        const intervalTime = isMobileViewport ? 2000 : 4000 // Fast for mobile, standard for desktop
         const interval = setInterval(() => {
             setActiveIndex((prev) => (prev + 1) % stackImages.length)
         }, intervalTime)
         return () => clearInterval(interval)
-    }, [disableSlide, isInView, stackImages.length, isMobile])
+    }, [disableSlide, isInView, loadMedia, prefersReducedMotion, stackImages.length, isMobileViewport])
 
     const getImageOrder = (originalIndex) => {
         return (originalIndex - activeIndex + stackImages.length) % stackImages.length
@@ -93,19 +96,17 @@ export default function ProjectCard({ project, onClick, isReversed, cardIndex = 
                 className="relative cursor-pointer group flex-shrink-0"
                 onClick={() => onClick?.(project)}
                 onMouseEnter={() => {
-                    if (!isMobile) {
+                    if (!isMobileViewport) {
                         setIsHovered(true)
-                        setActiveProject(id, brandColor)
                     }
                 }}
                 onMouseLeave={() => {
-                    if (!isMobile) {
+                    if (!isMobileViewport) {
                         setIsHovered(false)
-                        clearActiveProject()
                     }
                 }}
                 style={{
-                    transform: isHovered && !isMobile ? 'translateY(-5px)' : 'translateY(0)',
+                    transform: isHovered && !isMobileViewport ? 'translateY(-5px)' : 'translateY(0)',
                     transition: 'transform 0.2s ease-out'
                 }}
             >
@@ -119,21 +120,21 @@ export default function ProjectCard({ project, onClick, isReversed, cardIndex = 
                         const cardAspect = isStory ? '9/16' : '4/5'
 
                         // Use cached isMobile value
-                        const rotations = isMobile ? [-1.5, -0.5, 0, 0.5, 1.5] : [-4, -2, 0, 2, 4]
+                        const rotations = isMobileViewport ? [-1.5, -0.5, 0, 0.5, 1.5] : [-4, -2, 0, 2, 4]
                         const baseRotation = (rotations[orderIndex] || 0) * direction
                         const hoverRotation = baseRotation * 1.5
 
                         // Mobile: almost no scale difference
-                        const scales = isMobile ? [1, 0.98, 0.96, 0.94, 0.92] : [1, 0.96, 0.92, 0.88, 0.84]
+                        const scales = isMobileViewport ? [1, 0.98, 0.96, 0.94, 0.92] : [1, 0.96, 0.92, 0.88, 0.84]
                         const scale = scales[orderIndex] || 0.9
 
                         // Mobile: NO Y movement (cards stay at same level)
-                        const baseYValues = isMobile ? [0, 0, 0, 0, 0] : [0, 10, 20, 30, 40]
-                        const hoverYValues = isMobile ? [0, 0, 0, 0, 0] : [0, -10, -20, -30, -40]
+                        const baseYValues = isMobileViewport ? [0, 0, 0, 0, 0] : [0, 10, 20, 30, 40]
+                        const hoverYValues = isMobileViewport ? [0, 0, 0, 0, 0] : [0, -10, -20, -30, -40]
                         const baseY = baseYValues[orderIndex] || 50
                         const hoverY = hoverYValues[orderIndex] || -50
 
-                        const isVisibleMobile = isMobile ? orderIndex < 2 : true // Mobile: Render top 2 for smooth animation, hide others for perf
+                        const isVisibleMobile = isMobileViewport ? orderIndex < 2 : true // Mobile: Render top 2 for smooth animation, hide others for perf
 
                         return (
                             <div
@@ -160,7 +161,7 @@ export default function ProjectCard({ project, onClick, isReversed, cardIndex = 
                                 }}
                             >
                                 <ResponsiveImage
-                                    src={src}
+                                    src={loadMedia ? src : BLANK_IMAGE_SRC}
                                     alt={`${translatedTitle} - ${originalIndex + 1}`}
                                     className={cn(
                                         "w-full h-full select-none pointer-events-none md:pointer-events-auto",
@@ -187,7 +188,7 @@ export default function ProjectCard({ project, onClick, isReversed, cardIndex = 
                     })}
 
                     {/* MOBILE CONTENT - CONDITIONAL RENDERING FOR PERFORMANCE */}
-                    {isMobile && (
+                    {isMobileViewport && (
                         <>
                             {/* MOBILE OVERLAY - Gradient extends to sides */}
                             <div className="absolute -bottom-20 -left-32 -right-32 h-80 bg-gradient-to-t from-black via-black/60 to-transparent pointer-events-none z-10" />
@@ -241,7 +242,7 @@ export default function ProjectCard({ project, onClick, isReversed, cardIndex = 
 
                                         {/* Mobile Explore Button with Curved Text */}
                                         <div className="flex-shrink-0 relative w-14 h-14 flex items-center justify-center">
-                                            <svg className="absolute inset-0 w-14 h-14 animate-[spin_8s_linear_infinite]" viewBox="0 0 100 100">
+                                            <svg className={cn("absolute inset-0 w-14 h-14", !prefersReducedMotion && "animate-[spin_8s_linear_infinite]")} viewBox="0 0 100 100">
                                                 <defs>
                                                     <path id="circlePath" d="M 50,50 m -40,0 a 40,40 0 1,1 80,0 a 40,40 0 1,1 -80,0" fill="none" />
                                                 </defs>
@@ -267,7 +268,7 @@ export default function ProjectCard({ project, onClick, isReversed, cardIndex = 
 
                 {/* DESKTOP EXPLORE BUTTON */}
                 <div className="mt-24 text-center relative z-20 hidden md:block">
-                    <span className="explore-pill">
+                    <span className={`explore-pill ${(!isInView || prefersReducedMotion) ? 'explore-pill-paused' : ''}`}>
                         <span className="explore-text">{t('portfolio.explore', 'Click to explore')}</span>
                         <span className="explore-arrow">→</span>
                     </span>
@@ -306,6 +307,10 @@ export default function ProjectCard({ project, onClick, isReversed, cardIndex = 
                         border-color: rgba(255,255,255,0.2);
                         transform: translateY(-2px);
                     }
+                    .explore-pill-paused::before,
+                    .explore-pill-paused .explore-text {
+                        animation-play-state: paused;
+                    }
                     .explore-text {
                         background: linear-gradient(90deg, #555, #fff, #555);
                         background-size: 200% 100%;
@@ -330,6 +335,12 @@ export default function ProjectCard({ project, onClick, isReversed, cardIndex = 
                     @keyframes explore-shine {
                         0% { background-position: 200% 0; }
                         100% { background-position: -200% 0; }
+                    }
+                    @media (prefers-reduced-motion: reduce) {
+                        .explore-pill::before,
+                        .explore-text {
+                            animation: none !important;
+                        }
                     }
                 `}</style>
             </div>
@@ -499,4 +510,6 @@ export default function ProjectCard({ project, onClick, isReversed, cardIndex = 
             </div>
         </div>
     )
-}
+})
+
+export default ProjectCard

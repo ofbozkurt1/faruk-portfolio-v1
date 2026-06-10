@@ -4,7 +4,11 @@
  * Pure CSS, no gradient animation (more performant)
  */
 
+import { usePrefersReducedMotion } from '../../hooks'
+
 export default function AtmosphericBackground() {
+    const prefersReducedMotion = usePrefersReducedMotion()
+
     return (
         <div
             style={{
@@ -52,8 +56,9 @@ export default function AtmosphericBackground() {
                     width: '55vw',
                     height: '55vw',
                     background: 'radial-gradient(circle, rgba(120,40,180,0.5) 0%, rgba(120,40,180,0.15) 40%, transparent 70%)',
-                    animation: 'fadeInOut 20s ease-in-out infinite',
-                    willChange: 'opacity'
+                    animation: prefersReducedMotion ? 'none' : 'fadeInOut 20s ease-in-out infinite',
+                    opacity: prefersReducedMotion ? 0.7 : undefined,
+                    willChange: prefersReducedMotion ? 'auto' : 'opacity'
                 }}
             />
             {/* Crimson Layer (same position, opposite timing) */}
@@ -65,8 +70,9 @@ export default function AtmosphericBackground() {
                     width: '55vw',
                     height: '55vw',
                     background: 'radial-gradient(circle, rgba(180,30,60,0.5) 0%, rgba(180,30,60,0.15) 40%, transparent 70%)',
-                    animation: 'fadeOutIn 20s ease-in-out infinite',
-                    willChange: 'opacity'
+                    animation: prefersReducedMotion ? 'none' : 'fadeOutIn 20s ease-in-out infinite',
+                    opacity: prefersReducedMotion ? 0 : undefined,
+                    willChange: prefersReducedMotion ? 'auto' : 'opacity'
                 }}
             />
 
@@ -80,8 +86,9 @@ export default function AtmosphericBackground() {
                     width: '55vw',
                     height: '55vw',
                     background: 'radial-gradient(circle, rgba(180,30,60,0.45) 0%, rgba(180,30,60,0.12) 40%, transparent 70%)',
-                    animation: 'fadeInOut 20s ease-in-out infinite',
-                    willChange: 'opacity'
+                    animation: prefersReducedMotion ? 'none' : 'fadeInOut 20s ease-in-out infinite',
+                    opacity: prefersReducedMotion ? 0.7 : undefined,
+                    willChange: prefersReducedMotion ? 'auto' : 'opacity'
                 }}
             />
             {/* Purple Layer (same position, opposite timing) */}
@@ -93,8 +100,9 @@ export default function AtmosphericBackground() {
                     width: '55vw',
                     height: '55vw',
                     background: 'radial-gradient(circle, rgba(120,40,180,0.45) 0%, rgba(120,40,180,0.12) 40%, transparent 70%)',
-                    animation: 'fadeOutIn 20s ease-in-out infinite',
-                    willChange: 'opacity'
+                    animation: prefersReducedMotion ? 'none' : 'fadeOutIn 20s ease-in-out infinite',
+                    opacity: prefersReducedMotion ? 0 : undefined,
+                    willChange: prefersReducedMotion ? 'auto' : 'opacity'
                 }}
             />
 

@@ -9,11 +9,32 @@
 import { memo, useCallback, useEffect, useMemo } from 'react'
 import { createPortal } from 'react-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { X } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { getPostImages, getLongPostImages, getStoryImages, getProjectImagePath } from '../../utils/imagePath'
 import ResponsiveImage from '../../components/ui/ResponsiveImage'
-import { getAdaptiveRootMargin, useNearViewport } from '../../hooks'
+import { getAdaptiveRootMargin, useNearViewport, usePrefersReducedMotion } from '../../hooks'
+import { withCloudinaryImageTransform } from '../../utils/cloudinaryImage'
+
+function CloseIcon({ className }) {
+    return (
+        <svg
+            aria-hidden="true"
+            className={className}
+            fill="none"
+            focusable="false"
+            height="16"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            viewBox="0 0 24 24"
+            width="16"
+        >
+            <path d="M18 6 6 18" />
+            <path d="m6 6 12 12" />
+        </svg>
+    )
+}
 
 // Tool icon mapping
 const toolIcons = {
@@ -21,7 +42,7 @@ const toolIcons = {
     photoshop: '/gorseller/iconlar/photoshop.svg',
     aftereffects: '/gorseller/iconlar/after-effects.svg',
     premiere: '/gorseller/iconlar/premiere-pro.svg',
-    figma: '/gorseller/iconlar/figma.svg'
+    figma: '/gorseller/iconlar/pen-tool.svg'
 }
 
 const NOVASTRA_CLOUD_BASE = 'https://res.cloudinary.com/dbr7bx7u5/image/upload/q_auto/f_auto/v1775630739/'
@@ -39,6 +60,27 @@ const TIRNAK_TREND_POST_CLOUD_BASE = 'https://res.cloudinary.com/dbr7bx7u5/image
 const BBS_TRANSFER_POST_CLOUD_BASE = 'https://res.cloudinary.com/dbr7bx7u5/image/upload/q_auto/f_auto/%C4%B0mage/bbstransfer/bbstransfer-pst-webp/'
 const KUMRUALTI_POST_CLOUD_BASE = 'https://res.cloudinary.com/dbr7bx7u5/image/upload/q_auto/f_auto/%C4%B0mage/kumrualt%C4%B1/kumrualt%C4%B1-pst-webp/'
 const BLANK_IMAGE_SRC = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=='
+const MODAL_DETAIL_IMAGE_TRANSFORM = {
+    width: 960,
+    crop: 'limit',
+    quality: 'auto',
+    format: 'auto',
+    dpr: 'auto',
+}
+const MODAL_LARGE_IMAGE_TRANSFORM = {
+    width: 1400,
+    crop: 'limit',
+    quality: 'auto',
+    format: 'auto',
+    dpr: 'auto',
+}
+
+function getModalImageSrc(src, isLarge = false) {
+    return withCloudinaryImageTransform(
+        src,
+        isLarge ? MODAL_LARGE_IMAGE_TRANSFORM : MODAL_DETAIL_IMAGE_TRANSFORM
+    )
+}
 
 const PROJECT_MEDIA_CONFIG = {
     novastra: {
@@ -67,7 +109,7 @@ const PROJECT_MEDIA_CONFIG = {
         postBase: ADANA_NAPOLI_POST_CLOUD_BASE,
         storyBase: ADANA_NAPOLI_STORY_CLOUD_BASE,
         imageOrder: ['3pst1', 1, 2],
-        storyOrder: [1, 2, 3, 4, 5],
+        storyOrder: [1, 2, 3, 4, 5, 6],
     },
     vivacar: {
         postBase: VIVACAR_POST_CLOUD_BASE,
@@ -289,6 +331,7 @@ const CombinedTripleStoryCard = memo(function CombinedTripleStoryCard({ src, alt
 
 function GridViewContent({ project, onClose }) {
     const { t } = useTranslation()
+    const prefersReducedMotion = usePrefersReducedMotion()
     // scrollContainerRef removed - using native scroll on motion.div wrapper
     const {
         id, title, category, year, description,
@@ -322,7 +365,7 @@ function GridViewContent({ project, onClose }) {
                             type: 'post',
                             combined: false,
                             postNumber: entry,
-                            src: `${activePostBaseUrl}pst${entry}.webp`,
+                            src: getModalImageSrc(`${activePostBaseUrl}pst${entry}.webp`),
                         }
                     }
 
@@ -330,7 +373,7 @@ function GridViewContent({ project, onClose }) {
                         return {
                             type: 'triple-post',
                             combined: true,
-                            src: `${activePostBaseUrl}${entry}.webp`,
+                            src: getModalImageSrc(`${activePostBaseUrl}${entry}.webp`, true),
                         }
                     }
 
@@ -338,7 +381,7 @@ function GridViewContent({ project, onClose }) {
                         return {
                             type: entry.type,
                             combined: true,
-                            src: entry.src,
+                            src: getModalImageSrc(entry.src, true),
                         }
                     }
 
@@ -364,7 +407,7 @@ function GridViewContent({ project, onClose }) {
                             type: 'story',
                             combined: false,
                             storyNumber: entry,
-                            src: `${activeStoryBaseUrl}str${entry}.webp`,
+                            src: getModalImageSrc(`${activeStoryBaseUrl}str${entry}.webp`),
                         }
                     }
 
@@ -372,7 +415,7 @@ function GridViewContent({ project, onClose }) {
                         return {
                             type: entry.type,
                             combined: true,
-                            src: entry.src,
+                            src: getModalImageSrc(entry.src, true),
                         }
                     }
 
@@ -445,7 +488,7 @@ function GridViewContent({ project, onClose }) {
                 onClick={onClose}
                 className="fixed top-8 right-4 md:top-6 md:right-6 z-[10000] w-8 h-8 md:w-12 md:h-12 rounded-full bg-white/10 border border-white/10 cursor-pointer text-white flex items-center justify-center hover:bg-white/20 transition-colors"
             >
-                <X size={16} className="md:w-5 md:h-5" />
+                <CloseIcon className="md:w-5 md:h-5" />
             </motion.button>
 
             {/* SCROLL CONTENT WRAPPER - py-24 ensures content is taller than viewport */}
@@ -530,7 +573,7 @@ function GridViewContent({ project, onClose }) {
                                     backgroundClip: 'text',
                                     margin: 0,
                                     // Margin bottom handled by class
-                                    animation: 'titleShine 5s ease-in-out infinite'
+                                    animation: prefersReducedMotion ? 'none' : 'titleShine 5s ease-in-out infinite'
                                 }}
                                 className="mb-6 md:mb-10"
                             >
@@ -820,4 +863,3 @@ export default function GridView({ project, isOpen, onClose }) {
         document.body
     )
 }
-

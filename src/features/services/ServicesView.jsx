@@ -4,9 +4,10 @@
  * Kept: Side slide animation, color change
  */
 
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
+import { useIsMobileViewport } from '../../hooks'
 
 const services = [
     {
@@ -25,31 +26,24 @@ const services = [
     },
     {
         id: 3,
-        titleKey: 'services.brandIdentity.title',
-        descKey: 'services.brandIdentity.description',
-        tags: ['logoDesign', 'styleGuide', 'businessCards'],
-        color: '#F97316'
-    },
-    {
-        id: 4,
         titleKey: 'services.videoEditing.title',
         descKey: 'services.videoEditing.description',
         tags: ['reelsTikTok', 'colorGrading', 'soundDesign'],
         color: '#EC4899'
+    },
+    {
+        id: 4,
+        titleKey: 'services.adCreatives.title',
+        descKey: 'services.adCreatives.description',
+        tags: ['campaignVisuals', 'performanceAds', 'digitalBanners'],
+        color: '#F97316'
     }
 ]
 
 export default function ServicesView() {
     const { t } = useTranslation()
     const [hoveredIndex, setHoveredIndex] = useState(null)
-    const [isDesktop, setIsDesktop] = useState(false)
-
-    useEffect(() => {
-        const checkDesktop = () => setIsDesktop(window.innerWidth >= 768)
-        checkDesktop()
-        window.addEventListener('resize', checkDesktop)
-        return () => window.removeEventListener('resize', checkDesktop)
-    }, [])
+    const isDesktop = !useIsMobileViewport()
 
     return (
         <section className="relative py-10 md:py-24 overflow-hidden">

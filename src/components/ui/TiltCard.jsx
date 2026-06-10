@@ -13,31 +13,21 @@ export default function TiltCard({
     glowColor = 'rgba(255,255,255,0.15)',
     borderColor = null,
     intensity = 15,
+    isMobile = false,
     springConfig = { stiffness: 150, damping: 20 }
 }) {
     const cardRef = useRef(null)
     const [isHovered, setIsHovered] = useState(false)
-    const [isMobile, setIsMobile] = useState(false)
     const mouseX = useMotionValue(0)
     const mouseY = useMotionValue(0)
 
-    // Check for mobile device on mount & resize
     useEffect(() => {
-        const checkMobile = () => {
-            const mobile = window.innerWidth < 768
-            setIsMobile(mobile)
-            // Reset values if switching to mobile
-            if (mobile) {
-                mouseX.set(0)
-                mouseY.set(0)
-                setIsHovered(false)
-            }
+        if (isMobile) {
+            mouseX.set(0)
+            mouseY.set(0)
+            setIsHovered(false)
         }
-
-        checkMobile()
-        window.addEventListener('resize', checkMobile)
-        return () => window.removeEventListener('resize', checkMobile)
-    }, [mouseX, mouseY])
+    }, [isMobile, mouseX, mouseY])
 
     // Spring physics for smooth rotation
     const rotateX = useSpring(useTransform(mouseY, [-0.5, 0.5], [intensity, -intensity]), springConfig)

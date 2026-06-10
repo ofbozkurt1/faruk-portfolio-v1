@@ -8,8 +8,10 @@
  */
 
 import ResponsiveImage from '../../components/ui/ResponsiveImage'
+import { usePrefersReducedMotion } from '../../hooks'
 
 const HeroBackground = ({ isActive = true }) => {
+    const prefersReducedMotion = usePrefersReducedMotion()
     // POST images - Left Side
     const postImagesLeft = [
         '/gorseller/slidergorseller/pst1.webp',
@@ -17,11 +19,6 @@ const HeroBackground = ({ isActive = true }) => {
         '/gorseller/slidergorseller/pst3.webp',
         '/gorseller/slidergorseller/pst4.webp',
         '/gorseller/slidergorseller/pst5.webp',
-        '/gorseller/slidergorseller/pst6.webp',
-        '/gorseller/slidergorseller/pst7.webp',
-        '/gorseller/slidergorseller/pst8.webp',
-        '/gorseller/slidergorseller/pst9.webp',
-        '/gorseller/slidergorseller/pst10.webp',
     ]
 
     // POST images - Right Side
@@ -31,11 +28,6 @@ const HeroBackground = ({ isActive = true }) => {
         '/gorseller/slidergorseller/pst13.webp',
         '/gorseller/slidergorseller/pst14.webp',
         '/gorseller/slidergorseller/pst15.webp',
-        '/gorseller/slidergorseller/pst16.webp',
-        '/gorseller/slidergorseller/pst17.webp',
-        '/gorseller/slidergorseller/pst18.webp',
-        '/gorseller/slidergorseller/pst19.webp',
-        '/gorseller/slidergorseller/pst20.webp',
     ]
 
     // STORY images - Left Side
@@ -43,9 +35,6 @@ const HeroBackground = ({ isActive = true }) => {
         '/gorseller/slidergorseller/str1.webp',
         '/gorseller/slidergorseller/str2.webp',
         '/gorseller/slidergorseller/str3.webp',
-        '/gorseller/slidergorseller/str4.webp',
-        '/gorseller/slidergorseller/str5.webp',
-        '/gorseller/slidergorseller/str6.webp',
     ]
 
     // STORY images - Right Side
@@ -53,9 +42,6 @@ const HeroBackground = ({ isActive = true }) => {
         '/gorseller/slidergorseller/str7.webp',
         '/gorseller/slidergorseller/str8.webp',
         '/gorseller/slidergorseller/str9.webp',
-        '/gorseller/slidergorseller/str10.webp',
-        '/gorseller/slidergorseller/str11.webp',
-        '/gorseller/slidergorseller/str12.webp',
     ]
 
     return (
@@ -123,7 +109,6 @@ const HeroBackground = ({ isActive = true }) => {
                     flex-direction: column;
                     gap: 12px;
                     flex-shrink: 0;
-                    will-change: transform;
                 }
 
                 .ghost-column-story {
@@ -152,6 +137,7 @@ const HeroBackground = ({ isActive = true }) => {
 
                 .ghost-reel-paused .ghost-column-inner {
                     animation-play-state: paused !important;
+                    will-change: auto !important;
                 }
 
                 .ghost-image {
@@ -182,7 +168,7 @@ const HeroBackground = ({ isActive = true }) => {
             `}</style>
 
             {/* LEFT SIDE - Post column + Story column */}
-            <div className={`ghost-reel-left ${!isActive ? 'ghost-reel-paused' : ''}`} aria-hidden="true">
+            <div className={`ghost-reel-left ${(!isActive || prefersReducedMotion) ? 'ghost-reel-paused' : ''}`} aria-hidden="true">
                 <div className="ghost-columns-left">
                     {/* Posts - Scrolls Up */}
                     <div className="ghost-column ghost-column-post scroll-up">
@@ -193,7 +179,7 @@ const HeroBackground = ({ isActive = true }) => {
                                     src={src}
                                     alt=""
                                     className="ghost-image ghost-image-post"
-                                    priority={idx < 2} // First 2 images for LCP
+                                    priority={false}
                                 />
                             ))}
                             {postImagesLeft.map((src, idx) => (
@@ -235,7 +221,7 @@ const HeroBackground = ({ isActive = true }) => {
             </div>
 
             {/* RIGHT SIDE - Post column + Story column */}
-            <div className={`ghost-reel-right ${!isActive ? 'ghost-reel-paused' : ''}`} aria-hidden="true">
+            <div className={`ghost-reel-right ${(!isActive || prefersReducedMotion) ? 'ghost-reel-paused' : ''}`} aria-hidden="true">
                 <div className="ghost-columns-right">
                     {/* Posts - Scrolls Up */}
                     <div className="ghost-column ghost-column-post scroll-up">
@@ -246,7 +232,7 @@ const HeroBackground = ({ isActive = true }) => {
                                     src={src}
                                     alt=""
                                     className="ghost-image ghost-image-post"
-                                    priority={idx < 2}
+                                    priority={false}
                                 />
                             ))}
                             {postImagesRight.map((src, idx) => (

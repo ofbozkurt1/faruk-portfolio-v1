@@ -4,26 +4,26 @@
  */
 
 import { useState, useEffect, useCallback, useRef } from 'react'
+import { useTranslation } from 'react-i18next'
+import { useActiveSection, usePrefersReducedMotion } from '../../hooks'
 
 const sections = [
-    { id: 'about', label: 'About' },
-    { id: 'skills', label: 'Skills' },
-    { id: 'services', label: 'Services' },
-    { id: 'portfolio', label: 'Portfolio' },
-    { id: 'contact', label: 'Contact' }
+    { id: 'about', labelKey: 'nav.about' },
+    { id: 'skills', labelKey: 'nav.skills' },
+    { id: 'services', labelKey: 'nav.services' },
+    { id: 'portfolio', labelKey: 'nav.work' },
+    { id: 'contact', labelKey: 'nav.contact' }
 ]
 
 export default function SideNav() {
-    const [activeSection, setActiveSection] = useState('about')
+    const { t } = useTranslation()
+    const prefersReducedMotion = usePrefersReducedMotion()
+    const activeSection = useActiveSection()
     const [isVisible, setIsVisible] = useState(false)
     const hideTimeout = useRef(null)
 
     // Scroll detection
     const handleScroll = useCallback(() => {
-        const scrollY = window.scrollY + 200
-        const windowHeight = window.innerHeight
-        const documentHeight = document.documentElement.scrollHeight
-
         // Show nav on scroll
         setIsVisible(true)
 
@@ -37,20 +37,6 @@ export default function SideNav() {
             setIsVisible(false)
         }, 2000)
 
-        // Check if at bottom
-        if (scrollY + windowHeight >= documentHeight - 100) {
-            setActiveSection('contact')
-            return
-        }
-
-        // Find current section
-        for (let i = sections.length - 1; i >= 0; i--) {
-            const el = document.querySelector(`#${sections[i].id}`)
-            if (el && scrollY >= el.offsetTop) {
-                setActiveSection(sections[i].id)
-                return
-            }
-        }
     }, [])
 
     useEffect(() => {
@@ -68,7 +54,7 @@ export default function SideNav() {
         const el = document.querySelector(`#${id}`)
         if (el) {
             const top = el.offsetTop - 80
-            window.scrollTo({ top, behavior: 'smooth' })
+            window.scrollTo({ top, behavior: prefersReducedMotion ? 'auto' : 'smooth' })
         }
     }
 
@@ -100,7 +86,7 @@ export default function SideNav() {
                     <button
                         key={section.id}
                         onClick={() => scrollToSection(section.id)}
-                        aria-label={section.label}
+                        aria-label={t(section.labelKey)}
                         style={{
                             width: isActive ? 10 : 8,
                             height: isActive ? 10 : 8,

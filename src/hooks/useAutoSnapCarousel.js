@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef } from 'react'
+import { usePrefersReducedMotion } from './usePrefersReducedMotion'
 
 function getStride(container) {
     if (!container) return 0
@@ -21,7 +22,10 @@ export function useAutoSnapCarousel({
     enabled = true,
     intervalMs = 5000,
     pauseAfterInteractionMs = 8000,
+    respectReducedMotion = true,
 }) {
+    const prefersReducedMotion = usePrefersReducedMotion()
+    const shouldAutoAdvance = enabled && !(respectReducedMotion && prefersReducedMotion)
     const activeIndexRef = useRef(activeIndex)
     const intervalRef = useRef(null)
     const interactionPauseTimeoutRef = useRef(null)
@@ -72,7 +76,7 @@ export function useAutoSnapCarousel({
             isProgrammaticScrollRef.current = true
             container.scrollTo({
                 left: boundedIndex * stride,
-                behavior,
+                behavior: respectReducedMotion && prefersReducedMotion ? 'auto' : behavior,
             })
 
             if (unlockProgrammaticRef.current) {
@@ -84,7 +88,7 @@ export function useAutoSnapCarousel({
                 unlockProgrammaticRef.current = null
             }, 500)
         },
-        [containerRef, itemCount]
+        [containerRef, itemCount, prefersReducedMotion, respectReducedMotion]
     )
 
     const handleScroll = useCallback(() => {
@@ -108,7 +112,7 @@ export function useAutoSnapCarousel({
     }, [containerRef, enabled, itemCount, setActiveIndex])
 
     useEffect(() => {
-        if (!enabled || itemCount <= 1) return undefined
+        if (!shouldAutoAdvance || itemCount <= 1) return undefined
 
         intervalRef.current = setInterval(() => {
             if (isPausedRef.current) return
@@ -123,7 +127,7 @@ export function useAutoSnapCarousel({
                 intervalRef.current = null
             }
         }
-    }, [enabled, intervalMs, itemCount, scrollToIndex, setActiveIndex])
+    }, [intervalMs, itemCount, scrollToIndex, setActiveIndex, shouldAutoAdvance])
 
     useEffect(() => {
         if (!enabled) return undefined

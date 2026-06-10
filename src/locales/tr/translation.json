@@ -1,4 +1,12 @@
 {
+    "common": {
+        "close": "Kapat",
+        "previous": "Önceki",
+        "next": "Sonraki",
+        "openMenu": "Menüyü Aç",
+        "closeMenu": "Menüyü Kapat",
+        "swipe": "KAYDIR"
+    },
     "nav": {
         "work": "Portfolyo",
         "about": "Hakkımda",
@@ -11,7 +19,7 @@
         "role": "MOTION & GRAPHIC DESIGNER",
         "description": "Markalar için akılda kalıcı görsel deneyimler tasarlıyorum.",
         "cta": "Portfolyo",
-        "downloadCV": "CV'mi İndir",
+        "downloadCV": "CV Talep Et",
         "whoAmI": "Ben Kimim?",
         "modal": {
             "title": "Ben Kimim?",
@@ -54,9 +62,9 @@
             "title": "Video Edit",
             "description": "Ham görüntüleri, ritmik kurgu, ses tasarımı ve sinematik dokunuşlarla 'tekrar izlenen' hikayelere dönüştürüyorum."
         },
-        "brandIdentity": {
-            "title": "Marka Kimliği",
-            "description": "Markanın DNA'sını oluşturan logo, renk paleti ve kurumsal öğeleri, hem baskı hem de dijital dünyada tutarlı duracak şekilde tasarlıyorum."
+        "adCreatives": {
+            "title": "Reklam Kreatifleri",
+            "description": "Kampanya hedeflerini dikkat çekici, mesajı hızlı aktaran ve farklı dijital mecralara uyarlanan reklam görsellerine dönüştürüyorum."
         },
         "tags": {
             "instagramGrid": "Post Tasarımları",
@@ -65,18 +73,44 @@
             "2dAnimation": "Hareketli Tasarımlar",
             "logoReveal": "Logo Animasyon",
             "kineticTypo": "Kinetik Tipografi",
-            "logoDesign": "Logo Tasarımı",
-            "styleGuide": "Kurumsal Kimlik",
-            "businessCards": "Marka Rehberi",
+            "campaignVisuals": "Kampanya Görselleri",
+            "performanceAds": "Performans Reklamları",
+            "digitalBanners": "Dijital Banner",
             "reelsTikTok": "Video Kurgu",
             "colorGrading": "Renk Düzenleme",
             "soundDesign": "Ses Tasarımı"
         }
     },
     "videoShowcase": {
+        "eyebrow": "VİTRİN",
         "title": "Video Vitrini",
+        "description": "Farklı sektörler için hazırladığım kısa format video editleri ve marka içerikleri.",
+        "previousVideo": "Önceki video",
+        "nextVideo": "Sonraki video",
         "subtitle": "Etkileyici dikey hikayeler",
         "workLabel": "Video Projesi",
+        "holdToWatch": "BASILI TUT · TAM İZLE · BASILI TUT ·",
+        "videos": {
+            "video01": "Etkinlik",
+            "video02": "Anaokulu",
+            "video03": "Sosyal Medya",
+            "video04": "İçerik",
+            "video05": "Gayrimenkul",
+            "video06": "Motion",
+            "video07": "Mekan",
+            "video08": "Video Edit",
+            "video09": "Ticari Mülk",
+            "video10": "Marka Tanıtımı",
+            "video11": "Video Edit",
+            "video12": "Ürün",
+            "video13": "Kurumsal",
+            "video14": "Video Edit",
+            "video15": "Etkinlik",
+            "video16": "Video Edit",
+            "video17": "Motion",
+            "video18": "Video Edit",
+            "video19": "Emlak"
+        },
         "categories": {
             "hype": {
                 "tab": "Eğlence",
@@ -112,6 +146,31 @@
                 }
             }
         }
+    },
+    "ecommerceShowcase": {
+        "title": "Reklam Kreatifleri",
+        "description": "Estetik tasarımın, dönüşüm odaklı ürün görselleştirmesiyle buluştuğu yer.",
+        "browseMore": "Daha Fazla Projeye Göz At",
+        "galleryTitle": "E-Ticaret Proje Galerisi",
+        "gallerySubtitle": "Marka bazlı tüm kampanya görselleri",
+        "close": "Popup kapat"
+    },
+    "motionShowcase": {
+        "title": "Hareketli Tasarımlar",
+        "description": "Farklı markalar için hazırladığım hareketli tasarımlar, animasyonlu sosyal medya içerikleri ve dinamik dijital vitrinler.",
+        "featuredTitle": "DİNAMİK VİDEOLAR",
+        "featuredDescription": "Yüksek bitrate motion çalışmalarının optimize CDN teslimi"
+    },
+    "instagramShowcase": {
+        "posts": "Gönderi",
+        "followers": "Takipçi",
+        "following": "Takip",
+        "postAlt": "Instagram gönderisi {{number}}",
+        "bioLine1": "Design · Branding · Marketing",
+        "bioLine2": "Markanızın öne çıkması için tasarlıyorum.",
+        "bioLine3": "Öne çıkmaya hazır mısınız? Birlikte çalışalım.",
+        "follow": "Takip Et",
+        "profileAlt": "graphic.faruk profili"
     },
     "contact": {
         "title": "HAYDİ BİRLİKTE TASARLAYALIM",

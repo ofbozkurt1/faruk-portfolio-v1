@@ -181,3 +181,19 @@ a {
   -webkit-overflow-scrolling: touch;
   overscroll-behavior-x: contain;
 }
+
+@media (prefers-reduced-motion: reduce) {
+  html:focus-within {
+    scroll-behavior: auto;
+  }
+
+  .touch-scroll-native {
+    scroll-behavior: auto;
+  }
+
+  .ec-marquee-track,
+  .ghost-column-inner {
+    animation-play-state: paused !important;
+    will-change: auto !important;
+  }
+}

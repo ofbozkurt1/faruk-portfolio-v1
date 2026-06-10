@@ -11,6 +11,8 @@ import { useTranslation } from 'react-i18next'
 import { cn } from '../../utils/cn'
 import HeroBackground from './HeroBackground'
 import ResponsiveImage from '../../components/ui/ResponsiveImage'
+import { lockBodyScroll } from '../../utils/scrollLock'
+import { usePrefersReducedMotion } from '../../hooks'
 
 // Detect mobile for LCP optimization
 const isMobile = () => typeof window !== 'undefined' && window.innerWidth < 768
@@ -82,49 +84,36 @@ const lastName = "BOZKURT"
 
 export default function Hero({ className }) {
     const { t } = useTranslation()
+    const prefersReducedMotion = usePrefersReducedMotion()
     const [animationKey, setAnimationKey] = useState(0)
     const [isPhotoHovered, setIsPhotoHovered] = useState(false)
-    const [mobile, setMobile] = useState(false)
+    const [mobile] = useState(() => isMobile())
     const [isModalOpen, setIsModalOpen] = useState(false)
 
-    // Detect mobile on mount
-    useEffect(() => {
-        setMobile(isMobile())
-    }, [])
-
     // Active variants based on device
-    const activeContainerVariants = mobile ? containerVariantsMobile : containerVariants
-    const activeItemVariants = mobile ? itemVariantsMobile : itemVariants
-    const activeLetterVariants = mobile ? letterVariantsMobile : letterVariants
+    const activeContainerVariants = (mobile || prefersReducedMotion) ? containerVariantsMobile : containerVariants
+    const activeItemVariants = (mobile || prefersReducedMotion) ? itemVariantsMobile : itemVariants
+    const activeLetterVariants = (mobile || prefersReducedMotion) ? letterVariantsMobile : letterVariants
 
     // Visibility tracking for smart animation
     const heroRef = useRef(null)
     const isInView = useInView(heroRef, { amount: 0.3 })
 
-    // Body Scroll Lock specifically for Modal
+    // Body scroll lock specifically for modal
     useEffect(() => {
-        if (isModalOpen) {
-            document.body.style.overflow = 'hidden'
-            document.documentElement.style.overflow = 'hidden' // For mobile Safari
-        } else {
-            document.body.style.overflow = ''
-            document.documentElement.style.overflow = ''
-        }
-        return () => {
-            document.body.style.overflow = ''
-            document.documentElement.style.overflow = ''
-        }
+        if (!isModalOpen) return undefined
+        return lockBodyScroll('hero-about-modal')
     }, [isModalOpen])
 
     // Replay animation only when VISIBLE
     useEffect(() => {
-        if (!isInView) return // Don't run timer when off-screen
+        if (!isInView || prefersReducedMotion) return // Don't run timer when off-screen or motion is reduced
 
         const interval = setInterval(() => {
             setAnimationKey(prev => prev + 1)
         }, 6000)
         return () => clearInterval(interval)
-    }, [isInView])
+    }, [isInView, prefersReducedMotion])
 
     const renderAnimatedText = (text, offset = 0) => (
         <span style={{ display: 'inline-block' }}>
@@ -157,7 +146,7 @@ export default function Hero({ className }) {
             )}
         >
             {/* Ghost Reel Background - Desktop Only */}
-            {!mobile && <HeroBackground isActive={isInView} />}
+            {!mobile && <HeroBackground isActive={isInView && !prefersReducedMotion} />}
 
             <div className="flex flex-col-reverse lg:flex-row gap-4 lg:gap-28 w-full items-center justify-center relative z-10">
 
@@ -198,7 +187,7 @@ export default function Hero({ className }) {
                             WebkitBackgroundClip: 'text',
                             WebkitTextFillColor: 'transparent',
                             backgroundClip: 'text',
-                            animation: 'title-shine 4s ease-in-out infinite',
+                            animation: (prefersReducedMotion || !isInView) ? 'none' : 'title-shine 4s ease-in-out infinite',
                             opacity: 1 // Ensure instant visibility on mobile
                         }}
                     >
@@ -220,9 +209,9 @@ export default function Hero({ className }) {
 
                     {/* Action Buttons - CV + Who Am I */}
                     <motion.div variants={activeItemVariants} className="mt-6 md:mt-8 flex flex-row items-center justify-center lg:justify-start gap-3 md:gap-4 w-full md:w-auto">
-                        <a href="/cv.pdf" download className="hero-download-btn">
+                        <a href="mailto:work@ofbozkurt.com?subject=CV%20Talebi" className="hero-download-btn">
                             <div className="btn-wrapper">
-                                <div className="btn-text">{t('hero.downloadCV', 'CV\'mi İndir')}</div>
+                                <div className="btn-text">{t('hero.downloadCV', 'CV Talep Et')}</div>
                                 <span className="btn-icon">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                         <path d="M12 15V3m0 12l-4-4m4 4l4-4M2 17l.621 2.485A2 2 0 0 0 4.561 21h14.878a2 2 0 0 0 1.94-1.515L22 17" />
@@ -232,7 +221,7 @@ export default function Hero({ className }) {
                         </a>
 
                         {/* Who Am I Button */}
-                        <button onClick={() => setIsModalOpen(true)} className="hero-about-btn">
+                        <button type="button" onClick={() => setIsModalOpen(true)} className="hero-about-btn">
                             <span>{t('hero.whoAmI', 'Ben Kimim?')}</span>
                         </button>
                     </motion.div>
@@ -406,10 +395,10 @@ export default function Hero({ className }) {
                     <div
                         className="w-[280px] h-[280px] md:w-[420px] md:h-[420px] rounded-full overflow-hidden relative border border-black"
                         style={{
-                            animation: 'float-photo 4s ease-in-out infinite',
+                            animation: (prefersReducedMotion || !isInView) ? 'none' : 'float-photo 4s ease-in-out infinite',
                             transform: isPhotoHovered ? 'scale(1.03)' : 'scale(1)',
                             transition: 'transform 0.4s ease',
-                            willChange: 'transform'
+                            willChange: (prefersReducedMotion || !isInView) ? 'auto' : 'transform'
                         }}
                     >
                         <ResponsiveImage
@@ -436,7 +425,10 @@ export default function Hero({ className }) {
                 transition={{ delay: 1.5 }}
                 className="relative md:absolute mt-8 md:mt-0 md:bottom-10 md:left-1/2 md:-translate-x-1/2 flex justify-center w-full md:w-auto"
             >
-                <motion.div animate={{ y: [0, 10, 0] }} transition={{ duration: 1.5, repeat: Infinity }}>
+                <motion.div
+                    animate={prefersReducedMotion ? { y: 0 } : { y: [0, 10, 0] }}
+                    transition={(prefersReducedMotion || !isInView) ? { duration: 0 } : { duration: 1.5, repeat: Infinity }}
+                >
                     <FiChevronDown className="w-12 h-12 md:w-9 md:h-9" color="#666" />
                 </motion.div>
             </motion.div>
@@ -468,7 +460,9 @@ export default function Hero({ className }) {
                                     <div className="h-[2px] w-12 bg-white/20"></div>
                                 </div>
                                 <button
+                                    type="button"
                                     onClick={() => setIsModalOpen(false)}
+                                    aria-label={t('common.close', 'Close')}
                                     className="text-white/40 hover:text-white transition-colors bg-white/5 hover:bg-white/10 p-2 rounded-full cursor-pointer"
                                 >
                                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 6L6 18M6 6l12 12" /></svg>
@@ -493,16 +487,16 @@ export default function Hero({ className }) {
                                 <div className="flex flex-col gap-3 items-center md:items-start w-full">
                                     <h4 className="text-xs font-medium text-white/40 uppercase tracking-widest">{t('hero.modal.contactTitle')}</h4>
                                     <div className="flex items-center gap-3">
-                                        <a href="https://www.instagram.com/of.bozkurt/" target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full bg-white/5 hover:bg-white/20 flex items-center justify-center text-white/60 hover:text-white transition-all border border-white/5 hover:border-white/20 hover:scale-110">
+                                        <a href="https://www.instagram.com/of.bozkurt/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="w-12 h-12 rounded-full bg-white/5 hover:bg-white/20 flex items-center justify-center text-white/60 hover:text-white transition-all border border-white/5 hover:border-white/20 hover:scale-110">
                                             <FaInstagram size={20} />
                                         </a>
-                                        <a href="https://www.linkedin.com/in/ömer-faruk-bozkurt-45299530b" target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full bg-white/5 hover:bg-white/20 flex items-center justify-center text-white/60 hover:text-white transition-all border border-white/5 hover:border-white/20 hover:scale-110">
+                                        <a href="https://www.linkedin.com/in/ömer-faruk-bozkurt-45299530b" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="w-12 h-12 rounded-full bg-white/5 hover:bg-white/20 flex items-center justify-center text-white/60 hover:text-white transition-all border border-white/5 hover:border-white/20 hover:scale-110">
                                             <FaLinkedinIn size={20} />
                                         </a>
-                                        <a href="https://www.behance.net/ofbozkurt" target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full bg-white/5 hover:bg-white/20 flex items-center justify-center text-white/60 hover:text-white transition-all border border-white/5 hover:border-white/20 hover:scale-110">
+                                        <a href="https://www.behance.net/ofbozkurt" target="_blank" rel="noopener noreferrer" aria-label="Behance" className="w-12 h-12 rounded-full bg-white/5 hover:bg-white/20 flex items-center justify-center text-white/60 hover:text-white transition-all border border-white/5 hover:border-white/20 hover:scale-110">
                                             <FaBehance size={20} />
                                         </a>
-                                        <a href="https://wa.me/905076267821" target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full bg-white/5 hover:bg-white/20 flex items-center justify-center text-white/60 hover:text-white transition-all border border-white/5 hover:border-white/20 hover:scale-110">
+                                        <a href="https://wa.me/905076267821" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" className="w-12 h-12 rounded-full bg-white/5 hover:bg-white/20 flex items-center justify-center text-white/60 hover:text-white transition-all border border-white/5 hover:border-white/20 hover:scale-110">
                                             <FaWhatsapp size={20} />
                                         </a>
                                     </div>

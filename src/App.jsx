@@ -1,41 +1,62 @@
 ﻿import { useEffect, useState } from 'react'
 import Lenis from '@studio-freight/lenis'
+import { lazy, Suspense } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Hero } from './features/hero'
-import { StackView, GridView } from './features/portfolio'
+import StackView from './features/portfolio/StackView'
 import { SkillsView } from './features/skills'
 import { ServicesView } from './features/services'
-import { VideoVault } from './features/videos'
-import EcommerceShowcase from './features/ecommerce/EcommerceShowcase'
-import MotionShowcase from './features/motion/MotionShowcase'
-import InstagramShowcase from './features/instagram/InstagramShowcase'
 import { Header, Footer } from './components/layout'
 import { AtmosphericBackground } from './components/ui'
 import SideNav from './components/ui/SideNav'
 import WipeTransition from './components/ui/WipeTransition'
 import Preloader from './components/ui/Preloader'
-import { getAdaptiveRootMargin, useNearViewport } from './hooks'
+import { getAdaptiveRootMargin, useNearViewport, usePrefersReducedMotion } from './hooks'
+import { lockBodyScroll } from './utils/scrollLock'
 
-function DeferredSectionMount({ children, isMobileViewport }) {
+const EcommerceShowcase = lazy(() => import('./features/ecommerce/EcommerceShowcase'))
+const MotionShowcase = lazy(() => import('./features/motion/MotionShowcase'))
+const InstagramShowcase = lazy(() => import('./features/instagram/InstagramShowcase'))
+const VideoVault = lazy(() => import('./features/videos/VideoVault'))
+const GridView = lazy(() => import('./features/portfolio/GridView'))
+
+function SectionFallback({ className = 'h-px' }) {
+    return <div className={`${className} w-full`} aria-hidden="true" />
+}
+
+function DeferredSectionMount({
+    children,
+    deferOnDesktop = true,
+    fallbackClassName = 'h-px',
+    isMobileViewport,
+}) {
+    const shouldDefer = isMobileViewport || deferOnDesktop
     const { ref, isNearViewport } = useNearViewport({
-        enabled: isMobileViewport,
-        initialInView: !isMobileViewport,
+        enabled: shouldDefer,
+        initialInView: !shouldDefer,
         once: true,
-        rootMargin: getAdaptiveRootMargin('200px 0px', '300px 0px'),
+        rootMargin: getAdaptiveRootMargin('1200px 0px', '800px 0px'),
         threshold: 0.01,
     })
 
-    const shouldRender = !isMobileViewport || isNearViewport
+    const shouldRender = !shouldDefer || isNearViewport
 
     return (
         <div ref={ref} className="w-full">
-            {shouldRender ? children : <div className="h-px w-full" aria-hidden="true" />}
+            {shouldRender ? (
+                <Suspense fallback={<SectionFallback className={fallbackClassName} />}>
+                    {children}
+                </Suspense>
+            ) : (
+                <SectionFallback className={fallbackClassName} />
+            )}
         </div>
     )
 }
 
 function App() {
     const { t } = useTranslation()
+    const prefersReducedMotion = usePrefersReducedMotion()
     const [selectedProject, setSelectedProject] = useState(null)
     const [lenis, setLenis] = useState(null)
     const [isMobileViewport, setIsMobileViewport] = useState(() => {
@@ -78,7 +99,7 @@ function App() {
     }, [])
 
     useEffect(() => {
-        if (isMobileViewport) {
+        if (isMobileViewport || prefersReducedMotion) {
             setLenis(null)
             return undefined
         }
@@ -114,17 +135,16 @@ function App() {
             lenisInstance.destroy()
             setLenis(null)
         }
-    }, [isMobileViewport])
+    }, [isMobileViewport, prefersReducedMotion])
 
     useEffect(() => {
         if (selectedProject) {
             lenis?.stop()
-            document.body.style.overflow = 'hidden'
-            return
+            return lockBodyScroll('portfolio-modal')
         }
 
         lenis?.start()
-        document.body.style.overflow = ''
+        return undefined
     }, [selectedProject, lenis])
 
     return (
@@ -177,31 +197,48 @@ function App() {
                     <StackView onProjectClick={setSelectedProject} className="-mt-6" />
                 </section>
 
-                <GridView
-                    project={selectedProject}
-                    isOpen={!!selectedProject}
-                    onClose={() => setSelectedProject(null)}
-                />
+                {selectedProject && (
+                    <Suspense fallback={<SectionFallback />}>
+                        <GridView
+                            project={selectedProject}
+                            isOpen={!!selectedProject}
+                            onClose={() => setSelectedProject(null)}
+                        />
+                    </Suspense>
+                )}
 
-                {/* â”€â”€â”€ Phase 53: E-Commerce & Product Design Section â”€â”€â”€ */}
-                <DeferredSectionMount isMobileViewport={isMobileViewport}>
+                {/* Phase 53: E-Commerce & Product Design Section */}
+                <DeferredSectionMount
+                    isMobileViewport={isMobileViewport}
+                    fallbackClassName="min-h-[620px] md:min-h-[760px]"
+                >
                     <EcommerceShowcase />
                 </DeferredSectionMount>
 
-                <DeferredSectionMount isMobileViewport={isMobileViewport}>
+                <DeferredSectionMount
+                    isMobileViewport={isMobileViewport}
+                    fallbackClassName="min-h-[520px] md:min-h-[720px]"
+                >
                     <MotionShowcase />
-                </DeferredSectionMount>
-
-                <DeferredSectionMount isMobileViewport={isMobileViewport}>
-                    <InstagramShowcase />
                 </DeferredSectionMount>
 
                 {/* Video Showcase Section */}
                 <section id="videos" className="container-padding">
-                    <DeferredSectionMount isMobileViewport={isMobileViewport}>
+                    <DeferredSectionMount
+                        deferOnDesktop={false}
+                        isMobileViewport={isMobileViewport}
+                        fallbackClassName="min-h-[620px]"
+                    >
                         <VideoVault />
                     </DeferredSectionMount>
                 </section>
+
+                <DeferredSectionMount
+                    isMobileViewport={isMobileViewport}
+                    fallbackClassName="min-h-[620px]"
+                >
+                    <InstagramShowcase />
+                </DeferredSectionMount>
 
                 {/* Contact Section - wraps Footer */}
                 <section id="contact">

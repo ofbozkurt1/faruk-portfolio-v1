@@ -23,7 +23,7 @@ i18n
     .init({
         resources,
         fallbackLng: 'tr',
-        lng: 'tr', // Default language
+        supportedLngs: ['tr', 'en'],
         debug: false,
         interpolation: {
             escapeValue: false // React already escapes

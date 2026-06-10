@@ -6,6 +6,7 @@
 
 import { useEffect, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
+import { lockBodyScroll } from '../../utils/scrollLock'
 
 const toolIcons = [
     { src: '/gorseller/iconlar/photoshop.svg', alt: 'Photoshop' },
@@ -21,7 +22,7 @@ export default function Preloader() {
     useEffect(() => {
         if (!isLoading) return undefined
 
-        document.body.style.overflow = 'hidden'
+        const unlockScroll = lockBodyScroll('preloader')
 
         const interval = setInterval(() => {
             setCounter((previous) => {
@@ -34,7 +35,10 @@ export default function Preloader() {
             })
         }, 90)
 
-        return () => clearInterval(interval)
+        return () => {
+            clearInterval(interval)
+            unlockScroll()
+        }
     }, [isLoading])
 
     useEffect(() => {
@@ -42,18 +46,10 @@ export default function Preloader() {
 
         const closeTimer = setTimeout(() => {
             setIsLoading(false)
-            document.body.style.overflow = 'auto'
         }, 300)
 
         return () => clearTimeout(closeTimer)
     }, [counter, isLoading])
-
-    useEffect(
-        () => () => {
-            document.body.style.overflow = ''
-        },
-        []
-    )
 
     return (
         <AnimatePresence mode="wait">

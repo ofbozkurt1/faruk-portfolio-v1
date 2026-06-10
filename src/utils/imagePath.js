@@ -8,6 +8,16 @@
  * - Stories: str1.webp, str2.webp, ...
  */
 
+import { withCloudinaryImageTransform } from './cloudinaryImage'
+
+const PORTFOLIO_PREVIEW_IMAGE_TRANSFORM = {
+    width: 640,
+    crop: 'limit',
+    quality: 'auto',
+    format: 'auto',
+    dpr: 'auto',
+}
+
 const CLOUD_PROJECT_ASSETS = {
     novastra: {
         postBase: 'https://res.cloudinary.com/dbr7bx7u5/image/upload/q_auto/f_auto/v1775630739/',
@@ -53,7 +63,10 @@ function getCloudImagePath(projectId, type, imageNumber) {
     const baseUrl = isStory ? config.storyBase : config.postBase
     if (!baseUrl) return null
 
-    return `${baseUrl}${isStory ? 'str' : 'pst'}${imageNumber}.webp`
+    return withCloudinaryImageTransform(
+        `${baseUrl}${isStory ? 'str' : 'pst'}${imageNumber}.webp`,
+        PORTFOLIO_PREVIEW_IMAGE_TRANSFORM
+    )
 }
 
 /**

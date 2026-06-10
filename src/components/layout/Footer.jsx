@@ -36,7 +36,7 @@ export default function Footer() {
                     className="download-btn mb-8 mx-auto"
                 >
                     <div className="btn-wrapper">
-                        <div className="btn-text !lowercase tracking-wide" style={{ textTransform: 'lowercase', fontSize: 'clamp(16px, 5vw, 11px)', fontWeight: 500 }}>
+                        <div className="btn-text !lowercase tracking-wide" style={{ textTransform: 'lowercase', fontSize: 'clamp(11px, 4vw, 16px)', fontWeight: 500 }}>
                             {t('contact.email', 'work@ofbozkurt.com')}
                         </div>
                         <span className="btn-icon">
@@ -135,7 +135,7 @@ export default function Footer() {
                 }
 
             .download-btn:hover {
-                border - color: #F2F2F2;
+                border-color: #F2F2F2;
                 }
 
             .download-btn:hover::before {
