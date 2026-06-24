@@ -7,17 +7,17 @@ const DISABLE_VIDEO_MEDIA_FOR_PERF_TEST = true
 const MOTION_POSTERS = [
     {
         title: 'Concert Poster Motion',
-        src: 'https://res.cloudinary.com/dbr7bx7u5/video/upload/q_auto/f_auto/v1780925304/Motion/Yener-Cevik_cloud.webm',
+        src: 'https://res.cloudinary.com/dncvyujpl/video/upload/v1782292911/Yener-Cevik_cloud_eulj7c.webm',
         perfTestEnabled: true,
     },
     {
         title: 'DJ Poster Motion',
-        src: 'https://res.cloudinary.com/dbr7bx7u5/video/upload/q_auto:eco,f_auto/Motion/Aykut_2',
+        src: 'https://res.cloudinary.com/dncvyujpl/video/upload/v1782292990/Aykut_ara3dt.webm',
         perfTestEnabled: true,
     },
     {
         title: 'Personal Branding Motion',
-        src: 'https://res.cloudinary.com/dbr7bx7u5/video/upload/q_auto/f_auto/v1780925288/Motion/kendini-pazarlama_cloud.webm',
+        src: 'https://res.cloudinary.com/dncvyujpl/video/upload/v1782292910/kendini-pazarlama_cloud_no4ff6.webm',
         perfTestEnabled: true,
     },
 ]

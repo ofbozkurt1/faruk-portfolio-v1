@@ -45,7 +45,7 @@ const ProjectCard = memo(function ProjectCard({
     const translatedDescription = t(`${projectKey}.description`, description)
     const translatedYear = t(`${projectKey}.year`, year)
     // FORCE 'hybrid' for Adana Napoli to match Hacı Hakkı Usta exactly
-    const stackFormat = (id === 'adananapoli' || id === 'hac\u0131hakk\u0131usta') ? 'hybrid' : originalStackFormat
+    const stackFormat = (id === 'adananapoli' || id === 'hacıhakkıusta') ? 'hybrid' : originalStackFormat
     const stackImages = getStackImages(id, postCount, storyCount, stackFormat)
     const [activeIndex, setActiveIndex] = useState(0)
     const [isHovered, setIsHovered] = useState(false)

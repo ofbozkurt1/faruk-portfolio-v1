@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Projects Data - The "No-CMS" Local Database
  * Single source of truth for all project data
  * 
@@ -42,13 +42,13 @@ const PROJECT_DATA = [
         role: "Content Design",
         deliverables: "Posts, Templates",
         // Phase 4 CDN rollout: Google Yorumlar uses Cloudinary post/story assets
-        postCount: 8,
+        postCount: 10,
         longPostCount: 0,
-        storyCount: 8,
+        storyCount: 4,
         description: "Social media campaign design for Google reviews engagement. Dynamic motion graphics and eye-catching visual content optimized for multiple platforms.",
         credits: "Design & Motion: Faruk",
         techStack: ["photoshop", "illustrator"],
-        client: "Çeşitli Müşteriler",
+        client: "Ã‡eÅŸitli MÃ¼ÅŸteriler",
         identity: {
             colors: [
                 { code: "#4285F4", name: "Google Blue" },
@@ -127,7 +127,7 @@ const PROJECT_DATA = [
         // Phase 6 CDN rollout
         postCount: 5,
         longPostCount: 0,
-        storyCount: 2,
+        storyCount: 3,
         description: "Traditional Turkish restaurant social media presence. Authentic food photography and engaging content design.",
         credits: "Design: Faruk",
         techStack: ["photoshop", "illustrator"],
@@ -191,84 +191,29 @@ const PROJECT_DATA = [
         }
     },
     {
-        id: "tırnaktrend",
-        title: "Tırnak Trend",
-        brandColor: "#EC4899",
+        id: "luna-mobilya",
+        title: "Luna Mobilya",
+        brandColor: "#8B6F47",
         category: "Social Media",
-        year: "2024",
+        year: "2025",
         role: "Social Design",
         deliverables: "Posts",
-        // Phase 6 CDN rollout
-        postCount: 3,
+        postCount: 9,
         longPostCount: 0,
         storyCount: 0,
-        description: "Social media content design for Tırnak Trend nail salon. Modern and elegant visuals for Instagram presence.",
+        description: "Furniture-focused social media visuals for Luna Mobilya. Warm, elegant and product-led creatives designed for digital showcase use.",
         credits: "Design: Faruk",
         techStack: ["photoshop", "illustrator"],
-        client: "Tırnak Trend",
+        client: "Luna Mobilya",
         identity: {
             colors: [
-                { code: "#EC4899", name: "Hot Pink" },
-                { code: "#FDF2F8", name: "Blush" },
-                { code: "#1F1F1F", name: "Charcoal" },
-                { code: "#F472B6", name: "Rose" }
-            ],
-            fontFamily: "Quicksand",
-            fontStyle: "Soft Sans"
-        }
-    },
-    {
-        id: "bbstransfer",
-        title: "BBS Transfer",
-        brandColor: "#1E88E5",
-        category: "Social Media",
-        year: "2024",
-        role: "Social Design",
-        deliverables: "Posts",
-        // Phase 6 CDN rollout
-        postCount: 2,
-        longPostCount: 0,
-        storyCount: 0,
-        description: "Social media design for BBS Transfer transportation company. Professional and trustworthy visual identity.",
-        credits: "Design: Faruk",
-        techStack: ["photoshop", "illustrator"],
-        client: "BBS Transfer",
-        identity: {
-            colors: [
-                { code: "#1E88E5", name: "Trust Blue" },
-                { code: "#0D47A1", name: "Deep Navy" },
-                { code: "#FFFFFF", name: "White" },
-                { code: "#90CAF9", name: "Sky" }
+                { code: "#8B6F47", name: "Warm Wood" },
+                { code: "#2B2118", name: "Dark Walnut" },
+                { code: "#F4E7D3", name: "Soft Cream" },
+                { code: "#C8A86A", name: "Muted Gold" }
             ],
             fontFamily: "Inter",
-            fontStyle: "Corporate Sans"
-        }
-    },
-    {
-        id: "kumrualtı",
-        title: "Kumrualtı",
-        brandColor: "#F97316",
-        category: "Social Media",
-        year: "2024",
-        role: "Social Design",
-        deliverables: "Posts",
-        // Phase 6 CDN rollout
-        postCount: 3,
-        longPostCount: 0,
-        storyCount: 0,
-        description: "Social media content design for Kumrualtı restaurant. Appetizing food photography and engaging visual content.",
-        credits: "Design: Faruk",
-        techStack: ["photoshop", "illustrator"],
-        client: "Kumrualtı",
-        identity: {
-            colors: [
-                { code: "#F97316", name: "Tangerine" },
-                { code: "#7C2D12", name: "Rust" },
-                { code: "#FEF3C7", name: "Cream" },
-                { code: "#1C1917", name: "Dark" }
-            ],
-            fontFamily: "Source Sans Pro",
-            fontStyle: "Clean Sans"
+            fontStyle: "Elegant Sans"
         }
     }
 ]
@@ -283,4 +228,7 @@ export const PROJECTS = PROJECT_DATA
 export function getProjectById(id) {
     return PROJECTS.find(project => project.id === id)
 }
+
+
+
 

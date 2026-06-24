@@ -1,8 +1,9 @@
 import { useTranslation } from 'react-i18next'
 import { FaBehance, FaLinkedinIn, FaInstagram, FaWhatsapp } from 'react-icons/fa'
 
-export default function Footer() {
+export default function Footer({ id = 'contact', className = '', compact = false }) {
     const { t } = useTranslation()
+    const spacingClass = compact ? 'pt-12 pb-2 md:pt-16 md:pb-3' : 'py-12 md:py-20'
 
     const socialLinks = [
         { icon: FaInstagram, href: 'https://www.instagram.com/of.bozkurt/', label: 'Instagram' },
@@ -12,7 +13,7 @@ export default function Footer() {
     ]
 
     return (
-        <footer id="contact" className="relative w-full py-12 md:py-20 overflow-hidden flex flex-col items-center justify-center text-center">
+        <footer id={id} className={`relative w-full ${spacingClass} overflow-hidden flex flex-col items-center justify-center text-center ${className}`}>
 
 
 

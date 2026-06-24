@@ -1,4 +1,4 @@
-/**
+﻿/**
  * GridView Component - Phase 25: Case Study Format
  * Premium project detail page with:
  * - Meta section (client, role, year, tools)
@@ -12,6 +12,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
 import { getPostImages, getLongPostImages, getStoryImages, getProjectImagePath } from '../../utils/imagePath'
 import ResponsiveImage from '../../components/ui/ResponsiveImage'
+import { Footer } from '../../components/layout'
 import { getAdaptiveRootMargin, useNearViewport, usePrefersReducedMotion } from '../../hooks'
 import { withCloudinaryImageTransform } from '../../utils/cloudinaryImage'
 
@@ -45,20 +46,108 @@ const toolIcons = {
     figma: '/gorseller/iconlar/pen-tool.svg'
 }
 
-const NOVASTRA_CLOUD_BASE = 'https://res.cloudinary.com/dbr7bx7u5/image/upload/q_auto/f_auto/v1775630739/'
-const NOVASTRA_STORY_CLOUD_BASE = 'https://res.cloudinary.com/dbr7bx7u5/image/upload/q_auto/f_auto/v1775632273/'
-const NOVASTRA_TRIPLE_STORY_ASSET = 'https://res.cloudinary.com/dbr7bx7u5/image/upload/q_auto/f_auto/v1775650345/3str.webp'
-const GOOGLE_YORUMLAR_POST_CLOUD_BASE = 'https://res.cloudinary.com/dbr7bx7u5/image/upload/q_auto/f_auto/v1775660462/%C4%B0mage/google-yorumlar/google-pst-webp/'
-const GOOGLE_YORUMLAR_STORY_CLOUD_BASE = 'https://res.cloudinary.com/dbr7bx7u5/image/upload/q_auto/f_auto/v1775660428/%C4%B0mage/google-yorumlar/google-str-webp/'
-const ADANA_NAPOLI_POST_CLOUD_BASE = 'https://res.cloudinary.com/dbr7bx7u5/image/upload/q_auto/f_auto/v1775729245/%C4%B0mage/adana-napoli/adana-napoli-%20pst-webp/'
-const ADANA_NAPOLI_STORY_CLOUD_BASE = 'https://res.cloudinary.com/dbr7bx7u5/image/upload/q_auto/f_auto/v1775729316/%C4%B0mage/adana-napoli/adana-napoli-%20str-webp/'
-const VIVACAR_POST_CLOUD_BASE = 'https://res.cloudinary.com/dbr7bx7u5/image/upload/q_auto/f_auto/%C4%B0mage/vivacar/vivacar-pst-webp/'
-const HACI_HAKKI_USTA_POST_CLOUD_BASE = 'https://res.cloudinary.com/dbr7bx7u5/image/upload/q_auto/f_auto/%C4%B0mage/hac%C4%B1hakk%C4%B1/hac%C4%B1hakk%C4%B1-pst/'
-const HACI_HAKKI_USTA_STORY_CLOUD_BASE = 'https://res.cloudinary.com/dbr7bx7u5/image/upload/q_auto/f_auto/%C4%B0mage/hac%C4%B1hakk%C4%B1/hac%C4%B1hakk%C4%B1-str/'
-const AKDENIZ_ETKINLIK_POST_CLOUD_BASE = 'https://res.cloudinary.com/dbr7bx7u5/image/upload/q_auto/f_auto/%C4%B0mage/aktet/aktet-pst-webp/'
-const TIRNAK_TREND_POST_CLOUD_BASE = 'https://res.cloudinary.com/dbr7bx7u5/image/upload/q_auto/f_auto/%C4%B0mage/t%C4%B1rnaktrend/t%C4%B1rnaktrend-pst-webp/'
-const BBS_TRANSFER_POST_CLOUD_BASE = 'https://res.cloudinary.com/dbr7bx7u5/image/upload/q_auto/f_auto/%C4%B0mage/bbstransfer/bbstransfer-pst-webp/'
-const KUMRUALTI_POST_CLOUD_BASE = 'https://res.cloudinary.com/dbr7bx7u5/image/upload/q_auto/f_auto/%C4%B0mage/kumrualt%C4%B1/kumrualt%C4%B1-pst-webp/'
+const NOVASTRA_POST_FILES = [
+    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782292518/pst7_s7bpfq.webp',
+    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782292521/pst6_wvqylo.webp',
+    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782292520/pst10_uvjtei.webp',
+    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782292520/pst9_rswn6e.webp',
+    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782292523/pst11_okmcne.webp',
+    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782292523/pst1_sa7lh7.webp',
+    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782292523/pst12_b1ujsw.webp',
+    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782292524/pst2_rgvhde.webp',
+    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782292525/pst3_dyviod.webp',
+    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782292525/pst4_ikgsxd.webp',
+    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782292529/pst5_lppbt6.webp',
+    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782292531/pst8_thj1wc.webp',
+]
+const NOVASTRA_STORY_FILES = [
+    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782292540/str7_izypqe.webp',
+    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782292542/str2_anlm1x.webp',
+    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782292542/str4_owjtjn.webp',
+    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782292543/str6_ogla4j.webp',
+    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782292544/str5_gb2500.webp',
+    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782292544/str3_py3e47.webp',
+    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782292545/str1_kto9wc.webp',
+    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782292546/str8_jkpoae.webp',
+]
+const NOVASTRA_TRIPLE_STORY_ASSET = 'https://res.cloudinary.com/dncvyujpl/image/upload/v1782292550/3str_pzomcv.webp'
+const GOOGLE_YORUMLAR_POST_FILES = [
+    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291445/pst5_lw5ydh.webp',
+    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291446/pst3_whxnb7.webp',
+    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291448/pst1_dooeaa.webp',
+    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291450/pst8_ugof87.webp',
+    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291452/pst10_ut2svt.webp',
+    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291452/pst7_vwmxoj.webp',
+    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291458/pst9_scyqrv.webp',
+    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291462/pst4_fg6ppb.webp',
+    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291463/pst2_tetvw1.webp',
+    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291466/pst6_k48ue8.webp',
+]
+const GOOGLE_YORUMLAR_STORY_FILES = [
+    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291472/str2_pzgcvw.webp',
+    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291473/str4_r6clzs.webp',
+    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291476/str1_yelr1p.webp',
+    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291474/str3_e6ouni.webp',
+]
+const ADANA_NAPOLI_POST_FILES = [
+    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291202/pst1_hhyxbb.webp',
+    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291202/pst2_rynj6n.webp',
+]
+const ADANA_NAPOLI_STORY_FILES = [
+    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291227/str1_vccn4j.webp',
+    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291204/str2_sozwnr.webp',
+    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291224/str3_lau44b.webp',
+    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291222/str4_rpnwj5.webp',
+    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291222/str5_lkuofd.webp',
+]
+const ADANA_NAPOLI_TRIPLE_STORY_ASSET = 'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291226/pstlng1_nfj0h6.webp'
+const VIVACAR_POST_FILES = [
+    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782292574/pst2_wq83u5.webp',
+    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782292576/pst3_rjtumk.webp',
+    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782292577/pst1_uhcldd.webp',
+]
+const HACI_HAKKI_USTA_POST_FILES = [
+    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291136/pst1_jzm9gt.webp',
+    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291138/pst2_dhecld.webp',
+    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291144/pst3_bd5cpg.webp',
+    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291146/pst4_xmptvo.webp',
+    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291148/pst5_qaofac.webp',
+]
+const HACI_HAKKI_USTA_STORY_FILES = [
+    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291136/str2_gxedof.webp',
+    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291138/str1_x9vppf.webp',
+    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291145/str3_h4lkxk.webp',
+]
+const AKDENIZ_ETKINLIK_POST_FILES = [
+    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291347/pst12_bw13xf.webp',
+    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291348/pst4_d6mtiw.webp',
+    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291352/pst2_vk2lmw.webp',
+    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291353/pst3_jdku5i.webp',
+    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291355/pst14_tzomhv.webp',
+    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291357/pst11_bgx0yk.webp',
+    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291362/pst6_rn5g9b.webp',
+    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291362/pst13_sucwlg.webp',
+    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291362/pst15_bekdmp.webp',
+    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291363/pst8_l6g4e2.webp',
+    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291371/pst1_pjwf1v.webp',
+    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291371/pst5_ujdujt.webp',
+    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291375/pst7_rp8fln.webp',
+    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291375/pst10_uukrkd.webp',
+    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291378/pst9_r9bmre.webp',
+]
+const AKDENIZ_ETKINLIK_TRIPLE_FIRST_ASSET = 'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291408/3pst1_qksqlw.webp'
+const AKDENIZ_ETKINLIK_TRIPLE_SECOND_ASSET = 'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291391/3pst2_lvaqvt.webp'
+const LUNA_MOBILYA_POST_FILES = [
+    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291492/pst9_wkomwa.webp',
+    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291495/pst8_lhdake.webp',
+    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291496/pst4_wy0ccn.webp',
+    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291501/pst3_zx2bgb.webp',
+    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291502/pst6_mdjy0w.webp',
+    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291505/pst7_h8iap4.webp',
+    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291508/pst5_hk5akt.webp',
+    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291508/pst1_wbydmx.webp',
+    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291511/pst2_uhfae2.webp',
+]
 const BLANK_IMAGE_SRC = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=='
 const MODAL_DETAIL_IMAGE_TRANSFORM = {
     width: 960,
@@ -84,8 +173,8 @@ function getModalImageSrc(src, isLarge = false) {
 
 const PROJECT_MEDIA_CONFIG = {
     novastra: {
-        postBase: NOVASTRA_CLOUD_BASE,
-        storyBase: NOVASTRA_STORY_CLOUD_BASE,
+        postFiles: NOVASTRA_POST_FILES,
+        storyFiles: NOVASTRA_STORY_FILES,
         imageOrder: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
         storyOrder: [
             1,
@@ -100,42 +189,60 @@ const PROJECT_MEDIA_CONFIG = {
         ],
     },
     googleyorumlar: {
-        postBase: GOOGLE_YORUMLAR_POST_CLOUD_BASE,
-        storyBase: GOOGLE_YORUMLAR_STORY_CLOUD_BASE,
-        imageOrder: [1, 2, 3, 4, 5, 6, 7, 8],
-        storyOrder: [1, 2, 3, 4, 5, 6, 7, 8],
+        postFiles: GOOGLE_YORUMLAR_POST_FILES,
+        storyFiles: GOOGLE_YORUMLAR_STORY_FILES,
+        imageOrder: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+        storyOrder: [1, 2, 3, 4],
     },
     adananapoli: {
-        postBase: ADANA_NAPOLI_POST_CLOUD_BASE,
-        storyBase: ADANA_NAPOLI_STORY_CLOUD_BASE,
+        postFiles: ADANA_NAPOLI_POST_FILES,
+        storyFiles: ADANA_NAPOLI_STORY_FILES,
+        tripleStory: ADANA_NAPOLI_TRIPLE_STORY_ASSET,
         imageOrder: ['3pst1', 1, 2],
-        storyOrder: [1, 2, 3, 4, 5, 6],
+        storyOrder: [
+            1,
+            2,
+            3,
+            4,
+            5,
+            { type: 'triple-seamless', combined: true, src: ADANA_NAPOLI_TRIPLE_STORY_ASSET },
+        ],
     },
     vivacar: {
-        postBase: VIVACAR_POST_CLOUD_BASE,
+        postFiles: VIVACAR_POST_FILES,
         imageOrder: [1, 2, 3],
     },
-    'hacıhakkıusta': {
-        postBase: HACI_HAKKI_USTA_POST_CLOUD_BASE,
-        storyBase: HACI_HAKKI_USTA_STORY_CLOUD_BASE,
+    hacıhakkıusta: {
+        postFiles: HACI_HAKKI_USTA_POST_FILES,
+        storyFiles: HACI_HAKKI_USTA_STORY_FILES,
         imageOrder: [1, 2, 3, 4, 5],
-        storyOrder: [1, 2],
+        storyOrder: [1, 2, 3],
     },
     akdenizetkinlik: {
-        postBase: AKDENIZ_ETKINLIK_POST_CLOUD_BASE,
-        imageOrder: ['3pst1', 1, 2, 3, '3pst2', 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
+        postFiles: AKDENIZ_ETKINLIK_POST_FILES,
+        imageOrder: [
+            { type: 'triple-post', combined: true, src: AKDENIZ_ETKINLIK_TRIPLE_FIRST_ASSET },
+            1,
+            2,
+            3,
+            { type: 'triple-post', combined: true, src: AKDENIZ_ETKINLIK_TRIPLE_SECOND_ASSET },
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+        ],
     },
-    'tırnaktrend': {
-        postBase: TIRNAK_TREND_POST_CLOUD_BASE,
-        imageOrder: [1, 2, 3],
-    },
-    bbstransfer: {
-        postBase: BBS_TRANSFER_POST_CLOUD_BASE,
-        imageOrder: [1, 2],
-    },
-    'kumrualtı': {
-        postBase: KUMRUALTI_POST_CLOUD_BASE,
-        imageOrder: [1, 2, 3],
+    'luna-mobilya': {
+        postFiles: LUNA_MOBILYA_POST_FILES,
+        imageOrder: [1, 2, 3, 4, 5, 6, 7, 8, 9],
     },
 }
 // Meta Item Component - Enhanced with brand color
@@ -353,27 +460,31 @@ function GridViewContent({ project, onClose }) {
     const storyOrder = projectMedia?.storyOrder || null
     const activePostBaseUrl = projectMedia?.postBase || null
     const activeStoryBaseUrl = projectMedia?.storyBase || null
+    const activePostFiles = projectMedia?.postFiles || null
+    const activeStoryFiles = projectMedia?.storyFiles || null
 
     const longPostImages = useMemo(() => getLongPostImages(id, longPostCount), [id, longPostCount])
 
     const postItems = useMemo(() => {
-        if (imageOrder && activePostBaseUrl) {
+        if (imageOrder && (activePostFiles || activePostBaseUrl)) {
             return imageOrder
                 .map((entry) => {
                     if (typeof entry === 'number') {
+                        const rawSrc = activePostFiles ? activePostFiles[entry - 1] : `${activePostBaseUrl}pst${entry}.webp`
                         return {
                             type: 'post',
                             combined: false,
                             postNumber: entry,
-                            src: getModalImageSrc(`${activePostBaseUrl}pst${entry}.webp`),
+                            src: getModalImageSrc(rawSrc),
                         }
                     }
 
                     if (typeof entry === 'string' && entry.toLowerCase().includes('3pst')) {
+                        const tripleSrc = projectMedia?.tripleStory || `${activePostBaseUrl}${entry}.webp`
                         return {
                             type: 'triple-post',
                             combined: true,
-                            src: getModalImageSrc(`${activePostBaseUrl}${entry}.webp`, true),
+                            src: getModalImageSrc(tripleSrc, true),
                         }
                     }
 
@@ -396,18 +507,19 @@ function GridViewContent({ project, onClose }) {
             postNumber: idx + 1,
             src,
         }))
-    }, [activePostBaseUrl, id, imageOrder, postCount])
+    }, [activePostBaseUrl, activePostFiles, id, imageOrder, postCount, projectMedia?.tripleStory])
 
     const storyItems = useMemo(() => {
-        if (storyOrder && activeStoryBaseUrl) {
+        if (storyOrder && (activeStoryFiles || activeStoryBaseUrl)) {
             return storyOrder
                 .map((entry) => {
                     if (typeof entry === 'number') {
+                        const rawSrc = activeStoryFiles ? activeStoryFiles[entry - 1] : `${activeStoryBaseUrl}str${entry}.webp`
                         return {
                             type: 'story',
                             combined: false,
                             storyNumber: entry,
-                            src: getModalImageSrc(`${activeStoryBaseUrl}str${entry}.webp`),
+                            src: getModalImageSrc(rawSrc),
                         }
                     }
 
@@ -430,7 +542,7 @@ function GridViewContent({ project, onClose }) {
             storyNumber: idx + 1,
             src,
         }))
-    }, [activeStoryBaseUrl, id, storyCount, storyOrder])
+    }, [activeStoryBaseUrl, activeStoryFiles, id, storyCount, storyOrder])
 
     const singleStoryItems = useMemo(
         () => storyItems.filter((item) => !item.combined),
@@ -848,6 +960,8 @@ function GridViewContent({ project, onClose }) {
                         )}
                     </motion.div>
                 </div>
+
+                <Footer id={`project-contact-${id}`} compact className="mt-16 md:mt-24" />
             </div>
         </motion.div>
     )
@@ -863,3 +977,4 @@ export default function GridView({ project, isOpen, onClose }) {
         document.body
     )
 }
+

@@ -1,19 +1,10 @@
-import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+﻿import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { getAdaptiveRootMargin, useAutoSnapCarousel, useIsMobileViewport, useNearViewport, usePrefersReducedMotion } from '../../hooks'
 import { withCloudinaryImageTransform } from '../../utils/cloudinaryImage'
 import { lockBodyScroll } from '../../utils/scrollLock'
 
 const BLANK_IMAGE_SRC = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=='
-
-const BRAND_BASES = {
-    lynxaskin: 'https://res.cloudinary.com/dbr7bx7u5/image/upload/q_auto/f_auto/%C4%B0mage/e-t%C4%B1caret/lynxaskin-pst-webp/',
-    aurakulaklik: 'https://res.cloudinary.com/dbr7bx7u5/image/upload/q_auto/f_auto/%C4%B0mage/e-t%C4%B1caret/aurakulakl%C4%B1k-pst-webp/',
-    velorsaat: 'https://res.cloudinary.com/dbr7bx7u5/image/upload/q_auto/f_auto/%C4%B0mage/e-t%C4%B1caret/velorsaat-pst-webp/',
-    roxhair: 'https://res.cloudinary.com/dbr7bx7u5/image/upload/q_auto/f_auto/%C4%B0mage/e-t%C4%B1caret/roxhair-pst-webp/',
-    veltortras: 'https://res.cloudinary.com/dbr7bx7u5/image/upload/q_auto/f_auto/%C4%B0mage/e-t%C4%B1caret/veltortras-pst-webp/',
-    zayacanta: 'https://res.cloudinary.com/dbr7bx7u5/image/upload/q_auto/f_auto/%C4%B0mage/e-t%C4%B1caret/zayacanta-pst-webp/',
-}
 
 const BRAND_LABELS = {
     lynxaskin: 'Lynxa Skin',
@@ -24,19 +15,59 @@ const BRAND_LABELS = {
     zayacanta: 'Zaya \u00c7anta',
 }
 
+const BRAND_ASSET_URLS = {
+    lynxaskin: [
+        'https://res.cloudinary.com/dncvyujpl/image/upload/v1782292806/pst3_rejap7.webp',
+        'https://res.cloudinary.com/dncvyujpl/image/upload/v1782292809/pst2_anc2bq.webp',
+        'https://res.cloudinary.com/dncvyujpl/image/upload/v1782292810/pst1_irg1mk.webp',
+    ],
+    aurakulaklik: [
+        'https://res.cloudinary.com/dncvyujpl/image/upload/v1782292818/pst4_pjuvxa.webp',
+        'https://res.cloudinary.com/dncvyujpl/image/upload/v1782292819/pst2_asx3xy.webp',
+        'https://res.cloudinary.com/dncvyujpl/image/upload/v1782292820/pst5_tnukwm.webp',
+        'https://res.cloudinary.com/dncvyujpl/image/upload/v1782292822/pst1_tokvde.webp',
+        'https://res.cloudinary.com/dncvyujpl/image/upload/v1782292822/pst6_cfopbc.webp',
+        'https://res.cloudinary.com/dncvyujpl/image/upload/v1782292823/pst3_uxevwo.webp',
+    ],
+    velorsaat: [
+        'https://res.cloudinary.com/dncvyujpl/image/upload/v1782292792/pst4_pzmjhn.webp',
+        'https://res.cloudinary.com/dncvyujpl/image/upload/v1782292794/pst1_ixpcec.webp',
+        'https://res.cloudinary.com/dncvyujpl/image/upload/v1782292798/pst2_ax8akp.webp',
+        'https://res.cloudinary.com/dncvyujpl/image/upload/v1782292798/pst3_yyb5e2.webp',
+    ],
+    roxhair: [
+        'https://res.cloudinary.com/dncvyujpl/image/upload/v1782294246/pst3_stqoko.webp',
+        'https://res.cloudinary.com/dncvyujpl/image/upload/v1782294252/pst2_hini01.webp',
+        'https://res.cloudinary.com/dncvyujpl/image/upload/v1782294253/pst1_aogkqj.webp',
+        'https://res.cloudinary.com/dncvyujpl/image/upload/v1782294259/pst4_yl4uaq.webp',
+    ],
+    veltortras: [
+        'https://res.cloudinary.com/dncvyujpl/image/upload/v1782292752/pst3_jtke61.webp',
+        'https://res.cloudinary.com/dncvyujpl/image/upload/v1782292755/pst1_dnnbuc.webp',
+        'https://res.cloudinary.com/dncvyujpl/image/upload/v1782292756/pst2_i9itff.webp',
+        'https://res.cloudinary.com/dncvyujpl/image/upload/v1782292770/pst6_yj5d3d.webp',
+        'https://res.cloudinary.com/dncvyujpl/image/upload/v1782292777/pst4_mngiyb.webp',
+        'https://res.cloudinary.com/dncvyujpl/image/upload/v1782292779/pst5_yd9xr3.webp',
+    ],
+    zayacanta: [
+        'https://res.cloudinary.com/dncvyujpl/image/upload/v1782292694/pst2_jzlsuf.webp',
+        'https://res.cloudinary.com/dncvyujpl/image/upload/v1782292694/pst1_l0e0vg.webp',
+    ],
+}
+
 const HERO_SLIDER_ORDER = [
-    { brand: 'roxhair', file: 'pst4.webp' },
-    { brand: 'zayacanta', file: 'pst1.webp' },
-    { brand: 'veltortras', file: 'pst1.webp' },
-    { brand: 'lynxaskin', file: 'pst3.webp' },
-    { brand: 'aurakulaklik', file: 'pst6.webp' },
-    { brand: 'roxhair', file: 'pst2.webp' },
-    { brand: 'lynxaskin', file: 'pst2.webp' },
-    { brand: 'velorsaat', file: 'pst1.webp' },
-    { brand: 'aurakulaklik', file: 'pst2.webp' },
-    { brand: 'veltortras', file: 'pst2.webp' },
-    { brand: 'velorsaat', file: 'pst4.webp' },
-    { brand: 'zayacanta', file: 'pst2.webp' },
+    { brand: 'roxhair', src: BRAND_ASSET_URLS.roxhair[3] },
+    { brand: 'zayacanta', src: BRAND_ASSET_URLS.zayacanta[1] },
+    { brand: 'veltortras', src: BRAND_ASSET_URLS.veltortras[1] },
+    { brand: 'lynxaskin', src: BRAND_ASSET_URLS.lynxaskin[0] },
+    { brand: 'aurakulaklik', src: BRAND_ASSET_URLS.aurakulaklik[4] },
+    { brand: 'roxhair', src: BRAND_ASSET_URLS.roxhair[1] },
+    { brand: 'lynxaskin', src: BRAND_ASSET_URLS.lynxaskin[1] },
+    { brand: 'velorsaat', src: BRAND_ASSET_URLS.velorsaat[1] },
+    { brand: 'aurakulaklik', src: BRAND_ASSET_URLS.aurakulaklik[1] },
+    { brand: 'veltortras', src: BRAND_ASSET_URLS.veltortras[2] },
+    { brand: 'velorsaat', src: BRAND_ASSET_URLS.velorsaat[0] },
+    { brand: 'zayacanta', src: BRAND_ASSET_URLS.zayacanta[0] },
 ]
 
 const MARQUEE_CARD_WIDTH = 400
@@ -44,14 +75,17 @@ const MARQUEE_GAP = 48
 const MARQUEE_SET_WIDTH = HERO_SLIDER_ORDER.length * (MARQUEE_CARD_WIDTH + MARQUEE_GAP)
 
 const EXPANDED_GALLERY_ORDER = [
-    { brand: 'roxhair', files: ['pst1.webp', 'pst2.webp', 'pst3.webp', 'pst4.webp'] },
-    { brand: 'zayacanta', files: ['pst1.webp', 'pst2.webp'] },
-    { brand: 'veltortras', files: ['pst1.webp', 'pst2.webp', 'pst3.webp'] },
-    { brand: 'lynxaskin', files: ['pst1.webp', 'pst2.webp', 'pst3.webp'] },
-    { brand: 'aurakulaklik', files: ['pst1.webp', 'pst2.webp', 'pst3.webp', 'pst4.webp', 'pst5.webp', 'pst6.webp'] },
-    { brand: 'velorsaat', files: ['pst1.webp', 'pst2.webp', 'pst3.webp', 'pst4.webp'] },
+    { brand: 'roxhair', files: [BRAND_ASSET_URLS.roxhair[2], BRAND_ASSET_URLS.roxhair[1], BRAND_ASSET_URLS.roxhair[0], BRAND_ASSET_URLS.roxhair[3]] },
+    { brand: 'zayacanta', files: [BRAND_ASSET_URLS.zayacanta[1], BRAND_ASSET_URLS.zayacanta[0]] },
+    { brand: 'veltortras', files: [BRAND_ASSET_URLS.veltortras[1], BRAND_ASSET_URLS.veltortras[2], BRAND_ASSET_URLS.veltortras[0]] },
+    { brand: 'lynxaskin', files: [BRAND_ASSET_URLS.lynxaskin[2], BRAND_ASSET_URLS.lynxaskin[1], BRAND_ASSET_URLS.lynxaskin[0]] },
+    { brand: 'aurakulaklik', files: [BRAND_ASSET_URLS.aurakulaklik[3], BRAND_ASSET_URLS.aurakulaklik[1], BRAND_ASSET_URLS.aurakulaklik[5], BRAND_ASSET_URLS.aurakulaklik[0], BRAND_ASSET_URLS.aurakulaklik[2], BRAND_ASSET_URLS.aurakulaklik[4]] },
+    { brand: 'velorsaat', files: [BRAND_ASSET_URLS.velorsaat[1], BRAND_ASSET_URLS.velorsaat[2], BRAND_ASSET_URLS.velorsaat[3], BRAND_ASSET_URLS.velorsaat[0]] },
 ]
 
+function transformAsset(src) {
+    return withCloudinaryImageTransform(src, ECOMMERCE_IMAGE_TRANSFORM)
+}
 const MARQUEE_STYLE = `
   @keyframes marqueeScroll {
     0%   { transform: translate3d(0, 0, 0); }
@@ -78,10 +112,6 @@ const ECOMMERCE_IMAGE_TRANSFORM = {
     quality: 'auto',
     format: 'auto',
     dpr: 'auto',
-}
-
-function buildSrc(brandKey, fileName) {
-    return withCloudinaryImageTransform(`${BRAND_BASES[brandKey]}${fileName}`, ECOMMERCE_IMAGE_TRANSFORM)
 }
 
 const DeferredImage = memo(function DeferredImage({
@@ -151,15 +181,16 @@ const MobileHeroCard = memo(function MobileHeroCard({ item, index }) {
     )
 })
 
-const ExpandedImageCard = memo(function ExpandedImageCard({ brand, fileName, onError }) {
-    const src = buildSrc(brand, fileName)
+const ExpandedImageCard = memo(function ExpandedImageCard({ brand, src, onError }) {
+    const fileName = src.split('/').pop() || src
+    const resolvedSrc = transformAsset(src)
 
     return (
         <div className="aspect-[4/5] overflow-hidden rounded-xl border border-white/10 bg-black/30">
             <DeferredImage
-                src={src}
+                src={resolvedSrc}
                 alt={`${BRAND_LABELS[brand]} ${fileName}`}
-                onError={() => onError(brand, fileName)}
+                onError={() => onError(brand, src)}
                 className="h-full w-full object-cover"
                 priority={false}
             />
@@ -185,9 +216,9 @@ export default function EcommerceShowcase() {
     const heroImages = useMemo(
         () =>
             HERO_SLIDER_ORDER.map((item, index) => ({
-                id: `${item.brand}-${item.file}-${index}`,
+                id: `${item.brand}-${index}`,
                 brand: item.brand,
-                src: buildSrc(item.brand, item.file),
+                src: transformAsset(item.src),
             })),
         []
     )
@@ -265,7 +296,7 @@ export default function EcommerceShowcase() {
                         style={{ background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.3))' }}
                     />
                     <h2 className="text-2xl font-bold tracking-tight text-gray-100 md:text-6xl" style={{ fontFamily: 'Inter, system-ui, sans-serif' }}>
-                        {t('ecommerceShowcase.title', 'E-Ticaret Görselleri')}
+                        {t('ecommerceShowcase.title', 'E-Ticaret GÃ¶rselleri')}
                     </h2>
                     <div
                         className="h-[1px] w-10 md:w-[60px]"
@@ -273,7 +304,7 @@ export default function EcommerceShowcase() {
                     />
                 </div>
                 <p className="mx-auto mt-2 max-w-2xl text-sm tracking-wide text-gray-500 md:text-base" style={{ fontFamily: 'Inter, system-ui, sans-serif' }}>
-                    {t('ecommerceShowcase.description', 'Estetik tasarımın, dönüşüm odaklı ürün görselleştirmesiyle buluştuğu yer.')}
+                    {t('ecommerceShowcase.description', 'Estetik tasarÄ±mÄ±n, dÃ¶nÃ¼ÅŸÃ¼m odaklÄ± Ã¼rÃ¼n gÃ¶rselleÅŸtirmesiyle buluÅŸtuÄŸu yer.')}
                 </p>
             </div>
 
@@ -337,7 +368,7 @@ export default function EcommerceShowcase() {
                     className="group relative inline-flex min-h-[44px] items-center gap-3 rounded-full border border-white/20 bg-gradient-to-r from-white/10 to-white/5 px-6 py-3 text-xs tracking-[0.08em] text-gray-100 uppercase transition-all duration-300 hover:from-white hover:to-white hover:border-white hover:text-black hover:shadow-[0_0_30px_rgba(255,255,255,0.25)] md:px-9 md:text-sm"
                     style={{ fontFamily: 'Inter, system-ui, sans-serif' }}
                 >
-                    {t('ecommerceShowcase.browseMore', 'Daha Fazla Projeye Göz At')}
+                    {t('ecommerceShowcase.browseMore', 'Daha Fazla Projeye GÃ¶z At')}
                     <span className="text-base leading-none transition-transform duration-300 group-hover:translate-x-1">{'\u2192'}</span>
                 </button>
             </div>
@@ -356,7 +387,7 @@ export default function EcommerceShowcase() {
                                     {t('ecommerceShowcase.galleryTitle', 'E-Ticaret Proje Galerisi')}
                                 </h3>
                                 <p className="mt-1 text-xs text-gray-400 md:text-sm" style={{ fontFamily: 'Inter, system-ui, sans-serif' }}>
-                                    {t('ecommerceShowcase.gallerySubtitle', 'Marka bazlı tüm kampanya görselleri')}
+                                    {t('ecommerceShowcase.gallerySubtitle', 'Marka bazlÄ± tÃ¼m kampanya gÃ¶rselleri')}
                                 </p>
                             </div>
                             <button
@@ -376,11 +407,11 @@ export default function EcommerceShowcase() {
                                         {BRAND_LABELS[group.brand]}
                                     </h4>
                                     <div className="grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-4 lg:grid-cols-4">
-                                        {group.files.map((fileName) => (
+                                        {group.files.map((src) => (
                                             <ExpandedImageCard
-                                                key={`${group.brand}-${fileName}`}
+                                                key={`${group.brand}-${src}`}
                                                 brand={group.brand}
-                                                fileName={fileName}
+                                                src={src}
                                                 onError={handleExpandedImageError}
                                             />
                                         ))}
@@ -394,3 +425,4 @@ export default function EcommerceShowcase() {
         </section>
     )
 }
+

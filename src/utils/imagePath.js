@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Image Path Generator Utility
  * Dynamically generates image paths based on project ID
  * 
@@ -20,35 +20,118 @@ const PORTFOLIO_PREVIEW_IMAGE_TRANSFORM = {
 
 const CLOUD_PROJECT_ASSETS = {
     novastra: {
-        postBase: 'https://res.cloudinary.com/dbr7bx7u5/image/upload/q_auto/f_auto/v1775630739/',
-        storyBase: 'https://res.cloudinary.com/dbr7bx7u5/image/upload/q_auto/f_auto/v1775632273/',
+        postFiles: [
+            'https://res.cloudinary.com/dncvyujpl/image/upload/v1782292518/pst7_s7bpfq.webp',
+            'https://res.cloudinary.com/dncvyujpl/image/upload/v1782292521/pst6_wvqylo.webp',
+            'https://res.cloudinary.com/dncvyujpl/image/upload/v1782292520/pst10_uvjtei.webp',
+            'https://res.cloudinary.com/dncvyujpl/image/upload/v1782292520/pst9_rswn6e.webp',
+            'https://res.cloudinary.com/dncvyujpl/image/upload/v1782292523/pst11_okmcne.webp',
+            'https://res.cloudinary.com/dncvyujpl/image/upload/v1782292523/pst1_sa7lh7.webp',
+            'https://res.cloudinary.com/dncvyujpl/image/upload/v1782292523/pst12_b1ujsw.webp',
+            'https://res.cloudinary.com/dncvyujpl/image/upload/v1782292524/pst2_rgvhde.webp',
+            'https://res.cloudinary.com/dncvyujpl/image/upload/v1782292525/pst3_dyviod.webp',
+            'https://res.cloudinary.com/dncvyujpl/image/upload/v1782292525/pst4_ikgsxd.webp',
+            'https://res.cloudinary.com/dncvyujpl/image/upload/v1782292529/pst5_lppbt6.webp',
+            'https://res.cloudinary.com/dncvyujpl/image/upload/v1782292531/pst8_thj1wc.webp',
+        ],
+        storyFiles: [
+            'https://res.cloudinary.com/dncvyujpl/image/upload/v1782292540/str7_izypqe.webp',
+            'https://res.cloudinary.com/dncvyujpl/image/upload/v1782292542/str2_anlm1x.webp',
+            'https://res.cloudinary.com/dncvyujpl/image/upload/v1782292542/str4_owjtjn.webp',
+            'https://res.cloudinary.com/dncvyujpl/image/upload/v1782292543/str6_ogla4j.webp',
+            'https://res.cloudinary.com/dncvyujpl/image/upload/v1782292544/str5_gb2500.webp',
+            'https://res.cloudinary.com/dncvyujpl/image/upload/v1782292544/str3_py3e47.webp',
+            'https://res.cloudinary.com/dncvyujpl/image/upload/v1782292545/str1_kto9wc.webp',
+            'https://res.cloudinary.com/dncvyujpl/image/upload/v1782292546/str8_jkpoae.webp',
+        ],
+        tripleStory: 'https://res.cloudinary.com/dncvyujpl/image/upload/v1782292550/3str_pzomcv.webp',
     },
     googleyorumlar: {
-        postBase: 'https://res.cloudinary.com/dbr7bx7u5/image/upload/q_auto/f_auto/v1775660462/%C4%B0mage/google-yorumlar/google-pst-webp/',
-        storyBase: 'https://res.cloudinary.com/dbr7bx7u5/image/upload/q_auto/f_auto/v1775660428/%C4%B0mage/google-yorumlar/google-str-webp/',
+        postFiles: [
+            'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291445/pst5_lw5ydh.webp',
+            'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291446/pst3_whxnb7.webp',
+            'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291448/pst1_dooeaa.webp',
+            'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291450/pst8_ugof87.webp',
+            'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291452/pst10_ut2svt.webp',
+            'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291452/pst7_vwmxoj.webp',
+            'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291458/pst9_scyqrv.webp',
+            'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291462/pst4_fg6ppb.webp',
+            'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291463/pst2_tetvw1.webp',
+            'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291466/pst6_k48ue8.webp',
+        ],
+        storyFiles: [
+            'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291472/str2_pzgcvw.webp',
+            'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291473/str4_r6clzs.webp',
+            'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291476/str1_yelr1p.webp',
+            'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291474/str3_e6ouni.webp',
+        ],
     },
     adananapoli: {
-        postBase: 'https://res.cloudinary.com/dbr7bx7u5/image/upload/q_auto/f_auto/v1775729245/%C4%B0mage/adana-napoli/adana-napoli-%20pst-webp/',
-        storyBase: 'https://res.cloudinary.com/dbr7bx7u5/image/upload/q_auto/f_auto/v1775729316/%C4%B0mage/adana-napoli/adana-napoli-%20str-webp/',
+        postFiles: [
+            'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291202/pst1_hhyxbb.webp',
+            'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291202/pst2_rynj6n.webp',
+        ],
+        storyFiles: [
+            'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291227/str1_vccn4j.webp',
+            'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291204/str2_sozwnr.webp',
+            'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291224/str3_lau44b.webp',
+            'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291222/str4_rpnwj5.webp',
+            'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291222/str5_lkuofd.webp',
+        ],
+        tripleStory: 'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291226/pstlng1_nfj0h6.webp',
     },
     vivacar: {
-        postBase: 'https://res.cloudinary.com/dbr7bx7u5/image/upload/q_auto/f_auto/%C4%B0mage/vivacar/vivacar-pst-webp/',
+        postFiles: [
+            'https://res.cloudinary.com/dncvyujpl/image/upload/v1782292574/pst2_wq83u5.webp',
+            'https://res.cloudinary.com/dncvyujpl/image/upload/v1782292576/pst3_rjtumk.webp',
+            'https://res.cloudinary.com/dncvyujpl/image/upload/v1782292577/pst1_uhcldd.webp',
+        ],
     },
-    'hacıhakkıusta': {
-        postBase: 'https://res.cloudinary.com/dbr7bx7u5/image/upload/q_auto/f_auto/%C4%B0mage/hac%C4%B1hakk%C4%B1/hac%C4%B1hakk%C4%B1-pst/',
-        storyBase: 'https://res.cloudinary.com/dbr7bx7u5/image/upload/q_auto/f_auto/%C4%B0mage/hac%C4%B1hakk%C4%B1/hac%C4%B1hakk%C4%B1-str/',
+    hacıhakkıusta: {
+        postFiles: [
+            'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291136/pst1_jzm9gt.webp',
+            'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291138/pst2_dhecld.webp',
+            'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291144/pst3_bd5cpg.webp',
+            'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291146/pst4_xmptvo.webp',
+            'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291148/pst5_qaofac.webp',
+        ],
+        storyFiles: [
+            'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291136/str2_gxedof.webp',
+            'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291138/str1_x9vppf.webp',
+            'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291145/str3_h4lkxk.webp',
+        ],
     },
     akdenizetkinlik: {
-        postBase: 'https://res.cloudinary.com/dbr7bx7u5/image/upload/q_auto/f_auto/%C4%B0mage/aktet/aktet-pst-webp/',
+        postFiles: [
+            'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291347/pst12_bw13xf.webp',
+            'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291348/pst4_d6mtiw.webp',
+            'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291352/pst2_vk2lmw.webp',
+            'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291353/pst3_jdku5i.webp',
+            'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291355/pst14_tzomhv.webp',
+            'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291357/pst11_bgx0yk.webp',
+            'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291362/pst6_rn5g9b.webp',
+            'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291362/pst13_sucwlg.webp',
+            'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291362/pst15_bekdmp.webp',
+            'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291363/pst8_l6g4e2.webp',
+            'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291371/pst1_pjwf1v.webp',
+            'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291371/pst5_ujdujt.webp',
+            'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291375/pst7_rp8fln.webp',
+            'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291375/pst10_uukrkd.webp',
+            'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291378/pst9_r9bmre.webp',
+        ],
     },
-    'tırnaktrend': {
-        postBase: 'https://res.cloudinary.com/dbr7bx7u5/image/upload/q_auto/f_auto/%C4%B0mage/t%C4%B1rnaktrend/t%C4%B1rnaktrend-pst-webp/',
-    },
-    bbstransfer: {
-        postBase: 'https://res.cloudinary.com/dbr7bx7u5/image/upload/q_auto/f_auto/%C4%B0mage/bbstransfer/bbstransfer-pst-webp/',
-    },
-    'kumrualtı': {
-        postBase: 'https://res.cloudinary.com/dbr7bx7u5/image/upload/q_auto/f_auto/%C4%B0mage/kumrualt%C4%B1/kumrualt%C4%B1-pst-webp/',
+    'luna-mobilya': {
+        postFiles: [
+            'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291492/pst9_wkomwa.webp',
+            'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291495/pst8_lhdake.webp',
+            'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291496/pst4_wy0ccn.webp',
+            'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291501/pst3_zx2bgb.webp',
+            'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291502/pst6_mdjy0w.webp',
+            'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291505/pst7_h8iap4.webp',
+            'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291508/pst5_hk5akt.webp',
+            'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291508/pst1_wbydmx.webp',
+            'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291511/pst2_uhfae2.webp',
+        ],
     },
 }
 function getCloudProjectConfig(projectId) {
@@ -58,6 +141,14 @@ function getCloudProjectConfig(projectId) {
 function getCloudImagePath(projectId, type, imageNumber) {
     const config = getCloudProjectConfig(projectId)
     if (!config) return null
+
+    const exactFiles = type === 'story' ? config.storyFiles : config.postFiles
+    if (Array.isArray(exactFiles)) {
+        const exactSrc = exactFiles[imageNumber - 1]
+        if (exactSrc) {
+            return withCloudinaryImageTransform(exactSrc, PORTFOLIO_PREVIEW_IMAGE_TRANSFORM)
+        }
+    }
 
     const isStory = type === 'story'
     const baseUrl = isStory ? config.storyBase : config.postBase
@@ -220,4 +311,5 @@ export function getAllProjectImages(projectId, postCount, longPostCount, storyCo
         stories: getStoryImages(projectId, storyCount)
     }
 }
+
 
