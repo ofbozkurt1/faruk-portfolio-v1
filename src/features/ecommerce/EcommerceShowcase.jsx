@@ -58,15 +58,16 @@ const BRAND_ASSET_URLS = {
 const HERO_SLIDER_ORDER = [
     { brand: 'roxhair', src: BRAND_ASSET_URLS.roxhair[3] },
     { brand: 'zayacanta', src: BRAND_ASSET_URLS.zayacanta[1] },
-    { brand: 'veltortras', src: BRAND_ASSET_URLS.veltortras[1] },
+    { brand: 'veltortras', src: 'https://res.cloudinary.com/dncvyujpl/image/upload/v1782292755/pst1_dnnbuc.webp' },
     { brand: 'lynxaskin', src: BRAND_ASSET_URLS.lynxaskin[0] },
     { brand: 'aurakulaklik', src: BRAND_ASSET_URLS.aurakulaklik[4] },
     { brand: 'roxhair', src: BRAND_ASSET_URLS.roxhair[1] },
     { brand: 'lynxaskin', src: BRAND_ASSET_URLS.lynxaskin[1] },
     { brand: 'velorsaat', src: BRAND_ASSET_URLS.velorsaat[1] },
     { brand: 'aurakulaklik', src: BRAND_ASSET_URLS.aurakulaklik[1] },
-    { brand: 'veltortras', src: BRAND_ASSET_URLS.veltortras[2] },
+    { brand: 'veltortras', src: 'https://res.cloudinary.com/dncvyujpl/image/upload/v1782292756/pst2_i9itff.webp' },
     { brand: 'velorsaat', src: BRAND_ASSET_URLS.velorsaat[0] },
+    { brand: 'veltortras', src: 'https://res.cloudinary.com/dncvyujpl/image/upload/v1782292770/pst6_yj5d3d.webp' },
     { brand: 'zayacanta', src: BRAND_ASSET_URLS.zayacanta[0] },
 ]
 
@@ -77,7 +78,7 @@ const MARQUEE_SET_WIDTH = HERO_SLIDER_ORDER.length * (MARQUEE_CARD_WIDTH + MARQU
 const EXPANDED_GALLERY_ORDER = [
     { brand: 'roxhair', files: [BRAND_ASSET_URLS.roxhair[2], BRAND_ASSET_URLS.roxhair[1], BRAND_ASSET_URLS.roxhair[0], BRAND_ASSET_URLS.roxhair[3]] },
     { brand: 'zayacanta', files: [BRAND_ASSET_URLS.zayacanta[1], BRAND_ASSET_URLS.zayacanta[0]] },
-    { brand: 'veltortras', files: [BRAND_ASSET_URLS.veltortras[1], BRAND_ASSET_URLS.veltortras[2], BRAND_ASSET_URLS.veltortras[0]] },
+    { brand: 'veltortras', files: BRAND_ASSET_URLS.veltortras },
     { brand: 'lynxaskin', files: [BRAND_ASSET_URLS.lynxaskin[2], BRAND_ASSET_URLS.lynxaskin[1], BRAND_ASSET_URLS.lynxaskin[0]] },
     { brand: 'aurakulaklik', files: [BRAND_ASSET_URLS.aurakulaklik[3], BRAND_ASSET_URLS.aurakulaklik[1], BRAND_ASSET_URLS.aurakulaklik[5], BRAND_ASSET_URLS.aurakulaklik[0], BRAND_ASSET_URLS.aurakulaklik[2], BRAND_ASSET_URLS.aurakulaklik[4]] },
     { brand: 'velorsaat', files: [BRAND_ASSET_URLS.velorsaat[1], BRAND_ASSET_URLS.velorsaat[2], BRAND_ASSET_URLS.velorsaat[3], BRAND_ASSET_URLS.velorsaat[0]] },

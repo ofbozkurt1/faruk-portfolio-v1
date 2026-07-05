@@ -598,7 +598,6 @@ function DesktopVideoCarousel({ groups, isMobileViewport }) {
     const [activeIndex, setActiveIndex] = useState(1)
     const [activatedVideoIds, setActivatedVideoIds] = useState(() => new Set())
     const [isPaused, setIsPaused] = useState(false)
-    const [isAutoplayEnabled, setIsAutoplayEnabled] = useState(true)
     const [isPageVisible, setIsPageVisible] = useState(() => document.visibilityState === 'visible')
     const isNearViewport = useInView(carouselRef, { amount: 0.08, margin: '350px 0px' })
     const isInViewport = useInView(carouselRef, { amount: 0.2, margin: '0px' })
@@ -610,11 +609,10 @@ function DesktopVideoCarousel({ groups, isMobileViewport }) {
         [groups]
     )
 
-    const navigate = useCallback((step, isManual = false) => {
+    const navigate = useCallback((step) => {
         if (allVideos.length < 2 || isTransitioningRef.current) return
 
         setActiveIndex((current) => (current + step + allVideos.length) % allVideos.length)
-        if (isManual) setIsAutoplayEnabled(false)
 
         if (prefersReducedMotion) return
 
@@ -733,7 +731,6 @@ function DesktopVideoCarousel({ groups, isMobileViewport }) {
 
     useEffect(() => {
         if (
-            !isAutoplayEnabled ||
             !isInViewport ||
             !isPageVisible ||
             prefersReducedMotion ||
@@ -743,14 +740,11 @@ function DesktopVideoCarousel({ groups, isMobileViewport }) {
             return undefined
         }
 
-        const passiveVideoCount = Math.min(3, allVideos.length)
-        if (activeIndex >= passiveVideoCount - 1) return undefined
-
         const timeoutId = window.setTimeout(() => {
-            setActiveIndex((current) => Math.min(current + 1, passiveVideoCount - 1))
+            setActiveIndex((current) => (current + 1) % allVideos.length)
         }, 4000)
         return () => window.clearTimeout(timeoutId)
-    }, [activeIndex, allVideos.length, isAutoplayEnabled, isInViewport, isPageVisible, isPaused, prefersReducedMotion])
+    }, [activeIndex, allVideos.length, isInViewport, isPageVisible, isPaused, prefersReducedMotion])
 
     useEffect(() => () => {
         if (transitionTimeoutRef.current) {
@@ -830,97 +824,97 @@ export default function VideoVault() {
             videos: [
                 {
                     id: 1,
-                    src: 'https://res.cloudinary.com/dbr7bx7u5/video/upload/q_auto/f_auto/v1780952224/Video/EXPORT_01_Ala_8_May%C4%B1s_Video-mp4_1_1080p_60fps_vp9_2mbps.webm',
+                    src: 'https://res.cloudinary.com/dncvyujpl/video/upload/v1782293072/EXPORT_01_Ala_8_May%C4%B1s_Video-mp4_1_1080p_60fps_vp9_2mbps_gyvsug.webm',
                     title: t('videoShowcase.videos.video01')
                 },
                 {
                     id: 2,
-                    src: 'https://res.cloudinary.com/dbr7bx7u5/video/upload/q_auto/f_auto/v1780952264/Video/EXPORT_11_Tabiat_Anaokulu_23_Nisan-mp4_1_1080p_60fps_vp9_2mbps.webm',
+                    src: 'https://res.cloudinary.com/dncvyujpl/video/upload/v1782293107/EXPORT_11_Tabiat_Anaokulu_23_Nisan-mp4_1_1080p_60fps_vp9_2mbps_ilz3ri.webm',
                     title: t('videoShowcase.videos.video02')
                 },
                 {
                     id: 3,
-                    src: 'https://res.cloudinary.com/dbr7bx7u5/video/upload/q_auto/f_auto/v1780952301/Video/EXPORT_15_vd1-mp4_1_1080p_60fps_vp9_2mbps.webm',
+                    src: 'https://res.cloudinary.com/dncvyujpl/video/upload/v1782293087/EXPORT_15_vd1-mp4_1_1080p_60fps_vp9_2mbps_mxbxen.webm',
                     title: t('videoShowcase.videos.video03')
                 },
                 {
                     id: 4,
-                    src: 'https://res.cloudinary.com/dbr7bx7u5/video/upload/q_auto/f_auto/v1780952233/Video/EXPORT_04_Efendy_Medya_%C4%B0%C3%A7erik_1-mp4_1_1080p_60fps_vp9_2mbps.webm',
+                    src: 'https://res.cloudinary.com/dncvyujpl/video/upload/v1782293132/EXPORT_04_Efendy_Medya_%C4%B0%C3%A7erik_1-mp4_1_1080p_60fps_vp9_2mbps_cggkvj.webm',
                     title: t('videoShowcase.videos.video04')
                 },
                 {
                     id: 5,
-                    src: 'https://res.cloudinary.com/dbr7bx7u5/video/upload/q_auto/f_auto/v1780952352/Video/EXPORT_19_Zeylandrealty_Video_2-mp4_1_1080p_60fps_vp9_2mbps.webm',
+                    src: 'https://res.cloudinary.com/dncvyujpl/video/upload/v1782293143/EXPORT_19_Zeylandrealty_Video_2-mp4_1_1080p_60fps_vp9_2mbps_bjcria.webm',
                     title: t('videoShowcase.videos.video05')
                 },
                 {
                     id: 6,
-                    src: 'https://res.cloudinary.com/dbr7bx7u5/video/upload/q_auto/f_auto/v1780952258/Video/EXPORT_09_mvideo3-mp4_1_1080p_60fps_vp9_2mbps.webm',
+                    src: 'https://res.cloudinary.com/dncvyujpl/video/upload/v1782293074/EXPORT_09_mvideo3-mp4_1_1080p_60fps_vp9_2mbps_icjczx.webm',
                     title: t('videoShowcase.videos.video06')
                 },
                 {
                     id: 7,
-                    src: 'https://res.cloudinary.com/dbr7bx7u5/video/upload/q_auto/f_auto/v1780952219/Video/EXPORT_03_Bungalov_tan%C4%B1t%C4%B1m_fix-mp4_1_1080p_60fps_vp9_2mbps.webm',
+                    src: 'https://res.cloudinary.com/dncvyujpl/video/upload/v1782293036/EXPORT_03_Bungalov_tan%C4%B1t%C4%B1m_fix-mp4_1_1080p_60fps_vp9_2mbps_couvk3.webm',
                     title: t('videoShowcase.videos.video07')
                 },
                 {
                     id: 8,
-                    src: 'https://res.cloudinary.com/dbr7bx7u5/video/upload/q_auto/f_auto/v1780952318/Video/EXPORT_18_vd2-mp4_1_1080p_60fps_vp9_2mbps.webm',
+                    src: 'https://res.cloudinary.com/dncvyujpl/video/upload/v1782293133/EXPORT_18_vd2-mp4_1_1080p_60fps_vp9_2mbps_emekvb.webm',
                     title: t('videoShowcase.videos.video08')
                 },
                 {
                     id: 9,
-                    src: 'https://res.cloudinary.com/dbr7bx7u5/video/upload/q_auto/f_auto/v1780952247/Video/EXPORT_10_O%C4%9Fuz_Utku_Ticari_M%C3%BClk_-_Konut__Video_-mp4_1_1080p_60fps_vp9_2mbps.webm',
+                    src: 'https://res.cloudinary.com/dncvyujpl/video/upload/v1782293081/EXPORT_06_Emlak_Du%CC%88nyas%C4%B1_Acar_City__1_-mp4_1_1080p_60fps_vp9_2mbps_f5npwo.webm',
                     title: t('videoShowcase.videos.video09')
                 },
                 {
                     id: 10,
-                    src: 'https://res.cloudinary.com/dbr7bx7u5/video/upload/q_auto/f_auto/v1780952221/Video/EXPORT_02_Ala_Video_2-mp4_1_1080p_60fps_vp9_2mbps.webm',
+                    src: 'https://res.cloudinary.com/dncvyujpl/video/upload/v1782293072/EXPORT_02_Ala_Video_2-mp4_1_1080p_60fps_vp9_2mbps_qznati.webm',
                     title: t('videoShowcase.videos.video10')
                 },
                 {
                     id: 11,
-                    src: 'https://res.cloudinary.com/dbr7bx7u5/video/upload/q_auto/f_auto/v1780952293/Video/EXPORT_16_vd2_1_-mp4_1080p_60fps_vp9_2mbps.webm',
+                    src: 'https://res.cloudinary.com/dncvyujpl/video/upload/v1782293046/EXPORT_16_vd2_1_-mp4_1080p_60fps_vp9_2mbps_biyzcp.webm',
                     title: t('videoShowcase.videos.video11')
                 },
                 {
                     id: 12,
-                    src: 'https://res.cloudinary.com/dbr7bx7u5/video/upload/q_auto/f_auto/v1780952261/Video/EXPORT_12_Turuncu_Kasa_Gu%CC%88nes%CC%A7_U%CC%88ru%CC%88nleri__1_-mp4_1_1080p_60fps_vp9_2mbps.webm',
+                    src: 'https://res.cloudinary.com/dncvyujpl/video/upload/v1782293036/EXPORT_12_Turuncu_Kasa_Gu%CC%88nes%CC%A7_U%CC%88ru%CC%88nleri__1_-mp4_1_1080p_60fps_vp9_2mbps_awthte.webm',
                     title: t('videoShowcase.videos.video12')
                 },
                 {
                     id: 13,
-                    src: 'https://res.cloudinary.com/dbr7bx7u5/video/upload/q_auto/f_auto/v1780952219/Video/EXPORT_05_Eksen_Dis%CC%A7_2_May%C4%B1s_Video-mp4_1_1080p_60fps_vp9_2mbps.webm',
+                    src: 'https://res.cloudinary.com/dncvyujpl/video/upload/v1782293038/EXPORT_05_Eksen_Dis%CC%A7_2_May%C4%B1s_Video-mp4_1_1080p_60fps_vp9_2mbps_as6fkn.webm',
                     title: t('videoShowcase.videos.video13')
                 },
                 {
                     id: 14,
-                    src: 'https://res.cloudinary.com/dbr7bx7u5/video/upload/q_auto/f_auto/v1780952308/Video/EXPORT_17_vd2_2_-mp4_1_1080p_60fps_vp9_2mbps.webm',
+                    src: 'https://res.cloudinary.com/dncvyujpl/video/upload/v1782293107/EXPORT_17_vd2_2_-mp4_1_1080p_60fps_vp9_2mbps_cdvupr.webm',
                     title: t('videoShowcase.videos.video14')
                 },
                 {
                     id: 15,
-                    src: 'https://res.cloudinary.com/dbr7bx7u5/video/upload/q_auto/f_auto/v1780952249/Video/EXPORT_07_Legend_1__1_-mp4_1_1080p_60fps_vp9_2mbps.webm',
+                    src: 'https://res.cloudinary.com/dncvyujpl/video/upload/v1782293040/EXPORT_07_Legend_1__1_-mp4_1_1080p_60fps_vp9_2mbps_d12y8k.webm',
                     title: t('videoShowcase.videos.video15')
                 },
                 {
                     id: 16,
-                    src: 'https://res.cloudinary.com/dbr7bx7u5/video/upload/q_auto/f_auto/v1780952288/Video/EXPORT_13_vd1_1_-mp4_1_1080p_60fps_vp9_2mbps.webm',
+                    src: 'https://res.cloudinary.com/dncvyujpl/video/upload/v1782293099/EXPORT_13_vd1_1_-mp4_1_1080p_60fps_vp9_2mbps_wc1k3v.webm',
                     title: t('videoShowcase.videos.video16')
                 },
                 {
                     id: 17,
-                    src: 'https://res.cloudinary.com/dbr7bx7u5/video/upload/q_auto/f_auto/v1780952255/Video/EXPORT_08_mvideo2-mp4_1_1080p_60fps_vp9_2mbps.webm',
+                    src: 'https://res.cloudinary.com/dncvyujpl/video/upload/v1782293111/EXPORT_08_mvideo2-mp4_1_1080p_60fps_vp9_2mbps_byezt5.webm',
                     title: t('videoShowcase.videos.video17')
                 },
                 {
                     id: 18,
-                    src: 'https://res.cloudinary.com/dbr7bx7u5/video/upload/q_auto/f_auto/v1780952290/Video/EXPORT_14_vd1_2_-mp4_1_1080p_60fps_vp9_2mbps.webm',
+                    src: 'https://res.cloudinary.com/dncvyujpl/video/upload/v1782293067/EXPORT_14_vd1_2_-mp4_1_1080p_60fps_vp9_2mbps_oppf3h.webm',
                     title: t('videoShowcase.videos.video18')
                 },
                 {
                     id: 19,
-                    src: 'https://res.cloudinary.com/dbr7bx7u5/video/upload/q_auto/f_auto/v1780952216/Video/EXPORT_06_Emlak_Du%CC%88nyas%C4%B1_Acar_City__1_-mp4_1_1080p_60fps_vp9_2mbps.webm',
+                    src: 'https://res.cloudinary.com/dncvyujpl/video/upload/v1782293143/EXPORT_19_Zeylandrealty_Video_2-mp4_1_1080p_60fps_vp9_2mbps_bjcria.webm',
                     title: t('videoShowcase.videos.video19')
                 }
             ]

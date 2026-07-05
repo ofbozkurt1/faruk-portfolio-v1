@@ -47,18 +47,18 @@ const toolIcons = {
 }
 
 const NOVASTRA_POST_FILES = [
+    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782292523/pst1_sa7lh7.webp',
+    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782292529/pst5_lppbt6.webp',
+    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782292524/pst2_rgvhde.webp',
+    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782292531/pst8_thj1wc.webp',
+    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782292525/pst4_ikgsxd.webp',
     'https://res.cloudinary.com/dncvyujpl/image/upload/v1782292518/pst7_s7bpfq.webp',
     'https://res.cloudinary.com/dncvyujpl/image/upload/v1782292521/pst6_wvqylo.webp',
     'https://res.cloudinary.com/dncvyujpl/image/upload/v1782292520/pst10_uvjtei.webp',
     'https://res.cloudinary.com/dncvyujpl/image/upload/v1782292520/pst9_rswn6e.webp',
     'https://res.cloudinary.com/dncvyujpl/image/upload/v1782292523/pst11_okmcne.webp',
-    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782292523/pst1_sa7lh7.webp',
     'https://res.cloudinary.com/dncvyujpl/image/upload/v1782292523/pst12_b1ujsw.webp',
-    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782292524/pst2_rgvhde.webp',
     'https://res.cloudinary.com/dncvyujpl/image/upload/v1782292525/pst3_dyviod.webp',
-    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782292525/pst4_ikgsxd.webp',
-    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782292529/pst5_lppbt6.webp',
-    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782292531/pst8_thj1wc.webp',
 ]
 const NOVASTRA_STORY_FILES = [
     'https://res.cloudinary.com/dncvyujpl/image/upload/v1782292540/str7_izypqe.webp',
@@ -73,15 +73,14 @@ const NOVASTRA_STORY_FILES = [
 const NOVASTRA_TRIPLE_STORY_ASSET = 'https://res.cloudinary.com/dncvyujpl/image/upload/v1782292550/3str_pzomcv.webp'
 const GOOGLE_YORUMLAR_POST_FILES = [
     'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291445/pst5_lw5ydh.webp',
-    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291446/pst3_whxnb7.webp',
+    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291463/pst2_tetvw1.webp',
     'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291448/pst1_dooeaa.webp',
+    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291446/pst3_whxnb7.webp',
+    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291466/pst6_k48ue8.webp',
     'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291450/pst8_ugof87.webp',
     'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291452/pst10_ut2svt.webp',
-    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291452/pst7_vwmxoj.webp',
     'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291458/pst9_scyqrv.webp',
     'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291462/pst4_fg6ppb.webp',
-    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291463/pst2_tetvw1.webp',
-    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291466/pst6_k48ue8.webp',
 ]
 const GOOGLE_YORUMLAR_STORY_FILES = [
     'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291472/str2_pzgcvw.webp',
@@ -119,6 +118,10 @@ const HACI_HAKKI_USTA_STORY_FILES = [
     'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291145/str3_h4lkxk.webp',
 ]
 const AKDENIZ_ETKINLIK_POST_FILES = [
+    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291371/pst1_pjwf1v.webp',
+    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291363/pst8_l6g4e2.webp',
+    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291362/pst15_bekdmp.webp',
+    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291375/pst10_uukrkd.webp',
     'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291347/pst12_bw13xf.webp',
     'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291348/pst4_d6mtiw.webp',
     'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291352/pst2_vk2lmw.webp',
@@ -127,25 +130,19 @@ const AKDENIZ_ETKINLIK_POST_FILES = [
     'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291357/pst11_bgx0yk.webp',
     'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291362/pst6_rn5g9b.webp',
     'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291362/pst13_sucwlg.webp',
-    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291362/pst15_bekdmp.webp',
-    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291363/pst8_l6g4e2.webp',
-    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291371/pst1_pjwf1v.webp',
     'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291371/pst5_ujdujt.webp',
     'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291375/pst7_rp8fln.webp',
-    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291375/pst10_uukrkd.webp',
     'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291378/pst9_r9bmre.webp',
 ]
-const AKDENIZ_ETKINLIK_TRIPLE_FIRST_ASSET = 'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291408/3pst1_qksqlw.webp'
-const AKDENIZ_ETKINLIK_TRIPLE_SECOND_ASSET = 'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291391/3pst2_lvaqvt.webp'
 const LUNA_MOBILYA_POST_FILES = [
-    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291492/pst9_wkomwa.webp',
-    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291495/pst8_lhdake.webp',
     'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291496/pst4_wy0ccn.webp',
+    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291492/pst9_wkomwa.webp',
+    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291505/pst7_h8iap4.webp',
+    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291508/pst1_wbydmx.webp',
+    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291508/pst5_hk5akt.webp',
+    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291495/pst8_lhdake.webp',
     'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291501/pst3_zx2bgb.webp',
     'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291502/pst6_mdjy0w.webp',
-    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291505/pst7_h8iap4.webp',
-    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291508/pst5_hk5akt.webp',
-    'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291508/pst1_wbydmx.webp',
     'https://res.cloudinary.com/dncvyujpl/image/upload/v1782291511/pst2_uhfae2.webp',
 ]
 const BLANK_IMAGE_SRC = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=='
@@ -191,7 +188,7 @@ const PROJECT_MEDIA_CONFIG = {
     googleyorumlar: {
         postFiles: GOOGLE_YORUMLAR_POST_FILES,
         storyFiles: GOOGLE_YORUMLAR_STORY_FILES,
-        imageOrder: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+        imageOrder: [1, 2, 3, 4, 5, 6, 7, 8, 9],
         storyOrder: [1, 2, 3, 4],
     },
     adananapoli: {
@@ -220,25 +217,7 @@ const PROJECT_MEDIA_CONFIG = {
     },
     akdenizetkinlik: {
         postFiles: AKDENIZ_ETKINLIK_POST_FILES,
-        imageOrder: [
-            { type: 'triple-post', combined: true, src: AKDENIZ_ETKINLIK_TRIPLE_FIRST_ASSET },
-            1,
-            2,
-            3,
-            { type: 'triple-post', combined: true, src: AKDENIZ_ETKINLIK_TRIPLE_SECOND_ASSET },
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10,
-            11,
-            12,
-            13,
-            14,
-            15,
-        ],
+        imageOrder: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
     },
     'luna-mobilya': {
         postFiles: LUNA_MOBILYA_POST_FILES,

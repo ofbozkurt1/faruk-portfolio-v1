@@ -42,7 +42,7 @@ const PROJECT_DATA = [
         role: "Content Design",
         deliverables: "Posts, Templates",
         // Phase 4 CDN rollout: Google Yorumlar uses Cloudinary post/story assets
-        postCount: 10,
+        postCount: 9,
         longPostCount: 0,
         storyCount: 4,
         description: "Social media campaign design for Google reviews engagement. Dynamic motion graphics and eye-catching visual content optimized for multiple platforms.",
@@ -144,6 +144,32 @@ const PROJECT_DATA = [
         }
     },
     {
+        id: "luna-mobilya",
+        title: "Luna Mobilya",
+        brandColor: "#8B6F47",
+        category: "Social Media",
+        year: "2025",
+        role: "Social Design",
+        deliverables: "Posts",
+        postCount: 9,
+        longPostCount: 0,
+        storyCount: 0,
+        description: "Furniture-focused social media visuals for Luna Mobilya. Warm, elegant and product-led creatives designed for digital showcase use.",
+        credits: "Design: Faruk",
+        techStack: ["photoshop", "illustrator"],
+        client: "Luna Mobilya",
+        identity: {
+            colors: [
+                { code: "#8B6F47", name: "Warm Wood" },
+                { code: "#2B2118", name: "Dark Walnut" },
+                { code: "#F4E7D3", name: "Soft Cream" },
+                { code: "#C8A86A", name: "Muted Gold" }
+            ],
+            fontFamily: "Inter",
+            fontStyle: "Elegant Sans"
+        }
+    },
+    {
         id: "akdenizetkinlik",
         title: "Akdeniz Etkinlik",
         brandColor: "#00BCD4",
@@ -188,32 +214,6 @@ const PROJECT_DATA = [
             ],
             fontFamily: "Poppins",
             fontStyle: "Modern Sans"
-        }
-    },
-    {
-        id: "luna-mobilya",
-        title: "Luna Mobilya",
-        brandColor: "#8B6F47",
-        category: "Social Media",
-        year: "2025",
-        role: "Social Design",
-        deliverables: "Posts",
-        postCount: 9,
-        longPostCount: 0,
-        storyCount: 0,
-        description: "Furniture-focused social media visuals for Luna Mobilya. Warm, elegant and product-led creatives designed for digital showcase use.",
-        credits: "Design: Faruk",
-        techStack: ["photoshop", "illustrator"],
-        client: "Luna Mobilya",
-        identity: {
-            colors: [
-                { code: "#8B6F47", name: "Warm Wood" },
-                { code: "#2B2118", name: "Dark Walnut" },
-                { code: "#F4E7D3", name: "Soft Cream" },
-                { code: "#C8A86A", name: "Muted Gold" }
-            ],
-            fontFamily: "Inter",
-            fontStyle: "Elegant Sans"
         }
     }
 ]
