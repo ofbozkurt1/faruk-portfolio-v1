@@ -17,8 +17,8 @@ const MOTION_POSTERS = [
     },
     {
         title: 'Personal Branding Motion',
-        src: 'https://res.cloudinary.com/dncvyujpl/video/upload/v1782292910/kendini-pazarlama_cloud_no4ff6.webm',
-        perfTestEnabled: true,
+        src: 'https://res.cloudinary.com/dncvyujpl/image/upload/v1786654747/Layer_8_khfvfl.png',
+        type: 'image',
     },
 ]
 
@@ -157,6 +157,7 @@ const PosterCard = memo(function PosterCard({
         index === (activeIndex + 1) % itemCount
     )
     const mobileQualityTier = isActiveMobile ? 'active' : isNeighborMobile ? 'neighbor' : 'none'
+    const isImage = video.type === 'image'
     const isPerfTestVideo = video.perfTestEnabled === true
     const shouldLoad = isPerfTestVideo && !prefersReducedMotion && (isMobileViewport ? mobileQualityTier !== 'none' : videoSet.loaded[index])
     const resolvedSrc = getOptimizedVideoSrc(video.src, isMobileViewport, mobileQualityTier)
@@ -174,24 +175,34 @@ const PosterCard = memo(function PosterCard({
                 shouldDim ? 'opacity-40' : 'opacity-100',
             ].join(' ')}
         >
-            <video
-                ref={(node) => {
-                    videoSet.videoRefs.current[index] = node
-                }}
-                className="h-full w-full object-cover"
-                autoPlay={isPerfTestVideo && !prefersReducedMotion}
-                data-perf-test-video={isPerfTestVideo ? 'true' : undefined}
-                muted
-                loop
-                playsInline
-                preload={shouldLoad ? 'metadata' : 'none'}
-                src={shouldLoad ? resolvedSrc : undefined}
-                onLoadedData={() => {
-                    if (!prefersReducedMotion && (!isMobileViewport || isActiveMobile)) {
-                        playVideo(videoSet.videoRefs.current[index])
-                    }
-                }}
-            />
+            {isImage ? (
+                <img
+                    className="h-full w-full object-cover"
+                    src={video.src}
+                    alt={video.title}
+                    loading={index === 0 ? 'eager' : 'lazy'}
+                    decoding="async"
+                />
+            ) : (
+                <video
+                    ref={(node) => {
+                        videoSet.videoRefs.current[index] = node
+                    }}
+                    className="h-full w-full object-cover"
+                    autoPlay={isPerfTestVideo && !prefersReducedMotion}
+                    data-perf-test-video={isPerfTestVideo ? 'true' : undefined}
+                    muted
+                    loop
+                    playsInline
+                    preload={shouldLoad ? 'metadata' : 'none'}
+                    src={shouldLoad ? resolvedSrc : undefined}
+                    onLoadedData={() => {
+                        if (!prefersReducedMotion && (!isMobileViewport || isActiveMobile)) {
+                            playVideo(videoSet.videoRefs.current[index])
+                        }
+                    }}
+                />
+            )}
 
         </article>
     )
