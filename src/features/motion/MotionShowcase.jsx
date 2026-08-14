@@ -17,8 +17,8 @@ const MOTION_POSTERS = [
     },
     {
         title: 'Personal Branding Motion',
-        src: 'https://res.cloudinary.com/dncvyujpl/image/upload/v1786654747/Layer_8_khfvfl.png',
-        type: 'image',
+        src: 'https://res.cloudinary.com/dncvyujpl/video/upload/v1786731864/Fever_Party_Afi%C5%9F_iyyzu8.mp4',
+        perfTestEnabled: true,
     },
 ]
 
