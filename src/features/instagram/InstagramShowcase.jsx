@@ -23,11 +23,11 @@ const INSTAGRAM_POSTS = [
     },
     {
         id: 'ig-pst-5',
-        src: '/gorseller/intagramgorseller/pst1.webp',
+        src: '/gorseller/intagramgorseller/pst5.webp',
     },
     {
         id: 'ig-pst-6',
-        src: '/gorseller/intagramgorseller/pst2.webp',
+        src: '/gorseller/intagramgorseller/pst6.webp',
     },
 ]
 
@@ -43,6 +43,25 @@ function CommentIcon() {
     return (
         <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2">
             <path d="M21 11.5a8.5 8.5 0 0 1-8.5 8.5H7l-4 3v-6.5A8.5 8.5 0 1 1 21 11.5Z" />
+        </svg>
+    )
+}
+
+function VerifiedIcon() {
+    return (
+        <svg viewBox="0 0 24 24" className="h-5 w-5 text-sky-400 md:h-6 md:w-6" aria-label="Verified account" role="img">
+            <path
+                fill="currentColor"
+                d="M12 2.2l2.4 1.7 3-.2 1.1 2.8 2.5 1.7-.9 2.9.9 2.9-2.5 1.7-1.1 2.8-3-.2-2.4 1.7-2.4-1.7-3 .2-1.1-2.8L3 14.1l.9-2.9L3 8.3l2.5-1.7 1.1-2.8 3 .2L12 2.2z"
+            />
+            <path
+                fill="none"
+                stroke="white"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M8.2 12.2l2.4 2.3 5.2-5.4"
+            />
         </svg>
     )
 }
@@ -91,13 +110,13 @@ export default function InstagramShowcase() {
 
                     <div className="flex-1">
                         <div className="flex items-center gap-3 md:gap-4">
-                            <h2 className="text-3xl font-bold tracking-tight text-gray-100 md:text-5xl">graphic.faruk</h2>
-                            <span className="inline-block h-3 w-3 rounded-full bg-sky-400" aria-hidden="true" />
+                            <h2 className="text-3xl font-bold tracking-tight text-gray-100 md:text-5xl">grafikfaruk</h2>
+                            <VerifiedIcon />
                         </div>
 
                         <div className="mt-4 grid grid-cols-3 gap-4 text-sm text-gray-300 md:mt-6 md:flex md:items-center md:gap-10 md:text-base">
                             <p><span className="font-semibold text-gray-100">148</span> {t('instagramShowcase.posts', 'Posts')}</p>
-                            <p><span className="font-semibold text-gray-100">42.8K</span> {t('instagramShowcase.followers', 'Followers')}</p>
+                            <p><span className="font-semibold text-gray-100">1217</span> {t('instagramShowcase.followers', 'Followers')}</p>
                             <p><span className="font-semibold text-gray-100">1,204</span> {t('instagramShowcase.following', 'Following')}</p>
                         </div>
 
