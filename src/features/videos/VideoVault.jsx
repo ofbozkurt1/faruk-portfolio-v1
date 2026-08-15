@@ -930,13 +930,13 @@ export default function VideoVault() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.6 }}
-                    className="text-center mb-6 md:mb-24"
+                    className="text-center mb-6 md:mb-12"
                 >
                     <div className="flex items-center justify-center gap-3 md:gap-6 mb-1 md:mb-4">
                         {/* Gradient Line Left */}
                         <div className="w-12 md:w-[60px] h-[1px] bg-gradient-to-r from-transparent to-white/30" />
 
-                        <h2 className="text-3xl md:text-6xl font-bold tracking-tight text-[#F2F2F2]">
+                        <h2 className="text-2xl md:text-5xl font-bold tracking-tight text-[#F2F2F2]">
                             {t('videoShowcase.title')}
                         </h2>
 

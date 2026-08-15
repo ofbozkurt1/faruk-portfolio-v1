@@ -296,7 +296,7 @@ export default function EcommerceShowcase() {
                         className="h-[1px] w-10 md:w-[60px]"
                         style={{ background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.3))' }}
                     />
-                    <h2 className="text-2xl font-bold tracking-tight text-gray-100 md:text-6xl" style={{ fontFamily: 'Inter, system-ui, sans-serif' }}>
+                    <h2 className="text-2xl font-bold tracking-tight text-gray-100 md:text-5xl" style={{ fontFamily: 'Inter, system-ui, sans-serif' }}>
                         {t('ecommerceShowcase.title', 'E-Ticaret GÃ¶rselleri')}
                     </h2>
                     <div

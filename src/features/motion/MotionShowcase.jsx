@@ -17,7 +17,7 @@ const MOTION_POSTERS = [
     },
     {
         title: 'Personal Branding Motion',
-        src: 'https://res.cloudinary.com/dncvyujpl/video/upload/v1786790338/Fever_Party_Webm_Afi%C5%9F_fhvkej.webm',
+        src: 'https://res.cloudinary.com/dncvyujpl/video/upload/v1786795456/Fever_Party_Afi%C5%9F_son_0908_kc5ewv.webm',
         perfTestEnabled: true,
     },
 ]
@@ -260,8 +260,8 @@ export default function MotionShowcase() {
                 <div className="mb-6 text-center md:mb-12">
                     <div className="mb-1 flex items-center justify-center gap-3 md:mb-4 md:gap-6">
                         <div className="h-px w-12 bg-gradient-to-r from-transparent to-white/30 md:w-[60px]" />
-                        <h2 className="text-3xl font-bold tracking-tight text-gray-100 md:text-6xl">
-                            {t('motionShowcase.title', 'Hareketli Tasarımlar')}
+                        <h2 className="text-2xl font-bold tracking-tight text-gray-100 md:text-5xl">
+                            {t('motionShowcase.title', 'Hareketli Afişler')}
                         </h2>
                         <div className="h-px w-12 bg-gradient-to-r from-white/30 to-transparent md:w-[60px]" />
                     </div>
