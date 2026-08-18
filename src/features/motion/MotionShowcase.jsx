@@ -20,6 +20,11 @@ const MOTION_POSTERS = [
         src: 'https://res.cloudinary.com/dncvyujpl/video/upload/v1786795456/Fever_Party_Afi%C5%9F_son_0908_kc5ewv.webm',
         perfTestEnabled: true,
     },
+    {
+        title: 'Pearl White Party Motion',
+        src: 'https://res.cloudinary.com/dncvyujpl/video/upload/v1787091869/White_Party_Son_01_Webm_uq3ykr.webm',
+        perfTestEnabled: true,
+    },
 ]
 
 function playVideo(videoElement) {
