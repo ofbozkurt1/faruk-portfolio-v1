@@ -1,9 +1,10 @@
-﻿import { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import Lenis from '@studio-freight/lenis'
 import { lazy, Suspense } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Hero } from './features/hero'
 import StackView from './features/portfolio/StackView'
+import PortfolioBentoHub from './features/portfolio/PortfolioBentoHub'
 import { SkillsView } from './features/skills'
 import { ServicesView } from './features/services'
 import { Header, Footer } from './components/layout'
@@ -16,6 +17,8 @@ import { lockBodyScroll } from './utils/scrollLock'
 
 const EcommerceShowcase = lazy(() => import('./features/ecommerce/EcommerceShowcase'))
 const MotionShowcase = lazy(() => import('./features/motion/MotionShowcase'))
+const MotionDesignShowcase = lazy(() => import('./features/motion/MotionDesignShowcase'))
+const VideoEditShowcase = lazy(() => import('./features/videos/VideoEditShowcase'))
 const InstagramShowcase = lazy(() => import('./features/instagram/InstagramShowcase'))
 const VideoVault = lazy(() => import('./features/videos/VideoVault'))
 const GridView = lazy(() => import('./features/portfolio/GridView'))
@@ -181,18 +184,22 @@ function App() {
                     <ServicesView />
                 </section>
 
+                <section id="portfolio" className="container-padding">
+                    {/* Canlı Sabit Bento Mozaik — Tüm Disiplinlerden Seçki */}
+                    <PortfolioBentoHub />
 
-
-                <section id="portfolio" className="relative w-full pt-0 pb-10 md:py-32 container-padding">
-                    {/* Portfolio Header - Clean Single Line */}
-                    <div className="text-center mb-1 md:mb-24">
-                        <div className="flex items-center justify-center gap-3 md:gap-6 mb-1 md:mb-8">
+                    {/* Detaylı Portfolyo Bölümü — Mevcut Görsel Proje Yığını */}
+                    <div id="portfolio-stack" className="text-center pt-10 md:pt-16 mb-1 md:mb-16">
+                        <div className="flex items-center justify-center gap-3 md:gap-6 mb-2 md:mb-3">
                             <div style={{ width: 60, height: 1, background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.3))' }} />
-                            <h2 className="text-3xl md:text-6xl font-bold tracking-tight text-[#F2F2F2]">
-                                {t('portfolio.title', 'Portfolio')}
-                            </h2>
+                            <h3 className="text-2xl md:text-4xl font-bold tracking-tight text-[#F2F2F2]">
+                                Sosyal Medya & Marka Projeleri
+                            </h3>
                             <div style={{ width: 60, height: 1, background: 'linear-gradient(90deg, rgba(255,255,255,0.3), transparent)' }} />
                         </div>
+                        <p className="text-[11px] sm:text-xs text-white/40 font-mono tracking-widest uppercase">
+                            Detaylı Vaka Çalışmaları ve Gönderi Serileri
+                        </p>
                     </div>
                     <StackView onProjectClick={setSelectedProject} className="-mt-6" />
                 </section>
@@ -207,6 +214,14 @@ function App() {
                     </Suspense>
                 )}
 
+                {/* Motion Design Showcase — Hareketli Grafik & Animasyon */}
+                <DeferredSectionMount
+                    isMobileViewport={isMobileViewport}
+                    fallbackClassName="min-h-[800px] md:min-h-[1200px]"
+                >
+                    <MotionDesignShowcase />
+                </DeferredSectionMount>
+
                 {/* Phase 53: E-Commerce & Product Design Section */}
                 <DeferredSectionMount
                     isMobileViewport={isMobileViewport}
@@ -220,6 +235,14 @@ function App() {
                     fallbackClassName="min-h-[520px] md:min-h-[720px]"
                 >
                     <MotionShowcase />
+                </DeferredSectionMount>
+
+                {/* Video Edit Showcase — Yeni Dikey Video Kurguları */}
+                <DeferredSectionMount
+                    isMobileViewport={isMobileViewport}
+                    fallbackClassName="min-h-[620px] md:min-h-[800px]"
+                >
+                    <VideoEditShowcase />
                 </DeferredSectionMount>
 
                 {/* Video Showcase Section */}

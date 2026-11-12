@@ -46,7 +46,7 @@ export default function ServicesView() {
     const isDesktop = !useIsMobileViewport()
 
     return (
-        <section className="relative py-10 md:py-24 overflow-hidden">
+        <section className="relative pt-10 pb-6 md:pt-24 md:pb-14 overflow-hidden">
             {/* Content */}
             <div className="relative z-10 max-w-6xl mx-auto px-6">
                 {/* Section Header - CENTERED */}
