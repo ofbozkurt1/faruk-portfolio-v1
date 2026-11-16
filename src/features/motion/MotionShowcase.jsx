@@ -1,6 +1,7 @@
 import { memo, useCallback, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { getAdaptiveRootMargin, useAutoSnapCarousel, useIsMobileViewport, usePrefersReducedMotion } from '../../hooks'
+import { withCloudinaryImageTransform } from '../../utils/cloudinaryImage'
 
 const DISABLE_VIDEO_MEDIA_FOR_PERF_TEST = true
 
@@ -24,6 +25,16 @@ const MOTION_POSTERS = [
         title: 'Pearl White Party Motion',
         src: 'https://res.cloudinary.com/dncvyujpl/video/upload/v1787091869/White_Party_Son_01_Webm_uq3ykr.webm',
         perfTestEnabled: true,
+    },
+    {
+        title: 'Sancak — Turuncu Ay Altında Konser',
+        src: 'https://res.cloudinary.com/dncvyujpl/image/upload/v1794791195/Sancak__Turuncu_Ay_Alt%C4%B1nda_Konser_yelwvy.png',
+        type: 'image',
+    },
+    {
+        title: 'Kış Festivali — Ay Işığında Müzik',
+        src: 'https://res.cloudinary.com/dncvyujpl/image/upload/v1794791188/K%C4%B1%C5%9F_Festivali__Ay_I%C5%9F%C4%B1%C4%9F%C4%B1nda_M%C3%BCzik_msebbd.png',
+        type: 'image',
     },
 ]
 
@@ -183,7 +194,7 @@ const PosterCard = memo(function PosterCard({
             {isImage ? (
                 <img
                     className="h-full w-full object-cover"
-                    src={video.src}
+                    src={withCloudinaryImageTransform(video.src, { width: 1080, quality: 'auto', format: 'auto' })}
                     alt={video.title}
                     loading={index === 0 ? 'eager' : 'lazy'}
                     decoding="async"

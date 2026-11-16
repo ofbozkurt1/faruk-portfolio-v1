@@ -108,6 +108,18 @@ const VERTICAL_MOTION_POOL = [
         type: 'video',
         src: 'https://res.cloudinary.com/dncvyujpl/video/upload/v1782292990/Aykut_ara3dt.webm',
     },
+    {
+        title: 'Sancak — Turuncu Ay Altında',
+        tag: 'Konser Afişi',
+        type: 'image',
+        src: 'https://res.cloudinary.com/dncvyujpl/image/upload/v1794791195/Sancak__Turuncu_Ay_Alt%C4%B1nda_Konser_yelwvy.png',
+    },
+    {
+        title: 'Kış Festivali — Ay Işığında Müzik',
+        tag: 'Festival Afişi',
+        type: 'image',
+        src: 'https://res.cloudinary.com/dncvyujpl/image/upload/v1794791188/K%C4%B1%C5%9F_Festivali__Ay_I%C5%9F%C4%B1%C4%9F%C4%B1nda_M%C3%BCzik_msebbd.png',
+    },
 ]
 
 // 5. Sol Alt 1: Yeni Dikey Slot (1080x1920 — 9:16)
